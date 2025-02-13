@@ -1,77 +1,77 @@
-# Get Started
+# はじめに
 
 ***
 
-## Cloud
+## クラウド
 
-Self-hosting requires more technical skill to setup instance, backing up database and maintaning updates. If you aren't experienced at managing servers and just want to use the webapp, we recommend using [Flowise Cloud](https://flowiseai.com/join).
+セルフホスティングは、インスタンスのセットアップ、データベースのバックアップ、更新の管理に多くの技術的スキルを必要とします。サーバー管理に不慣れで、単にウェブアプリを使いたい場合は、[Flowise Cloud](https://flowiseai.com/join) の利用をお勧めします。
 
-## Quick Start
+## クイックスタート
 
 {% hint style="info" %}
-Pre-requisite: ensure [NodeJS](https://nodejs.org/en/download) is installed on machine. Node `v18.15.0` or `v20` and above is supported.
+事前条件: マシンに [NodeJS](https://nodejs.org/en/download) がインストールされていることを確認。Node `v18.15.0`または`v20`以上がサポートされています。
 {% endhint %}
 
-Install Flowise locally using NPM.
+NPMを使用してFlowiseをローカルにインストールします。
 
-1. Install Flowise:
+1. Flowiseのインストール:
 
 ```bash
 npm install -g flowise
 ```
 
-You can also install a specific version. Refer to available [versions](https://www.npmjs.com/package/flowise?activeTab=versions).
+特定のバージョンをインストールすることもできます。利用可能な[バージョン](https://www.npmjs.com/package/flowise?activeTab=versions)を参照してください。
 
 ```
 npm install -g flowise@x.x.x
 ```
 
-2. Start Flowise:
+2. Flowiseの開始:
 
 ```bash
 npx flowise start
 ```
 
-3. Open: [http://localhost:3000](http://localhost:3000)
+3. 開く: [http://localhost:3000](http://localhost:3000)
 
 ***
 
 ## Docker
 
-There are two ways to deploy Flowise with Docker:
+Dockerを使用してFlowiseをデプロイするには2つの方法があります:
 
 ### Docker Compose
 
-1. Go to `docker folder` at the root of the project
-2. Copy the `.env.example` file and paste it as another file named `.env`
-3. Run:
+1. プロジェクトのルートにある `docker フォルダ` に移動
+2. `.env.example` ファイルをコピーし、`.env` という名前の別のファイルとして貼り付けます
+3. 実行:
 
 ```bash
 docker compose up -d
 ```
 
-4. Open: [http://localhost:3000](http://localhost:3000)
-5. You can bring the containers down by running:
+4. 開く: [http://localhost:3000](http://localhost:3000)
+5. コンテナを停止するには、以下を実行:
 
 ```bash
 docker compose stop
 ```
 
-### Docker Image
+### Docker イメージ
 
-1. Build the image:
+1. イメージをビルド:
 
 ```bash
 docker build --no-cache -t flowise .
 ```
 
-2. Run image:
+2. イメージを実行:
 
 ```bash
 docker run -d --name flowise -p 3000:3000 flowise
 ```
 
-3. Stop image:
+3. イメージを停止:
 
 ```bash
 docker stop flowise
@@ -79,131 +79,131 @@ docker stop flowise
 
 ***
 
-## For Developers
+## 開発者向け
 
-Flowise has 3 different modules in a single mono repository:
+Flowiseは単一のモノレポジトリに3つの異なるモジュールがあります:
 
-* **Server**: Node backend to serve API logics
-* **UI**: React frontend
-* **Components**: Integration components
+* **サーバー**: APIロジックを提供するNodeのバックエンド
+* **UI**: Reactフロントエンド
+* **コンポーネント**: 統合コンポーネント
 
-### Prerequisite
+### 必要条件
 
-Install [PNPM](https://pnpm.io/installation).
+[PNPM](https://pnpm.io/installation) をインストールします。
 
 ```bash
 npm i -g pnpm
 ```
 
-### Setup 1
+### セットアップ1
 
-Simple setup using PNPM:
+PNPMを使用した簡単なセットアップ:
 
-1. Clone the repository
+1. リポジトリをクローン
 
 ```bash
 git clone https://github.com/FlowiseAI/Flowise.git
 ```
 
-2. Go into repository folder
+2. リポジトリフォルダに移動
 
 ```bash
 cd Flowise
 ```
 
-3. Install all dependencies of all modules:
+3. すべてのモジュールの依存関係をインストール:
 
 ```bash
 pnpm install
 ```
 
-4. Build the code:
+4. コードをビルド:
 
 ```bash
 pnpm build
 ```
 
-Start the app at [http://localhost:3000](http://localhost:3000)
+アプリを開始: [http://localhost:3000](http://localhost:3000)
 
 ```bash
 pnpm start
 ```
 
-### Setup 2
+### セットアップ2
 
-Step-by-step setup for project contributors:
+プロジェクト貢献者向けのステップバイステップセットアップ:
 
-1. Fork the official [Flowise Github Repository](https://github.com/FlowiseAI/Flowise)
-2. Clone your forked repository
-3. Create a new branch, see [guide](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-and-deleting-branches-within-your-repository). Naming conventions:
-   * For feature branch: `feature/<Your New Feature>`
-   * For bug fix branch: `bugfix/<Your New Bugfix>`.
-4. Switch to the branch you just created
-5. Go into repository folder:
+1. 公式 [Flowise Github リポジトリ](https://github.com/FlowiseAI/Flowise) をフォーク
+2. フォークしたリポジトリをクローン
+3. 新しいブランチを作成、[ガイド](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-and-deleting-branches-within-your-repository) を参照。命名規則:
+   * 機能ブランチの場合: `feature/<新しい機能>`
+   * バグ修正ブランチの場合: `bugfix/<新しいバグ修正>`。
+4. 作成したブランチに切り替える
+5. リポジトリフォルダに移動:
 
 ```bash
 cd Flowise
 ```
 
-6. Install all dependencies of all modules:
+6. すべてのモジュールの依存関係をインストール:
 
 ```bash
 pnpm install
 ```
 
-7. Build the code:
+7. コードをビルド:
 
 ```bash
 pnpm build
 ```
 
-8. Start the app at [http://localhost:3000](http://localhost:3000)
+8. アプリを開始: [http://localhost:3000](http://localhost:3000)
 
 ```bash
 pnpm start
 ```
 
-9. For development build:
+9. 開発用ビルドの場合:
 
-* Create `.env` file and specify the `PORT` (refer to `.env.example`) in `packages/ui`
-* Create `.env` file and specify the `PORT` (refer to `.env.example`) in `packages/server`
+* `.env` ファイルを作成し、`packages/ui` に `PORT` を指定 (`.env.example` を参照)
+* `.env` ファイルを作成し、`packages/server` に `PORT` を指定 (`.env.example` を参照)
 
 ```bash
 pnpm dev
 ```
 
-* Any changes made in `packages/ui` or `packages/server` will be reflected at [http://localhost:8080](http://localhost:8080/)
-* For changes made in `packages/components`, you will need to build again to pickup the changes
-*   After making all the changes, run:
+* `packages/ui` または `packages/server` で行った変更は [http://localhost:8080](http://localhost:8080/) に反映されます
+* `packages/components` の変更については、変更を反映するために再度ビルドが必要です
+* すべての変更を行った後に、以下を実行します:
 
     ```bash
     pnpm build
     ```
 
-    and
+    そして
 
     ```bash
     pnpm start
     ```
 
-    to make sure everything works fine in production.
+    本番環境で問題なく動作することを確認します。
 
 ***
 
-## For Enterprise
+## エンタープライズ向け
 
-Enterprise plans have separate repository and docker image.
+エンタープライズプランには、別のリポジトリとDockerイメージがあります。
 
-Once granted access to both, the setup is the same as [#setup-1](./#setup-1 "mention"). Before starting the app, enterprise users are required to fill in the values for Enterprise Parameters in the `.env` file. Refer to `.env.example` for the required changes.
+両方へのアクセス権が付与されたら、セットアップは[#setup-1](./#setup-1 "mention")と同じです。アプリを開始する前に、エンタープライズパラメータの値を `.env` ファイルに入力する必要があります。必要な変更については `.env.example` を参照してください。
 
-Reach out to support@flowiseai.com for the value of following env variables:
+次の環境変数の値については support@flowiseai.com に連絡してください:
 
 ```
 LICENSE_URL
 FLOWISE_EE_LICENSE_KEY
 ```
 
-For Docker Installation:
+Dockerのインストールについて:
 
 ```bash
 cd docker
@@ -213,13 +213,13 @@ docker compose up -d
 
 ***
 
-## Learn More
+## 詳しく学習する
 
-In this video tutorial, Leon provides an introduction to Flowise and explains how to set it up on your local machine.
+このビデオチュートリアルでは、LeonがFlowiseの概要を説明し、ローカルマシンでのセットアップ方法を説明しています。
 
 {% embed url="https://youtu.be/nqAK_L66sIQ" %}
 
-## Community Guide
+## コミュニティガイド
 
-* [Introduction to \[Practical\] Building LLM Applications with Flowise / LangChain](https://volcano-ice-cd6.notion.site/Introduction-to-Practical-Building-LLM-Applications-with-Flowise-LangChain-03d6d75bfd20495d96dfdae964bea5a5)
+* [LLMアプリケーション構築のためのFlowise / LangChainによる導入\[実践\]](https://volcano-ice-cd6.notion.site/Introduction-to-Practical-Building-LLM-Applications-with-Flowise-LangChain-03d6d75bfd20495d96dfdae964bea5a5)
 * [Flowise / LangChainによるLLMアプリケーション構築\[実践\]入門](https://volcano-ice-cd6.notion.site/Flowise-LangChain-LLM-e106bb0f7e2241379aad8fa428ee064a)
