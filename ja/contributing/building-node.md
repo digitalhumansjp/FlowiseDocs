@@ -1,16 +1,16 @@
-# Building Node
+# ノードの構築
 
-### Install Git
+### Gitのインストール
 
-First, install Git and clone Flowise repository. You can follow the steps from the [Get Started](../getting-started/#for-developers) guide.
+まず、Gitをインストールし、Flowiseリポジトリをクローンします。手順は[Get Started](../getting-started/#for-developers)ガイドで確認できます。
 
-### Structure
+### 構造
 
-Flowise separate every node integration under the folder `packages/components/nodes`. Let's try to create a simple Tool!
+Flowiseはすべてのノード統合を`packages/components/nodes`フォルダに分けています。シンプルなツールを作成してみましょう！
 
-### Create Calculator Tool
+### 計算機ツールの作成
 
-Create a new folder named `Calculator` under the `packages/components/nodes/tools` folder. Then create a new file named `Calculator.ts`. Inside the file, we will first write the base class.
+`packages/components/nodes/tools`フォルダの下に`Calculator`という名前の新しいフォルダを作成します。次に`Calculator.ts`という名前の新しいファイルを作成します。ファイルの中に基本クラスを書きます。
 
 ```javascript
 import { INode } from '../../../src/Interface'
@@ -43,15 +43,15 @@ class Calculator_Tools implements INode {
 module.exports = { nodeClass: Calculator_Tools }
 ```
 
-Every node will implements the `INode` base class. Breakdown of what each property means:
+すべてのノードは`INode`基底クラスを実装します。各プロパティの意味の内訳：
 
-<table><thead><tr><th width="271">Property</th><th>Description</th></tr></thead><tbody><tr><td>label</td><td>The name of the node that appears on the UI</td></tr><tr><td>name</td><td>The name that is used by code. Must be <strong>camelCase</strong></td></tr><tr><td>version</td><td>Version of the node</td></tr><tr><td>type</td><td>Usually the same as label. To define which node can be connected to this specific type on UI</td></tr><tr><td>icon</td><td>Icon of the node</td></tr><tr><td>category</td><td>Category of the node</td></tr><tr><td>author</td><td>Creator of the node</td></tr><tr><td>description</td><td>Node description</td></tr><tr><td>baseClasses</td><td>The base classes from the node, since a node can extends from a base component. Used to define which node can be connected to this node on UI</td></tr></tbody></table>
+<table><thead><tr><th width="271">プロパティ</th><th>説明</th></tr></thead><tbody><tr><td>label</td><td>UIに表示されるノードの名前</td></tr><tr><td>name</td><td>コードで使用される名前。<strong>キャメルケース</strong>である必要があります</td></tr><tr><td>version</td><td>ノードのバージョン</td></tr><tr><td>type</td><td>通常はラベルと同じ。UIでこの特定のタイプに接続できるノードを定義</td></tr><tr><td>icon</td><td>ノードのアイコン</td></tr><tr><td>category</td><td>ノードのカテゴリー</td></tr><tr><td>author</td><td>ノードの作成者</td></tr><tr><td>description</td><td>ノードの説明</td></tr><tr><td>baseClasses</td><td>ノードの基底クラス。ノードは基底コンポーネントから拡張できるため。UIでこのノードに接続できるノードを定義</td></tr></tbody></table>
 
-### Define Class
+### クラスの定義
 
-Now the component class is partially finished, we can go ahead to define the actual Tool class, in this case - `Calculator`.
+コンポーネントクラスが部分的に完成したので、実際のツールクラス、つまり`Calculator`を定義していきましょう。
 
-Create a new file under the same `Calculator` folder, and named as `core.ts`
+同じ`Calculator`フォルダに新しいファイルを作成し、`core.ts`という名前を付けます。
 
 ```javascript
 import { Parser } from "expr-eval"
@@ -60,7 +60,7 @@ import { Tool } from "@langchain/core/tools"
 export class Calculator extends Tool {
     name = "calculator"
     description = `Useful for getting the result of a math expression. The input to this tool should be a valid mathematical expression that could be executed by a simple calculator.`
- 
+
     async _call(input: string) {
         try {
             return Parser.evaluate(input).toString()
@@ -71,9 +71,9 @@ export class Calculator extends Tool {
 }
 ```
 
-### Finishing
+### 仕上げ
 
-Head back to the `Calculator.ts` file, we can finish this up by having the `async init` function. In this function, we will initialize the Calculator class we created above. When the flow is being executed, the `init` function in each node will be called, and the `_call` function will be executed when LLM decides to call this tool.
+`Calculator.ts`ファイルに戻り、`async init`関数を追加して仕上げます。この関数では、先程作成したCalculatorクラスを初期化します。フローが実行されると、各ノード内の`init`関数が呼び出され、LLMがこのツールを呼び出すことを決定すると、`_call`関数が実行されます。
 
 ```javascript
 import { INode } from '../../../src/Interface'
@@ -102,8 +102,7 @@ class Calculator_Tools implements INode {
         this.description = 'Perform calculations on response'
         this.baseClasses = [this.type, ...getBaseClasses(Calculator)]
     }
-    
- 
+
     async init() {
         return new Calculator()
     }
@@ -112,14 +111,14 @@ class Calculator_Tools implements INode {
 module.exports = { nodeClass: Calculator_Tools }
 ```
 
-### Build and Run
+### ビルドと実行
 
-In the `.env` file inside `packages/server`, create a new env variable:
+`packages/server`内の`.env`ファイルに新しい環境変数を作成します：
 
 ```javascript
 SHOW_COMMUNITY_NODES=true
 ```
 
-Now we can use `pnpm build` and `pnpm start` to bring the component alive!
+これで`pnpm build`と`pnpm start`を使用してコンポーネントを動かすことができます！
 
 <figure><img src="../.gitbook/assets/image (1) (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
