@@ -1,59 +1,59 @@
 ---
-description: Learn how to contribute to this project
+description: このプロジェクトに貢献する方法を学ぶ
 ---
 
-# Contribution Guide
+# 貢献ガイド
 
 ***
 
-We appreciate all contributions! No matter your skill level or technical background, you can help this project grow. Here are a few ways to contribute:
+すべての貢献に感謝します！スキルレベルや技術的な背景を問わず、このプロジェクトの成長を手助けできます。貢献する方法はいくつかあります：
 
-## ⭐ Star
+## ⭐ スターを付ける
 
-Star and share the [Github Repo](https://github.com/FlowiseAI/Flowise).
+[Githubリポジトリ](https://github.com/FlowiseAI/Flowise)にスターを付け、シェアしてください。
 
-## 🙌 Share Chatflow
+## 🙌 チャットフローをシェアする
 
-Yes! Sharing how you use Flowise is a way of contribution. Export your chatflow as JSON, attach a screenshot and share it in [Show and Tell section](https://github.com/FlowiseAI/Flowise/discussions/categories/show-and-tell).
+はい！Flowiseの使い方を共有することも貢献の一つです。チャットフローをJSONとしてエクスポートし、スクリーンショットを添えて[Show and Tellセクション](https://github.com/FlowiseAI/Flowise/discussions/categories/show-and-tell)で共有してください。
 
-## 💡 Ideas
+## 💡 アイデア
 
-We welcome ideas for new features, apps integrations. Submit your suggestions to the [Ideas section](https://github.com/FlowiseAI/Flowise/discussions/categories/ideas).
+新機能やアプリ統合のアイデアを歓迎します。[アイデアセクション](https://github.com/FlowiseAI/Flowise/discussions/categories/ideas)に提案を送信してください。
 
 ## 🙋 Q\&A
 
-Want to learn more? Search for answers to any questions in the [Q\&A section](https://github.com/FlowiseAI/Flowise/discussions/categories/q-a). If you can't find one, don't hesitate to create a new question. It might help others who have similar questions.
+もっと学びたいですか？[Q&Aセクション](https://github.com/FlowiseAI/Flowise/discussions/categories/q-a)で質問の答えを検索してください。見つからない場合は、新しい質問を作成してください。同じ質問を持つ他の人を助けるかもしれません。
 
 ## 🐞 Report Bugs
 
-Found an issue? [Report it](https://github.com/FlowiseAI/Flowise/issues/new/choose).
+問題を見つけましたか？[報告してください](https://github.com/FlowiseAI/Flowise/issues/new/choose)。
 
 ## 📖 Contribute to Docs
 
-1. Fork the official [Flowise Docs Repo](https://github.com/FlowiseAI/FlowiseDocs)
-2. Clone your forked repository
-3. Create a new branch
-4. Switch to the branch you just created
-5.  Go into repository folder
+1. 公式の[Flowise Docsリポジトリ](https://github.com/FlowiseAI/FlowiseDocs)をフォークする
+2. フォークしたリポジトリをクローンする
+3. 新しいブランチを作成する
+4. 作成したブランチに切り替える
+5. リポジトリフォルダに移動する
 
     ```bash
     cd FlowiseDocs
     ```
-6. Make changes
-7. Commit changes and submit Pull Request from forked branch pointing to [FlowiseDocs main](https://github.com/FlowiseAI/FlowiseDocs)
+6. 変更を加える
+7. 変更をコミットして、フォークしたブランチから[FlowiseDocsのメイン](https://github.com/FlowiseAI/FlowiseDocs)にプルリクエストを送信する
 
-## 👨‍💻 Contribute to Code
+## 👨‍💻 コードに貢献する
 
-To learn how to contribute code, go to the [For Developers](../getting-started/#setup-2) section and follow the instructions.
+コードの貢献方法を学ぶには、[開発者向け](../getting-started/#setup-2)セクションにアクセスし、指示に従ってください。
 
-If you are contributing to a new node integration, read the [Building Node](building-node.md) guide.
+新しいノードのインテグレーション（統合）に貢献する場合は、[ノードの構築](building-node.md)ガイドを読んでください。
 
-## 🏷️ Pull Request process
+## 🏷️ プルリクエストプロセス
 
-A member of the FlowiseAI team will automatically be notified/assigned when you open a pull request. You can also reach out to us on [Discord](https://discord.gg/jbaHfsRVBW).
+プルリクエストを開くと、FlowiseAIチームのメンバーが自動的に通知され/割り当てられます。私たちに連絡したい場合は、[Discord](https://discord.gg/jbaHfsRVBW)でお知らせください。
 
-## 📜 Code of Conduct
+## 📜 行動規範
 
-This project and everyone participating in it are governed by the Code of Conduct which can be found in the [file](https://github.com/FlowiseAI/Flowise/blob/main/CODE\_OF\_CONDUCT.md). By participating, you are expected to uphold this code.
+このプロジェクトおよび参加者は、[ファイル](https://github.com/FlowiseAI/Flowise/blob/main/CODE\_OF\_CONDUCT.md)に記載されている行動規範に従います。参加することで、この規範の遵守が期待されます。
 
-Please report unacceptable behavior to hello@flowiseai.com.
+許容できない行動があれば hello@flowiseai.com に報告してください。

@@ -1,17 +1,37 @@
-<!-- markdownlint-disable MD030 -->
+---
+description: Flowiseの公式ドキュメントへようこそ
+---
 
-<img width="100%" src="https://github.com/FlowiseAI/Flowise/blob/main/images/flowise.png?raw=true"></a>
+# Introduction
 
-# FlowiseDocs
+<figure><img src=".gitbook/assets/flowise.gif" alt=""><figcaption><p>Flowise ドラッグ &#x26; ドロップ UI</p></figcaption></figure>
 
-<h3>Drag & drop UI to build your customized LLM flow</h3>
-<a href="https://github.com/FlowiseAI/Flowise">
-<img width="100%" src="https://github.com/FlowiseAI/Flowise/blob/main/images/flowise.gif?raw=true"></a>
+## Flowiseとは？
 
-## 🙌 Contributing
+Flowiseは、開発者がカスタマイズされたLLMオーケストレーションフローやAIエージェントを構築するためのオープンソースのローコードツールです。
 
-We love contributions! Feel free to submit Pull Request and we will review. Reach out to us at [Discord](https://discord.gg/jbaHfsRVBW) if you have any questions or issues.
+LLMアプリの開発には、多くの反復が必要になることがよくあります。私たちのローコードとドラッグ＆ドロップUIアプローチは迅速な反復を可能にし、テストから本番環境への移行をより速く行えるようにします。
 
-## 📄 License
+### Flowiseの実際の動作を確認する
 
-Source code in this repository is made available under the [Apache License Version 2.0](LICENSE.md).
+この2分間のクイックスタートデモでは、Flowiseの基本的な仕組みを学ぶことができます。
+
+{% embed url="https://youtu.be/d7vfUodP0c4" %}
+PDF Q&Aアプリの構築
+{% endembed %}
+
+### 最初のLLMアプリを構築する
+
+この10分間の動画では、Flowiseを使用して最初のLLMアプリを構築する方法を学ぶことができます。
+
+{% embed url="https://youtu.be/kAyKOsm8L5Y" %}
+Flowiseを使って最初のLLMアプリをゼロから構築する
+{% endembed %}
+
+## 貢献
+
+このプロジェクトを支援したい方は、 [貢献ガイド](contributing/)をぜひご確認ください。
+
+## ヘルプが必要ですか？
+
+サポートや詳細な議論については、 [Discord](https://discord.gg/jbaHfsRVBW) サーバーをご覧ください。
