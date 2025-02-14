@@ -1,14 +1,12 @@
 ---
-description: >-
-  Learn more about the details of some of the most used APIs: prediction,
-  vector-upsert
+description: よく使用されるAPI（予測、ベクトルアップサート）の詳細について学ぶ
 ---
 
 # API
 
-Refer to [API Reference](../api-reference/) for full list of public APIs
+公開APIの完全なリストについては、[APIリファレンス](../api-reference/)を参照してください。
 
-## Prediction
+## 予測
 
 <div data-full-width="false"><figure><img src="../.gitbook/assets/image (16) (1) (1) (1).png" alt=""><figcaption></figcaption></figure></div>
 
@@ -16,9 +14,9 @@ Refer to [API Reference](../api-reference/) for full list of public APIs
 [swagger (1) (1) (1).yml](<../.gitbook/assets/swagger (1) (1) (1).yml>)
 {% endswagger %}
 
-### Using Python/TS Library
+### Python/TSライブラリの使用
 
-Flowise provides 2 libraries:
+Flowiseは2つのライブラリを提供しています:
 
 * [Python](https://pypi.org/project/flowise/): `pip install flowise`
 * [Typescript](https://www.npmjs.com/package/flowise-sdk): `npm install flowise-sdk`
@@ -31,7 +29,7 @@ from flowise import Flowise, PredictionData
 def test_non_streaming():
     client = Flowise()
 
-    # Test non-streaming prediction
+    # ストリーミングなしの予測をテスト
     completion = client.create_prediction(
         PredictionData(
             chatflowId="<chatflow-id>",
@@ -40,14 +38,14 @@ def test_non_streaming():
         )
     )
 
-    # Process and print the response
+    # レスポンスを処理して表示
     for response in completion:
         print("Non-streaming response:", response)
 
 def test_streaming():
     client = Flowise()
 
-    # Test streaming prediction
+    # ストリーミング予測をテスト
     completion = client.create_prediction(
         PredictionData(
             chatflowId="<chatflow-id>",
@@ -56,17 +54,17 @@ def test_streaming():
         )
     )
 
-    # Process and print each streamed chunk
+    # ストリーミングされた各チャンクを処理して表示
     print("Streaming response:")
     for chunk in completion:
         print(chunk)
 
 
 if __name__ == "__main__":
-    # Run non-streaming test
+    # ストリーミングなしのテストを実行
     test_non_streaming()
 
-    # Run streaming test
+    # ストリーミングのテストを実行
     test_streaming()
 ```
 {% endtab %}
@@ -79,7 +77,7 @@ async function test_streaming() {
   const client = new FlowiseClient({ baseUrl: 'http://localhost:3000' });
 
   try {
-    // For streaming prediction
+    // ストリーミング予測の場合
     const prediction = await client.createPrediction({
       chatflowId: 'fe1145fa-1b2b-45b7-b2ba-bcc5aaeb5ffd',
       question: 'What is the revenue of Apple?',
@@ -89,7 +87,7 @@ async function test_streaming() {
     for await (const chunk of prediction) {
         console.log(chunk);
     }
-    
+
   } catch (error) {
     console.error('Error:', error);
   }
@@ -97,35 +95,35 @@ async function test_streaming() {
 
 async function test_non_streaming() {
     const client = new FlowiseClient({ baseUrl: 'http://localhost:3000' });
-  
+
     try {
-      // For streaming prediction
+      // ストリーミング予測の場合
       const prediction = await client.createPrediction({
         chatflowId: 'fe1145fa-1b2b-45b7-b2ba-bcc5aaeb5ffd',
         question: 'What is the revenue of Apple?',
       });
-  
+
       console.log(prediction);
-      
+
     } catch (error) {
       console.error('Error:', error);
     }
 }
 
-// Run non-streaming test
+// ストリーミングなしのテストを実行
 test_non_streaming()
 
-// Run streaming test
+// ストリーミングのテストを実行
 test_streaming()
 ```
 {% endtab %}
 {% endtabs %}
 
-### Override Config
+### 設定の上書き
 
-Override existing input configuration of the chatflow with **overrideConfig** property.
+チャットフローの既存の入力設定を**overrideConfig**プロパティで上書きします。
 
-Due to security reason, override config is disabled by default. User has to enable this by going into **Chatflow Configuration** -> **Security** tab. Then select the property that can be overriden.
+セキュリティ上の理由から、設定の上書きはデフォルトで無効になっています。ユーザーは**チャットフロー設定**-> **セキュリティ**タブから、これを有効にする必要があります。その後、上書き可能なプロパティを選択します。
 
 <figure><img src="../.gitbook/assets/image (188).png" alt=""><figcaption></figcaption></figure>
 
@@ -140,7 +138,7 @@ API_URL = "http://localhost:3000/api/v1/prediction/<chatflowId>"
 def query(payload):
     response = requests.post(API_URL, json=payload)
     return response.json()
-    
+
 output = query({
     "question": "Hey, how are you?",
     "overrideConfig": {
@@ -181,9 +179,9 @@ query({
 {% endtab %}
 {% endtabs %}
 
-### History
+### 履歴
 
-You can prepend history messages to give some context to LLM. For example, if you want the LLM to remember user's name:
+LLMにコンテキストを与えるために、履歴メッセージを前置きすることができます。例えば、LLMにユーザーの名前を覚えさせたい場合:
 
 {% tabs %}
 {% tab title="Python API" %}
@@ -194,7 +192,7 @@ API_URL = "http://localhost:3000/api/v1/prediction/<chatflowId>"
 def query(payload):
     response = requests.post(API_URL, json=payload)
     return response.json()
-    
+
 output = query({
     "question": "Hey, how are you?",
     "history": [
@@ -255,9 +253,9 @@ query({
 {% endtab %}
 {% endtabs %}
 
-### Persists Memory
+### メモリの永続化
 
-You can pass a `sessionId` to persists the state of the conversation, so the every subsequent API calls will have context about previous conversation. Otherwise, a new session will be generated each time.
+会話の状態を永続化するために`sessionId`を渡すことができます。これにより、その後のAPI呼び出しはすべて以前の会話のコンテキストを持つことになります。指定しない場合は、毎回新しいセッションが生成されます。
 
 {% tabs %}
 {% tab title="Python API" %}
@@ -268,12 +266,12 @@ API_URL = "http://localhost:3000/api/v1/prediction/<chatflowId>"
 def query(payload):
     response = requests.post(API_URL, json=payload)
     return response.json()
-    
+
 output = query({
     "question": "Hey, how are you?",
     "overrideConfig": {
         "sessionId": "123"
-    } 
+    }
 })
 ```
 {% endtab %}
@@ -307,9 +305,9 @@ query({
 {% endtab %}
 {% endtabs %}
 
-### Variables
+### 変数
 
-Pass variables in the API to be used by the nodes in the flow. See more: [Variables](api.md#variables)
+フロー内のノードで使用する変数をAPIに渡します。詳細は[変数](api.md#variables)を参照してください。
 
 {% tabs %}
 {% tab title="Python API" %}
@@ -320,7 +318,7 @@ API_URL = "http://localhost:3000/api/v1/prediction/<chatflowId>"
 def query(payload):
     response = requests.post(API_URL, json=payload)
     return response.json()
-    
+
 output = query({
     "question": "Hey, how are you?",
     "overrideConfig": {
@@ -363,9 +361,9 @@ query({
 {% endtab %}
 {% endtabs %}
 
-### Image Uploads
+### 画像のアップロード
 
-When **Allow Image Upload** is enabled, images can be uploaded from chat interface.
+**画像のアップロードを許可**が有効な場合、チャットインターフェースから画像をアップロードできます。
 
 <div align="left" data-full-width="false"><figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="255"><figcaption></figcaption></figure> <figure><img src="../.gitbook/assets/Screenshot 2024-02-29 011714.png" alt="" width="290"><figcaption></figcaption></figure></div>
 
@@ -378,12 +376,12 @@ API_URL = "http://localhost:3000/api/v1/prediction/<chatflowId>"
 def query(payload):
     response = requests.post(API_URL, json=payload)
     return response.json()
-    
+
 output = query({
     "question": "Can you describe the image?",
     "uploads": [
         {
-            "data": 'data:image/png;base64,iVBORw0KGgdM2uN0', # base64 string or url
+            "data": 'data:image/png;base64,iVBORw0KGgdM2uN0', # base64文字列またはURL
             "type": 'file', # file | url
             "name": 'Flowise.png',
             "mime": 'image/png'
@@ -414,7 +412,7 @@ query({
     "question": "Can you describe the image?",
     "uploads": [
         {
-            "data": 'data:image/png;base64,iVBORw0KGgdM2uN0', //base64 string or url
+            "data": 'data:image/png;base64,iVBORw0KGgdM2uN0', //base64文字列またはURL
             "type": 'file', //file | url
             "name": 'Flowise.png',
             "mime": 'image/png'
@@ -427,9 +425,9 @@ query({
 {% endtab %}
 {% endtabs %}
 
-### Speech to Text
+### 音声のテキスト変換
 
-When **Speech to Text** is enabled, users can speak directly into microphone and speech will be transcribed into text.
+**音声のテキスト変換**が有効な場合、ユーザーはマイクに直接話しかけることができ、音声がテキストに変換されます。
 
 <div align="left"><figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure> <figure><img src="../.gitbook/assets/Screenshot 2024-02-29 012538.png" alt="" width="431"><figcaption></figcaption></figure></div>
 
@@ -442,11 +440,11 @@ API_URL = "http://localhost:3000/api/v1/prediction/<chatflowId>"
 def query(payload):
     response = requests.post(API_URL, json=payload)
     return response.json()
-    
+
 output = query({
     "uploads": [
         {
-            "data": 'data:audio/webm;codecs=opus;base64,GkXf', #base64 string
+            "data": 'data:audio/webm;codecs=opus;base64,GkXf', #base64文字列
             "type": 'audio',
             "name": 'audio.wav',
             "mime": 'audio/webm'
@@ -476,7 +474,7 @@ async function query(data) {
 query({
     "uploads": [
         {
-            "data": 'data:audio/webm;codecs=opus;base64,GkXf', //base64 string
+            "data": 'data:audio/webm;codecs=opus;base64,GkXf', //base64文字列
             "type": 'audio',
             "name": 'audio.wav',
             "mime": 'audio/webm'
@@ -489,32 +487,32 @@ query({
 {% endtab %}
 {% endtabs %}
 
-## Vector Upsert API
+## ベクトルアップサートAPI
 
 {% swagger src="../.gitbook/assets/swagger (1) (1) (1).yml" path="/vector/upsert/{id}" method="post" %}
 [swagger (1) (1) (1).yml](<../.gitbook/assets/swagger (1) (1) (1).yml>)
 {% endswagger %}
 
-### Document Loaders with File Upload
+### ファイルアップロード機能付きドキュメントローダー
 
-Some document loaders in Flowise allow user to upload files:
+Flowiseのいくつかのドキュメントローダーでは、ユーザーがファイルをアップロードできます:
 
-* [CSV File](../integrations/langchain/document-loaders/csv-file.md)
-* [Docx File](../integrations/langchain/document-loaders/docx-file.md)
-* [Json File](../integrations/langchain/document-loaders/json-file.md)
-* [Json Lines File](../integrations/langchain/document-loaders/json-lines-file.md)
-* [PDF File](../integrations/langchain/document-loaders/pdf-file.md)
-* [Text File](../integrations/langchain/document-loaders/text-file.md)
-* [Unstructured File](../integrations/langchain/document-loaders/unstructured-file-loader.md)
+* [CSVファイル](../integrations/langchain/document-loaders/csv-file.md)
+* [Docxファイル](../integrations/langchain/document-loaders/docx-file.md)
+* [Jsonファイル](../integrations/langchain/document-loaders/json-file.md)
+* [JsonLinesファイル](../integrations/langchain/document-loaders/json-lines-file.md)
+* [PDFファイル](../integrations/langchain/document-loaders/pdf-file.md)
+* [テキストファイル](../integrations/langchain/document-loaders/text-file.md)
+* [非構造化ファイル](../integrations/langchain/document-loaders/unstructured-file-loader.md)
 
 <div data-full-width="false"><figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure></div>
 
-If the flow contains [Document Loaders](../integrations/langchain/document-loaders/) with Upload File functionality, the API looks slightly different. Instead of passing body as JSON, **form data** is being used. This allows you to send files to the API.
+フローにファイルアップロード機能を持つ[ドキュメントローダー](../integrations/langchain/document-loaders/)が含まれている場合、APIは少し異なります。本文をJSONとして渡す代わりに、**フォームデータ**が使用されます。これによりAPIにファイルを送信することができます。
 
 {% hint style="info" %}
-Make sure the sent file type is compatible with the expected file type from document loader. For example, if a PDF File Loader is being used, you should only send **.pdf** files.
+送信するファイルタイプがドキュメントローダーで期待されるファイルタイプと互換性があることを確認してください。例えば、PDFファイルローダーを使用している場合は、**.pdf**ファイルのみを送信する必要があります。
 
-To avoid having separate loaders for different file types, we recommend to use [File Loader](../integrations/langchain/document-loaders/file-loader.md)
+異なるファイルタイプごとに別々のローダーを持つことを避けるために、[ファイルローダー](../integrations/langchain/document-loaders/file-loader.md)の使用をお勧めします。
 {% endhint %}
 
 {% tabs %}
@@ -524,7 +522,7 @@ import requests
 
 API_URL = "http://localhost:3000/api/v1/vector/upsert/<chatflowId>"
 
-# use form data to upload files
+# ファイルをアップロードするためにフォームデータを使用
 form_data = {
     "files": ('state_of_the_union.txt', open('state_of_the_union.txt', 'rb'))
 }
@@ -545,7 +543,7 @@ print(output)
 
 {% tab title="Javascript API" %}
 ```javascript
-// use FormData to upload files
+// ファイルをアップロードするためにFormDataを使用
 let formData = new FormData();
 formData.append("files", input.files[0]);
 formData.append("returnSourceDocuments", true);
@@ -569,9 +567,9 @@ query(formData).then((response) => {
 {% endtab %}
 {% endtabs %}
 
-### Document Loaders without Upload
+### アップロード機能のないドキュメントローダー
 
-For other [Document Loaders](../integrations/langchain/document-loaders/) nodes without Upload File functionality, the API body is in **JSON** format similar to [Prediction API](api.md#prediction-api).
+ファイルアップロード機能のない他の[ドキュメントローダー](../integrations/langchain/document-loaders/)ノードの場合、APIボディは[予測API](api.md#prediction-api)と同様に**JSON**形式です。
 
 {% tabs %}
 {% tab title="Python API" %}
@@ -586,7 +584,7 @@ def query(payload):
     return response.json()
 
 output = query({
-    "overrideConfig": { # optional
+    "overrideConfig": { # オプション
         "returnSourceDocuments": true
     }
 })
@@ -612,7 +610,7 @@ async function query(data) {
 }
 
 query({
-    "overrideConfig": { // optional
+    "overrideConfig": { // オプション
         "returnSourceDocuments": true
     }
 }).then((response) => {
@@ -622,9 +620,9 @@ query({
 {% endtab %}
 {% endtabs %}
 
-## Document Upsert/Refresh API
+## ドキュメントアップサート/リフレッシュAPI
 
-Refer to [Document Stores](document-stores.md#id-10.-api) section for more information about how to use the API.
+APIの使用方法の詳細については、[ドキュメントストア](document-stores.md#id-10.-api)セクションを参照してください。
 
 {% swagger src="../.gitbook/assets/swagger (2) (1).yml" path="/document-store/upsert/{id}" method="post" %}
 [swagger (2) (1).yml](<../.gitbook/assets/swagger (2) (1).yml>)
@@ -634,9 +632,9 @@ Refer to [Document Stores](document-stores.md#id-10.-api) section for more infor
 [swagger (2) (1).yml](<../.gitbook/assets/swagger (2) (1).yml>)
 {% endswagger %}
 
-## Video Tutorials
+## ビデオチュートリアル
 
-Those video tutorials cover the main use cases for implementing the Flowise API.
+これらのビデオチュートリアルでは、Flowise APIを実装するための主なユースケースを説明しています。
 
 {% embed url="https://youtu.be/9R5zo3IVkqU?si=y1v_aCQLE_70WBnA" %}
 

@@ -1,21 +1,23 @@
 ---
-description: Learn about how to build agentic systems in Flowise
+
+description: Flowiseでエージェンティックシステムを構築する方法を学ぶ
+
 ---
 
-# Agentflows
+# エージェントフロー
 
-## Introducing Agentic Systems in Flowise
+## Flowiseにおけるエージェンティックシステムの紹介
 
-Flowise's Agentflows section provides a platform for building agent-based systems that can interact with external tools and data sources.
+Flowiseのエージェントフローセクションは、外部ツールやデータソースと対話するエージェントベースのシステムを構築するためのプラットフォームを提供します。
 
-Currently, Flowise offers two approaches for designing these systems: [**Multi-Agents**](#user-content-fn-1)[^1] and [**Sequential Agents**](#user-content-fn-2)[^2]. These approaches provide different levels of control and complexity, allowing you to choose the best fit for your needs.
+現在、Flowiseではこれらのシステムを設計するためのアプローチとして[**マルチエージェント**](#user-content-fn-1)[^1]と[**シーケンシャルエージェント**](#user-content-fn-2)[^2]の2つを提供しています。これらのアプローチは、異なるレベルの制御と複雑さを提供し、ニーズに最適なものを選択できます。
 
-<figure><img src="../../.gitbook/assets/agentflow.png" alt=""><figcaption><p>Flowise APP</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/agentflow.png" alt=""><figcaption><p>Flowise アプリ</p></figcaption></figure>
 
 {% hint style="success" %}
-This documentation will explore both the Sequential Agent and Multi-Agent approaches, explaining their features and how they can be used to build different types of conversational workflows.
+このドキュメンテーションでは、シーケンシャルエージェントとマルチエージェントの両アプローチを探り、その特徴とさまざまな種類の会話型ワークフローを構築する方法を説明します。
 {% endhint %}
 
-[^1]: **Multi-Agents**, built on top of the Sequential Agent architecture, simplify the process of building and managing teams of agents by pre-configuring core elements and providing a higher-level abstraction.
+[^1]: **マルチエージェント**は、シーケンシャルエージェントアーキテクチャの上に構築されており、コア要素を事前に設定し、より高いレベルの抽象化を提供することで、エージェントチームの構築と管理プロセスを簡素化します。
 
-[^2]: **Sequential Agents** provide developers with direct access to the underlying workflow structure, enabling granular control over every step of the conversation flow and offering maximum flexibility for building highly customized conversational applications.
+[^2]: **シーケンシャルエージェント**は、開発者に基盤となるワークフロー構造への直接アクセスを提供し、会話フローの各ステップに対する詳細な制御を可能にし、非常にカスタマイズされた会話型アプリケーションを構築するための最大限の柔軟性を提供します。

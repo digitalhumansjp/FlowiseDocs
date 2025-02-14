@@ -1,24 +1,24 @@
 ---
-description: Learn how to customize and embed our chat widget
+description: チャットウィジェットのカスタマイズと埋め込み方法について学ぶ
 ---
 
-# Embed
+# 埋め込み
 
 ***
 
-You can easily add the chat widget to your website. Just copy the provided widget script and paste it anywhere between the `<body>` and  `</body>`  tags of your HTML file.
+チャットウィジェットは簡単にウェブサイトに追加できます。提供されたウィジェットスクリプトをコピーして、HTMLファイルの`<body>`と`</body>`タグの間の任意の場所に貼り付けるだけです。
 
 <figure><img src="../.gitbook/assets/image (8) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Widget Setup
+## ウィジェットのセットアップ
 
-The following video shows how to inject the widget script into any webpage.
+以下の動画は、ウィジェットスクリプトを任意のウェブページに挿入する方法を示しています。
 
 {% embed url="https://github.com/FlowiseAI/Flowise/assets/26460777/c128829a-2d08-4d60-b821-1e41a9e677d0" %}
 
-## Using Specific Version
+## 特定バージョンの使用
 
-You can specify the version of flowise-embed's `web.js` to use. For full list of versions: [https://www.npmjs.com/package/flowise-embed](https://www.npmjs.com/package/flowise-embed)
+flowise-embedの`web.js`の使用バージョンを指定することができます。バージョンの完全なリストは次のURLで確認できます: [https://www.npmjs.com/package/flowise-embed](https://www.npmjs.com/package/flowise-embed)
 
 ```html
 <script type="module">
@@ -31,20 +31,20 @@ You can specify the version of flowise-embed's `web.js` to use. For full list of
 ```
 
 {% hint style="warning" %}
-In Flowise **v2.1.0**, we have modified the way streaming works. If your Flowise version is lower than that, you might find your embedded chatbot not able to receive messages.
+Flowise **v2.1.0**では、ストリーミングの動作方法を変更しました。Flowiseのバージョンがそれより低い場合、埋め込まれたチャットボットがメッセージを受信できない可能性があります。
 
-You can either update Flowise to **v2.1.0** and above
+Flowiseを**v2.1.0**以上にアップデートするか、
 
-Or, if for some reason you prefer not to update Flowise, you can specify the latest **v1.x.x** version of [Flowise-Embed](https://www.npmjs.com/package/flowise-embed?activeTab=versions). Last maintained `web.js` version is **v1.3.14.**
+何らかの理由でFlowiseをアップデートしたくない場合は、[Flowise-Embed](https://www.npmjs.com/package/flowise-embed?activeTab=versions)の最新の**v1.x.x**バージョンを指定することができます。最後にメンテナンスされた`web.js`のバージョンは**v1.3.14**です。
 
-For instance:
+例えば:
 
 `https://cdn.jsdelivr.net/npm/flowise-embed@1.3.14/dist/web.js`
 {% endhint %}
 
-## Chatflow Config
+## チャットフローの設定
 
-You can pass `chatflowConfig` JSON object to override existing configuration. This is the same as [#override-config](api.md#override-config "mention") in API.
+`chatflowConfig` JSONオブジェクトを渡して、既存の設定を上書きすることができます。これはAPIの[#override-config](api.md#override-config "mention")と同じです。
 
 ```html
 <script type="module">
@@ -60,9 +60,9 @@ You can pass `chatflowConfig` JSON object to override existing configuration. Th
 </script>
 ```
 
-## Observer Config
+## オブザーバー設定
 
-This allows you to execute code in parent based upon signal observations within the chatbot.
+チャットボット内のシグナル観察に基づいて、親要素でコードを実行することができます。
 
 ```html
 <script type="module">
@@ -71,15 +71,15 @@ This allows you to execute code in parent based upon signal observations within 
     chatflowid: 'your-chatflowid-here',
     apiHost: 'your-apihost-here',
     observersConfig: {
-      // User input has changed
+      // ユーザー入力が変更された場合
       observeUserInput: (userInput) => {
         console.log({ userInput });
       },
-      // The bot message stack has changed
+      // ボットのメッセージスタックが変更された場合
       observeMessages: (messages) => {
         console.log({ messages });
       },
-      // The bot loading signal changed
+      // ボットのローディング状態が変更された場合
       observeLoading: (loading) => {
         console.log({ loading });
       },
@@ -88,15 +88,15 @@ This allows you to execute code in parent based upon signal observations within 
 </script>
 ```
 
-## Theme
+## テーマ
 
-You can change the full appearance of the embedded chatbot and enable functionalities like tooltips, disclaimers, custom welcome messages, and more using the theme property. This allows you to deeply customize the look and feel of the widget, including:
+テーマプロパティを使用して、埋め込みチャットボットの外観を完全に変更し、ツールチップ、免責事項、カスタムウェルカムメッセージなどの機能を有効にすることができます。これにより、ウィジェットの見た目と操作感を以下の項目を含めて詳細にカスタマイズできます：
 
-* **Button:** Position, size, color, icon, drag-and-drop behavior, and automatic opening.
-* **Tooltip:** Visibility, message text, background color, text color, and font size.
-* **Disclaimer:** Title, message, colors for text, buttons, and background, including a blurred overlay option.
-* **Chat Window:** Title, agent/user message display, welcome/error messages, background color/image, dimensions, font size, starter prompts, HTML rendering, message styling (colors, avatars), text input behavior (placeholder, colors, character limits, sounds), feedback options, date/time display, and footer customization.
-* **Custom CSS:** Directly inject CSS code for even finer control over the appearance, overriding default styles as needed ([see the instructions guide below](embed.md#custom-css-modification))
+* **ボタン:** 位置、サイズ、色、アイコン、ドラッグ＆ドロップの動作、自動開閉。
+* **ツールチップ:** 表示/非表示、メッセージテキスト、背景色、テキスト色、フォントサイズ。
+* **免責事項:** タイトル、メッセージ、テキスト色、ボタン色、背景色（ぼかしオーバーレイオプションを含む）。
+* **チャットウィンドウ:** タイトル、エージェント/ユーザーメッセージの表示、ウェルカム/エラーメッセージ、背景色/画像、寸法、フォントサイズ、スターター プロンプト、HTMLレンダリング、メッセージのスタイル（色、アバター）、テキスト入力の動作（プレースホルダー、色、文字数制限、サウンド）、フィードバックオプション、日付/時刻表示、フッターのカスタマイズ。
+* **カスタムCSS:** より細かい外観の制御のためにCSSコードを直接注入し、必要に応じてデフォルトのスタイルを上書きすることができます（[以下の手順ガイドを参照](embed.md#custom-css-modification)）。
 
 ```html
 <script type="module">
@@ -114,45 +114,45 @@ You can change the full appearance of the embedded chatbot and enable functional
         iconColor: 'white',
         customIconSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
         autoWindowOpen: {
-          autoOpen: true, //parameter to control automatic window opening
-          openDelay: 2, // Optional parameter for delay time in seconds
-          autoOpenOnMobile: false, //parameter to control automatic window opening in mobile
+          autoOpen: true, //自動ウィンドウ開閉を制御するパラメーター
+          openDelay: 2, //遅延時間（秒）のオプションパラメーター
+          autoOpenOnMobile: false, //モバイルでの自動ウィンドウ開閉を制御するパラメーター
         },
       },
       tooltip: {
         showTooltip: true,
-        tooltipMessage: 'Hi There 👋!',
+        tooltipMessage: 'こんにちは 👋!',
         tooltipBackgroundColor: 'black',
         tooltipTextColor: 'white',
         tooltipFontSize: 16,
       },
       disclaimer: {
-        title: 'Disclaimer',
-        message: 'By using this chatbot, you agree to the <a target="_blank" href="https://flowiseai.com/terms">Terms & Condition</a>',
+        title: '免責事項',
+        message: 'このチャットボットを使用することで、<a target="_blank" href="https://flowiseai.com/terms">利用規約</a>に同意したものとみなされます',
         textColor: 'black',
         buttonColor: '#3b82f6',
-        buttonText: 'Start Chatting',
+        buttonText: 'チャットを開始',
         buttonTextColor: 'white',
-        blurredBackgroundColor: 'rgba(0, 0, 0, 0.4)', //The color of the blurred background that overlays the chat interface
+        blurredBackgroundColor: 'rgba(0, 0, 0, 0.4)', //チャットインターフェースに重ねるぼかし背景の色
         backgroundColor: 'white',
       },
-      customCSS: ``, // Add custom CSS styles. Use !important to override default styles
+      customCSS: ``, // カスタムCSSスタイルを追加。デフォルトスタイルを上書きするには!importantを使用
       chatWindow: {
         showTitle: true,
         showAgentMessages: true,
         title: 'Flowise Bot',
         titleAvatarSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
-        welcomeMessage: 'Hello! This is custom welcome message',
-        errorMessage: 'This is a custom error message',
+        welcomeMessage: 'こんにちは！これはカスタムウェルカムメッセージです',
+        errorMessage: 'これはカスタムエラーメッセージです',
         backgroundColor: '#ffffff',
-        backgroundImage: 'enter image path or link', // If set, this will overlap the background color of the chat window.
+        backgroundImage: '画像のパスまたはリンクを入力', // 設定すると、チャットウィンドウの背景色が上書きされます
         height: 700,
         width: 400,
         fontSize: 16,
-        starterPrompts: ['What is a bot?', 'Who are you?'], // It overrides the starter prompts set by the chat flow passed
+        starterPrompts: ['ボットとは何ですか？', 'あなたは誰ですか？'], // チャットフローで設定されたスターター プロンプトを上書きします
         starterPromptFontSize: 15,
-        clearChatOnReload: false, // If set to true, the chat will be cleared when the page reloads
-        sourceDocsTitle: 'Sources:',
+        clearChatOnReload: false, // trueに設定すると、ページのリロード時にチャットがクリアされます
+        sourceDocsTitle: 'ソース:',
         renderHTML: true,
         botMessage: {
           backgroundColor: '#f7f8ff',
@@ -167,17 +167,17 @@ You can change the full appearance of the embedded chatbot and enable functional
           avatarSrc: 'https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png',
         },
         textInput: {
-          placeholder: 'Type your question',
+          placeholder: '質問を入力してください',
           backgroundColor: '#ffffff',
           textColor: '#303235',
           sendButtonColor: '#3B81F6',
           maxChars: 50,
-          maxCharsWarningMessage: 'You exceeded the characters limit. Please input less than 50 characters.',
-          autoFocus: true, // If not used, autofocus is disabled on mobile and enabled on desktop. true enables it on both, false disables it on both.
+          maxCharsWarningMessage: '文字数制限を超えています。50文字以下で入力してください。',
+          autoFocus: true, // 使用しない場合、モバイルでは無効、デスクトップでは有効になります。trueは両方で有効、falseは両方で無効になります。
           sendMessageSound: true,
-          // sendSoundLocation: "send_message.mp3", // If this is not used, the default sound effect will be played if sendSoundMessage is true.
+          // sendSoundLocation: "send_message.mp3", // 使用しない場合、sendSoundMessageがtrueの場合はデフォルトの効果音が再生されます。
           receiveMessageSound: true,
-          // receiveSoundLocation: "receive_message.mp3", // If this is not used, the default sound effect will be played if receiveSoundMessage is true.
+          // receiveSoundLocation: "receive_message.mp3", // 使用しない場合、receiveSoundMessageがtrueの場合はデフォルトの効果音が再生されます。
         },
         feedback: {
           color: '#303235',
@@ -198,29 +198,30 @@ You can change the full appearance of the embedded chatbot and enable functional
 </script>
 ```
 
-**Note:** See full [configuration list](https://github.com/FlowiseAI/FlowiseChatEmbed#configuration)
+**注意:** 完全な[設定リスト](https://github.com/FlowiseAI/FlowiseChatEmbed#configuration)を参照してください。
 
-## Custom Code Modification
+## カスタムコード変更
 
-To modify the full source code of embedded chat widget, follow these steps:
+埋め込みチャットウィジェットのソースコード全体を変更するには、以下の手順に従ってください：
 
-1. Fork the [Flowise Chat Embed](https://github.com/FlowiseAI/FlowiseChatEmbed) repository
-2. Run `yarn install` to install the necessary dependencies
-3. Then you can make any code changes
-4. Run `yarn build` to pick up the changes
-5. Push changes to the forked repository
-6. You can then use your custom `web.js` as embedded chat like so:
+1. [Flowise Chat Embed](https://github.com/FlowiseAI/FlowiseChatEmbed)リポジトリをフォークします
+2. `yarn install`を実行して必要な依存関係をインストールします
+3. コードを任意に変更します
+4. `yarn build`を実行して変更を反映させます
+5. 変更をフォークしたリポジトリにプッシュします
+6. 以下のように、カスタマイズした`web.js`を埋め込みチャットとして使用できます：
 
-Replace `username` to your Github username, and `forked-repo` to your forked repo.
+`username`をあなたのGithubユーザー名に、`forked-repo`をフォークしたリポジトリ名に置き換えてください。
 
-<pre class="language-html"><code class="lang-html"><strong>&#x3C;script type="module">
-</strong>      import Chatbot from "https://cdn.jsdelivr.net/gh/username/forked-repo/dist/web.js"
+```html
+<script type="module">
+      import Chatbot from "https://cdn.jsdelivr.net/gh/username/forked-repo/dist/web.js"
       Chatbot.init({
           chatflowid: "your-chatflowid-here",
           apiHost: "your-apihost-here",
       })
-&#x3C;/script>
-</code></pre>
+</script>
+```
 
 <figure><img src="../.gitbook/assets/image (1) (1) (2).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -235,21 +236,22 @@ Replace `username` to your Github username, and `forked-repo` to your forked rep
 ```
 
 {% hint style="info" %}
-An alternative to jsdelivr is unpkg. Here is an example:
+jsdelivrの代替としてunpkgがあります。以下は例です：
 
-<pre><code><strong>https://unpkg.com/flowise-embed/dist/web.js
-</strong></code></pre>
+```
+https://unpkg.com/flowise-embed/dist/web.js
+```
 {% endhint %}
 
-## Custom CSS Modification
+## カスタムCSS変更
 
-You can now directly add custom CSS to style your embedded chat widget, eliminating the need for custom `web.js` files (requires v2.0.8 or later). This allows you to:
+カスタムの`web.js`ファイルを必要とせずに、埋め込みチャットウィジェットにカスタムCSSを直接追加できるようになりました（v2.0.8以降が必要）。これにより以下が可能になります：
 
-* Give each embedded chatbot a unique look and feel
-* Use the official `web.js`—no more custom builds or hosting are needed for styling
-* Update styles instantly
+* 埋め込まれた各チャットボットに独自の見た目と操作感を与える
+* 公式の`web.js`を使用—スタイリングのためのカスタムビルドやホスティングが不要
+* スタイルをすぐに更新できる
 
-Here's how to use it:
+使用方法は以下の通りです：
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/FlowiseAI/FlowiseChatEmbed@main/dist/web.js"></script>
@@ -258,10 +260,10 @@ Here's how to use it:
     chatflowid: "your-chatflowid-here",
     apiHost: "your-apihost-here",
     theme: {
-      // ... other theme settings
+      // ... その他のテーマ設定
       customCSS: `
-        /* Your custom CSS here */
-        /* Use !important to override default styles */
+        /* カスタムCSSをここに記述 */
+        /* デフォルトスタイルを上書きするには!importantを使用 */
       `,
     }
   });
@@ -270,32 +272,32 @@ Here's how to use it:
 
 ## CORS
 
-When using embedded chat widget, there's chance that you might face CORS issue like:
+埋め込みチャットウィジェットを使用する際に、以下のようなCORS関連の問題に遭遇する可能性があります：
 
 {% hint style="danger" %}
-Access to fetch at 'https://\<your-flowise.com>/api/v1/prediction/' from origin 'https://\<your-flowise.com>' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+Access to fetch at 'https://<your-flowise.com>/api/v1/prediction/' from origin 'https://<your-flowise.com>' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
 {% endhint %}
 
-To fix it, specify the following environment variables:
+これを解決するには、以下の環境変数を指定してください：
 
 ```
 CORS_ORIGINS=*
 IFRAME_ORIGINS=*
 ```
 
-For example, if you are using `npx flowise start`
+例えば、`npx flowise start`を使用している場合：
 
 ```
 npx flowise start --CORS_ORIGINS=* --IFRAME_ORIGINS=*
 ```
 
-If using Docker, place the env variables inside `Flowise/docker/.env`
+Dockerを使用している場合は、環境変数を`Flowise/docker/.env`内に配置します。
 
-If using local Git clone, place the env variables inside `Flowise/packages/server/.env`
+ローカルのGitクローンを使用している場合は、環境変数を`Flowise/packages/server/.env`内に配置します。
 
-## Video Tutorials
+## ビデオチュートリアル
 
-These two videos will teach you how to embed the Flowise widget into a website.
+以下の2つのビデオでは、Flowiseウィジェットをウェブサイトに埋め込む方法を学ぶことができます。
 
 {% embed url="https://youtu.be/4paQ2wObDQ4" %}
 

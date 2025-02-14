@@ -1,309 +1,309 @@
 ---
-description: Learn the Fundamentals of Sequential Agents in Flowise, written by @toi500
+description: FlowiseのSequential Agentsの基礎を学ぶ (@toi500 著)
 ---
 
-# Sequential Agents
+# シーケンシャルエージェント
 
-This guide offers a complete overview of the Sequential Agent AI system architecture within Flowise, exploring its core components and workflow design principles.
+このガイドでは、Flowise内のシーケンシャルエージェントAIシステムアーキテクチャの包括的な概要を説明し、そのコアコンポーネントとワークフローの設計原則について解説します。
 
 {% hint style="warning" %}
-**Disclaimer**: This documentation is intended to help Flowise users understand and build conversational workflows using the Sequential Agent system architecture. It is not intended to be a comprehensive technical reference for the LangGraph framework and should not be interpreted as defining industry standards or core LangGraph concepts.
+**免責事項**: このドキュメントは、FlowiseユーザーがSequential Agentシステムアーキテクチャを使用して会話ワークフローを理解し構築するためのものです。LangGraphフレームワークの包括的な技術リファレンスではなく、業界標準やLangGraphのコアコンセプトを定義するものとして解釈されるべきではありません。
 {% endhint %}
 
-## Concept
+## コンセプト
 
-Built on top of [LangGraph](https://www.langchain.com/langgraph), Flowise's Sequential Agents architecture facilitates the **development of conversational agentic systems by structuring the workflow as a directed cyclic graph (DCG)**, allowing controlled loops and iterative processes.
+[LangGraph](https://www.langchain.com/langgraph)をベースに構築されたFlowise のシーケンシャルエージェントアーキテクチャは、**ワークフローを有向循環グラフ(DCG)として構造化することで会話型エージェントシステムの開発を促進し**、制御されたループと反復プロセスを可能にします。
 
-This graph, composed of interconnected nodes, defines the sequential flow of information and actions, enabling the agents to process inputs, execute tasks, and generate responses in a structured manner.
+相互に接続されたノードで構成されるこのグラフは、情報とアクションのシーケンシャルなフローを定義し、エージェントが構造化された方法で入力を処理し、タスクを実行し、レスポンスを生成することを可能にします。
 
 <figure><img src="../../.gitbook/assets/seq-21.svg" alt=""><figcaption></figcaption></figure>
 
-### Understanding Sequential Agents' DCG Architecture
+### シーケンシャルエージェントのDCGアーキテクチャについて
 
-This architecture simplifies the management of complex conversational workflows by defining a clear and understandable sequence of operations through its DCG structure.
+このアーキテクチャは、DCG構造を通じて明確で理解しやすい操作シーケンスを定義することで、複雑な会話ワークフローの管理を簡素化します。
 
-Let's explore some key elements of this approach:
+このアプローチの主要な要素を見ていきましょう:
 
 {% tabs %}
-{% tab title="Core Principles" %}
-* **Node-based processing:** Each node in the graph represents a discrete processing unit, encapsulating its own functionality like language processing, tool execution, or conditional logic.
-* **Data flow as connections:** Edges in the graph represent the flow of data between nodes, where the output of one node becomes the input for the subsequent node, enabling a chain of processing steps.
-* **State management:** State is managed as a shared object, persisting throughout the conversation. This allows nodes to access relevant information as the workflow progresses.
+{% tab title="コアとなる原則" %}
+* **ノードベースの処理:** グラフの各ノードは独立した処理ユニットを表し、言語処理、ツールの実行、条件付きロジックなどの独自の機能をカプセル化します。
+* **データフローとしての接続:** グラフのエッジはノード間のデータフローを表し、あるノードの出力が後続ノードの入力となり、処理ステップのチェーンを可能にします。
+* **状態管理:** 状態は会話全体を通じて永続化される共有オブジェクトとして管理されます。これによりワークフローの進行に応じて、ノードが関連情報にアクセスできるようになります。
 {% endtab %}
 
-{% tab title="Terminology" %}
-* **Flow:** The movement or direction of data within the workflow. It describes how information passes between nodes during a conversation.
-* **Workflow:** The overall design and structure of the system. It's the blueprint that defines the sequence of nodes, their connections, and the logic that orchestrates the conversation flow.
-* **State:** A shared data structure that represents the current snapshot of the conversation. It includes the conversation history `state.messages` and any custom State variables defined by the user.
-* **Custom State:** User-defined key-value pairs added to the state object to store additional information relevant to the workflow.
-* **Tool:** An external system, API, or service that can be accessed and executed by the workflow to perform specific tasks, such as retrieving information, processing data, or interacting with other applications.
-* **Human-in-the-Loop (HITL):** A feature that allows human intervention in the workflow, primarily during tool execution. It enables a human reviewer to approve or reject a tool call before it's executed.
-* **Parallel node execution:** It refers to the ability to execute multiple nodes concurrently within a workflow by using a branching mechanism. This means that different branches of the workflow can process information or interact with tools simultaneously, even though the overall flow of execution remains sequential.
+{% tab title="用語" %}
+* **フロー:** ワークフロー内のデータの移動または方向。会話中にノード間で情報がどのように受け渡されるかを表します。
+* **ワークフロー:** システムの全体的な設計と構造。ノードのシーケンス、その接続、会話フローを調整するロジックを定義する設計図です。
+* **状態:** 会話の現在のスナップショットを表す共有データ構造。会話履歴 `state.messages` とユーザーが定義したカスタムステート変数が含まれます。
+* **カスタムステート:** ワークフローに関連する追加情報を保存するために、状態オブジェクトに追加されるユーザー定義のキーと値のペア。
+* **ツール:** 情報の取得、データの処理、他のアプリケーションとの対話などの特定のタスクを実行するために、ワークフローがアクセスして実行できる外部システム、API、またはサービス。
+* **Human-in-the-Loop (HITL):** 主にツール実行時にワークフローへの人間の介入を可能にする機能。人間のレビュアーがツールの呼び出しを実行前に承認または拒否することができます。
+* **ノードの並列実行:** 分岐メカニズムを使用してワークフロー内で複数のノードを同時に実行する機能を指します。これは、全体的な実行フローは順次的なままですが、ワークフローの異なるブランチが同時に情報を処理したりツールと対話したりできることを意味します。
 {% endtab %}
 {% endtabs %}
 
 ***
 
-## Sequential Agents vs Multi-Agents
+## シーケンシャルエージェントとマルチエージェントの比較
 
-While both Multi-Agent and Sequential Agent systems in Flowise are built upon the LangGraph framework and share the same fundamental principles, the Sequential Agent architecture provides a [lower level of abstraction](#user-content-fn-1)[^1], offering more granular control over every step of the workflow.
+FlowiseのマルチエージェントとシーケンシャルエージェントのシステムはどちらもLangGraphフレームワークをベースに構築され、同じ基本原則を共有していますが、シーケンシャルエージェントアーキテクチャは[より低いレベルの抽象化](#user-content-fn-1)[^1]を提供し、ワークフローの各ステップをより細かく制御することができます。
 
-**Multi-Agent systems**, which are characterized by a hierarchical structure with a central supervisor agent delegating tasks to specialized worker agents, **excel at handling complex workflows by breaking them down into manageable sub-tasks**. This decomposition into sub-tasks is made possible by pre-configuring core system elements under the hood, such as condition nodes, which would require manual setup in a Sequential Agent system. As a result, users can more easily build and manage teams of agents.
+**マルチエージェントシステム**は、中央の監督エージェントが専門のワーカーエージェントにタスクを委任する階層構造を特徴とし、**複雑なワークフローをより管理しやすいサブタスクに分解して処理することに優れています**。このサブタスクへの分解は、シーケンシャルエージェントシステムでは手動設定が必要な条件ノードなどのコアシステム要素を事前に設定することで可能になります。その結果、ユーザーはより簡単にエージェントのチームを構築・管理できます。
 
-In contrast, **Sequential Agent systems** operate like a streamlined assembly line, where data flows sequentially through a chain of nodes, making them ideal for tasks demanding a precise order of operations and incremental data refinement. Compared to the Multi-Agent system, its lower-level access to the underlying workflow structure makes it fundamentally more **flexible and customizable, offering parallel node execution and full control over the system logic**, incorporating conditions, state, and loop nodes into the workflow, allowing for the creation of new dynamic branching capabilities.
+対照的に、**シーケンシャルエージェントシステム**は、データがノードのチェーンを順番に流れる合理化された組立ラインのように動作し、正確な操作順序と段階的なデータの洗練を必要とするタスクに最適です。マルチエージェントシステムと比較して、基盤となるワークフロー構造へのより低レベルなアクセスにより、本質的に**より柔軟でカスタマイズ可能であり、ノードの並列実行とシステムロジックの完全な制御を提供**し、条件、状態、ループノードをワークフローに組み込むことで、新しい動的な分岐機能の作成が可能になります。
 
-### Introducing State, Loop and Condition Nodes
+### 状態、ループ、条件ノードの紹介
 
-Flowise's Sequential Agents offer new capabilities for creating conversational systems that can adapt to user input, make decisions based on context, and perform iterative tasks.
+Flowiseのシーケンシャルエージェントは、ユーザー入力に適応し、コンテキストに基づいて判断を下し、反復的なタスクを実行できる会話システムを作成するための新機能を提供します。
 
-These capabilities are made possible by the introduction of four new core nodes; the State Node, the Loop Node, and two Condition Nodes.
+これらの機能は、4つの新しいコアノード - 状態ノード、ループノード、そして2つの条件ノードの導入により可能になりました。
 
 <figure><img src="../../.gitbook/assets/seq-20.png" alt=""><figcaption></figcaption></figure>
 
-* **State Node:** We define State as a shared data structure that represents the current snapshot of our application or workflow. The State Node allows us to **add a custom State** to our workflow from the start of the conversation. This custom State is accessible and modifiable by other nodes in the workflow, enabling dynamic behavior and data sharing.
-* **Loop Node:** This node **introduces controlled cycles** within the Sequential Agent workflow, enabling iterative processes where a sequence of nodes can be repeated based on specific conditions. This allows agents to refine outputs, gather additional information from the user, or perform tasks multiple times.
-* **Condition Nodes:** The Condition and Condition Agent Node provide the necessary control to **create complex conversational flows with branching paths**. The Condition Node evaluates conditions directly, while the Condition Agent Node uses an agent's reasoning to determine the branching logic. This allows us to dynamically guide the flow's behavior based on user input, the custom State, or results of actions taken by other nodes.
+* **状態ノード:** 状態とは、アプリケーションやワークフローの現在のスナップショットを表す共有データ構造として定義されます。状態ノードでは、会話の開始時から**カスタム状態**をワークフローに追加することができます。このカスタム状態はワークフロー内の他のノードからアクセスおよび変更が可能で、動的な振る舞いとデータ共有を可能にします。
+* **ループノード:** このノードはシーケンシャルエージェントワークフロー内に**制御されたサイクル**を導入し、特定の条件に基づいてノードのシーケンスを繰り返すことができる反復プロセスを可能にします。これによりエージェントは出力の洗練、ユーザーからの追加情報の収集、タスクの複数回実行を行うことができます。
+* **条件ノード:** 条件ノードと条件エージェントノードは、**分岐パスを持つ複雑な会話フローを作成**するために必要な制御を提供します。条件ノードは条件を直接評価し、条件エージェントノードはエージェントの推論を使用して分岐ロジックを決定します。これにより、ユーザー入力、カスタム状態、または他のノードによって実行されたアクションの結果に基づいて、フローの動作を動的に導くことができます。
 
-### Choosing the right system
+### 適切なシステムの選択
 
-Selecting the ideal system for your application depends on understanding your specific workflow needs. Factors like task complexity, the need for parallel processing, and your desired level of control over data flow are all key considerations.
+アプリケーションに最適なシステムを選択するには、特定のワークフローのニーズを理解する必要があります。タスクの複雑さ、並列処理の必要性、データフローの制御レベルなど、すべての重要な考慮事項になります。
 
-* **For simplicity:** If your workflow is relatively straightforward, where tasks can be completed one after the other and therefore does not require parallel node execution or Human-in-the-Loop (HITL), the Multi-Agent approach offers ease of use and quick setup.
-* **For flexibility:** If your workflow needs parallel execution, dynamic conversations, custom State management, and the ability to incorporate HITL, the **Sequential Agent** approach provides the necessary flexibility and control.
+* **シンプルさを重視する場合:** タスクを順番に完了でき、ノードの並列実行やHuman-in-the-Loop (HITL)を必要としない比較的単純なワークフローの場合、マルチエージェントアプローチは使いやすく、素早いセットアップを提供します。
+* **柔軟性を重視する場合:** 並列実行、動的な会話、カスタム状態管理、HITLの組み込みが必要なワークフローの場合、**シーケンシャルエージェント**アプローチが必要な柔軟性と制御を提供します。
 
-Here's a table comparing Multi-Agent and Sequential Agent implementations in Flowise, highlighting key differences and design considerations:
+以下の表は、Flowiseにおけるマルチエージェントとシーケンシャルエージェントの実装を比較し、主な違いと設計上の考慮事項を強調しています:
 
-<table><thead><tr><th width="173.33333333333331"></th><th width="281">Multi-Agent</th><th>Sequential Agent</th></tr></thead><tbody><tr><td>Structure</td><td><strong>Hierarchical</strong>; Supervisor delegates to specialized Workers.</td><td><strong>Linear, cyclic and/or</strong> <strong>branching</strong>; nodes connect in a sequence, with conditional logic for branching.</td></tr><tr><td>Workflow</td><td>Flexible; designed for breaking down a complex task into a <strong>sequence of sub-tasks</strong>, completed one after another.</td><td>Highly flexible; <strong>supports parallel node execution</strong>, complex dialogue flows, branching logic, and loops within a single conversation turn.</td></tr><tr><td>Parallel Node Execution</td><td><strong>No</strong>; Supervisor handles one task at a time.</td><td><strong>Yes</strong>; can trigger multiple actions in parallel within a single run.</td></tr><tr><td>State Management</td><td><strong>Implicit</strong>; State is in place, but is not explicitly managed by the developer.</td><td><strong>Explicit</strong>; State is in place, and developers can define and manage an initial or custom State using the State Node and the "Update State" field in various nodes.</td></tr><tr><td>Tool Usage</td><td><strong>Workers</strong> can access and use tools as needed.</td><td>Tools are accessed and executed through <strong>Agent Nodes</strong> and <strong>Tool Nodes</strong>.</td></tr><tr><td>Human-in-the-Loop (HITL)</td><td>HITL is <strong>not supported.</strong></td><td><strong>Supported</strong> through the Agent Node and Tool Node's "Require Approval" feature, allowing human review and approval or rejection of tool execution.</td></tr><tr><td>Complexity</td><td>Higher level of abstraction; <strong>simplifies workflow design.</strong></td><td>Lower level of abstraction; <strong>more complex workflow design</strong>, requiring careful planning of node interactions, custom State management, and conditional logic.</td></tr><tr><td>Ideal Use Cases</td><td><ul><li>Automating linear processes (e.g., data extraction, lead generation).</li><li>Situations where sub-tasks need to be completed one after the other.</li></ul></td><td><ul><li>Building conversational systems with dynamic flows.</li><li>Complex workflows requiring parallel node execution or branching logic.</li><li>Situations where decision-making is needed at multiple points in the conversation.</li></ul></td></tr></tbody></table>
+<table><thead><tr><th width="173.33333333333331"></th><th width="281">マルチエージェント</th><th>シーケンシャルエージェント</th></tr></thead><tbody><tr><td>構造</td><td><strong>階層的</strong>; スーパーバイザーが専門のワーカーに委任。</td><td><strong>直線的、循環的および/または分岐的</strong>; ノードが順序で接続され、分岐のための条件ロジックを持つ。</td></tr><tr><td>ワークフロー</td><td>柔軟; 複雑なタスクを<strong>サブタスクのシーケンス</strong>に分解し、順番に完了するように設計。</td><td>非常に柔軟; <strong>ノードの並列実行</strong>、複雑な対話フロー、分岐ロジック、単一の会話ターン内でのループをサポート。</td></tr><tr><td>ノードの並列実行</td><td><strong>不可</strong>; スーパーバイザーは一度に1つのタスクを処理。</td><td><strong>可能</strong>; 単一の実行内で複数のアクションを並列にトリガー可能。</td></tr><tr><td>状態管理</td><td><strong>暗黙的</strong>; 状態は存在するが、開発者が明示的に管理しない。</td><td><strong>明示的</strong>; 状態は存在し、開発者は状態ノードと様々なノードの「状態の更新」フィールドを使用して初期状態やカスタム状態を定義・管理可能。</td></tr><tr><td>ツールの使用</td><td><strong>ワーカー</strong>が必要に応じてツールにアクセスして使用。</td><td>ツールは<strong>エージェントノード</strong>と<strong>ツールノード</strong>を通じてアクセスおよび実行。</td></tr><tr><td>Human-in-the-Loop (HITL)</td><td>HITLは<strong>サポートされていない。</strong></td><td>エージェントノードとツールノードの「承認が必要」機能を通じて<strong>サポート</strong>され、ツール実行の人間によるレビューと承認または拒否が可能。</td></tr><tr><td>複雑さ</td><td>高いレベルの抽象化; <strong>ワークフロー設計を単純化。</strong></td><td>低いレベルの抽象化; <strong>より複雑なワークフロー設計</strong>で、ノード間の相互作用、カスタム状態管理、条件ロジックの慎重な計画が必要。</td></tr><tr><td>理想的なユースケース</td><td><ul><li>線形プロセスの自動化（データ抽出、リード生成など）。</li><li>サブタスクを順番に完了する必要がある状況。</li></ul></td><td><ul><li>動的なフローを持つ会話システムの構築。</li><li>ノードの並列実行や分岐ロジックを必要とする複雑なワークフロー。</li><li>会話の複数のポイントで意思決定が必要な状況。</li></ul></td></tr></tbody></table>
 
 {% hint style="info" %}
-**Note**: Even though Multi-Agent systems are technically a higher-level layer built upon the Sequential Agent architecture, they offer a distinct user experience and approach to workflow design. The comparison above treats them as separate systems to help you select the best option for your specific needs.
+**注意**: マルチエージェントシステムは技術的にはシーケンシャルエージェントアーキテクチャの上に構築された高レベルレイヤーですが、ワークフロー設計に対して異なるユーザー体験とアプローチを提供します。上記の比較は、特定のニーズに最適なオプションを選択する際の参考として、これらを別個のシステムとして扱っています。
 {% endhint %}
 
 ***
 
-## Sequential Agents Nodes
+## シーケンシャルエージェントノード
 
-Sequential Agents bring a whole new dimension to Flowise, **introducing 10 specialized nodes**, each serving a specific purpose, offering more control over how our conversational agents interact with users, process information, make decisions, and execute actions.
+シーケンシャルエージェントはFlowiseに全く新しい次元をもたらし、**10の専門ノードを導入**し、それぞれが特定の目的を果たし、会話エージェントがユーザーとどのように対話し、情報を処理し、判断を下し、アクションを実行するかについてより多くの制御を提供します。
 
-The following sections aim to provide a comprehensive understanding of each node's functionality, inputs, outputs, and best practices, ultimately enabling you to craft sophisticated conversational workflows for a variety of applications.
+以下のセクションでは、各ノードの機能、入力、出力、ベストプラクティスを包括的に理解することを目指し、最終的に様々なアプリケーションのための洗練された会話ワークフローを作成できるようにします。
 
 <figure><img src="../../.gitbook/assets/seq-00.png" alt=""><figcaption></figcaption></figure>
 
 ***
 
-## 1. Start Node
+## 1. スタートノード
 
-As its name implies, the Start Node is the **entry point for all workflows in the Sequential Agent architecture**. It receives the initial user query, initializes the conversation State, and sets the flow in motion.
+その名の通り、スタートノードは**シーケンシャルエージェントアーキテクチャのすべてのワークフローのエントリーポイント**です。最初のユーザークエリを受け取り、会話の状態を初期化し、フローを開始します。
 
 <figure><img src="../../.gitbook/assets/seq-02.png" alt="" width="300"><figcaption></figcaption></figure>
 
-### Understanding the Start Node
+### スタートノードについて
 
-The Start Node ensures that our conversational workflows have the necessary setup and context to function correctly. **It's responsible for setting up key functionalitie**s that will be used throughout the rest of the workflow:
+スタートノードは、会話ワークフローが正しく機能するために必要なセットアップとコンテキストを確実に持つようにします。**ワークフローの残りの部分で使用される主要な機能のセットアップを担当**します:
 
-* **Defining the default LLM:** The Start Node requires us to specify a Chat Model (LLM) compatible with function calling, enabling agents in the workflow to interact with tools and external systems. It will be the default LLM used under the hood in the workflow.
-* **Initializing Memory:** We can optionally connect an Agent Memory Node to store and retrieve conversation history, enabling more context-aware responses.
-* **Setting a custom State:** By default, the State contains an immutable `state.messages` array, which acts as the transcript or history of the conversation between the user and the agents. The Start Node allows you to connect a custom State to the workflow adding a State Node, enabling the storage of additional information relevant to your workflow
-* **Enabling moderation:** Optionally, we can connect Input Moderation to analyze the user's input and prevent potentially harmful content from being sent to the LLM.
+* **デフォルトLLMの定義:** スタートノードでは、ワークフロー内のエージェントがツールや外部システムと対話できるようにするため、関数呼び出しに対応したチャットモデル(LLM)を指定する必要があります。これはワークフロー内で基盤として使用されるデフォルトのLLMとなります。
+* **メモリの初期化:** オプションでエージェントメモリノードを接続して会話履歴を保存・取得し、よりコンテキストを意識した応答を可能にします。
+* **カスタム状態の設定:** デフォルトでは、状態には不変の`state.messages`配列が含まれており、これはユーザーとエージェント間の会話の記録または履歴として機能します。スタートノードでは状態ノードを接続してワークフローにカスタム状態を追加し、ワークフローに関連する追加情報の保存を可能にします。
+* **モデレーションの有効化:** オプションで入力モデレーションを接続して、ユーザーの入力を分析し、有害な可能性のあるコンテンツがLLMに送信されるのを防ぐことができます。
 
-### Inputs
+### 入力
 
-<table><thead><tr><th width="212"></th><th width="102">Required</th><th>Description</th></tr></thead><tbody><tr><td>Chat Model</td><td><strong>Yes</strong></td><td>The default LLM that will power the conversation. Only compatible with <strong>models that are capable of function calling</strong>.</td></tr><tr><td>Agent Memory Node</td><td>No</td><td>Connect an Agent Memory Node to <strong>enable persistence and context preservation</strong>.</td></tr><tr><td>State Node</td><td>No</td><td>Connect a State Node to <strong>set a custom State</strong>, a shared context that can be accessed and modified by other nodes in the workflow.</td></tr><tr><td>Input Moderation</td><td>No</td><td>Connect a Moderation Node to <strong>filter content</strong> by detecting text that could generate harmful output, preventing it from being sent to the LLM.</td></tr></tbody></table>
+<table><thead><tr><th width="212"></th><th width="102">必須</th><th>説明</th></tr></thead><tbody><tr><td>チャットモデル</td><td><strong>はい</strong></td><td>会話を動かすデフォルトのLLM。<strong>関数呼び出しが可能なモデル</strong>のみ対応。</td></tr><tr><td>エージェントメモリノード</td><td>いいえ</td><td>エージェントメモリノードを接続して<strong>永続性とコンテキストの保持を有効化</strong>。</td></tr><tr><td>状態ノード</td><td>いいえ</td><td>状態ノードを接続して<strong>カスタム状態を設定</strong>し、ワークフロー内の他のノードがアクセスおよび修正できる共有コンテキストを作成。</td></tr><tr><td>入力モデレーション</td><td>いいえ</td><td>モデレーションノードを接続して有害な出力を生成する可能性のあるテキストを検出し、LLMへの送信を防ぐことで<strong>コンテンツをフィルタリング</strong>。</td></tr></tbody></table>
 
-### Outputs
+### 出力
 
-The Start Node can connect to the following nodes as outputs:
+スタートノードは以下のノードに出力として接続できます:
 
-* **Agent Node:** Routes the conversation flow to an Agent Node, which can then execute actions or access tools based on the conversation's context.
-* **LLM Node:** Routes the conversation flow to an LLM Node for processing and response generation.
-* **Condition Agent Node:** Connects to a Condition Agent Node to implement branching logic based on the agent's evaluation of the conversation.
-* **Condition Node:** Connects to a Condition Node to implement branching logic based on predefined conditions.
+* **エージェントノード:** 会話のフローをエージェントノードにルーティングし、会話のコンテキストに基づいてアクションを実行またはツールにアクセスできます。
+* **LLMノード:** 会話のフローをLLMノードにルーティングして処理とレスポンス生成を行います。
+* **条件エージェントノード:** エージェントによる会話の評価に基づいて分岐ロジックを実装するために条件エージェントノードに接続します。
+* **条件ノード:** 事前定義された条件に基づいて分岐ロジックを実装するために条件ノードに接続します。
 
-### Best Practices
+### ベストプラクティス
 
 {% tabs %}
-{% tab title="Pro Tips" %}
-**Choose the right Chat Model**
+{% tab title="プロのヒント" %}
+**適切なチャットモデルを選択**
 
-Ensure your selected LLM supports function calling, a key feature for enabling agent-tool interactions. Additionally, choose an LLM that aligns with the complexity and requirements of your application. You can override the default LLM by setting it at the Agent/LLM/Condition Agent node level when necessary.
+選択したLLMがエージェントとツールの相互作用を可能にする重要な機能である関数呼び出しをサポートしていることを確認してください。さらに、アプリケーションの複雑さと要件に合ったLLMを選択してください。必要に応じて、エージェント/LLM/条件エージェントノードレベルで設定することでデフォルトのLLMを上書きできます。
 
-**Consider context and persistence**
+**コンテキストと永続性を考慮**
 
-If your use case demands it, utilize Agent Memory Node to maintain context and personalize interactions.
+ユースケースで必要な場合は、エージェントメモリノードを利用してコンテキストを維持し、対話をパーソナライズします。
 {% endtab %}
 
-{% tab title="Potential Pitfalls" %}
-**Incorrect Chat Model (LLM) selection**
+{% tab title="潜在的な落とし穴" %}
+**誤ったチャットモデル(LLM)の選択**
 
-* **Problem:** The Chat Model selected in the Start Node is not suitable for the intended tasks or capabilities of the workflow, resulting in poor performance or inaccurate responses.
-* **Example:** A workflow requires a Chat Model with strong summarization capabilities, but the Start Node selects a model optimized for code generation, leading to inadequate summaries.
-* **Solution:** Choose a Chat Model that aligns with the specific requirements of your workflow. Consider the model's strengths, weaknesses, and the types of tasks it excels at. Refer to the documentation and experiment with different models to find the best fit.
+* **問題:** スタートノードで選択されたチャットモデルがワークフローの意図したタスクや機能に適していないため、パフォーマンスが低下したり不正確な応答が返されたりします。
+* **例:** ワークフローが強力な要約機能を持つチャットモデルを必要とするのに、スタートノードでコード生成に最適化されたモデルを選択し、不適切な要約が生成される。
+* **解決策:** ワークフローの特定の要件に合ったチャットモデルを選択します。モデルの長所、短所、および得意とするタスクの種類を考慮してください。ドキュメントを参照し、異なるモデルを試して最適なものを見つけてください。
 
-**Overlooking Agent Memory Node configuration**
+**エージェントメモリノードの設定の見落とし**
 
-* **Problem:** The Agent Memory Node is not properly connected or configured, resulting in the loss of conversation history data between sessions.
-* **Example:** You intend to use persistent memory to store user preferences, but the Agent Memory Node is not connected to the Start Node, causing preferences to be reset on each new conversation.
-* **Solution:** Ensure that the Agent Memory Node is connected to the Start Node and configured with the appropriate database (SQLite). For most use cases, the default SQLite database will be sufficient.
+* **問題:** エージェントメモリノードが適切に接続または設定されていないため、セッション間で会話履歴データが失われてしまいます。
+* **例:** ユーザー設定を保存するために永続的なメモリを使用しようとしていますが、エージェントメモリノードがスタートノードに接続されていないため、新しい会話のたびに設定がリセットされてしまいます。
+* **解決策:** エージェントメモリノードがスタートノードに接続され、適切なデータベース(SQLite)で設定されていることを確認します。ほとんどのユースケースでは、デフォルトのSQLiteデータベースで十分です。
 
-**Inadequate Input Moderation**
+**不適切な入力モデレーション**
 
-* **Problem:** The "Input Moderation" is not enabled or configured correctly, allowing potentially harmful or inappropriate user input to reach the LLM and generate undesirable responses.
-* **Example:** A user submits offensive language, but the input moderation fails to detect it or is not set up at all, allowing the query to reach the LLM.
-* **Solution:** Add and configure an input moderation node in the Start Node to filter out potentially harmful or inappropriate language. Customize the moderation settings to align with your specific requirements and use cases.
+* **問題:** 「入力モデレーション」が有効化されていないか正しく設定されていないため、潜在的に有害または不適切なユーザー入力がLLMに到達し、望ましくない応答が生成されます。
+* **例:** ユーザーが攻撃的な言葉を送信しても、入力モデレーションがそれを検出できないか、そもそも設定されていないため、クエリがLLMに到達してしまいます。
+* **解決策:** スタートノードに入力モデレーションノードを追加・設定して、潜在的に有害または不適切な言葉をフィルタリングします。特定の要件とユースケースに合わせてモデレーション設定をカスタマイズします。
 {% endtab %}
 {% endtabs %}
 
-## 2. Agent Memory Node
+## 2. エージェントメモリノード
 
-The Agent Memory Node **provides a mechanism for persistent memory storage**, allowing the Sequential Agent workflow to retain the conversation history `state.messages` and any custom State previously defined across multiple interactions
+エージェントメモリノードは**永続的なメモリストレージのメカニズムを提供**し、シーケンシャルエージェントワークフローが会話履歴`state.messages`と以前に定義されたカスタム状態を複数の対話にわたって保持することを可能にします。
 
-This long-term memory is essential for agents to learn from previous interactions, maintain context over extended conversations, and provide more relevant responses.
+この長期的なメモリは、エージェントが過去の対話から学び、長期的な会話でコンテキストを維持し、より関連性の高い応答を提供するために不可欠です。
 
 <figure><img src="../../.gitbook/assets/seq-03.png" alt="" width="299"><figcaption></figcaption></figure>
 
-### Where the data is recorded
+### データが記録される場所
 
-By default, Flowise utilizes its **built-in SQLite database** to store conversation history and custom state data, creating a "**checkpoints**" table to manage this persistent information.
+デフォルトでは、Flowiseは会話履歴とカスタム状態データを保存するために**組み込みのSQLiteデータベース**を使用し、この永続的な情報を管理するための「**checkpoints**」テーブルを作成します。
 
-#### Understanding the "checkpoints" table structure and data format
+#### "checkpoints"テーブルの構造とデータフォーマットについて
 
-This table **stores snapshots of the system's State at various points during a conversation**, enabling the persistence and retrieval of conversation history. Each row represents a specific point or "checkpoint" in the workflow's execution.
+このテーブルは**会話中の様々な時点でのシステムの状態のスナップショットを保存**し、会話履歴の永続化と取得を可能にします。各行はワークフローの実行における特定のポイントまたは「チェックポイント」を表します。
 
 <figure><img src="../../.gitbook/assets/seq-12.png" alt=""><figcaption></figcaption></figure>
 
-#### Table structure
+#### テーブル構造
 
-* **thread\_id:** A unique identifier representing a specific conversation session, **our session ID**. It groups together all checkpoints related to a single workflow execution.
-* **checkpoint\_id:** A unique identifier for each execution step (node execution) within the workflow. It helps track the order of operations and identify the State at each step.
-* **parent\_id:** Indicates the checkpoint\_id of the preceding execution step that led to the current checkpoint. This establishes a hierarchical relationship between checkpoints, allowing for the reconstruction of the workflow's execution flow.
-* **checkpoint:** Contains a JSON string representing the current State of the workflow at that specific checkpoint. This includes the values of variables, the messages exchanged, and any other relevant data captured at that point in the execution.
-* **metadata:** Provides additional context about the checkpoint, specifically related to node operations.
+* **thread_id:** 特定の会話セッションを表す一意の識別子、**セッションID**です。単一のワークフロー実行に関連するすべてのチェックポイントをグループ化します。
+* **checkpoint_id:** ワークフロー内の各実行ステップ（ノード実行）の一意の識別子です。操作の順序を追跡し、各ステップでの状態を識別するのに役立ちます。
+* **parent_id:** 現在のチェックポイントにつながった前の実行ステップのcheckpoint_idを示します。これによりチェックポイント間の階層関係が確立され、ワークフローの実行フローの再構築が可能になります。
+* **checkpoint:** その特定のチェックポイントでのワークフローの現在の状態を表すJSON文字列が含まれます。これには変数の値、交換されたメッセージ、およびその実行時点で取得された他の関連データが含まれます。
+* **metadata:** ノード操作に関連する、チェックポイントに関する追加のコンテキストを提供します。
 
-#### How it works
+#### 動作の仕組み
 
-As a Sequential Agent workflow executes, the system records a checkpoint in this table for each significant step. This mechanism provides several benefits:
+シーケンシャルエージェントワークフローが実行されると、システムは各重要なステップでこのテーブルにチェックポイントを記録します。このメカニズムには以下のような利点があります:
 
-* **Execution tracking:** Checkpoints enable the system to understand the execution path and the order of operations within the workflow.
-* **State management:** Checkpoints store the State of the workflow at each step, including variable values, conversation history, and any other relevant data. This allows the system to maintain contextual awareness and make informed decisions based on the current State.
-* **Workflow resumption:** If the workflow is paused or interrupted (e.g., due to a system error or user request), the system can use the stored checkpoints to resume execution from the last recorded State. This ensures that the conversation or task continues from where it left off, preserving the user's progress and preventing data loss.
+* **実行追跡:** チェックポイントにより、システムはワークフロー内の実行パスと操作の順序を理解できます。
+* **状態管理:** チェックポイントは変数の値、会話履歴、その他の関連データを含むワークフローの各ステップでの状態を保存します。これによりシステムはコンテキストを認識し、現在の状態に基づいて適切な判断を下すことができます。
+* **ワークフローの再開:** ワークフローが一時停止または中断された場合（システムエラーやユーザーリクエストなど）、システムは保存されたチェックポイントを使用して最後に記録された状態から実行を再開できます。これにより、会話やタスクが中断された場所から継続され、ユーザーの進行状況が保持されデータ損失が防止されます。
 
-### **Inputs**
+### **入力**
 
-The Agent Memory Node has **no specific input connections**.
+エージェントメモリノードには**特定の入力接続はありません**。
 
-### Node Setup
+### ノードの設定
 
-<table><thead><tr><th width="189"></th><th width="107">Required</th><th>Description</th></tr></thead><tbody><tr><td>Database</td><td><strong>Yes</strong></td><td>The type of database used for storing conversation history. Currently, <strong>only SQLite is supported</strong>.</td></tr></tbody></table>
+<table><thead><tr><th width="189"></th><th width="107">必須</th><th>説明</th></tr></thead><tbody><tr><td>データベース</td><td><strong>はい</strong></td><td>会話履歴の保存に使用されるデータベースの種類。現在は<strong>SQLiteのみがサポート</strong>されています。</td></tr></tbody></table>
 
-### Additional Parameters
+### 追加パラメータ
 
-<table><thead><tr><th width="189"></th><th width="107">Required</th><th>Description</th></tr></thead><tbody><tr><td>Database File Path</td><td>No</td><td>The file path to the SQLite database file. <strong>If not provided, the system will use a default location</strong>.</td></tr></tbody></table>
+<table><thead><tr><th width="189"></th><th width="107">必須</th><th>説明</th></tr></thead><tbody><tr><td>データベースファイルパス</td><td>いいえ</td><td>SQLiteデータベースファイルへのファイルパス。<strong>指定されない場合、システムはデフォルトの場所を使用します</strong>。</td></tr></tbody></table>
 
-### **Outputs**
+### **出力**
 
-The Agent Memory Node interacts solely with the **Start Node**, making the conversation history available from the very beginning of the workflow.
+エージェントメモリノードは**スタートノード**とのみ相互作用し、ワークフローの最初から会話履歴を利用可能にします。
 
-### **Best Practices**
+### **ベストプラクティス**
 
 {% tabs %}
-{% tab title="Pro Tips" %}
-**Strategic use**
+{% tab title="プロのヒント" %}
+**戦略的な使用**
 
-Employ Agent Memory only when necessary. For simple, stateless interactions, it might be overkill. Reserve it for scenarios where retaining information across turns or sessions is essential.
+エージェントメモリは必要な場合にのみ使用してください。シンプルなステートレスな対話では過剰である可能性があります。ターンやセッションを超えて情報を保持する必要があるシナリオのために取っておきましょう。
 {% endtab %}
 
-{% tab title="Potential Pitfalls" %}
-**Unnecessary overhead**
+{% tab title="潜在的な落とし穴" %}
+**不必要なオーバーヘッド**
 
-* **The Problem:** Using Agent Memory for every interaction, even when not needed, introduces unnecessary storage and processing overhead. This can slow down response times and increase resource consumption.
-* **Example:** A simple weather chatbot that provides information based on a single user request doesn't need to store conversation history.
-* **Solution:** Analyze the requirements of your system and only utilize Agent Memory when persistent data storage is essential for functionality or user experience.
+* **問題:** 必要のない場合でもすべての対話でエージェントメモリを使用すると、不必要なストレージと処理のオーバーヘッドが発生します。これにより応答時間が遅くなりリソース消費が増加する可能性があります。
+* **例:** 単一のユーザーリクエストに基づいて情報を提供するシンプルな天気チャットボットは、会話履歴を保存する必要はありません。
+* **解決策:** システムの要件を分析し、機能またはユーザー体験に永続的なデータストレージが不可欠な場合にのみエージェントメモリを使用してください。
 {% endtab %}
 {% endtabs %}
 
 ***
 
-## 3. State Node
+## 3. 状態ノード
 
-The State Node, which can only be connected to the Start Node, **provides a mechanism to set a user-defined or custom State** into our workflow from the start of the conversation. This custom State is a JSON object that is shared and can be updated by nodes in the graph, passing from one node to another as the flow progresses.
+スタートノードにのみ接続できる状態ノードは、**会話の開始時にユーザー定義またはカスタム状態をワークフロー**に設定するメカニズムを提供します。このカスタム状態はJSONオブジェクトで共有され、フローの進行に伴って1つのノードから別のノードへと渡される中でグラフ内のノードによって更新できます。
 
 <figure><img src="../../.gitbook/assets/seq-04.png" alt="" width="299"><figcaption></figcaption></figure>
 
-### Understanding the State Node
+### 状態ノードについて
 
-By default, the State includes a `state.messages` array, which acts as our conversation history. This array stores all messages exchanged between the user and the agents, or any other actors in the workflow, preserving it throughout the workflow execution.
+デフォルトでは、状態には会話履歴として機能する`state.messages`配列が含まれています。この配列は、ユーザーとエージェント、またはワークフロー内の他のアクター間で交換されたすべてのメッセージを保存し、ワークフローの実行全体を通じて保持します。
 
-Since by definition this `state.messages` array is immutable and cannot be modified, **the purpose of the State Node is to allow us to define custom key-value pairs**, expanding the state object to hold any additional information relevant to our workflow.
+この`state.messages`配列は定義上不変で変更できないため、**状態ノードの目的は、カスタムのキーと値のペアを定義できるようにすること**であり、状態オブジェクトを拡張してワークフローに関連する追加情報を保持できるようにします。
 
 {% hint style="info" %}
-When no **Agent Memory Node** is used, the State operates in-memory and is not persisted for future use.
+**エージェントメモリノード**が使用されていない場合、状態はメモリ内で動作し、将来の使用のために永続化されません。
 {% endhint %}
 
-### Inputs
+### 入力
 
-The State Node has **no specific input connections**.
+状態ノードには**特定の入力接続はありません**。
 
-### Outputs
+### 出力
 
-The State Node can only connect to the **Start Node**, allowing the setup of a custom State from the beginning of the workflow and allowing other nodes to access and potentially modify this shared custom State.
+状態ノードは**スタートノード**にのみ接続でき、ワークフローの最初からカスタム状態を設定し、他のノードがこの共有カスタム状態にアクセスし、潜在的に変更することを可能にします。
 
-### Additional Parameters
+### 追加パラメータ
 
-<table><thead><tr><th width="157"></th><th width="113">Required</th><th>Description</th></tr></thead><tbody><tr><td>Custom State</td><td><strong>Yes</strong></td><td>A JSON object representing the <strong>initial custom State of the workflow</strong>. This object can contain any key-value pairs relevant to the application.</td></tr></tbody></table>
+<table><thead><tr><th width="157"></th><th width="113">必須</th><th>説明</th></tr></thead><tbody><tr><td>カスタム状態</td><td><strong>はい</strong></td><td>ワークフローの<strong>初期カスタム状態</strong>を表すJSONオブジェクト。このオブジェクトにはアプリケーションに関連する任意のキーと値のペアを含めることができます。</td></tr></tbody></table>
 
-### How to set a custom State <a href="#alert-dialog-title" id="alert-dialog-title"></a>
+### カスタム状態の設定方法 <a href="#alert-dialog-title" id="alert-dialog-title"></a>
 
-Specify the **key**, **operation type**, and **default value** for the state object. The operation type can be either "Replace" or "Append".
+状態オブジェクトの**キー**、**操作タイプ**、**デフォルト値**を指定します。操作タイプは「置換」または「追加」のいずれかです。
 
-* **Replace**
-  1. Replace the existing value with the new value.
-  2. If the new value is null, the existing value will be retained.
-* **Append**
-  1. Append the new value to the existing value.
-  2. Default values can be empty or an array. Ex: \["a", "b"]
-  3. Final value is an array.
+* **置換**
+  1. 既存の値を新しい値で置き換えます。
+  2. 新しい値がnullの場合、既存の値は保持されます。
+* **追加**
+  1. 新しい値を既存の値に追加します。
+  2. デフォルト値は空または配列にできます。例: ["a", "b"]
+  3. 最終的な値は配列になります。
 
-#### Example using JS
+#### JavaScriptを使用した例
 
 {% code overflow="wrap" %}
 ```javascript
 {
     aggregate: {
-        value: (x, y) => x.concat(y), // here we append the new message to the existing messages
+        value: (x, y) => x.concat(y), // ここでは新しいメッセージを既存のメッセージに追加します
         default: () => []
     }
 }
 ```
 {% endcode %}
 
-#### Example using Table
+#### テーブルを使用した例
 
-To define a custom State using the table interface in the State Node, follow these steps:
+状態ノードのテーブルインターフェースを使用してカスタム状態を定義するには、以下の手順に従います:
 
-1. **Add item:** Click the "+ Add Item" button to add rows to the table. Each row represents a key-value pair in your custom State.
-2. **Specify keys:** In the "Key" column, enter the name of each key you want to define in your state object. For example, you might have keys like "userName", "userLocation", etc.
-3. **Choose operations:** In the "Operation" column, select the desired operation for each key. You have two options:
-   * **Replace:** This will replace the existing value of the key with the new value provided by a node. If the new value is null, the existing value will be retained.
-   * **Append:** This will append the new value to the existing value of the key. The final value will be an array.
-4. **Set default values:** In the "Default Value" column, enter the initial value for each key. This value will be used if no other node provides a value for the key. The default value can be empty or an array.
+1. **アイテムの追加:** 「+ アイテムを追加」ボタンをクリックしてテーブルに行を追加します。各行はカスタム状態内のキーと値のペアを表します。
+2. **キーの指定:** 「キー」列に、状態オブジェクトで定義したい各キーの名前を入力します。例えば、"userName"、"userLocation"などのキーを設定できます。
+3. **操作の選択:** 「操作」列で、各キーに対して希望する操作を選択します。2つのオプションがあります:
+   * **置換:** ノードから提供される新しい値でキーの既存の値を置き換えます。新しい値がnullの場合、既存の値は保持されます。
+   * **追加:** 新しい値をキーの既存の値に追加します。最終的な値は配列になります。
+4. **デフォルト値の設定:** 「デフォルト値」列に、各キーの初期値を入力します。他のノードがキーの値を提供しない場合、このデフォルト値が使用されます。デフォルト値は空または配列にできます。
 
-#### Example Table
+#### テーブル例
 
-| Key      | Operation | Default Value |
-| -------- | --------- | ------------- |
-| userName | Replace   | null          |
+| キー     | 操作 | デフォルト値 |
+| -------- | ---- | ------------ |
+| userName | 置換 | null         |
 
 <figure><img src="../../.gitbook/assets/seq-14.png" alt="" width="375"><figcaption></figcaption></figure>
 
-1. This table defines one key in the custom State: `userName`.
-2. The `userName` key will use the "Replace" operation, meaning its value will be updated whenever a node provides a new value.
-3. The `userName` key has a default value of _null,_ indicating that it has no initial value.
+1. このテーブルはカスタム状態に1つのキーを定義します: `userName`
+2. `userName`キーは「置換」操作を使用し、ノードが新しい値を提供するたびに値が更新されることを意味します。
+3. `userName`キーのデフォルト値は_null_で、初期値がないことを示します。
 
 {% hint style="info" %}
-Remember that this table-based approach is an alternative to defining the custom State using JavaScript. Both methods achieve the same result.
+このテーブルベースのアプローチは、JavaScriptを使用したカスタム状態の定義の代替方法であることを覚えておいてください。両方の方法で同じ結果が得られます。
 {% endhint %}
 
-#### Example using API
+#### APIを使用した例
 
 ```json
 {
@@ -320,131 +320,131 @@ Remember that this table-based approach is an alternative to defining the custom
 }
 ```
 
-### Best Practices
+### ベストプラクティス
 
 {% tabs %}
-{% tab title="Pro-Tips" %}
-**Plan your custom State structure**
+{% tab title="プロのヒント" %}
+**カスタム状態の構造を計画する**
 
-Before building your workflow, design the structure of your custom State. A well-organized custom State will make your workflow easier to understand, manage, and debug.
+ワークフローを構築する前に、カスタム状態の構造を設計してください。整理されたカスタム状態により、ワークフローの理解、管理、デバッグが容易になります。
 
-**Use meaningful key names**
+**意味のあるキー名を使用する**
 
-Choose descriptive and consistent key names that clearly indicate the purpose of the data they hold. This will improve the readability of your code and make it easier for others (or you in the future) to understand how the custom State is being used.
+保持するデータの目的を明確に示す、わかりやすく一貫性のあるキー名を選択してください。これによりコードの可読性が向上し、他の人（または将来の自分）がカスタム状態の使用方法を理解しやすくなります。
 
-**Keep custom State minimal**
+**カスタム状態を最小限に保つ**
 
-Only store information in the custom State that is essential for the workflow's logic and decision-making.
+ワークフローのロジックと意思決定に不可欠な情報のみをカスタム状態に保存してください。
 
-**Consider State persistence**
+**状態の永続性を考慮する**
 
-If you need to preserve State across multiple conversation sessions (e.g., for user preferences, order history, etc.), use the Agent Memory Node to store the State in a persistent database.
+複数の会話セッションにわたって状態を保持する必要がある場合（ユーザー設定、注文履歴など）、エージェントメモリノードを使用して状態を永続的なデータベースに保存してください。
 {% endtab %}
 
-{% tab title="Potential Pitfalls" %}
-**Inconsistent State Updates**
+{% tab title="潜在的な落とし穴" %}
+**一貫性のない状態の更新**
 
-* **Problem:** Updating the custom State in multiple nodes without a clear strategy can lead to inconsistencies and unexpected behavior.
-* **Example**
-  1. Agent 1 updates `orderStatus` to "Payment Confirmed".
-  2. Agent 2, in a different branch, updates `orderStatus` to "Order Complete" without checking the previous status.
-* **Solution:** Use Conditions Nodes to control the flow of the custom State updates and ensure that custom State transitions happen in a logical and consistent manner.
+* **問題:** 明確な戦略なしに複数のノードでカスタム状態を更新すると、不整合や予期しない動作につながる可能性があります。
+* **例**
+  1. エージェント1が`orderStatus`を"Payment Confirmed"に更新します。
+  2. エージェント2が別のブランチで、前の状態を確認せずに`orderStatus`を"Order Complete"に更新します。
+* **解決策:** 条件ノードを使用してカスタム状態の更新のフローを制御し、カスタム状態の遷移が論理的で一貫性のある方法で行われるようにします。
 {% endtab %}
 {% endtabs %}
 
 ***
 
-## 4. Agent Node
+## 4. エージェントノード
 
-The Agent Node is a **core component of the Sequential Agent architecture.** It acts as a decision-maker and orchestrator within our workflow.
+エージェントノードは**シーケンシャルエージェントアーキテクチャのコアコンポーネント**です。ワークフロー内で意思決定者およびオーケストレーターとして機能します。
 
 <figure><img src="../../.gitbook/assets/sa-agent.png" alt="" width="268"><figcaption></figcaption></figure>
 
-### Understanding the Agent Node
+### エージェントノードについて
 
-Upon receiving input from preceding nodes, which always includes the full conversation history `state.messages` and any custom State at that point in the execution, the Agent Node uses its defined "persona", established by the System Prompt, to determine if external tools are necessary to fulfill the user's request.
+実行時点での完全な会話履歴`state.messages`とカスタム状態を常に含む前のノードからの入力を受け取ると、エージェントノードはシステムプロンプトによって確立された「ペルソナ」を使用して、ユーザーのリクエストを満たすために外部ツールが必要かどうかを判断します。
 
-* If tools are required, the Agent Node autonomously selects and executes the appropriate tool. This execution can be automatic or, for sensitive tasks, require human approval (HITL) before proceeding. Once the tool completes its operation, the Agent Node receives the results, processes them using the designated Chat Model (LLM), and generates a comprehensive response.
-* In cases where no tools are needed, the Agent Node directly leverages the Chat Model (LLM) to formulate a response based on the current conversation context.
+* ツールが必要な場合、エージェントノードは適切なツールを自律的に選択して実行します。この実行は自動的に行われるか、機密性の高いタスクの場合は実行前に人間の承認(HITL)が必要になります。ツールが操作を完了すると、エージェントノードは結果を受け取り、指定されたチャットモデル(LLM)を使用して処理し、包括的な応答を生成します。
+* ツールが不要な場合、エージェントノードは現在の会話のコンテキストに基づいて直接チャットモデル(LLM)を活用して応答を作成します。
 
-### Inputs
+### 入力
 
-<table><thead><tr><th width="195"></th><th width="107">Required</th><th>Description</th></tr></thead><tbody><tr><td>External Tools</td><td>No</td><td>Provides the Agent Node with <strong>access to a suite of external tools</strong>, enabling it to perform actions and retrieve information.</td></tr><tr><td>Chat Model</td><td>No</td><td>Add a new Chat Model to <strong>overwrite the default Chat Model</strong> (LLM) of the workflow. Only compatible with models that are capable of function calling.</td></tr><tr><td>Start Node</td><td><strong>Yes</strong></td><td>Receives the <strong>initial user input</strong>, along with the custom State (if set up) and the rest of the default <code>state.messages</code> array from the Start Node.</td></tr><tr><td>Condition Node</td><td><strong>Yes</strong></td><td>Receives input from a preceding Condition Node, enabling the Agent Node to <strong>take actions or guide the conversation based on the outcome of the Condition Node's evaluation</strong>.</td></tr><tr><td>Condition Agent Node</td><td><strong>Yes</strong></td><td>Receives input from a preceding Condition Agent Node, enabling the Agent Node to <strong>take actions or guide the conversation based on the outcome of the Condition Agent Node's evaluation</strong>.</td></tr><tr><td>Agent Node</td><td><strong>Yes</strong></td><td>Receives input from a preceding Agent Node, <strong>enabling chained agent actions</strong> and maintaining conversational context</td></tr><tr><td>LLM Node</td><td><strong>Yes</strong></td><td>Receives the output from LLM Node, enabling the Agent Node to <strong>process the LLM's response</strong>.</td></tr><tr><td>Tool Node</td><td><strong>Yes</strong></td><td>Receives the output from a Tool Node, enabling the Agent Node to <strong>process and integrate tool's outputs into its response</strong>.</td></tr></tbody></table>
+<table><thead><tr><th width="195"></th><th width="107">必須</th><th>説明</th></tr></thead><tbody><tr><td>外部ツール</td><td>いいえ</td><td>エージェントノードに<strong>外部ツールスイートへのアクセス</strong>を提供し、アクションの実行と情報の取得を可能にします。</td></tr><tr><td>チャットモデル</td><td>いいえ</td><td>新しいチャットモデルを追加してワークフローのデフォルトのチャットモデル(LLM)を<strong>上書き</strong>します。関数呼び出しが可能なモデルのみ対応。</td></tr><tr><td>スタートノード</td><td><strong>はい</strong></td><td>スタートノードから<strong>初期ユーザー入力</strong>、カスタム状態（設定されている場合）、およびデフォルトの<code>state.messages</code>配列の残りを受け取ります。</td></tr><tr><td>条件ノード</td><td><strong>はい</strong></td><td>先行する条件ノードからの入力を受け取り、エージェントノードが<strong>条件ノードの評価結果に基づいてアクションを実行したり会話を導いたり</strong>することを可能にします。</td></tr><tr><td>条件エージェントノード</td><td><strong>はい</strong></td><td>先行する条件エージェントノードからの入力を受け取り、エージェントノードが<strong>条件エージェントノードの評価結果に基づいてアクションを実行したり会話を導いたり</strong>することを可能にします。</td></tr><tr><td>エージェントノード</td><td><strong>はい</strong></td><td>先行するエージェントノードからの入力を受け取り、<strong>エージェントアクションの連鎖</strong>と会話コンテキストの維持を可能にします。</td></tr><tr><td>LLMノード</td><td><strong>はい</strong></td><td>LLMノードからの出力を受け取り、エージェントノードが<strong>LLMの応答を処理</strong>することを可能にします。</td></tr><tr><td>ツールノード</td><td><strong>はい</strong></td><td>ツールノードからの出力を受け取り、エージェントノードが<strong>ツールの出力を処理して応答に統合</strong>することを可能にします。</td></tr></tbody></table>
 
 {% hint style="info" %}
-The **Agent Node requires at least one connection from the following nodes**: Start Node, Agent Node, Condition Node, Condition Agent Node, LLM Node, or Tool Node.
+**エージェントノードには以下のノードのいずれかからの接続が少なくとも1つ必要です**: スタートノード、エージェントノード、条件ノード、条件エージェントノード、LLMノード、またはツールノード。
 {% endhint %}
 
-### Outputs
+### 出力
 
-The Agent Node can connect to the following nodes as outputs:
+エージェントノードは以下のノードに出力として接続できます:
 
-* **Agent Node:** Passes control to a subsequent Agent Node, enabling the chaining of multiple agent actions within a workflow. This allows for more complex conversational flows and task orchestration.
-* **LLM Node:** Passes the agent's output to an LLM Node, enabling further language processing, response generation, or decision-making based on the agent's actions and insights.
-* **Condition Agent Node:** Directs the flow to a Condition Agent Node. This node evaluates the Agent Node's output and its predefined conditions to determine the appropriate next step in the workflow.
-* **Condition Node:** Similar to the Condition Agent Node, the Condition Node uses predefined conditions to assess the Agent Node's output, directing the flow along different branches based on the outcome.
-* **End Node:** Concludes the conversation flow.
-* **Loop Node:** Redirects the flow back to a previous node, enabling iterative or cyclical processes within the workflow. This is useful for tasks that require multiple steps or involve refining results based on previous interactions. For example, you might loop back to an earlier Agent Node or LLM Node to gather additional information or refine the conversation flow based on the current Agent Node's output.
+* **エージェントノード:** 後続のエージェントノードに制御を渡し、ワークフロー内での複数のエージェントアクションの連鎖を可能にします。これにより、より複雑な会話フローとタスクのオーケストレーションが可能になります。
+* **LLMノード:** エージェントの出力をLLMノードに渡し、エージェントのアクションと洞察に基づいて、さらなる言語処理、応答生成、または意思決定を可能にします。
+* **条件エージェントノード:** フローを条件エージェントノードに向けます。このノードはエージェントノードの出力とその事前定義された条件を評価して、ワークフローの適切な次のステップを決定します。
+* **条件ノード:** 条件エージェントノードと同様に、条件ノードは事前定義された条件を使用してエージェントノードの出力を評価し、結果に基づいて異なるブランチにフローを導きます。
+* **終了ノード:** 会話フローを終了します。
+* **ループノード:** フローを前のノードに戻し、ワークフロー内での反復的または循環的なプロセスを可能にします。これは、複数のステップを必要とするタスクや、前の対話に基づいて結果を改善する必要があるタスクに役立ちます。例えば、現在のエージェントノードの出力に基づいて追加情報を収集したり会話フローを改善したりするために、以前のエージェントノードやLLMノードにループバックすることができます。
 
-### Node Setup
+### ノードの設定
 
-<table><thead><tr><th width="201"></th><th width="101">Required</th><th>Description</th></tr></thead><tbody><tr><td>Agent Name</td><td><strong>Yes</strong></td><td>Add a descriptive name to the Agent Node to enhance workflow readability and easily <strong>target it back when using loops</strong> within the workflow.</td></tr><tr><td>System Prompt</td><td>No</td><td>Defines the <strong>agent's 'persona'</strong> and <strong>guides its behavior</strong>. For example, "<em>You are a customer service agent specializing in technical support</em> [...]."</td></tr><tr><td>Require Approval</td><td>No</td><td><strong>Activates the Human-in-the-loop (HITL) feature</strong>. If set to '<strong>True</strong>,' the Agent Node will request human approval before executing any tool. This is particularly valuable for sensitive operations or when human oversight is desired. Defaults to '<strong>False</strong>,' allowing the Agent Node to execute tools autonomously.</td></tr></tbody></table>
+<table><thead><tr><th width="201"></th><th width="101">必須</th><th>説明</th></tr></thead><tbody><tr><td>エージェント名</td><td><strong>はい</strong></td><td>エージェントノードにわかりやすい名前を追加して、ワークフローの可読性を高め、ワークフロー内で<strong>ループを使用する際に容易にターゲットにできる</strong>ようにします。</td></tr><tr><td>システムプロンプト</td><td>いいえ</td><td><strong>エージェントの'ペルソナ'</strong>を定義し、<strong>その振る舞いを導きます</strong>。例えば、"<em>あなたは技術サポートを専門とするカスタマーサービスエージェントです</em> [...]"</td></tr><tr><td>承認が必要</td><td>いいえ</td><td><strong>Human-in-the-loop (HITL)機能を有効化</strong>します。'<strong>True</strong>'に設定すると、エージェントノードはツールを実行する前に人間の承認を要求します。これは機密性の高い操作や人間による監督が望ましい場合に特に有用です。デフォルトは'<strong>False</strong>'で、エージェントノードが自律的にツールを実行できます。</td></tr></tbody></table>
 
-### Additional Parameters
+### 追加パラメータ
 
-<table><thead><tr><th width="200"></th><th width="102">Required</th><th>Description</th></tr></thead><tbody><tr><td>Human Prompt</td><td>No</td><td>This prompt is appended to the <code>state.messages</code> array as a human message. It allows us to <strong>inject a human-like message into the conversation flow</strong> after the Agent Node has processed its input and before the next node receives the Agent Node's output.</td></tr><tr><td>Approval Prompt</td><td>No</td><td><strong>A customizable prompt presented to the human reviewer when the HITL feature is active</strong>. This prompt provides context about the tool execution, including the tool's name and purpose. The variable <code>{tools}</code> within the prompt will be dynamically replaced with the actual list of tools suggested by the agent, ensuring the human reviewer has all necessary information to make an informed decision.</td></tr><tr><td>Approve Button Text</td><td>No</td><td>Customizes <strong>the text displayed on the button for approving tool execution</strong> in the HITL interface. This allows for tailoring the language to the specific context and ensuring clarity for the human reviewer.</td></tr><tr><td>Reject Button Text</td><td>No</td><td>Customizes the <strong>text displayed on the button for rejecting tool execution</strong> in the HITL interface. Like the Approve Button Text, this customization enhances clarity and provides a clear action for the human reviewer to take if they deem the tool execution unnecessary or potentially harmful.</td></tr><tr><td>Update State</td><td>No</td><td>Provides a <strong>mechanism to modify the shared custom State object within the workflow</strong>. This is useful for storing information gathered by the agent or influencing the behavior of subsequent nodes.</td></tr><tr><td>Max Iteration</td><td>No</td><td>Limits the <strong>number of iterations</strong> an Agent Node can make within a single workflow execution.</td></tr></tbody></table>
+<table><thead><tr><th width="200"></th><th width="102">必須</th><th>説明</th></tr></thead><tbody><tr><td>ヒューマンプロンプト</td><td>いいえ</td><td>このプロンプトは人間のメッセージとして<code>state.messages</code>配列に追加されます。エージェントノードが入力を処理した後、次のノードがエージェントノードの出力を受け取る前に、<strong>会話フローに人間のようなメッセージを注入</strong>することができます。</td></tr><tr><td>承認プロンプト</td><td>いいえ</td><td><strong>HITL機能が有効な場合に人間のレビュアーに表示されるカスタマイズ可能なプロンプト</strong>です。このプロンプトはツールの名前と目的を含むツール実行に関するコンテキストを提供します。プロンプト内の<code>{tools}</code>変数は、エージェントが提案した実際のツールリストに動的に置き換えられ、人間のレビュアーが情報に基づいた判断を行うために必要なすべての情報を持っていることを確認します。</td></tr><tr><td>承認ボタンテキスト</td><td>いいえ</td><td>HITLインターフェースで<strong>ツール実行を承認するボタンに表示されるテキストをカスタマイズ</strong>します。これにより、特定のコンテキストに合わせて言語を調整し、人間のレビュアーに明確さを確保できます。</td></tr><tr><td>拒否ボタンテキスト</td><td>いいえ</td><td>HITLインターフェースで<strong>ツール実行を拒否するボタンに表示されるテキストをカスタマイズ</strong>します。承認ボタンテキストと同様、このカスタマイズは明確さを高め、人間のレビュアーがツール実行を不要または潜在的に有害と判断した場合に取るべき明確なアクションを提供します。</td></tr><tr><td>状態の更新</td><td>いいえ</td><td>ワークフロー内で<strong>共有カスタム状態オブジェクトを変更するメカニズム</strong>を提供します。これはエージェントが収集した情報を保存したり、後続のノードの動作に影響を与えたりするのに役立ちます。</td></tr><tr><td>最大反復回数</td><td>いいえ</td><td>1回のワークフロー実行内でエージェントノードが行える<strong>反復回数を制限</strong>します。</td></tr></tbody></table>
 
-### Best Practices
+### ベストプラクティス
 
 {% tabs %}
-{% tab title="Pro Tips" %}
-**Clear system prompt**
+{% tab title="プロのヒント" %}
+**明確なシステムプロンプト**
 
-Craft a concise and unambiguous System Prompt that accurately reflects the agent's role and capabilities. This guides the agent's decision-making and ensures it acts within its defined scope.
+エージェントの役割と能力を正確に反映した、簡潔で明確なシステムプロンプトを作成してください。これはエージェントの意思決定を導き、定義された範囲内で行動することを確実にします。
 
-**Strategic tool selection**
+**戦略的なツール選択**
 
-Choose and configure the tools available to the Agent Node, ensuring they align with the agent's purpose and the overall goals of the workflow.
+エージェントノードが利用できるツールを選択・設定し、それらがエージェントの目的とワークフローの全体的な目標に合致していることを確認してください。
 
-**HITL for sensitive tasks**
+**機密タスクのためのHITL**
 
-Utilize the 'Require Approval' option for tasks involving sensitive data, requiring human judgment, or carrying a risk of unintended consequences.
+機密データを扱うタスク、人間の判断が必要なタスク、または意図しない結果のリスクを伴うタスクには'承認が必要'オプションを活用してください。
 
-**Leverage custom State updates**
+**カスタム状態の更新を活用**
 
-Update the custom State object strategically to store gathered information or influence the behavior of downstream nodes.
+収集した情報を保存したり、下流のノードの動作に影響を与えたりするために、カスタム状態オブジェクトを戦略的に更新してください。
 {% endtab %}
 
-{% tab title="Potential Pitfalls" %}
-**Agent inaction due to tool overload**
+{% tab title="潜在的な落とし穴" %}
+**ツールの過負荷によるエージェントの不作為**
 
-* **Problem:** When an Agent Node has access to a large number of tools within a single workflow execution, it might struggle to decide which tool is the most appropriate to use, even when a tool is clearly necessary. This can lead to the agent failing to call any tool at all, resulting in incomplete or inaccurate responses.
-* **Example:** Imagine a customer support agent designed to handle a wide range of inquiries. You've equipped it with tools for order tracking, billing information, product returns, technical support, and more. A user asks, "What's the status of my order?" but the agent, overwhelmed by the number of potential tools, responds with a generic answer like, "I can help you with that. What's your order number?" without actually using the order tracking tool.
-* **Solution**
-  1. **Refine system prompts:** Provide clearer instructions and examples within the Agent Node's System Prompt to guide it towards the correct tool selection. If needed, emphasize the specific capabilities of each tool and the situations in which they should be used.
-  2. **Limit tool choices per node:** If possible, break down complex workflows into smaller, more manageable segments, each with a more focused set of tools. This can help reduce the cognitive load on the agent and improve its tool-selection accuracy.
+* **問題:** 1回のワークフロー実行内でエージェントノードが多数のツールにアクセスできる場合、ツールが明らかに必要な場合でも、どのツールが最も適切かを判断するのに苦労する可能性があります。これにより、エージェントがツールを全く呼び出さず、不完全または不正確な応答につながる可能性があります。
+* **例:** 幅広い問い合わせを処理するように設計されたカスタマーサポートエージェントを想像してください。注文の追跡、請求情報、商品の返品、技術サポートなどのツールを装備しています。ユーザーが「注文の状況はどうなっていますか？」と尋ねても、エージェントは多数の潜在的なツールに圧倒され、注文追跡ツールを使用せずに「お手伝いさせていただきます。注文番号を教えていただけますか？」といった一般的な回答をしてしまいます。
+* **解決策**
+  1. **システムプロンプトの改善:** エージェントノードのシステムプロンプトに、正しいツール選択を導くためのより明確な指示と例を提供します。必要に応じて、各ツールの特定の機能と使用すべき状況を強調します。
+  2. **ノードごとのツール選択を制限:** 可能な場合は、複雑なワークフローをより小さく管理しやすいセグメントに分割し、それぞれにより焦点を絞ったツールセットを持たせます。これによりエージェントの認知負荷を軽減し、ツール選択の精度を向上させることができます。
 
-**Overlooking HITL for sensitive tasks**
+**機密タスクに対するHITLの見落とし**
 
-* **Problem:** Failing to utilize the Agent Node's "Require Approval" (HITL) feature for tasks involving sensitive information, critical decisions, or actions with potential real-world consequences can lead to unintended outcomes or damage to user trust.
-* **Example:** Your travel booking agent has access to a user's payment information and can automatically book flights and hotels. Without HITL, a misinterpretation of user intent or an error in the agent's understanding could result in an incorrect booking or unauthorized use of the user's payment details.
-* **Solution**
-  1. **Identify sensitive actions:** Analyze your workflow and identify any actions that involve accessing or processing sensitive data (e.g., payment info, personal details).
-  2. **Implement "Require Approval":** For these sensitive actions, enable the "Require Approval" option within the Agent Node. This ensures that a human reviews the agent's proposed action and the relevant context before any sensitive data is accessed or any irreversible action is taken.
-  3. **Design clear approval prompts:** Provide clear and concise prompts for human reviewers, summarizing the agent's intent, the proposed action, and the relevant information needed for the reviewer to make an informed decision.
+* **問題:** 機密情報、重要な決定、または現実世界に影響を及ぼす可能性のあるアクションを含むタスクに対して、エージェントノードの「承認が必要」(HITL)機能を活用しないことは、意図しない結果やユーザーの信頼の損失につながる可能性があります。
+* **例:** 旅行予約エージェントがユーザーの支払い情報にアクセスでき、フライトとホテルを自動的に予約できます。HITLがない場合、ユーザーの意図の誤解やエージェントの理解の誤りにより、誤った予約やユーザーの支払い詳細の不正使用につながる可能性があります。
+* **解決策**
+  1. **機密アクションの特定:** ワークフローを分析し、機密データ（支払い情報、個人情報など）へのアクセスや処理を含むアクションを特定します。
+  2. **「承認が必要」の実装:** これらの機密アクションに対して、エージェントノード内で「承認が必要」オプションを有効にします。これにより、機密データへのアクセスや取り消し不能なアクションを実行する前に、人間がエージェントの提案したアクションと関連するコンテキストをレビューすることを確実にします。
+  3. **明確な承認プロンプトの設計:** 人間のレビュアーに向けて、エージェントの意図、提案されたアクション、およびレビュアーが情報に基づいた判断を行うために必要な関連情報を要約した、明確で簡潔なプロンプトを提供します。
 
-**Unclear or incomplete system prompt**
+**不明確または不完全なシステムプロンプト**
 
-* **Problem:** The System Prompt provided to the Agent Node lacks the necessary specificity and context to guide the agent effectively in carrying out its intended tasks. A vague or overly general prompt can lead to irrelevant responses, difficulty in understanding user intent, and an inability to leverage tools or data appropriately.
-* **Example:** You're building a travel booking agent, and your System Prompt simply states "_You are a helpful AI assistant._" This lacks the specific instructions and context needed for the agent to effectively guide users through flight searches, hotel bookings, and itinerary planning.
-* **Solution:** Craft a detailed and context-aware System Prompt:
+* **問題:** エージェントノードに提供されるシステムプロンプトが、意図したタスクを効果的に実行するためにエージェントを導くために必要な具体性とコンテキストを欠いています。曖昧または一般的すぎるプロンプトは、無関係な応答、ユーザーの意図の理解の困難さ、およびツールやデータを適切に活用できない状況につながる可能性があります。
+* **例:** 旅行予約エージェントを構築していて、システムプロンプトが単に"_あなたは役立つAIアシスタントです_"と述べているだけです。これには、エージェントがフライト検索、ホテル予約、旅程計画を効果的にユーザーに案内するために必要な具体的な指示とコンテキストが欠けています。
+* **解決策:** 詳細でコンテキストを意識したシステムプロンプトを作成します:
 
 {% code overflow="wrap" %}
 ```
-You are a travel booking agent. Your primary goal is to assist users in planning and booking their trips. 
-- Guide them through searching for flights, finding accommodations, and exploring destinations.
-- Be polite, patient, and offer travel recommendations based on their preferences.
-- Utilize available tools to access flight data, hotel availability, and destination information.
+あなたは旅行予約エージェントです。あなたの主な目的は、ユーザーが旅行を計画し予約するのを支援することです。
+- フライトの検索、宿泊施設の検索、目的地の探索をガイドしてください。
+- 丁寧で忍耐強く、ユーザーの好みに基づいて旅行の推奨を提供してください。
+- 利用可能なツールを活用して、フライトデータ、ホテルの空室状況、目的地の情報にアクセスしてください。
 ```
 {% endcode %}
 {% endtab %}
@@ -452,213 +452,213 @@ You are a travel booking agent. Your primary goal is to assist users in planning
 
 ***
 
-## 5. LLM Node
+## 5. LLMノード
 
-Like the Agent Node, the LLM Node is a **core component of the Sequential Agent architecture**. Both nodes utilize the same Chat Models (LLMs) by default, providing the same basic language processing capabilities, but the LLM Node distinguishes itself in these key areas.
+エージェントノードと同様に、LLMノードは**シーケンシャルエージェントアーキテクチャのコアコンポーネント**です。両方のノードはデフォルトで同じチャットモデル(LLM)を使用し、同じ基本的な言語処理機能を提供しますが、LLMノードは以下の主要な分野で区別されます。
 
 <figure><img src="../../.gitbook/assets/sa-llm.png" alt="" width="341"><figcaption></figcaption></figure>
 
-### Key advantages of the LLM Node
+### LLMノードの主な利点
 
-While a detailed comparison between the LLM Node and the Agent Node is available in [this section](sequential-agents.md#agent-node-vs.-llm-node-selecting-the-optimal-node-for-conversational-tasks), here's a brief overview of the **LLM Node's key advantages**:
+LLMノードとエージェントノードの詳細な比較は[このセクション](sequential-agents.md#agent-node-vs.-llm-node-selecting-the-optimal-node-for-conversational-tasks)で確認できますが、**LLMノードの主な利点**の概要は以下の通りです:
 
-* **Structured data:** The LLM Node provides a dedicated feature to define a JSON schema for its output. This makes it exceptionally easy to extract structured information from the LLM's responses and pass that data to consequent nodes in the workflow. The Agent Node does not have this built-in JSON schema feature
-* **HITL:** While both nodes support HITL for tool execution, the LLM Node defers this control to the Tool Node itself, providing more flexibility in workflow design.
+* **構造化データ:** LLMノードは出力のためのJSONスキーマを定義する専用機能を提供します。これにより、LLMの応答から構造化情報を抽出し、そのデータをワークフロー内の後続のノードに渡すことが非常に簡単になります。エージェントノードにはこの組み込みのJSONスキーマ機能はありません。
+* **HITL:** 両方のノードがツール実行のためのHITLをサポートしていますが、LLMノードはこの制御をツールノード自体に委ねており、ワークフロー設計においてより柔軟性を提供します。
 
-### Inputs
+### 入力
 
-<table><thead><tr><th width="184"></th><th width="111">Required</th><th>Description</th></tr></thead><tbody><tr><td>Chat Model</td><td>No</td><td>Add a new Chat Model to <strong>overwrite the default Chat Model</strong> (LLM) of the workflow. Only compatible with models that are capable of function calling.</td></tr><tr><td>Start Node</td><td><strong>Yes</strong></td><td>Receives the <strong>initial user input</strong>, along with the custom State (if set up) and the rest of the default <code>state.messages</code> array from the Start Node.</td></tr><tr><td>Agent Node</td><td><strong>Yes</strong></td><td>Receives output from an Agent Node, which may include tool execution results or agent-generated responses.</td></tr><tr><td>Condition Node</td><td><strong>Yes</strong></td><td>Receives input from a preceding Condition Node, enabling the LLM Node to <strong>take actions or guide the conversation based on the outcome of the Condition Node's evaluation</strong>.</td></tr><tr><td>Condition Agent Node</td><td><strong>Yes</strong></td><td>Receives input from a preceding Condition Agent Node, enabling the LLM Node to <strong>take actions or guide the conversation based on the outcome of the Condition Agent Node's evaluation</strong>.</td></tr><tr><td>LLM Node</td><td><strong>Yes</strong></td><td>Receives output from another LLM Node, <strong>enabling chained reasoning</strong> or information processing across multiple LLM Nodes.</td></tr><tr><td>Tool Node</td><td><strong>Yes</strong></td><td>Receives output from a Tool Node, <strong>providing the results of tool execution for further processing</strong> or response generation.</td></tr></tbody></table>
+<table><thead><tr><th width="184"></th><th width="111">必須</th><th>説明</th></tr></thead><tbody><tr><td>チャットモデル</td><td>いいえ</td><td>新しいチャットモデルを追加してワークフローのデフォルトのチャットモデル(LLM)を<strong>上書き</strong>します。関数呼び出しが可能なモデルのみ対応。</td></tr><tr><td>スタートノード</td><td><strong>はい</strong></td><td>スタートノードから<strong>初期ユーザー入力</strong>、カスタム状態（設定されている場合）、およびデフォルトの<code>state.messages</code>配列の残りを受け取ります。</td></tr><tr><td>エージェントノード</td><td><strong>はい</strong></td><td>エージェントノードからの出力を受け取り、これにはツール実行の結果やエージェントが生成した応答が含まれる場合があります。</td></tr><tr><td>条件ノード</td><td><strong>はい</strong></td><td>先行する条件ノードからの入力を受け取り、LLMノードが<strong>条件ノードの評価結果に基づいてアクションを実行したり会話を導いたり</strong>することを可能にします。</td></tr><tr><td>条件エージェントノード</td><td><strong>はい</strong></td><td>先行する条件エージェントノードからの入力を受け取り、LLMノードが<strong>条件エージェントノードの評価結果に基づいてアクションを実行したり会話を導いたり</strong>することを可能にします。</td></tr><tr><td>LLMノード</td><td><strong>はい</strong></td><td>他のLLMノードからの出力を受け取り、複数のLLMノードにわたる<strong>連鎖的な推論</strong>または情報処理を可能にします。</td></tr><tr><td>ツールノード</td><td><strong>はい</strong></td><td>ツールノードからの出力を受け取り、さらなる処理や応答生成のために<strong>ツール実行の結果を提供</strong>します。</td></tr></tbody></table>
 
 {% hint style="info" %}
-The **LLM Node requires at least one connection from the following nodes**: Start Node, Agent Node, Condition Node, Condition Agent Node, LLM Node, or Tool Node.
+**LLMノードには以下のノードのいずれかからの接続が少なくとも1つ必要です**: スタートノード、エージェントノード、条件ノード、条件エージェントノード、LLMノード、またはツールノード。
 {% endhint %}
 
-### **Node Setup**
+### **ノードの設定**
 
-<table><thead><tr><th width="240"></th><th width="118">Required</th><th>Description</th></tr></thead><tbody><tr><td>LLM Node Name</td><td><strong>Yes</strong></td><td>Add a descriptive name to the LLM Node to enhance workflow readability and easily <strong>target it back when using loops</strong> within the workflow.</td></tr></tbody></table>
+<table><thead><tr><th width="240"></th><th width="118">必須</th><th>説明</th></tr></thead><tbody><tr><td>LLMノード名</td><td><strong>はい</strong></td><td>LLMノードにわかりやすい名前を追加して、ワークフローの可読性を高め、ワークフロー内で<strong>ループを使用する際に容易にターゲットにできる</strong>ようにします。</td></tr></tbody></table>
 
-### Outputs
+### 出力
 
-The LLM Node can connect to the following nodes as outputs:
+LLMノードは以下のノードに出力として接続できます:
 
-* **Agent Node:** Passes the LLM's output to an Agent Node, which can then use the information to decide on actions, execute tools, or guide the conversation flow.
-* **LLM Node:** Passes the output to a subsequent LLM Node, enabling chaining of multiple LLM operations. This is useful for tasks like refining text generation, performing multiple analyses, or breaking down complex language processing into stages.
-* **Tool Node**: Passes the output to a Tool Node, enabling the execution of a specific tool based on the LLM Node's instructions.
-* **Condition Agent Node:** Directs the flow to a Condition Agent Node. This node evaluates the LLM Node's output and its predefined conditions to determine the appropriate next step in the workflow.
-* **Condition Node:** Similar to the Condition Agent Node, the Condition Node uses predefined conditions to assess the LLM Node's output, directing the flow along different branches based on the outcome.
-* **End Node:** Concludes the conversation flow.
-* **Loop Node:** Redirects the flow back to a previous node, enabling iterative or cyclical processes within the workflow. This could be used to refine the LLM's output over multiple iterations.
+* **エージェントノード:** LLMの出力をエージェントノードに渡し、エージェントノードはその情報を使用してアクションを決定し、ツールを実行し、または会話フローを導くことができます。
+* **LLMノード:** 出力を後続のLLMノードに渡し、複数のLLM操作の連鎖を可能にします。これはテキスト生成の改善、複数の分析の実行、または複雑な言語処理を段階に分けるなどのタスクに役立ちます。
+* **ツールノード**: 出力をツールノードに渡し、LLMノードの指示に基づいて特定のツールの実行を可能にします。
+* **条件エージェントノード:** フローを条件エージェントノードに向けます。このノードはLLMノードの出力とその事前定義された条件を評価して、ワークフローの適切な次のステップを決定します。
+* **条件ノード:** 条件エージェントノードと同様に、条件ノードは事前定義された条件を使用してLLMノードの出力を評価し、結果に基づいて異なるブランチにフローを導きます。
+* **終了ノード:** 会話フローを終了します。
+* **ループノード:** フローを前のノードに戻し、ワークフロー内での反復的または循環的なプロセスを可能にします。これは複数の反復でLLMの出力を改善するために使用できます。
 
-### Additional Parameters
+### 追加パラメータ
 
-<table><thead><tr><th width="200"></th><th width="141">Required</th><th>Description</th></tr></thead><tbody><tr><td>System Prompt</td><td>No</td><td>Defines the <strong>agent's 'persona' and guides its behavior</strong>. For example, "<em>You are a customer service agent specializing in technical support</em> [...]."</td></tr><tr><td>Human Prompt</td><td>No</td><td>This prompt is appended to the <code>state.messages</code> array as a human message. It allows us to <strong>inject a human-like message into the conversation flow</strong> after the LLM Node has processed its input and before the next node receives the LLM Node's output.</td></tr><tr><td>JSON Structured Output</td><td>No</td><td>To instruct the LLM (Chat Model) to <strong>provide the output in JSON structure schema</strong> (Key, Type, Enum Values, Description).</td></tr><tr><td>Update State</td><td>No</td><td>Provides a <strong>mechanism to modify the shared custom State object within the workflow</strong>. This is useful for storing information gathered by the LLM Node or influencing the behavior of subsequent nodes.</td></tr></tbody></table>
+<table><thead><tr><th width="200"></th><th width="141">必須</th><th>説明</th></tr></thead><tbody><tr><td>システムプロンプト</td><td>いいえ</td><td><strong>エージェントの'ペルソナ'を定義し、その振る舞いを導きます</strong>。例えば、"<em>あなたは技術サポートを専門とするカスタマーサービスエージェントです</em> [...]"</td></tr><tr><td>ヒューマンプロンプト</td><td>いいえ</td><td>このプロンプトは人間のメッセージとして<code>state.messages</code>配列に追加されます。LLMノードが入力を処理した後、次のノードがLLMノードの出力を受け取る前に、<strong>会話フローに人間のようなメッセージを注入</strong>することができます。</td></tr><tr><td>JSON構造化出力</td><td>いいえ</td><td>LLM(チャットモデル)に<strong>JSON構造スキーマ（キー、タイプ、列挙値、説明）での出力を提供するよう指示</strong>します。</td></tr><tr><td>状態の更新</td><td>いいえ</td><td>ワークフロー内で<strong>共有カスタム状態オブジェクトを変更するメカニズム</strong>を提供します。これはLLMノードが収集した情報を保存したり、後続のノードの動作に影響を与えたりするのに役立ちます。</td></tr></tbody></table>
 
-### Best Practices
+### ベストプラクティス
 
 {% tabs %}
-{% tab title="Pro Tips" %}
-**Clear system prompt**
+{% tab title="プロのヒント" %}
+**明確なシステムプロンプト**
 
-Craft a concise and unambiguous System Prompt that accurately reflects the LLM Node's role and capabilities. This guides the LLM Node's decision-making and ensures it acts within its defined scope.
+LLMノードの役割と能力を正確に反映した、簡潔で明確なシステムプロンプトを作成してください。これはLLMノードの意思決定を導き、定義された範囲内で行動することを確実にします。
 
-**Optimize for structured output**
+**構造化出力の最適化**
 
-Keep your JSON schemas as straightforward as possible, focusing on the essential data elements. Only enable JSON Structured Output when you need to extract specific data points from the LLM's response or when downstream nodes require JSON input.
+JSONスキーマはできるだけ簡潔にし、必要不可欠なデータ要素に焦点を当ててください。LLMの応答から特定のデータポイントを抽出する必要がある場合や、下流のノードがJSON入力を必要とする場合にのみ、JSON構造化出力を有効にしてください。
 
-**Strategic tool selection**
+**戦略的なツール選択**
 
-Choose and configure the tools available to the LLM Node (via the Tool Node), ensuring they align with the application purpose and the overall goals of the workflow.
+LLMノード（ツールノード経由）が利用できるツールを選択・設定し、それらがアプリケーションの目的とワークフローの全体的な目標に合致していることを確認してください。
 
-**HITL for sensitive tasks**
+**機密タスクのためのHITL**
 
-Utilize the 'Require Approval' option for tasks involving sensitive data, requiring human judgment, or carrying a risk of unintended consequences.
+機密データを扱うタスク、人間の判断が必要なタスク、または意図しない結果のリスクを伴うタスクには'承認が必要'オプションを活用してください。
 
-**Leverage State updates**
+**状態の更新を活用**
 
-Update the custom State object strategically to store gathered information or influence the behavior of downstream nodes.
+収集した情報を保存したり、下流のノードの動作に影響を与えたりするために、カスタム状態オブジェクトを戦略的に更新してください。
 {% endtab %}
 
-{% tab title="Potential Pitfalls" %}
-**Unintentional tool execution due to Incorrect HITL setup**
+{% tab title="潜在的な落とし穴" %}
+**不適切なHITL設定によるツールの意図しない実行**
 
-* **Problem:** While the LLM Node can trigger Tool Nodes, it relies on the Tool Node's configuration for Human-in-the-Loop (HITL) approval. Failing to properly configure HITL for sensitive actions can lead to tools being executed without human review, potentially causing unintended consequences.
-* **Example:** Your LLM Node is designed to interact with a tool that makes changes to user data. You intend to have a human review these changes before execution, but the connected Tool Node's "Require Approval" option is not enabled. This could result in the tool automatically modifying user data based solely on the LLM's output, without any human oversight.
-* **Solution**
-  1. **Double-Check tool node settings:** Always ensure that the "Require Approval" option is enabled within the settings of any Tool Node that handles sensitive actions.
-  2. **Test HITL thoroughly:** Before deploying your workflow, test the HITL process to ensure that human review steps are triggered as expected and that the approval/rejection mechanism functions correctly.
+* **問題:** LLMノードはツールノードをトリガーできますが、Human-in-the-Loop(HITL)承認はツールノードの設定に依存しています。機密性の高いアクションに対してHITLを適切に設定しないと、人間のレビューなしにツールが実行され、意図しない結果を引き起こす可能性があります。
+* **例:** LLMノードはユーザーデータを変更するツールと対話するように設計されています。実行前に人間がこれらの変更をレビューすることを意図していますが、接続されたツールノードの「承認が必要」オプションが有効になっていません。これにより、人間の監督なしにLLMの出力のみに基づいてツールが自動的にユーザーデータを変更してしまう可能性があります。
+* **解決策**
+  1. **ツールノードの設定を再確認:** 機密性の高いアクションを扱うツールノードの設定で「承認が必要」オプションが有効になっていることを常に確認してください。
+  2. **HITLを徹底的にテスト:** ワークフローをデプロイする前に、HITLプロセスをテストして、人間のレビューステップが予期通りにトリガーされ、承認/拒否メカニズムが正しく機能することを確認してください。
 
-**Overuse or misunderstanding of JSON structured output**
+**JSON構造化出力の過剰使用または誤解**
 
-* **Problem:** While the LLM Node's JSON Structured Output feature is powerful, misusing it or not fully understanding its implications can lead to data errors.
-* **Example:** You define a complex JSON schema for the LLM Node's output, even though the downstream tasks only require a simple text response. This adds unnecessary complexity and makes your workflow harder to understand and maintain. Additionally, if the LLM's output doesn't conform to the defined schema, it can cause errors in subsequent nodes.
-* **Solution**
-  1. **Use JSON output strategically:** Only enable JSON Structured Output when you have a clear need to extract specific data points from the LLM's response or when the downstream Tool Nodes require JSON input.
-  2. **Keep schemas simple:** Design your JSON schemas to be as simple and concise as possible, focusing only on the data elements that are absolutely necessary for the task.
+* **問題:** LLMノードのJSON構造化出力機能は強力ですが、誤用したり、その影響を十分に理解していないと、データエラーにつながる可能性があります。
+* **例:** 下流のタスクが単純なテキスト応答しか必要としないのに、LLMノードの出力に複雑なJSONスキーマを定義しています。これにより不必要な複雑さが加わり、ワークフローの理解とメンテナンスが難しくなります。さらに、LLMの出力が定義されたスキーマに適合しない場合、後続のノードでエラーが発生する可能性があります。
+* **解決策**
+  1. **JSON出力を戦略的に使用:** LLMの応答から特定のデータポイントを抽出する明確なニーズがある場合や、下流のツールノードがJSON入力を必要とする場合にのみ、JSON構造化出力を有効にしてください。
+  2. **スキーマをシンプルに保つ:** JSONスキーマはできるだけシンプルで簡潔に設計し、タスクに絶対に必要なデータ要素のみに焦点を当ててください。
 {% endtab %}
 {% endtabs %}
 
 ***
 
-## 6. Tool Node
+## 6. ツールノード
 
-The Tool Node is a valuable component of Flowise's Sequential Agent system, **enabling the integration and execution of external tools** within conversational workflows. It acts as a bridge between the language-based processing of LLM Nodes and the specialized functionalities of external tools, APIs, or services.
+ツールノードは、Flowiseのシーケンシャルエージェントシステムの重要なコンポーネントで、**会話ワークフロー内での外部ツールの統合と実行**を可能にします。LLMノードの言語ベースの処理と外部ツール、API、またはサービスの専門機能の間のブリッジとして機能します。
 
 <figure><img src="../../.gitbook/assets/seq-07.png" alt="" width="300"><figcaption></figcaption></figure>
 
-### Understanding the Tool Node
+### ツールノードについて
 
-The Tool Node's primary function is to **execute external tools** based on instructions received from an LLM Node and to **provide flexibility for Human-in-the-Loop (HITL)** intervention in the tool execution process.
+ツールノードの主な機能は、LLMノードから受け取った指示に基づいて**外部ツールを実行**し、ツール実行プロセスにおける**Human-in-the-Loop (HITL)介入の柔軟性を提供する**ことです。
 
-#### Here's a step-by-step explanation of how it works
+#### 動作の仕組みをステップバイステップで説明します
 
-1. **Tool Call Reception:** The Tool Node receives input from an LLM Node. If the LLM's output contains the `tool_calls` property, the Tool Node will proceed with tool execution.
-2. **Execution:** The Tool Node directly passes the LLM's `tool_calls` (which include the tool name and any required parameters) to the specified external tool. Otherwise, the Tool Node does not execute any tools in that particular workflow execution. It does not process or interpret the LLM's output in any way.
-3. **Human-in-the-Loop (HITL):** The Tool Node allows for optional HITL, enabling human review and approval or rejection of tool execution before it occurs.
-4. **Output passing:** After the tool execution (either automatic or after HITL approval), the Tool Node receives the tool's output and passes it to the next node in the workflow. If the Tool Node's output is not connected to a subsequent node, the tool's output is returned to the original LLM Node for further processing.
+1. **ツールコールの受信:** ツールノードはLLMノードから入力を受け取ります。LLMの出力に`tool_calls`プロパティが含まれている場合、ツールノードはツールの実行を進めます。
+2. **実行:** ツールノードはLLMの`tool_calls`（ツール名と必要なパラメータを含む）を指定された外部ツールに直接渡します。そうでない場合、ツールノードはその特定のワークフロー実行でツールを実行しません。LLMの出力を何らかの方法で処理または解釈することはありません。
+3. **Human-in-the-Loop (HITL):** ツールノードはオプションでHITLを許可し、ツール実行前に人間によるレビューと承認または拒否を可能にします。
+4. **出力の受け渡し:** ツールの実行後（自動または HITL承認後）、ツールノードはツールの出力を受け取り、ワークフロー内の次のノードに渡します。ツールノードの出力が後続のノードに接続されていない場合、ツールの出力は元のLLMノードに返され、さらに処理されます。
 
-### Inputs
+### 入力
 
-<table><thead><tr><th width="164"></th><th width="107">Required</th><th>Description</th></tr></thead><tbody><tr><td>LLM Node</td><td><strong>Yes</strong></td><td>Receives the output from an LLM Node, which may or may not contain <code>tool_calls</code> property. If it is present, the Tool Node will use them to execute the specified tool.</td></tr><tr><td>External Tools</td><td>No</td><td>Provides the Tool Node with <strong>access to a suite of external tools</strong>, enabling it to perform actions and retrieve information.</td></tr></tbody></table>
+<table><thead><tr><th width="164"></th><th width="107">必須</th><th>説明</th></tr></thead><tbody><tr><td>LLMノード</td><td><strong>はい</strong></td><td>LLMノードからの出力を受け取り、これには<code>tool_calls</code>プロパティが含まれている場合とそうでない場合があります。含まれている場合、ツールノードはそれらを使用して指定されたツールを実行します。</td></tr><tr><td>外部ツール</td><td>いいえ</td><td>ツールノードに<strong>外部ツールスイートへのアクセス</strong>を提供し、アクションの実行と情報の取得を可能にします。</td></tr></tbody></table>
 
-### Node Setup
+### ノードの設定
 
-<table><thead><tr><th width="183"></th><th width="101">Required</th><th>Description</th></tr></thead><tbody><tr><td>Tool Node Name</td><td><strong>Yes</strong></td><td>Add a descriptive name to the Tool Node to enhance workflow readability.</td></tr><tr><td>Require Approval (HITL)</td><td>No</td><td><strong>Activates the Human-in-the-loop (HITL) feature</strong>. If set to '<strong>True</strong>,' the Tool Node will request human approval before executing any tool. This is particularly valuable for sensitive operations or when human oversight is desired. Defaults to '<strong>False</strong>,' allowing the Tool Node to execute tools autonomously.</td></tr></tbody></table>
+<table><thead><tr><th width="183"></th><th width="101">必須</th><th>説明</th></tr></thead><tbody><tr><td>ツールノード名</td><td><strong>はい</strong></td><td>ツールノードにわかりやすい名前を追加してワークフローの可読性を向上させます。</td></tr><tr><td>承認が必要 (HITL)</td><td>いいえ</td><td><strong>Human-in-the-loop (HITL)機能を有効化</strong>します。'<strong>True</strong>'に設定すると、ツールノードはツールを実行する前に人間の承認を要求します。これは機密性の高い操作や人間による監督が望ましい場合に特に有用です。デフォルトは'<strong>False</strong>'で、ツールノードが自律的にツールを実行できます。</td></tr></tbody></table>
 
-### Outputs
+### 出力
 
-The Tool Node can connect to the following nodes as outputs:
+ツールノードは以下のノードに出力として接続できます:
 
-* **Agent Node:** Passes the Tool Node's output (the result of the executed tool) to an Agent Node. The Agent Node can then use this information to decide on actions, execute further tools, or guide the conversation flow.
-* **LLM Node:** Passes the output to a subsequent LLM Node. This enables the integration of tool results into the LLM's processing, allowing for further analysis or refinement of the conversation flow based on the tool's output.
-* **Condition Agent Node:** Directs the flow to a Condition tool Node. This node evaluates the Tool Node's output and its predefined conditions to determine the appropriate next step in the workflow.
-* **Condition Node:** Similar to the Condition Agent Node, the Condition Node uses predefined conditions to assess the Tool Node's output, directing the flow along different branches based on the outcome.
-* **End Node:** Concludes the conversation flow.
-* **Loop Node:** Redirects the flow back to a previous node, enabling iterative or cyclical processes within the workflow. This could be used for tasks that require multiple tool executions or involve refining the conversation based on tool results.
+* **エージェントノード:** ツールノードの出力（実行されたツールの結果）をエージェントノードに渡します。エージェントノードはこの情報を使用してアクションを決定し、さらなるツールを実行し、または会話フローを導くことができます。
+* **LLMノード:** 出力を後続のLLMノードに渡します。これによりツールの結果をLLMの処理に統合し、ツールの出力に基づいて会話フローのさらなる分析や改善を可能にします。
+* **条件エージェントノード:** フローを条件ツールノードに向けます。このノードはツールノードの出力とその事前定義された条件を評価して、ワークフローの適切な次のステップを決定します。
+* **条件ノード:** 条件エージェントノードと同様に、条件ノードは事前定義された条件を使用してツールノードの出力を評価し、結果に基づいて異なるブランチにフローを導きます。
+* **終了ノード:** 会話フローを終了します。
+* **ループノード:** フローを前のノードに戻し、ワークフロー内での反復的または循環的なプロセスを可能にします。これは複数のツール実行を必要とするタスクやツールの結果に基づいて会話を改善する必要があるタスクに使用できます。
 
-### Additional Parameters
+### 追加パラメータ
 
-<table><thead><tr><th width="200"></th><th width="102">Required</th><th>Description</th></tr></thead><tbody><tr><td>Approval Prompt</td><td>No</td><td><strong>A customizable prompt presented to the human reviewer when the HITL feature is active</strong>. This prompt provides context about the tool execution, including the tool's name and purpose. The variable <code>{tools}</code> within the prompt will be dynamically replaced with the actual list of tools suggested by the LLM Node, ensuring the human reviewer has all necessary information to make an informed decision.</td></tr><tr><td>Approve Button Text</td><td>No</td><td>Customizes <strong>the text displayed on the button for approving tool execution</strong> in the HITL interface. This allows for tailoring the language to the specific context and ensuring clarity for the human reviewer.</td></tr><tr><td>Reject Button Text</td><td>No</td><td>Customizes the <strong>text displayed on the button for rejecting tool execution</strong> in the HITL interface. Like the Approve Button Text, this customization enhances clarity and provides a clear action for the human reviewer to take if they deem the tool execution unnecessary or potentially harmful.</td></tr><tr><td>Update State</td><td>No</td><td>Provides a <strong>mechanism to modify the custom State object within the workflow</strong>. This is useful for storing information gathered by the Tool Node (after the tool execution) or influencing the behavior of subsequent nodes.</td></tr></tbody></table>
+<table><thead><tr><th width="200"></th><th width="102">必須</th><th>説明</th></tr></thead><tbody><tr><td>承認プロンプト</td><td>いいえ</td><td><strong>HITL機能が有効な場合に人間のレビュアーに表示されるカスタマイズ可能なプロンプト</strong>です。このプロンプトはツールの名前と目的を含むツール実行に関するコンテキストを提供します。プロンプト内の<code>{tools}</code>変数は、LLMノードが提案した実際のツールリストに動的に置き換えられ、人間のレビュアーが情報に基づいた判断を行うために必要なすべての情報を持っていることを確認します。</td></tr><tr><td>承認ボタンテキスト</td><td>いいえ</td><td>HITLインターフェースで<strong>ツール実行を承認するボタンに表示されるテキストをカスタマイズ</strong>します。これにより、特定のコンテキストに合わせて言語を調整し、人間のレビュアーに明確さを確保できます。</td></tr><tr><td>拒否ボタンテキスト</td><td>いいえ</td><td>HITLインターフェースで<strong>ツール実行を拒否するボタンに表示されるテキストをカスタマイズ</strong>します。承認ボタンテキストと同様、このカスタマイズは明確さを高め、人間のレビュアーがツール実行を不要または潜在的に有害と判断した場合に取るべき明確なアクションを提供します。</td></tr><tr><td>状態の更新</td><td>いいえ</td><td>ワークフロー内で<strong>カスタム状態オブジェクトを変更するメカニズム</strong>を提供します。これはツールノードが収集した情報（ツール実行後）を保存したり、後続のノードの動作に影響を与えたりするのに役立ちます。</td></tr></tbody></table>
 
-### Best Practices
+### ベストプラクティス
 
 {% tabs %}
-{% tab title="Pro Tips" %}
-**Strategic HITL placement**
+{% tab title="プロのヒント" %}
+**戦略的なHITLの配置**
 
-Consider which tools require human oversight (HITL) and enable the "Require Approval" option accordingly.
+人間の監督（HITL）を必要とするツールを検討し、それに応じて「承認が必要」オプションを有効にしてください。
 
-**Informative Approval Prompts**
+**情報豊富な承認プロンプト**
 
-When using HITL, design clear and informative prompts for human reviewers. Provide sufficient context from the conversation and summarize the tool's intended action.
+HITLを使用する場合は、人間のレビュアーのために明確で情報豊富なプロンプトを設計してください。会話からの十分なコンテキストを提供し、ツールの意図されたアクションを要約してください。
 {% endtab %}
 
-{% tab title="Potential Pitfalls" %}
-**Unhandled tool output formats**
+{% tab title="潜在的な落とし穴" %}
+**未処理のツール出力フォーマット**
 
-* **Problem:** The Tool Node outputs data in a format that is not expected or handled by subsequent nodes in the workflow, leading to errors or incorrect processing.
-* **Example:** A Tool Node retrieves data from an API in JSON format, but the following LLM Node expects text input, causing a parsing error.
-* **Solution:** Ensure that the output format of the external tool is compatible with the input requirements of the nodes connected to the Tool Node's output.
+* **問題:** ツールノードがワークフロー内の後続のノードが期待または処理できないフォーマットでデータを出力し、エラーまたは不正確な処理につながります。
+* **例:** ツールノードがJSONフォーマットでAPIからデータを取得しますが、その後のLLMノードはテキスト入力を期待しており、パース エラーが発生します。
+* **解決策:** 外部ツールの出力フォーマットがツールノードの出力に接続されたノードの入力要件と互換性があることを確認してください。
 {% endtab %}
 {% endtabs %}
 
 ***
 
-## 7. Condition Node
+## 7. 条件ノード
 
-The Condition Node acts as a **decision-making point in Sequential Agent workflows**, evaluating a set of predefined conditions to determine the flow's next path.
+条件ノードは、**シーケンシャルエージェントワークフローの意思決定ポイント**として機能し、事前定義された条件のセットを評価してフローの次のパスを決定します。
 
 <figure><img src="../../.gitbook/assets/seq-08.png" alt="" width="299"><figcaption></figcaption></figure>
 
-### Understanding the Condition Node
+### 条件ノードについて
 
-The Condition Node is essential for building workflows that adapt to different situations and user inputs. It examines the current State of the conversation, which includes all messages exchanged and any custom State variables previously defined. Then, based on the evaluation of the conditions specified in the node setup, the Condition Node directs the flow to one of its outputs.
+条件ノードは異なる状況やユーザー入力に適応するワークフローを構築する上で不可欠です。会話の現在の状態（交換されたすべてのメッセージと以前に定義されたカスタム状態変数を含む）を調査します。その後、ノード設定で指定された条件の評価に基づいて、条件ノードはフローをその出力の1つに導きます。
 
-For instance, after an Agent or LLM Node provides a response, a Condition Node could check if the response contains a specific keyword or if a certain condition is met in the custom State. If it does, the flow might be directed to an Agent Node for further action. If not, it could lead to a different path, perhaps ending the conversation or prompting the user with additional questions.
+例えば、エージェントノードやLLMノードが応答を提供した後、条件ノードは応答に特定のキーワードが含まれているか、またはカスタム状態で特定の条件が満たされているかを確認できます。もしそうなら、フローは更なるアクションのためにエージェントノードに向けられるかもしれません。そうでない場合は、会話を終了したり、ユーザーに追加の質問を促したりする別のパスに導くかもしれません。
 
-This enables us to **create branches in our workflow**, where the path taken depends on the data flowing through the system.
+これにより、システムを流れるデータに応じてパスが選択される**ワークフローのブランチを作成**することができます。
 
-#### Here's a step-by-step explanation of how it works
+#### 動作の仕組みをステップバイステップで説明します
 
-1. The Condition Node receives input from any preceding node: Start Node, Agent Node, LLM Node, or Tool Node.
-2. It has access to the full conversation history and the custom State (if any), giving it plenty of context to work with.
-3. We define a condition that the node will evaluate. This could be checking for keywords, comparing values in the state, or any other logic we could implement via JavaScript.
-4. Based on whether the condition evaluates to **true** or **false**, the Condition Node sends the flow down one of its predefined output paths. This creates a "fork in the road" or branch for our workflow.
+1. 条件ノードは、スタートノード、エージェントノード、LLMノード、またはツールノードの先行するノードから入力を受け取ります。
+2. 完全な会話履歴とカスタム状態（存在する場合）にアクセスでき、作業するための豊富なコンテキストを提供します。
+3. ノードが評価する条件を定義します。これはキーワードのチェック、状態の値の比較、またはJavaScriptを介して実装できる他のロジックかもしれません。
+4. 条件が**true**または**false**と評価されるかに基づいて、条件ノードは事前定義された出力パスの1つにフローを送ります。これによりワークフローの「分岐点」またはブランチが作成されます。
 
-### How to set up conditions
+### 条件の設定方法
 
-The Condition Node allows us to define dynamic branching logic in our workflow by choosing either a **table-based interface** or a **JavaScript code editor** to define the conditions that will control the conversation flow.
+条件ノードでは、会話フローを制御する条件を定義するために**テーブルベースのインターフェース**または**JavaScriptコードエディタ**のいずれかを選択することで、ワークフローに動的な分岐ロジックを定義できます。
 
 <figure><img src="../../.gitbook/assets/seq-16 (1).png" alt=""><figcaption></figcaption></figure>
 
 <details>
 
-<summary>Conditions using CODE</summary>
+<summary>コードを使用した条件</summary>
 
-The **Condition Node uses JavaScript** to evaluate specific conditions within the conversation flow.
+**条件ノードはJavaScript**を使用して会話フロー内の特定の条件を評価します。
 
-We can set up conditions based on keywords, State changes, or other factors to dynamically guide the workflow to different branches based on the context of the conversation. Here are some examples:
+キーワード、状態の変更、または他の要因に基づいて条件を設定し、会話のコンテキストに基づいてワークフローを異なるブランチに動的に導くことができます。以下はいくつかの例です:
 
-**Keyword condition**
+**キーワード条件**
 
-This checks if a specific word or phrase exists in the conversation history.
+会話履歴に特定の単語やフレーズが存在するかどうかをチェックします。
 
-* **Example:** We want to check if the user said "yes" in their last message.
+* **例:** ユーザーが最後のメッセージで「はい」と言ったかどうかをチェックしたい。
 
 {% code overflow="wrap" %}
 ```javascript
-const lastMessage = $flow.state.messages[$flow.state.messages.length - 1].content; 
+const lastMessage = $flow.state.messages[$flow.state.messages.length - 1].content;
 return lastMessage.includes("yes") ? "Output 1" : "Output 2";
 ```
 {% endcode %}
 
-1. This code gets the last message from state.messages and checks if it contains "yes".
-2. If "yes" is found, the flow goes to "Output 1"; otherwise, it goes to "Output 2".
+1. このコードはstate.messagesから最後のメッセージを取得し、"yes"が含まれているかどうかをチェックします。
+2. "yes"が見つかった場合、フローは"Output 1"に進みます。そうでない場合は"Output 2"に進みます。
 
-**State change condition**
+**状態変更条件**
 
-This checks if a specific value in the custom State has changed to a desired value.
+カスタム状態の特定の値が希望する値に変更されたかどうかをチェックします。
 
-* **Example:** We're tracking an orderStatus variable our custom State, and we want to check if it has become "confirmed".
+* **例:** カスタム状態でorderStatus変数を追跡しており、それが"confirmed"になったかどうかをチェックしたい。
 
 {% code overflow="wrap" %}
 ```javascript
@@ -666,182 +666,182 @@ return $flow.state.orderStatus === "confirmed" ? "Output 1" : "Output 2";
 ```
 {% endcode %}
 
-1. This code directly compares the orderStatus value in our custom State to "confirmed".
-2. If it matches, the flow goes to "Output 1"; otherwise, it goes to "Output 2".
+1. このコードはカスタム状態のorderStatus値を"confirmed"と直接比較します。
+2. 一致する場合、フローは"Output 1"に進みます。そうでない場合は"Output 2"に進みます。
 
 </details>
 
 <details>
 
-<summary>Conditions using TABLE</summary>
+<summary>テーブルを使用した条件</summary>
 
-The Condition Node allows us to define conditions using a **user-friendly table interface**, making it easy to create dynamic workflows without writing JavaScript code.
+条件ノードでは、**ユーザーフレンドリーなテーブルインターフェース**を使用して条件を定義でき、JavaScriptコードを書かずに動的なワークフローを簡単に作成できます。
 
-You can set up conditions based on keywords, State changes, or other factors to guide the conversation flow along different branches. Here are some examples:
+キーワード、状態の変更、または他の要因に基づいて条件を設定し、会話フローを異なるブランチに導くことができます。以下はいくつかの例です:
 
-**Keyword condition**
+**キーワード条件**
 
-This checks if a specific word or phrase exists in the conversation history.
+会話履歴に特定の単語やフレーズが存在するかどうかをチェックします。
 
-* **Example:** We want to check if the user said "yes" in their last message.
-*   **Setup**
+* **例:** ユーザーが最後のメッセージで「はい」と言ったかどうかをチェックしたい。
+*   **設定**
 
-    <table data-header-hidden><thead><tr><th width="294"></th><th width="116"></th><th width="99"></th><th></th></tr></thead><tbody><tr><td><strong>Variable</strong></td><td><strong>Operation</strong></td><td><strong>Value</strong></td><td><strong>Output Name</strong></td></tr><tr><td>$flow.state.messages[-1].content</td><td>Is</td><td>Yes</td><td>Output 1</td></tr></tbody></table>
+    <table data-header-hidden><thead><tr><th width="294"></th><th width="116"></th><th width="99"></th><th></th></tr></thead><tbody><tr><td><strong>変数</strong></td><td><strong>操作</strong></td><td><strong>値</strong></td><td><strong>出力名</strong></td></tr><tr><td>$flow.state.messages[-1].content</td><td>Is</td><td>Yes</td><td>Output 1</td></tr></tbody></table>
 
-    1. This table entry checks if the content (.content) of the last message (\[-1]) in `state.messages` is equal to "Yes".
-    2. If the condition is met, the flow goes to "Output 1". Otherwise, the workflow is directed to a default "End" output.
+    1. このテーブルエントリは`state.messages`の最後のメッセージ(\[-1])のコンテンツ(.content)が"Yes"に等しいかどうかをチェックします。
+    2. 条件が満たされた場合、フローは"Output 1"に進みます。そうでない場合は、ワークフローはデフォルトの"End"出力に向けられます。
 
-**State change condition**
+**状態変更条件**
 
-This checks if a specific value in our custom State has changed to a desired value.
+カスタム状態の特定の値が希望する値に変更されたかどうかをチェックします。
 
-* **Example:** We're tracking an orderStatus variable in our custom State, and we want to check if it has become "confirmed".
-*   **Setup**
+* **例:** カスタム状態でorderStatus変数を追跡しており、それが"confirmed"になったかどうかをチェックしたい。
+*   **設定**
 
-    <table data-header-hidden><thead><tr><th width="266"></th><th width="113"></th><th></th><th></th></tr></thead><tbody><tr><td><strong>Variable</strong></td><td><strong>Operation</strong></td><td><strong>Value</strong></td><td><strong>Output Name</strong></td></tr><tr><td>$flow.state.orderStatus</td><td>Is</td><td>Confirmed</td><td>Output 1</td></tr></tbody></table>
+    <table data-header-hidden><thead><tr><th width="266"></th><th width="113"></th><th></th><th></th></tr></thead><tbody><tr><td><strong>変数</strong></td><td><strong>操作</strong></td><td><strong>値</strong></td><td><strong>出力名</strong></td></tr><tr><td>$flow.state.orderStatus</td><td>Is</td><td>Confirmed</td><td>Output 1</td></tr></tbody></table>
 
-    1. This table entry checks if the value of orderStatus in the custom State is equal to "confirmed".
-    2. If the condition is met, the flow goes to "Output 1". Otherwise, the workflow is directed to a default "End" output.
+    1. このテーブルエントリはカスタム状態のorderStatusの値が"confirmed"に等しいかどうかをチェックします。
+    2. 条件が満たされた場合、フローは"Output 1"に進みます。そうでない場合は、ワークフローはデフォルトの"End"出力に向けられます。
 
 </details>
 
-### Defining conditions using the table interface
+### テーブルインターフェースを使用した条件の定義
 
-This visual approach allows you to easily set up rules that determine the path of your conversational flow, based on factors like user input, the current state of the conversation, or the results of actions taken by other nodes.
+この視覚的なアプローチにより、ユーザー入力、会話の現在の状態、または他のノードによって実行されたアクションの結果などの要因に基づいて、会話フローのパスを決定するルールを簡単に設定できます。
 
 <details>
 
-<summary>Table-Based: Condition Node</summary>
+<summary>テーブルベース: 条件ノード</summary>
 
-*   **Updated on 09/08/2024**
+*   **2024年09月08日更新**
 
-    <table><thead><tr><th width="134"></th><th width="189">Description</th><th>Options/Syntax</th></tr></thead><tbody><tr><td><strong>Variable</strong></td><td>The variable or data element to evaluate in the condition.</td><td>- <code>$flow.state.messages.length</code> (Total Messages)<br>- <code>$flow.state.messages[0].con</code> (First Message Content)<br>- <code>$flow.state.messages[-1].con</code> (Last Message Content)<br>- <code>$vars.&#x3C;variable-name></code> (Global variable)</td></tr><tr><td><strong>Operation</strong></td><td>The comparison or logical operation to perform on the variable.</td><td>- Contains<br>- Not Contains<br>- Start With<br>- End With<br>- Is<br>- Is Not<br>- Is Empty<br>- Is Not Empty<br>- Greater Than<br>- Less Than<br>- Equal To<br>- Not Equal To<br>- Greater Than or Equal To<br>- Less Than or Equal To</td></tr><tr><td><strong>Value</strong></td><td>The value to compare the variable against.</td><td>- Depends on the data type of the variable and the selected operation.<br>- Examples: "yes", 10, "Hello"</td></tr><tr><td><strong>Output Name</strong></td><td>The name of the output path to follow if the condition evaluates to <code>true</code>.</td><td>- User-defined name (e.g., "Agent1", "End", "Loop")</td></tr></tbody></table>
+    <table><thead><tr><th width="134"></th><th width="189">説明</th><th>オプション/構文</th></tr></thead><tbody><tr><td><strong>変数</strong></td><td>条件で評価する変数またはデータ要素。</td><td>- <code>$flow.state.messages.length</code> (全メッセージ数)<br>- <code>$flow.state.messages[0].con</code> (最初のメッセージ内容)<br>- <code>$flow.state.messages[-1].con</code> (最後のメッセージ内容)<br>- <code>$vars.&#x3C;variable-name></code> (グローバル変数)</td></tr><tr><td><strong>操作</strong></td><td>変数に対して実行する比較または論理演算。</td><td>- Contains（含む）<br>- Not Contains（含まない）<br>- Start With（で始まる）<br>- End With（で終わる）<br>- Is（である）<br>- Is Not（でない）<br>- Is Empty（空である）<br>- Is Not Empty（空でない）<br>- Greater Than（より大きい）<br>- Less Than（より小さい）<br>- Equal To（等しい）<br>- Not Equal To（等しくない）<br>- Greater Than or Equal To（以上）<br>- Less Than or Equal To（以下）</td></tr><tr><td><strong>値</strong></td><td>変数と比較する値。</td><td>- 変数のデータ型と選択された操作に依存。<br>- 例: "yes", 10, "Hello"</td></tr><tr><td><strong>出力名</strong></td><td>条件が<code>true</code>と評価された場合に従う出力パスの名前。</td><td>- ユーザー定義の名前（例: "Agent1"、"End"、"Loop"）</td></tr></tbody></table>
 
 </details>
 
-### Inputs
+### 入力
 
-<table><thead><tr><th width="167"></th><th width="118">Required</th><th>Description</th></tr></thead><tbody><tr><td>Start Node</td><td><strong>Yes</strong></td><td>Receives the State from the Start Node. This allows the Condition Node to <strong>evaluate conditions based on the initial context of the conversation</strong>, including any custom State.</td></tr><tr><td>Agent Node</td><td><strong>Yes</strong></td><td>Receives the Agent Node's output. This enables the Condition Node to <strong>make decisions based on the agent's actions</strong> and the conversation history, including any custom State.</td></tr><tr><td>LLM Node</td><td><strong>Yes</strong></td><td>Receives the LLM Node's output. This allows the Condition Node to <strong>evaluate conditions based on the LLM's response</strong> and the conversation history, including any custom State.</td></tr><tr><td>Tool Node</td><td><strong>Yes</strong></td><td>Receives the Tool Node's output. This enables the Condition Node to <strong>make decisions based on the results of tool execution</strong> and the conversation history, including any custom State.</td></tr></tbody></table>
+<table><thead><tr><th width="167"></th><th width="118">必須</th><th>説明</th></tr></thead><tbody><tr><td>スタートノード</td><td><strong>はい</strong></td><td>スタートノードから状態を受け取ります。これにより条件ノードはカスタム状態を含む<strong>会話の初期コンテキストに基づいて条件を評価</strong>できます。</td></tr><tr><td>エージェントノード</td><td><strong>はい</strong></td><td>エージェントノードの出力を受け取ります。これにより条件ノードは<strong>エージェントのアクションと会話履歴</strong>（カスタム状態を含む）に基づいて判断を下すことができます。</td></tr><tr><td>LLMノード</td><td><strong>はい</strong></td><td>LLMノードの出力を受け取ります。これにより条件ノードは<strong>LLMの応答と会話履歴</strong>（カスタム状態を含む）に基づいて条件を評価できます。</td></tr><tr><td>ツールノード</td><td><strong>はい</strong></td><td>ツールノードの出力を受け取ります。これにより条件ノードは<strong>ツール実行の結果と会話履歴</strong>（カスタム状態を含む）に基づいて判断を下すことができます。</td></tr></tbody></table>
 
 {% hint style="info" %}
-The **Condition Node requires at least one connection from the following nodes**: Start Node, Agent Node, LLM Node, or Tool Node.
+**条件ノードには以下のノードのいずれかからの接続が少なくとも1つ必要です**: スタートノード、エージェントノード、LLMノード、またはツールノード。
 {% endhint %}
 
-### Outputs
+### 出力
 
-The Condition Node **dynamically determines its output path based on the predefined conditions**, using either the table-based interface or JavaScript. This provides flexibility in directing the workflow based on condition evaluations.
+条件ノードは**テーブルベースのインターフェースまたはJavaScriptを使用して、事前定義された条件に基づいて出力パスを動的に決定**します。これにより条件評価に基づいてワークフローを導く柔軟性が提供されます。
 
-#### Condition evaluation logic
+#### 条件評価ロジック
 
-* **Table-Based conditions:** The conditions in the table are evaluated sequentially, from top to bottom. The first condition that evaluates to true triggers its corresponding output. If none of the predefined conditions are met, the workflow is directed to the default "End" output.
-* **Code-Based conditions:** When using JavaScript, we must explicitly return the name of the desired output path, including a name for the default "End" output.
-* **Single output path:** Only one output path is activated at a time. Even if multiple conditions could be true, only the first matching condition determines the flow.
+* **テーブルベースの条件:** テーブルの条件は上から下に順番に評価されます。最初にtrueと評価される条件が、対応する出力をトリガーします。事前定義された条件のいずれも満たされない場合、ワークフローはデフォルトの"End"出力に向けられます。
+* **コードベースの条件:** JavaScriptを使用する場合、デフォルトの"End"出力の名前を含む、希望する出力パスの名前を明示的に返す必要があります。
+* **単一の出力パス:** 一度に1つの出力パスのみがアクティブになります。複数の条件がtrueになる可能性があっても、最初に一致した条件のみがフローを決定します。
 
-#### Connecting outputs
+#### 出力の接続
 
-Each predefined output, including the default "End" output, can be connected to any of the following nodes:
+デフォルトの"End"出力を含む各事前定義された出力は、以下のノードのいずれかに接続できます:
 
-* **Agent Node:** To continue the conversation with an agent, potentially taking actions based on the condition's outcome.
-* **LLM Node:** To process the current State and conversation history with an LLM, generating responses or making further decisions.
-* **End Node:** To terminate the conversation flow. If any output, including the default "End" output, is connected to an End Node, the Condition Node will output the last response from the preceding node and end the workflow.
-* **Loop Node:** To redirect the flow back to a previous sequential node, enabling iterative processes based on the condition's outcome.
+* **エージェントノード:** 条件の結果に基づいてアクションを実行する可能性のあるエージェントとの会話を続けるため。
+* **LLMノード:** 現在の状態と会話履歴をLLMで処理し、応答を生成したりさらなる判断を行ったりするため。
+* **終了ノード:** 会話フローを終了するため。デフォルトの"End"出力を含む任意の出力が終了ノードに接続されている場合、条件ノードは先行するノードからの最後の応答を出力してワークフローを終了します。
+* **ループノード:** 条件の結果に基づいて反復プロセスを可能にするため、フローを前のシーケンシャルノードに戻すため。
 
-### Node Setup
+### ノードの設定
 
-<table><thead><tr><th width="178"></th><th width="110">Required</th><th>Description</th></tr></thead><tbody><tr><td>Condition Node Name</td><td>No</td><td>An optional, <strong>human-readable name</strong> for the condition being evaluated. This is helpful for understanding the workflow at a glance.</td></tr><tr><td>Condition</td><td><strong>Yes</strong></td><td>This is where we <strong>define the logic that will be evaluated to determine the output paths</strong>.</td></tr></tbody></table>
+<table><thead><tr><th width="178"></th><th width="110">必須</th><th>説明</th></tr></thead><tbody><tr><td>条件ノード名</td><td>いいえ</td><td>評価される条件のオプションの<strong>人間が読みやすい名前</strong>です。これはワークフローを一目で理解するのに役立ちます。</td></tr><tr><td>条件</td><td><strong>はい</strong></td><td>ここで<strong>出力パスを決定するために評価されるロジックを定義</strong>します。</td></tr></tbody></table>
 
-### Best Practices
+### ベストプラクティス
 
 {% tabs %}
-{% tab title="Pro Tips" %}
-**Clear condition naming**
+{% tab title="プロのヒント" %}
+**明確な条件の命名**
 
-Use descriptive names for your conditions (e.g., "If user is under 18, then Policy Advisor Agent", "If order is confirmed, then End Node") to make your workflow easier to understand and debug.
+ワークフローを理解してデバッグしやすくするために、条件に説明的な名前を使用してください（例: "ユーザーが18歳未満の場合はポリシーアドバイザーエージェントへ"、"注文が確認された場合は終了ノードへ"）。
 
-**Prioritize simple conditions**
+**シンプルな条件を優先**
 
-Start with simple conditions and gradually add complexity as needed. This makes your workflow more manageable and reduces the risk of errors.
+シンプルな条件から始めて、必要に応じて徐々に複雑さを追加してください。これによりワークフローがより管理しやすくなり、エラーのリスクが減少します。
 {% endtab %}
 
-{% tab title="Potential Pitfalls" %}
-**Mismatched condition logic and workflow design**
+{% tab title="潜在的な落とし穴" %}
+**条件ロジックとワークフロー設計の不一致**
 
-* **Problem:** The conditions you define in the Condition Node do not accurately reflect the intended logic of your workflow, leading to unexpected branching or incorrect execution paths.
-* **Example:** You set up a condition to check if the user's age is greater than 18, but the output path for that condition leads to a section designed for users under 18.
-* **Solution:** Review your conditions and ensure that the output paths associated with each condition match the intended workflow logic. Use clear and descriptive names for your outputs to avoid confusion.
+* **問題:** 条件ノードで定義した条件がワークフローの意図したロジックを正確に反映していないため、予期しない分岐や不正確な実行パスにつながります。
+* **例:** ユーザーの年齢が18歳より大きいかどうかをチェックする条件を設定しましたが、その条件の出力パスが18歳未満のユーザー向けに設計されたセクションに導いています。
+* **解決策:** 条件を見直し、各条件に関連付けられた出力パスが意図したワークフローロジックと一致することを確認してください。混乱を避けるために、出力に明確で説明的な名前を使用してください。
 
-**Insufficient State management**
+**不十分な状態管理**
 
-* **Problem:** The Condition Node relies on a custom state variable that is not updated correctly, leading to inaccurate condition evaluations and incorrect branching.
-* **Example:** You're tracking a "userLocation" variable in the custom State, but the variable is not updated when the user provides their location. The Condition Node evaluates the condition based on the outdated value, leading to an incorrect path.
-* **Solution:** Ensure that any custom state variables used in your conditions are updated correctly throughout the workflow.
+* **問題:** 条件ノードがカスタム状態変数に依存していますが、その変数が正しく更新されていないため、不正確な条件評価と不正確な分岐につながります。
+* **例:** カスタム状態で"userLocation"変数を追跡していますが、ユーザーが場所を提供したときに変数が更新されていません。条件ノードは古い値に基づいて条件を評価し、不正確なパスにつながります。
+* **解決策:** 条件で使用される任意のカスタム状態変数がワークフロー全体で正しく更新されていることを確認してください。
 {% endtab %}
 {% endtabs %}
 
 ***
 
-## 8. Condition Agent Node
+## 8. 条件エージェントノード
 
-The Condition Agent Node provides **dynamic and intelligent routing within Sequential Agent flows**. It combines the capabilities of the **LLM Node** (LLM and JSON Structured Output) and the **Condition Node** (user-defined conditions), allowing us to leverage agent-based reasoning and conditional logic within a single node.
+条件エージェントノードは、**シーケンシャルエージェントフロー内で動的でインテリジェントなルーティング**を提供します。**LLMノード**（LLMとJSON構造化出力）と**条件ノード**（ユーザー定義の条件）の機能を組み合わせ、1つのノード内でエージェントベースの推論と条件ロジックを活用することができます。
 
 <figure><img src="../../.gitbook/assets/seq-09.png" alt="" width="299"><figcaption></figcaption></figure>
 
-### Key functionalities
+### 主な機能
 
-* **Unified agent-based routing:** Combines agent reasoning, structured output, and conditional logic in a single node, simplifying workflow design.
-* **Contextual awareness:** The agent considers the entire conversation history and any custom State when evaluating conditions.
-* **Flexibility:** Provides both table-based and code-based options for defining conditions, when catering to different user preferences and skill levels.
+* **統合されたエージェントベースのルーティング:** エージェントの推論、構造化出力、条件ロジックを1つのノードに組み合わせ、ワークフロー設計を単純化します。
+* **コンテキストの認識:** エージェントは条件を評価する際に、会話の全履歴とカスタム状態を考慮します。
+* **柔軟性:** 異なるユーザーの好みとスキルレベルに対応する際に、テーブルベースとコードベースの両方のオプションを条件定義に提供します。
 
-### Setting up the Condition Agent Node
+### 条件エージェントノードの設定
 
-The Condition Agent Node acts as a specialized agent that can both **process information and make routing decisions**. Here's how to configure it:
+条件エージェントノードは**情報を処理しルーティングの決定を行う**ことができる特殊なエージェントとして機能します。設定方法は以下の通りです:
 
-1. **Define the agent's persona**
-   * In the "System Prompt" field, provide a clear and concise description of the agent's role and the task it needs to perform for conditional routing. This prompt will guide the agent's understanding of the conversation and its decision-making process.
-2. **Structure the Agent's Output (Optional)**
-   * If you want the agent to produce structured output, use the "JSON Structured Output" feature. Define the desired schema for the output, specifying the keys, data types, and any enum values. This structured output will be used by the agent when evaluating conditions.
-3. **Define conditions**
-   * Choose either the table-based interface or the JavaScript code editor to define the conditions that will determine the routing behavior.
-     * **Table-Based interface:** Add rows to the table, specifying the variable to check, the comparison operation, the value to compare against, and the output name to follow if the condition is met.
-     * **JavaScript code:** Write custom JavaScript snippets to evaluate conditions. Use the `return` statement to specify the name of the output path to follow based on the condition's result.
-4. **Connect outputs**
-   * Connect each predefined output, including the default "End" output, to the appropriate subsequent node in the workflow. This could be an Agent Node, LLM Node, Loop Node, or an End Node.
+1. **エージェントのペルソナを定義する**
+   * 「システムプロンプト」フィールドで、条件付きルーティングのためにエージェントが実行する必要のある役割とタスクの明確で簡潔な説明を提供します。このプロンプトはエージェントの会話の理解と意思決定プロセスを導きます。
+2. **エージェントの出力を構造化する（オプション）**
+   * エージェントに構造化された出力を生成させたい場合は、「JSON構造化出力」機能を使用します。キー、データ型、および列挙値を指定して、出力の希望するスキーマを定義します。この構造化された出力は、エージェントが条件を評価する際に使用されます。
+3. **条件を定義する**
+   * テーブルベースのインターフェースまたはJavaScriptコードエディタのいずれかを選択して、ルーティング動作を決定する条件を定義します。
+     * **テーブルベースのインターフェース:** テーブルに行を追加し、チェックする変数、比較操作、比較する値、条件が満たされた場合に従う出力名を指定します。
+     * **JavaScriptコード:** 条件を評価するカスタムJavaScriptスニペットを記述します。条件の結果に基づいて従うべき出力パスの名前を指定するために`return`文を使用します。
+4. **出力を接続する**
+   * デフォルトの「End」出力を含む各事前定義された出力を、ワークフロー内の適切な後続ノードに接続します。これはエージェントノード、LLMノード、ループノード、または終了ノードにできます。
 
-### How to set up conditions
+### 条件の設定方法
 
-The Condition Agent Node allows us to define dynamic branching logic in our workflow by choose either a **table-based interface** or a **JavaScript code editor** to define the conditions that will control the conversation flow.
+条件エージェントノードでは、会話フローを制御する条件を定義するために**テーブルベースのインターフェース**または**JavaScriptコードエディタ**のいずれかを選択することで、ワークフローに動的な分岐ロジックを定義できます。
 
 <figure><img src="../../.gitbook/assets/seq-16 (1).png" alt=""><figcaption></figcaption></figure>
 
 <details>
 
-<summary>Conditions using CODE</summary>
+<summary>コードを使用した条件</summary>
 
-The Condition Agent Node, like the Condition Node, **uses JavaScript code to evaluate specific conditions** within the conversation flow.
+条件エージェントノードは、条件ノードと同様に、会話フロー内の特定の条件を評価するために**JavaScriptコードを使用**します。
 
-However, the Condition Agent Node can evaluate conditions based on a wider range of factors, including keywords, state changes, and the content of its own output (either as free-form text or structured JSON data). This allows for more nuanced and context-aware routing decisions. Here are some examples:
+ただし、条件エージェントノードは、キーワード、状態の変更、および自身の出力の内容（フリーフォームテキストまたは構造化JSONデータとして）を含むより広範な要因に基づいて条件を評価できます。これにより、よりニュアンスのあるコンテキストを認識したルーティングの判断が可能になります。以下はいくつかの例です:
 
-**Keyword condition**
+**キーワード条件**
 
-This checks if a specific word or phrase exists in the conversation history.
+会話履歴に特定の単語やフレーズが存在するかどうかをチェックします。
 
-* **Example:** We want to check if the user said "yes" in their last message.
+* **例:** ユーザーが最後のメッセージで「はい」と言ったかどうかをチェックしたい。
 
 {% code overflow="wrap" %}
 ```javascript
-const lastMessage = $flow.state.messages[$flow.state.messages.length - 1].content; 
+const lastMessage = $flow.state.messages[$flow.state.messages.length - 1].content;
 return lastMessage.includes("yes") ? "Output 1" : "Output 2";
 ```
 {% endcode %}
 
-1. This code gets the last message from state.messages and checks if it contains "yes".
-2. If "yes" is found, the flow goes to "Output 1"; otherwise, it goes to "Output 2".
+1. このコードはstate.messagesから最後のメッセージを取得し、"yes"が含まれているかどうかをチェックします。
+2. "yes"が見つかった場合、フローは"Output 1"に進みます。そうでない場合は"Output 2"に進みます。
 
-**State change condition**
+**状態変更条件**
 
-This checks if a specific value in the custom State has changed to a desired value.
+カスタム状態の特定の値が希望する値に変更されたかどうかをチェックします。
 
-* **Example:** We're tracking an orderStatus variable our custom State, and we want to check if it has become "confirmed".
+* **例:** カスタム状態でorderStatus変数を追跡しており、それが"confirmed"になったかどうかをチェックしたい。
 
 {% code overflow="wrap" %}
 ```javascript
@@ -849,366 +849,366 @@ return $flow.state.orderStatus === "confirmed" ? "Output 1" : "Output 2";
 ```
 {% endcode %}
 
-1. This code directly compares the orderStatus value in our custom State to "confirmed".
-2. If it matches, the flow goes to "Output 1"; otherwise, it goes to "Output 2".
+1. このコードはカスタム状態のorderStatus値を"confirmed"と直接比較します。
+2. 一致する場合、フローは"Output 1"に進みます。そうでない場合は"Output 2"に進みます。
 
 </details>
 
 <details>
 
-<summary>Conditions using TABLE</summary>
+<summary>テーブルを使用した条件</summary>
 
-The Condition Agent Node also provides a **user-friendly table interface for defining conditions**, similar to the Condition Node. You can set up conditions based on keywords, state changes, or the agent's own output, allowing you to create dynamic workflows without writing JavaScript code.
+条件エージェントノードは、条件ノードと同様に、**条件を定義するためのユーザーフレンドリーなテーブルインターフェース**も提供します。キーワード、状態の変更、またはエージェント自身の出力に基づいて条件を設定でき、JavaScriptコードを書かずに動的なワークフローを作成できます。
 
-This table-based approach simplifies condition management and makes it easier to visualize the branching logic. Here are some examples:
+このテーブルベースのアプローチは条件管理を単純化し、分岐ロジックを視覚化しやすくします。以下はいくつかの例です:
 
-**Keyword condition**
+**キーワード条件**
 
-This checks if a specific word or phrase exists in the conversation history.
+会話履歴に特定の単語やフレーズが存在するかどうかをチェックします。
 
-* **Example:** We want to check if the user said "yes" in their last message.
-*   **Setup**
+* **例:** ユーザーが最後のメッセージで「はい」と言ったかどうかをチェックしたい。
+*   **設定**
 
-    <table data-header-hidden><thead><tr><th width="305"></th><th width="116"></th><th width="99"></th><th></th></tr></thead><tbody><tr><td><strong>Variable</strong></td><td><strong>Operation</strong></td><td><strong>Value</strong></td><td><strong>Output Name</strong></td></tr><tr><td>$flow.state.messages[-1].content</td><td>Is</td><td>Yes</td><td>Output 1</td></tr></tbody></table>
+    <table data-header-hidden><thead><tr><th width="305"></th><th width="116"></th><th width="99"></th><th></th></tr></thead><tbody><tr><td><strong>変数</strong></td><td><strong>操作</strong></td><td><strong>値</strong></td><td><strong>出力名</strong></td></tr><tr><td>$flow.state.messages[-1].content</td><td>Is</td><td>Yes</td><td>Output 1</td></tr></tbody></table>
 
-    1. This table entry checks if the content (.content) of the last message (\[-1]) in `state.messages` is equal to "Yes".
-    2. If the condition is met, the flow goes to "Output 1". Otherwise, the workflow is directed to a default "End" output.
+    1. このテーブルエントリは`state.messages`の最後のメッセージ(\[-1])のコンテンツ(.content)が"Yes"に等しいかどうかをチェックします。
+    2. 条件が満たされた場合、フローは"Output 1"に進みます。そうでない場合は、ワークフローはデフォルトの"End"出力に向けられます。
 
-**State change condition**
+**状態変更条件**
 
-This checks if a specific value in our custom State has changed to a desired value.
+カスタム状態の特定の値が希望する値に変更されたかどうかをチェックします。
 
-* **Example:** We're tracking an orderStatus variable in our custom State, and we want to check if it has become "confirmed".
-*   **Setup**
+* **例:** カスタム状態でorderStatus変数を追跡しており、それが"confirmed"になったかどうかをチェックしたい。
+*   **設定**
 
-    <table data-header-hidden><thead><tr><th width="266"></th><th width="113"></th><th></th><th></th></tr></thead><tbody><tr><td><strong>Variable</strong></td><td><strong>Operation</strong></td><td><strong>Value</strong></td><td><strong>Output Name</strong></td></tr><tr><td>$flow.state.orderStatus</td><td>Is</td><td>Confirmed</td><td>Output 1</td></tr></tbody></table>
+    <table data-header-hidden><thead><tr><th width="266"></th><th width="113"></th><th></th><th></th></tr></thead><tbody><tr><td><strong>変数</strong></td><td><strong>操作</strong></td><td><strong>値</strong></td><td><strong>出力名</strong></td></tr><tr><td>$flow.state.orderStatus</td><td>Is</td><td>Confirmed</td><td>Output 1</td></tr></tbody></table>
 
-    1. This table entry checks if the value of orderStatus in the custom State is equal to "confirmed".
-    2. If the condition is met, the flow goes to "Output 1". Otherwise, the workflow is directed to a default "End" output.
+    1. このテーブルエントリはカスタム状態のorderStatusの値が"confirmed"に等しいかどうかをチェックします。
+    2. 条件が満たされた場合、フローは"Output 1"に進みます。そうでない場合は、ワークフローはデフォルトの"End"出力に向けられます。
 
 </details>
 
-### Defining conditions using the table interface
+### テーブルインターフェースを使用した条件の定義
 
-This visual approach allows you to easily set up rules that determine the path of your conversational flow, based on factors like user input, the current state of the conversation, or the results of actions taken by other nodes.
+この視覚的なアプローチにより、ユーザー入力、会話の現在の状態、または他のノードによって実行されたアクションの結果などの要因に基づいて、会話フローのパスを決定するルールを簡単に設定できます。
 
 <details>
 
-<summary>Table-Based: Condition Agent Node</summary>
+<summary>テーブルベース: 条件エージェントノード</summary>
 
-*   **Updated on 09/08/2024**
+*   **2024年09月08日更新**
 
-    <table><thead><tr><th width="125"></th><th width="186">Description</th><th>Options/Syntax</th></tr></thead><tbody><tr><td><strong>Variable</strong></td><td>The variable or data element to evaluate in the condition. This can include data from the agent's output.</td><td>- <code>$flow.output.content</code> (Agent Output - string)<br>- <code>$flow.output.&#x3C;replace-with-key></code> (Agent's JSON Key Output - string/number)<br>- <code>$flow.state.messages.length</code> (Total Messages)<br>- <code>$flow.state.messages[0].con</code> (First Message Content)<br>- <code>$flow.state.messages[-1].con</code> (Last Message Content)<br>- <code>$vars.&#x3C;variable-name></code> (Global variable)</td></tr><tr><td><strong>Operation</strong></td><td>The comparison or logical operation to perform on the variable.</td><td>- Contains<br>- Not Contains<br>- Start With<br>- End With<br>- Is<br>- Is Not<br>- Is Empty<br>- Is Not Empty<br>- Greater Than<br>- Less Than<br>- Equal To<br>- Not Equal To<br>- Greater Than or Equal To<br>- Less Than or Equal To</td></tr><tr><td><strong>Value</strong></td><td>The value to compare the variable against.</td><td>- Depends on the data type of the variable and the selected operation.<br>- Examples: "yes", 10, "Hello"</td></tr><tr><td><strong>Output Name</strong></td><td>The name of the output path to follow if the condition evaluates to <code>true</code>.</td><td>- User-defined name (e.g., "Agent1", "End", "Loop")</td></tr></tbody></table>
+    <table><thead><tr><th width="125"></th><th width="186">説明</th><th>オプション/構文</th></tr></thead><tbody><tr><td><strong>変数</strong></td><td>条件で評価する変数またはデータ要素。これにはエージェントの出力からのデータを含めることができます。</td><td>- <code>$flow.output.content</code> (エージェント出力 - 文字列)<br>- <code>$flow.output.&#x3C;replace-with-key></code> (エージェントのJSONキー出力 - 文字列/数値)<br>- <code>$flow.state.messages.length</code> (全メッセージ数)<br>- <code>$flow.state.messages[0].con</code> (最初のメッセージ内容)<br>- <code>$flow.state.messages[-1].con</code> (最後のメッセージ内容)<br>- <code>$vars.&#x3C;variable-name></code> (グローバル変数)</td></tr><tr><td><strong>操作</strong></td><td>変数に対して実行する比較または論理演算。</td><td>- Contains（含む）<br>- Not Contains（含まない）<br>- Start With（で始まる）<br>- End With（で終わる）<br>- Is（である）<br>- Is Not（でない）<br>- Is Empty（空である）<br>- Is Not Empty（空でない）<br>- Greater Than（より大きい）<br>- Less Than（より小さい）<br>- Equal To（等しい）<br>- Not Equal To（等しくない）<br>- Greater Than or Equal To（以上）<br>- Less Than or Equal To（以下）</td></tr><tr><td><strong>値</strong></td><td>変数と比較する値。</td><td>- 変数のデータ型と選択された操作に依存。<br>- 例: "yes", 10, "Hello"</td></tr><tr><td><strong>出力名</strong></td><td>条件が<code>true</code>と評価された場合に従う出力パスの名前。</td><td>- ユーザー定義の名前（例: "Agent1"、"End"、"Loop"）</td></tr></tbody></table>
 
 </details>
 
-### Inputs
+### 入力
 
-<table><thead><tr><th width="167"></th><th width="118">Required</th><th>Description</th></tr></thead><tbody><tr><td>Start Node</td><td>Yes</td><td>Receives the State from the Start Node. This allows the Condition Agent Node to <strong>evaluate conditions based on the initial context</strong> of the conversation, including any custom State.</td></tr><tr><td>Agent Node</td><td>Yes</td><td>Receives the Agent Node's output. This enables the Condition Agent Node to <strong>make decisions based on the agent's actions</strong> and the conversation history, including any custom State.</td></tr><tr><td>LLM Node</td><td>Yes</td><td>Receives LLM Node's output. This allows the Condition Agent Node to <strong>evaluate conditions based on the LLM's response</strong> and the conversation history, including any custom State.</td></tr><tr><td>Tool Node</td><td>Yes</td><td>Receives the Tool Node's output. This enables the Condition Agent Node to <strong>make decisions based on the results of tool execution</strong> and the conversation history, including any custom State.</td></tr></tbody></table>
+<table><thead><tr><th width="167"></th><th width="118">必須</th><th>説明</th></tr></thead><tbody><tr><td>スタートノード</td><td>はい</td><td>スタートノードから状態を受け取ります。これにより条件エージェントノードはカスタム状態を含む会話の<strong>初期コンテキストに基づいて条件を評価</strong>できます。</td></tr><tr><td>エージェントノード</td><td>はい</td><td>エージェントノードの出力を受け取ります。これにより条件エージェントノードは<strong>エージェントのアクションと会話履歴</strong>（カスタム状態を含む）に基づいて判断を下すことができます。</td></tr><tr><td>LLMノード</td><td>はい</td><td>LLMノードの出力を受け取ります。これにより条件エージェントノードは<strong>LLMの応答と会話履歴</strong>（カスタム状態を含む）に基づいて条件を評価できます。</td></tr><tr><td>ツールノード</td><td>はい</td><td>ツールノードの出力を受け取ります。これにより条件エージェントノードは<strong>ツール実行の結果と会話履歴</strong>（カスタム状態を含む）に基づいて判断を下すことができます。</td></tr></tbody></table>
 
 {% hint style="info" %}
-The **Condition Agent Node requires at least one connection from the following nodes**: Start Node, Agent Node, LLM Node, or Tool Node.
+**条件エージェントノードには以下のノードのいずれかからの接続が少なくとも1つ必要です**: スタートノード、エージェントノード、LLMノード、またはツールノード。
 {% endhint %}
 
-### Node Setup
+### ノードの設定
 
-<table><thead><tr><th width="178">Parameter</th><th width="110">Required</th><th>Description</th></tr></thead><tbody><tr><td>Name</td><td>No</td><td>Add a descriptive name to the Condition Agent Node to enhance workflow readability and easily.</td></tr><tr><td>Condition</td><td><strong>Yes</strong></td><td>This is where we <strong>define the logic that will be evaluated to determine the output paths</strong>.</td></tr></tbody></table>
+<table><thead><tr><th width="178">パラメータ</th><th width="110">必須</th><th>説明</th></tr></thead><tbody><tr><td>名前</td><td>いいえ</td><td>条件エージェントノードにわかりやすい名前を追加してワークフローの可読性を高めます。</td></tr><tr><td>条件</td><td><strong>はい</strong></td><td>ここで<strong>出力パスを決定するために評価されるロジックを定義</strong>します。</td></tr></tbody></table>
 
-### Outputs
+### 出力
 
-The Condition Agent Node, like the Condition Node, **dynamically determines its output path based on the conditions defined**, using either the table-based interface or JavaScript. This provides flexibility in directing the workflow based on condition evaluations.
+条件エージェントノードは、条件ノードと同様に、テーブルベースのインターフェースまたはJavaScriptを使用して、**定義された条件に基づいて出力パスを動的に決定**します。これにより条件評価に基づいてワークフローを導く柔軟性が提供されます。
 
-#### Condition evaluation logic
+#### 条件評価ロジック
 
-* **Table-Based conditions:** The conditions in the table are evaluated sequentially, from top to bottom. The first condition that evaluates to true triggers its corresponding output. If none of the predefined conditions are met, the workflow is directed to the default "End" output.
-* **Code-Based conditions:** When using JavaScript, we must explicitly return the name of the desired output path, including a name for the default "End" output.
-* **Single output path:** Only one output path is activated at a time. Even if multiple conditions could be true, only the first matching condition determines the flow.
+* **テーブルベースの条件:** テーブルの条件は上から下に順番に評価されます。最初にtrueと評価される条件が、対応する出力をトリガーします。事前定義された条件のいずれも満たされない場合、ワークフローはデフォルトの"End"出力に向けられます。
+* **コードベースの条件:** JavaScriptを使用する場合、デフォルトの"End"出力の名前を含む、希望する出力パスの名前を明示的に返す必要があります。
+* **単一の出力パス:** 一度に1つの出力パスのみがアクティブになります。複数の条件がtrueになる可能性があっても、最初に一致した条件のみがフローを決定します。
 
-#### Connecting outputs
+#### 出力の接続
 
-Each predefined output, including the default "End" output, can be connected to any of the following nodes:
+デフォルトの"End"出力を含む各事前定義された出力は、以下のノードのいずれかに接続できます:
 
-* **Agent Node:** To continue the conversation with an agent, potentially taking actions based on the condition's outcome.
-* **LLM Node:** To process the current State and conversation history with an LLM, generating responses or making further decisions.
-* **End Node:** To terminate the conversation flow. If the default "End" output is connected to an End Node, the Condition Node will output the last response from the preceding node and end the conversation.
-* **Loop Node:** To redirect the flow back to a previous sequential node, enabling iterative processes based on the condition's outcome.
+* **エージェントノード:** 条件の結果に基づいてアクションを実行する可能性のあるエージェントとの会話を続けるため。
+* **LLMノード:** 現在の状態と会話履歴をLLMで処理し、応答を生成したりさらなる判断を行ったりするため。
+* **終了ノード:** 会話フローを終了するため。デフォルトの"End"出力が終了ノードに接続されている場合、条件ノードは先行するノードからの最後の応答を出力して会話を終了します。
+* **ループノード:** 条件の結果に基づいて反復プロセスを可能にするため、フローを前のシーケンシャルノードに戻すため。
 
-#### Key differences from the Condition Node
+#### 条件ノードとの主な違い
 
-* The Condition **Agent Node incorporates an agent's reasoning** and structured output into the condition evaluation process.
-* It provides a more integrated approach to agent-based condition routing.
+* 条件エージェントノードは条件評価プロセスに**エージェントの推論**と構造化出力を組み込みます。
+* エージェントベースの条件ルーティングにより統合されたアプローチを提供します。
 
-### Additional Parameters
+### 追加パラメータ
 
-<table><thead><tr><th width="180"></th><th width="111">Required</th><th>Description</th></tr></thead><tbody><tr><td>System Prompt</td><td>No</td><td><strong>Defines the Condition Agent's 'persona' and guides its behavior for making routing decisions.</strong> For example: "You are a customer service agent specializing in technical support. Your goal is to help customers with technical issues related to our product. Based on the user's query, identify the specific technical issue (e.g., connectivity problems, software bugs, hardware malfunctions)."</td></tr><tr><td>Human Prompt</td><td>No</td><td>This prompt is appended to the <code>state.messages</code> array as a human message. It allows us to <strong>inject a human-like message into the conversation flow</strong> after the Condition Agent Node has processed its input and before the next node receives the Condition Agent Node's output.</td></tr><tr><td>JSON Structured Output</td><td>No</td><td>To instruct the Condition Agent Node to <strong>provide the output in JSON structure schema</strong> (Key, Type, Enum Values, Description).</td></tr></tbody></table>
+<table><thead><tr><th width="180"></th><th width="111">必須</th><th>説明</th></tr></thead><tbody><tr><td>システムプロンプト</td><td>いいえ</td><td><strong>条件エージェントの'ペルソナ'を定義し、ルーティングの決定を行うための動作を導きます。</strong> 例: "あなたは技術サポートを専門とするカスタマーサービスエージェントです。あなたの目標は、製品に関する技術的な問題についてお客様を支援することです。ユーザーのクエリに基づいて、特定の技術的問題（接続の問題、ソフトウェアのバグ、ハードウェアの故障など）を特定してください。"</td></tr><tr><td>ヒューマンプロンプト</td><td>いいえ</td><td>このプロンプトは人間のメッセージとして<code>state.messages</code>配列に追加されます。条件エージェントノードが入力を処理した後、次のノードが条件エージェントノードの出力を受け取る前に、<strong>会話フローに人間のようなメッセージを注入</strong>することができます。</td></tr><tr><td>JSON構造化出力</td><td>いいえ</td><td>条件エージェントノードに<strong>JSON構造スキーマ（キー、タイプ、列挙値、説明）での出力を提供するよう指示</strong>します。</td></tr></tbody></table>
 
-### Best Practices
+### ベストプラクティス
 
 {% tabs %}
-{% tab title="Pro Tips" %}
-**Craft a clear and focused system prompt**
+{% tab title="プロのヒント" %}
+**明確で焦点を絞ったシステムプロンプトを作成する**
 
-Provide a well-defined persona and clear instructions to the agent in the System Prompt. This will guide its reasoning and help it generate relevant output for the conditional logic.
+システムプロンプトでエージェントに明確に定義されたペルソナと明確な指示を提供してください。これによりエージェントの推論を導き、条件ロジックに関連する出力の生成を支援します。
 
-**Structure output for reliable conditions**
+**信頼性の高い条件のために出力を構造化する**
 
-Use the JSON Structured Output feature to define a schema for the Condition Agent's output. This will ensure that the output is consistent and easily parsable, making it more reliable for use in conditional evaluations.
+JSON構造化出力機能を使用して、条件エージェントの出力のスキーマを定義してください。これにより出力が一貫性があり簡単に解析できるようになり、条件評価での使用がより信頼性の高いものになります。
 {% endtab %}
 
-{% tab title="Potential Pitfalls" %}
-**Unreliable routing due to unstructured output**
+{% tab title="潜在的な落とし穴" %}
+**構造化されていない出力によるルーティングの信頼性低下**
 
-* **Problem:** The Condition Agent Node is not configured to output structured JSON data, leading to unpredictable output formats that can make it difficult to define reliable conditions.
-* **Example:** The Condition Agent Node is asked to determine user sentiment (positive, negative, neutral) but outputs its assessment as a free-form text string. The variability in the agent's language makes it challenging to create accurate conditions in the conditional table or code.
-* **Solution:** Use the JSON Structured Output feature to define a schema for the agent's output. For example, specify a "sentiment" key with an enum of "positive," "negative," and "neutral." This will ensure that the agent's output is consistently structured, making it much easier to create reliable conditions.
+* **問題:** 条件エージェントノードが構造化されたJSONデータを出力するように設定されていないため、予測不可能な出力フォーマットとなり、信頼性の高い条件を定義することが困難になります。
+* **例:** 条件エージェントノードはユーザーの感情（ポジティブ、ネガティブ、中立）を判断するように求められていますが、その評価を自由形式のテキスト文字列として出力します。エージェントの言葉遣いの変動性により、条件テーブルやコードで正確な条件を作成することが困難になります。
+* **解決策:** JSON構造化出力機能を使用してエージェントの出力のスキーマを定義してください。例えば、「感情」キーに「ポジティブ」「ネガティブ」「中立」の列挙を指定します。これによりエージェントの出力が一貫して構造化され、信頼性の高い条件を作成することがはるかに容易になります。
 {% endtab %}
 {% endtabs %}
 
 ***
 
-## 9. Loop Node
+## 9. ループノード
 
-The Loop Node allows us to create loops within our conversational flow, **redirecting the conversation back to a specific point**. This is useful for scenarios where we need to repeat a certain sequence of actions or questions based on user input or specific conditions.
+ループノードを使用すると、会話フロー内でループを作成し、**会話を特定のポイントに戻す**ことができます。これは、ユーザー入力や特定の条件に基づいて特定のアクションやクエスチョンのシーケンスを繰り返す必要があるシナリオで役立ちます。
 
 <figure><img src="../../.gitbook/assets/sa-loop.png" alt="" width="335"><figcaption></figcaption></figure>
 
-### Understanding the Loop Node
+### ループノードについて
 
-The Loop Node acts as a connector, redirecting the flow back to a specific point in the graph, allowing us to create loops within our conversational flow. **It passes the current State, which includes the output of the node preceding the Loop Node to our target node.** This data transfer allows our target node to process information from the previous iteration of the loop and adjust its behavior accordingly.
+ループノードはコネクタとして機能し、フローをグラフの特定のポイントに戻すことで、会話フロー内でループを作成することができます。**ループノードの前のノードの出力を含む現在の状態をターゲットノードに渡します。**このデータ転送により、ターゲットノードはループの前の反復からの情報を処理し、それに応じて動作を調整することができます。
 
-For instance, let's say we're building a chatbot that helps users book flights. We might use a loop to iteratively refine the search criteria based on user feedback.
+例えば、ユーザーのフライト予約を支援するチャットボットを構築しているとします。ユーザーのフィードバックに基づいて検索条件を反復的に改善するためにループを使用できます。
 
-#### Here's how the Loop Node could be used
+#### ループノードの使用方法の例
 
-1. **LLM Node (Initial Search):** The LLM Node receives the user's initial flight request (e.g., "Find flights from Madrid to New York in July"). It queries a flight search API and returns a list of possible flights.
-2. **Agent Node (Present Options):** The Agent Node presents the flight options to the user and asks if they would like to refine their search (e.g., "Would you like to filter by price, airline, or departure time?").
-3. **Condition Agent Node:** The Condition Agent Node checks the user's response and has two outputs:
-   * **If the user wants to refine:** The flow goes to the "Refine Search" LLM Node.
-   * **If the user is happy with the results:** The flow proceeds to the booking process.
-4. **LLM Node (Refine Search):** This LLM Node gathers the user's refinement criteria (e.g., "Show me only flights under $500") and updates the State with the new search parameters.
-5. **Loop Node:** The Loop Node redirects the flow back to the initial LLM Node ("Initial Search"). It passes the updated State, which now includes the refined search criteria.
-6. **Iteration:** The initial LLM Node performs a new search using the refined criteria, and the process repeats from step 2.
+1. **LLMノード（初期検索）:** LLMノードはユーザーの初期フライトリクエスト（例: 「7月のマドリッドからニューヨークへのフライトを探して」）を受け取ります。フライト検索APIにクエリを送信し、可能なフライトのリストを返します。
+2. **エージェントノード（オプションの提示）:** エージェントノードはフライトオプションをユーザーに提示し、検索を絞り込みたいかどうかを尋ねます（例: 「価格、航空会社、出発時刻で絞り込みますか？」）。
+3. **条件エージェントノード:** 条件エージェントノードはユーザーの応答をチェックし、2つの出力を持ちます:
+   * **ユーザーが絞り込みを希望する場合:** フローは「検索の絞り込み」LLMノードに進みます。
+   * **ユーザーが結果に満足している場合:** フローは予約プロセスに進みます。
+4. **LLMノード（検索の絞り込み）:** このLLMノードはユーザーの絞り込み条件（例: 「500ドル未満のフライトのみ表示」）を収集し、新しい検索パラメータで状態を更新します。
+5. **ループノード:** ループノードはフローを初期LLMノード（「初期検索」）に戻します。更新された状態（絞り込まれた検索条件を含む）を渡します。
+6. **反復:** 初期LLMノードは絞り込まれた条件を使用して新しい検索を実行し、ステップ2からプロセスが繰り返されます。
 
-**In this example, the Loop Node enables an iterative search refinement process.** The system can continue to loop back and refine the search results until the user is satisfied with the options presented.
+**この例では、ループノードが反復的な検索絞り込みプロセスを可能にします。**システムは、ユーザーが提示されたオプションに満足するまで、ループバックして検索結果を絞り込み続けることができます。
 
-### Inputs
+### 入力
 
-<table><thead><tr><th width="197"></th><th width="104">Required</th><th>Description</th></tr></thead><tbody><tr><td>Agent Node</td><td><strong>Yes</strong></td><td>Receives the output of a preceding Agent Node. This data is then sent back to the target node specified in the "Loop To" parameter.</td></tr><tr><td>LLM Node</td><td><strong>Yes</strong></td><td>Receives the output of a preceding LLM Node. This data is then sent back to the target node specified in the "Loop To" parameter.</td></tr><tr><td>Tool Node</td><td><strong>Yes</strong></td><td>Receives the output of a preceding Tool Node. This data is then sent back to the target node specified in the "Loop To" parameter.</td></tr><tr><td>Condition Node</td><td><strong>Yes</strong></td><td>Receives the output of a preceding Condition Node. This data is then sent back to the target node specified in the "Loop To" parameter.</td></tr><tr><td>Condition Agent Node</td><td><strong>Yes</strong></td><td>Receives the output of a preceding Condition Agent Node. This data is then sent back to the target node specified in the "Loop To" parameter.</td></tr></tbody></table>
+<table><thead><tr><th width="197"></th><th width="104">必須</th><th>説明</th></tr></thead><tbody><tr><td>エージェントノード</td><td><strong>はい</strong></td><td>先行するエージェントノードの出力を受け取ります。このデータは「ループ先」パラメータで指定されたターゲットノードに送り返されます。</td></tr><tr><td>LLMノード</td><td><strong>はい</strong></td><td>先行するLLMノードの出力を受け取ります。このデータは「ループ先」パラメータで指定されたターゲットノードに送り返されます。</td></tr><tr><td>ツールノード</td><td><strong>はい</strong></td><td>先行するツールノードの出力を受け取ります。このデータは「ループ先」パラメータで指定されたターゲットノードに送り返されます。</td></tr><tr><td>条件ノード</td><td><strong>はい</strong></td><td>先行する条件ノードの出力を受け取ります。このデータは「ループ先」パラメータで指定されたターゲットノードに送り返されます。</td></tr><tr><td>条件エージェントノード</td><td><strong>はい</strong></td><td>先行する条件エージェントノードの出力を受け取ります。このデータは「ループ先」パラメータで指定されたターゲットノードに送り返されます。</td></tr></tbody></table>
 
 {% hint style="info" %}
-The **Loop Node requires at least one connection from the following nodes**: Agent Node, LLM Node, Tool Node, Condition Node, or Condition Agent Node.
+**ループノードには以下のノードのいずれかからの接続が少なくとも1つ必要です**: エージェントノード、LLMノード、ツールノード、条件ノード、または条件エージェントノード。
 {% endhint %}
 
-### Node Setup
+### ノードの設定
 
-<table><thead><tr><th width="125"></th><th width="109">Required</th><th>Description</th></tr></thead><tbody><tr><td>Loop To</td><td><strong>Yes</strong></td><td>The Loop Node requires us to <strong>specify the target node</strong> ("Loop To") where the conversational flow should be redirected. This target node must be an <strong>Agent Node</strong> or <strong>LLM Node</strong>.</td></tr></tbody></table>
+<table><thead><tr><th width="125"></th><th width="109">必須</th><th>説明</th></tr></thead><tbody><tr><td>ループ先</td><td><strong>はい</strong></td><td>ループノードでは、会話フローをリダイレクトする<strong>ターゲットノード</strong>（「ループ先」）を<strong>指定する必要があります</strong>。このターゲットノードは<strong>エージェントノード</strong>または<strong>LLMノード</strong>である必要があります。</td></tr></tbody></table>
 
-### Outputs
+### 出力
 
-The **Loop Node does not have any direct output connections**. It redirects the flow back to the specific sequential node in the graph.
+**ループノードには直接の出力接続はありません**。グラフ内の特定のシーケンシャルノードにフローを戻します。
 
-### Best Practices
+### ベストプラクティス
 
 {% tabs %}
-{% tab title="Pro Tips" %}
-**Clear loop purpose**
+{% tab title="プロのヒント" %}
+**明確なループの目的**
 
-Define a clear purpose for each loop in your workflow. If possible, document with a sticky note what you're trying to achieve with the loop.
+ワークフロー内の各ループの明確な目的を定義してください。可能であれば、付箋を使用してループで達成しようとしていることを文書化してください。
 {% endtab %}
 
-{% tab title="Potencial Pitfalls" %}
-**Confusing workflow structure**
+{% tab title="潜在的な落とし穴" %}
+**混乱したワークフロー構造**
 
-* **Problem:** Excessive or poorly designed loops make the workflow difficult to understand and maintain.
-* **Example:** You use multiple nested loops without clear purpose or labels, making it hard to follow the flow of the conversation.
-* **Solution:** Use loops sparingly and only when necessary. Clearly document your Loop Nodes and the nodes they connect to.
+* **問題:** 過度または設計の悪いループにより、ワークフローの理解とメンテナンスが困難になります。
+* **例:** 明確な目的やラベルのない複数のネストされたループを使用し、会話のフローを追跡するのが難しくなります。
+* **解決策:** ループは必要な場合にのみ控えめに使用してください。ループノードとそれらが接続するノードを明確に文書化してください。
 
-**Infinite loops due to missing or incorrect exit conditions**
+**終了条件の欠如または不正確な定義によるデッドロック**
 
-* **Problem:** The loop never terminates because the condition that should trigger the loop's exit is either missing or incorrectly defined.
-* **Example:** A Loop Node is used to iteratively gather user information. However, the workflow lacks a Conditional Agent Node to check if all required information has been collected. As a result, the loop continues indefinitely, repeatedly asking the user for the same information.
-* **Solution:** Always define clear and accurate exit conditions for loops. Use Condition Nodes to check state variables, user input, or other factors that indicate when the loop should terminate.
+* **問題:** ループの終了をトリガーする条件が欠落しているか不正確に定義されているため、ループが終了しません。
+* **例:** ループノードを使用してユーザー情報を反復的に収集します。しかし、ワークフローには必要な情報がすべて収集されたかどうかをチェックする条件エージェントノードがありません。その結果、ループは無限に続き、同じ情報を繰り返しユーザーに要求します。
+* **解決策:** ループには常に明確で正確な終了条件を定義してください。ループを終了するタイミングを示す状態変数、ユーザー入力、または他の要因をチェックする条件ノードを使用してください。
 {% endtab %}
 {% endtabs %}
 
 ***
 
-## 10. End Node
+## 10. 終了ノード
 
-The End Node marks the definitive **termination point of the conversation** in a Sequential Agent workflow. It signifies that no further processing, actions, or interactions are required.
+終了ノードは、シーケンシャルエージェントワークフローにおける会話の**確定的な終了点**をマークします。これ以上の処理、アクション、または対話が不要であることを示します。
 
 <figure><img src="../../.gitbook/assets/seq-end-node.png" alt="" width="375"><figcaption></figcaption></figure>
 
-### Understanding the End Node
+### 終了ノードについて
 
-The End Node serves as a signal within Flowise's Sequential Agent architecture, **indicating that the conversation has reached its intended conclusion**. Upon reaching the End Node, the system "understands" that the conversational objective has been met, and no further actions or interactions are required within the flow.
+終了ノードは、Flowiseのシーケンシャルエージェントアーキテクチャ内で、**会話が意図した結論に達したことを示す**シグナルとして機能します。終了ノードに到達すると、システムは会話の目的が達成され、フロー内でこれ以上のアクションや対話が不要であることを「理解」します。
 
-### Inputs
+### 入力
 
-<table><thead><tr><th width="212"></th><th width="103">Required</th><th>Description</th></tr></thead><tbody><tr><td>Agent Node</td><td><strong>Yes</strong></td><td>Receives the final output from a preceding Agent Node, indicating the end of the agent's processing.</td></tr><tr><td>LLM Node</td><td><strong>Yes</strong></td><td>Receives the final output from a preceding LLM Node, indicating the end of the LLM Node's processing.</td></tr><tr><td>Tool Node</td><td><strong>Yes</strong></td><td>Receives the final output from a preceding Tool Node, indicating the completion of the Tool Node's execution.</td></tr><tr><td>Condition Node</td><td><strong>Yes</strong></td><td>Receives the final output from a preceding Condition Node, indicating the end of the Condition Node's execution.</td></tr><tr><td>Condition Agent Node</td><td><strong>Yes</strong></td><td>Receives the final output from a preceding Condition Node, indicating the completion of the Condition Agent Node's processing.</td></tr></tbody></table>
+<table><thead><tr><th width="212"></th><th width="103">必須</th><th>説明</th></tr></thead><tbody><tr><td>エージェントノード</td><td><strong>はい</strong></td><td>先行するエージェントノードからの最終出力を受け取り、エージェントの処理の終了を示します。</td></tr><tr><td>LLMノード</td><td><strong>はい</strong></td><td>先行するLLMノードからの最終出力を受け取り、LLMノードの処理の終了を示します。</td></tr><tr><td>ツールノード</td><td><strong>はい</strong></td><td>先行するツールノードからの最終出力を受け取り、ツールノードの実行の完了を示します。</td></tr><tr><td>条件ノード</td><td><strong>はい</strong></td><td>先行する条件ノードからの最終出力を受け取り、条件ノードの実行の終了を示します。</td></tr><tr><td>条件エージェントノード</td><td><strong>はい</strong></td><td>先行する条件ノードからの最終出力を受け取り、条件エージェントノードの処理の完了を示します。</td></tr></tbody></table>
 
 {% hint style="info" %}
-The **End Node requires at least one connection from the following nodes**: Agent Node, LLM Node, or Tool Node.
+**終了ノードには以下のノードのいずれかからの接続が少なくとも1つ必要です**: エージェントノード、LLMノード、またはツールノード。
 {% endhint %}
 
-### Outputs
+### 出力
 
-The **End Node does not have any output** connections as it signifies the termination of the information flow.
+**終了ノードには出力接続はありません**。これは情報フローの終了を示すためです。
 
-### Best Practices
+### ベストプラクティス
 
 {% tabs %}
-{% tab title="Pro Tips" %}
-**Provide a final response**
+{% tab title="プロのヒント" %}
+**最終応答を提供する**
 
-If appropriate, connect the End Node to an dedicated LLM or Agent Node to generate a final message or summary for the user, providing closure to the conversation.
+適切な場合は、終了ノードを専用のLLMまたはエージェントノードに接続して、ユーザーに対する最終メッセージまたはまとめを生成し、会話のクロージャーを提供してください。
 {% endtab %}
 
-{% tab title="Potencial Pitfalls" %}
-**Premature conversation termination**
+{% tab title="潜在的な落とし穴" %}
+**早すぎる会話の終了**
 
-* **Problem:** The End Node is placed too early in the workflow, causing the conversation to end before all necessary steps are completed or the user's request is fully addressed.
-* **Example:** A chatbot designed to collect user feedback ends the conversation after the user provides their first comment, without giving them an opportunity to provide additional feedback or ask questions.
-* **Solution:** Review your workflow logic and ensure that the End Node is placed only after all essential steps have been completed or the user has explicitly indicated their intent to end the conversation.
+* **問題:** 終了ノードがワークフローの早すぎる段階に配置されており、必要なステップがすべて完了する前、またはユーザーのリクエストが完全に対応される前に会話が終了してしまいます。
+* **例:** ユーザーフィードバックを収集するように設計されたチャットボットが、ユーザーが最初のコメントを提供した後に、追加のフィードバックを提供したり質問したりする機会を与えずに会話を終了します。
+* **解決策:** ワークフローのロジックを見直し、すべての重要なステップが完了した後、またはユーザーが会話を終了する意図を明示的に示した後にのみ、終了ノードが配置されていることを確認してください。
 
-**Lack of closure for the user**
+**ユーザーにとってのクロージャーの欠如**
 
-* **Problem:** The conversation ends abruptly without a clear signal to the user or a final message that provides a sense of closure.
-* **Example:** A customer support chatbot ends the conversation immediately after resolving an issue, without confirming the resolution with the user or offering further assistance.
-* **Solution:** Connect the End Node to a dedicate LLM or Agent Node to generate a final response that summarizes the conversation, confirms any actions taken, and provides a sense of closure for the user.
+* **問題:** ユーザーに対する明確なシグナルやクロージャーの感覚を提供する最終メッセージなしに、会話が突然終了します。
+* **例:** カスタマーサポートチャットボットが、問題の解決をユーザーに確認したり、さらなる支援を提供したりすることなく、問題を解決した直後に会話を終了します。
+* **解決策:** 終了ノードを専用のLLMまたはエージェントノードに接続して、会話をまとめ、実行されたアクションを確認し、ユーザーにクロージャーの感覚を提供する最終応答を生成してください。
 {% endtab %}
 {% endtabs %}
 
 ***
 
-## Condition Node vs. Condition Agent Node
+## 条件ノードと条件エージェントノードの比較
 
-The Condition and Condition Agent Nodes are essential in Flowise's Sequential Agent architecture for creating dynamic conversational experiences.
+条件ノードと条件エージェントノードは、Flowiseのシーケンシャルエージェントアーキテクチャにおいて、動的な会話体験を作成するために不可欠です。
 
-These nodes enable adaptive workflows, responding to user input, context, and complex decisions, but differ in their approach to condition evaluation and sophistication.
+これらのノードはユーザー入力、コンテキスト、複雑な判断に応答する適応型ワークフローを可能にしますが、条件評価とその洗練度のアプローチに違いがあります。
 
 <details>
 
-<summary><strong>Condition Node</strong></summary>
+<summary><strong>条件ノード</strong></summary>
 
-**Purpose**
+**目的**
 
-To create branches based on simple, predefined logical conditions.
+シンプルで事前定義された論理条件に基づいてブランチを作成します。
 
-**Condition evaluation**
+**条件評価**
 
-Uses a table-based interface or JavaScript code editor to define conditions that are checked against the custom State and/or the full conversation history.
+テーブルベースのインターフェースまたはJavaScriptコードエディタを使用して、カスタム状態および/または完全な会話履歴に対してチェックされる条件を定義します。
 
-**Output behavior**
+**出力動作**
 
-* Supports multiple output paths, each associated with a specific condition.
-* Conditions are evaluated in order. The first matching condition determines the output.
-* If no conditions are met, the flow follows a default "End" output.
+* 特定の条件に関連付けられた複数の出力パスをサポートします。
+* 条件は順番に評価されます。最初に一致する条件が出力を決定します。
+* 条件が満たされない場合、フローはデフォルトの「End」出力に従います。
 
-**Best suited for**
+**最適な用途**
 
-* Straightforward routing decisions based on easily definable conditions.
-* Workflows where the logic can be expressed using simple comparisons, keyword checks, or custom state variable values.
+* 簡単に定義できる条件に基づく単純なルーティング判断。
+* シンプルな比較、キーワードチェック、またはカスタム状態変数の値を使用してロジックを表現できるワークフロー。
 
 </details>
 
 <details>
 
-<summary><strong>Condition Agent Node</strong></summary>
+<summary><strong>条件エージェントノード</strong></summary>
 
-**Purpose**
+**目的**
 
-To create dynamic routing based on an agent's analysis of the conversation and its structured output.
+会話のエージェントの分析とその構造化出力に基づいて動的なルーティングを作成します。
 
-**Condition evaluation**
+**条件評価**
 
-* If no Chat Model is connected, it uses the default system LLM (from the Start Node) to process the conversation history and any custom State.
-* It can generate structured output, which is then used for condition evaluation.
-* Uses a table-based interface or JavaScript code editor to define conditions that are checked against the agent's own output, structured or not.
+* チャットモデルが接続されていない場合、デフォルトのシステムLLM（スタートノードから）を使用して会話履歴とカスタム状態を処理します。
+* 構造化された出力を生成でき、それを条件評価に使用します。
+* テーブルベースのインターフェースまたはJavaScriptコードエディタを使用して、エージェント自身の出力（構造化されているかどうかに関わらず）に対してチェックされる条件を定義します。
 
-**Output behavior**
+**出力動作**
 
-Same as the Condition Node:
+条件ノードと同じ:
 
-* Supports multiple output paths, each associated with a specific condition.
-* Conditions are evaluated in order. The first matching condition determines the output.
-* If no conditions are met, the flow follows the default "End" output.
+* 特定の条件に関連付けられた複数の出力パスをサポートします。
+* 条件は順番に評価されます。最初に一致する条件が出力を決定します。
+* 条件が満たされない場合、フローはデフォルトの「End」出力に従います。
 
-**Best suited for**
+**最適な用途**
 
-* More complex routing decisions that require an understanding of conversation context, user intent, or nuanced factors.
-* Scenarios where simple logical conditions are insufficient to capture the desired routing logic.
-* **Example:** A chatbot needs to determine if a user's question is related to a specific product category. A Condition Agent Node could be used to analyze the user's query and output a JSON object with a "category" field. The Condition Agent Node can then use this structured output to route the user to the appropriate product specialist.
+* 会話のコンテキスト、ユーザーの意図、またはニュアンスのある要因の理解を必要とするより複雑なルーティング判断。
+* シンプルな論理条件では望ましいルーティングロジックを捉えるのに不十分なシナリオ。
+* **例:** チャットボットがユーザーの質問が特定の製品カテゴリに関連しているかどうかを判断する必要がある場合。条件エージェントノードを使用してユーザーのクエリを分析し、「カテゴリ」フィールドを持つJSONオブジェクトを出力できます。その後、条件エージェントノードはこの構造化された出力を使用して、ユーザーを適切な製品スペシャリストにルーティングできます。
 
 </details>
 
-### Summarizing
+### まとめ
 
-<table><thead><tr><th width="218"></th><th width="258">Condition Node</th><th>Condition Agent Node</th></tr></thead><tbody><tr><td><strong>Decision Logic</strong></td><td>Based on predefined logical conditions.</td><td>Based on agent's reasoning and structured output.</td></tr><tr><td><strong>Agent Involvement</strong></td><td>No agent involved in condition evaluation.</td><td>Uses an agent to process context and generate output for conditions.</td></tr><tr><td><strong>Structured Output</strong></td><td>Not possible.</td><td>Possible and encouraged for reliable condition evaluation.</td></tr><tr><td><strong>Condition Evaluation</strong></td><td>Only define conditions that are checked against the full conversation history.</td><td>Can define conditions that are checked against the agent's own output, structured or not.</td></tr><tr><td><strong>Complexity</strong></td><td>Suitable for simple branching logic.</td><td>Handles more nuanced and context-aware routing.</td></tr><tr><td><strong>Ideal Uses Cases</strong></td><td><ul><li>Routing based on user's age or a keyword in the conversation.</li></ul></td><td><ul><li>Routing based on user sentiment, intent, or complex contextual factors.</li></ul></td></tr></tbody></table>
+<table><thead><tr><th width="218"></th><th width="258">条件ノード</th><th>条件エージェントノード</th></tr></thead><tbody><tr><td><strong>判断ロジック</strong></td><td>事前定義された論理条件に基づきます。</td><td>エージェントの推論と構造化出力に基づきます。</td></tr><tr><td><strong>エージェントの関与</strong></td><td>条件評価にエージェントは関与しません。</td><td>コンテキストを処理し条件のための出力を生成するためにエージェントを使用します。</td></tr><tr><td><strong>構造化出力</strong></td><td>不可能です。</td><td>可能で、信頼性の高い条件評価のために推奨されます。</td></tr><tr><td><strong>条件評価</strong></td><td>完全な会話履歴に対してチェックされる条件のみを定義します。</td><td>エージェント自身の出力（構造化されているかどうかに関わらず）に対してチェックされる条件を定義できます。</td></tr><tr><td><strong>複雑さ</strong></td><td>シンプルな分岐ロジックに適しています。</td><td>よりニュアンスのあるコンテキストを認識したルーティングを処理します。</td></tr><tr><td><strong>理想的なユースケース</strong></td><td><ul><li>ユーザーの年齢や会話のキーワードに基づくルーティング。</li></ul></td><td><ul><li>ユーザーの感情、意図、または複雑なコンテキスト要因に基づくルーティング。</li></ul></td></tr></tbody></table>
 
-### Choosing the right node
+### 適切なノードの選択
 
-* **Condition Node:** Use the Condition Node when your routing logic involves straightforward decisions based on easily definable conditions. For instance, it's perfect for checking for specific keywords, comparing values in the State, or evaluating other simple logical expressions.
-* **Condition Agent Node:** However, when your routing demands a deeper understanding of the conversation's nuances, the Condition Agent Node is the better choice. This node acts as your intelligent routing assistant, leveraging an LLM to analyze the conversation, make judgments based on context, and provide structured output that drives more sophisticated and dynamic routing.
+* **条件ノード:** 簡単に定義できる条件に基づく単純な判断にルーティングロジックが含まれる場合は、条件ノードを使用します。例えば、特定のキーワードのチェック、状態の値の比較、または他のシンプルな論理式の評価に最適です。
+* **条件エージェントノード:** しかし、ルーティングが会話のニュアンスをより深く理解する必要がある場合は、条件エージェントノードがより良い選択です。このノードはインテリジェントなルーティングアシスタントとして機能し、LLMを活用して会話を分析し、コンテキストに基づいて判断を下し、より洗練された動的なルーティングを駆動する構造化出力を提供します。
 
 ***
 
-## Agent Node vs. LLM Node
+## エージェントノードとLLMノードの比較
 
-It's important to understand that both the **LLM Node and the Agent Node can be considered agentic entities within our system**, as they both leverage the capabilities of a large language model (LLM) or Chat Model.
+**LLMノードとエージェントノードの両方がシステム内のエージェント的なエンティティと見なされる**ことは重要です。両方のノードが大規模言語モデル（LLM）またはチャットモデルの機能を活用するためです。
 
-However, while both nodes can process language and interact with tools, they are designed for different purposes within a workflow.
+しかし、両方のノードが言語を処理しツールと対話できますが、ワークフロー内で異なる目的のために設計されています。
 
 <details>
 
-<summary>Agent Node</summary>
+<summary>エージェントノード</summary>
 
-**Focus**
+**焦点**
 
-The primary focus of the Agent Node to simulate the actions and decision-making of a human agent within a conversational context.
+エージェントノードの主な焦点は、会話コンテキスト内での人間のエージェントのアクションと意思決定をシミュレートすることです。
 
-It acts as a high-level coordinator within the workflow, bringing together language understanding, tool execution, and decision-making to create a more human-like conversational experience.
+より人間らしい会話体験を作成するために、言語理解、ツール実行、意思決定を組み合わせて、ワークフロー内のハイレベルなコーディネーターとして機能します。
 
-**Strengths**
+**強み**
 
-* Effectively manages the execution of multiple tools and integrates their results.
-* Offers built-in support for Human-in-the-Loop (HITL), enabling human review and approval for sensitive operations.
+* 複数のツールの実行を効果的に管理し、その結果を統合します。
+* Human-in-the-Loop（HITL）の組み込みサポートを提供し、機密性の高い操作の人間によるレビューと承認を可能にします。
 
-**Best Suited For**
+**最適な用途**
 
-* Workflows where the agent needs to guide the user, gather information, make choices, and manage the overall conversation flow.
-* Scenarios requiring integration with multiple external tools.
-* Tasks involving sensitive data or actions where human oversight is beneficial, like approving financial transaction
+* エージェントがユーザーを導き、情報を収集し、選択を行い、全体的な会話フローを管理する必要があるワークフロー。
+* 複数の外部ツールとの統合を必要とするシナリオ。
+* 金融取引の承認など、人間の監督が有益な機密データやアクションを含むタスク。
 
 </details>
 
 <details>
 
-<summary>LLM Node</summary>
+<summary>LLMノード</summary>
 
-**Focus**
+**焦点**
 
-Similar to the Agent Node, but it provides more flexibility when using tools and Human-in-the-Loop (HITL), both via the Tool Node.
+エージェントノードと同様ですが、ツールノードを介してツールとHuman-in-the-Loop（HITL）の使用においてより柔軟性を提供します。
 
-**Strengths**
+**強み**
 
-* Enables the definition of JSON schemas to structure the LLM's output, making it easier to extract specific information.
-* Offers flexibility in tool integration, allowing for more complex sequences of LLM and tool calls, and providing fine-grained control over the HITL feature.
+* LLMの出力を構造化するためのJSONスキーマの定義を可能にし、特定の情報の抽出を容易にします。
+* ツール統合における柔軟性を提供し、LLMとツールコールのより複雑なシーケンスを可能にし、HITL機能の細かい制御を提供します。
 
-**Best Suited For**
+**最適な用途**
 
-* Scenarios where structured data needs to be extracted from the LLM's response.
-* Workflows requiring a mix of automated and human-reviewed tool executions. For example, an LLM Node might call a tool to retrieve product information (automated), and then a different tool to process a payment, which would require HITL approval.
+* LLMの応答から構造化データを抽出する必要があるシナリオ。
+* 自動化された実行と人間によるレビューを必要とするツール実行を混在させるワークフロー。例えば、LLMノードが製品情報を取得するツール（自動化）を呼び出し、その後、HITLの承認が必要な支払いを処理する別のツールを呼び出す場合など。
 
 </details>
 
-### Summarizing
+### まとめ
 
-<table><thead><tr><th width="206"></th><th width="253">Agent Node</th><th>LLM Node</th></tr></thead><tbody><tr><td><strong>Tool Interaction</strong></td><td>Directly calls and manages multiple tools, built-in HITL.</td><td>Triggers tools via the Tool Node, granular HITL control at the tool level.</td></tr><tr><td><strong>Human-in-the-Loop (HITL)</strong></td><td>HITL controlled at the Agent Node level (all connected tools affected).</td><td>HITL managed at the individual Tool Node level (more flexibility).</td></tr><tr><td><strong>Structured Output</strong></td><td>Relies on the LLM's natural output format.</td><td>Relies on the LLM's natural output format, but, if needed, provides JSON schema definition to structure LLM output.</td></tr><tr><td><strong>Ideal Use Cases</strong></td><td><ul><li>Workflows with complex tool orchestration.</li><li>Simplified HITL at the Agent Level.</li></ul></td><td><ul><li>Extracting structured data from LLM output</li><li>Workflows with complex LLM and tool interactions, requiring mixed HITL levels.</li></ul></td></tr></tbody></table>
+<table><thead><tr><th width="206"></th><th width="253">エージェントノード</th><th>LLMノード</th></tr></thead><tbody><tr><td><strong>ツールの対話</strong></td><td>複数のツールを直接呼び出して管理し、HITLを組み込みます。</td><td>ツールノードを介してツールをトリガーし、ツールレベルで細かいHITL制御を行います。</td></tr><tr><td><strong>Human-in-the-Loop (HITL)</strong></td><td>HITLはエージェントノードレベルで制御されます（接続されたすべてのツールに影響）。</td><td>HITLは個々のツールノードレベルで管理されます（より柔軟）。</td></tr><tr><td><strong>構造化出力</strong></td><td>LLMの自然な出力フォーマットに依存します。</td><td>LLMの自然な出力フォーマットに依存しますが、必要に応じてLLM出力を構造化するためのJSONスキーマ定義を提供します。</td></tr><tr><td><strong>理想的なユースケース</strong></td><td><ul><li>複雑なツールオーケストレーションを持つワークフロー。</li><li>エージェントレベルでの簡略化されたHITL。</li></ul></td><td><ul><li>LLM出力からの構造化データの抽出</li><li>複雑なLLMとツールの相互作用を持ち、混在したHITLレベルを必要とするワークフロー。</li></ul></td></tr></tbody></table>
 
-### Choosing the right node
+### 適切なノードの選択
 
-* **Choose the Agent Node:** Use the Agent Node when you need to create a conversational system that can manage the execution of multiple tools, all of which share the same HITL setting (enabled or disabled for the entire Agent Node). The Agent Node is also well-suited for handling complex multi-step conversations where consistent agent-like behavior is desired.
-* **Choose the LLM Node:** On the other hand, use the LLM Node when you need to extract structured data from the LLM's output using the JSON schema feature, a capability not available in the Agent Node. The LLM Node also excels at orchestrating tool execution with fine-grained control over HITL at the individual tool level, allowing you to mix automated and human-reviewed tool executions by using multiple Tool Nodes connected to the LLM Node.
+* **エージェントノードを選択:** すべてのツールが同じHITL設定（エージェントノード全体で有効または無効）を共有する複数のツールの実行を管理できる会話システムを作成する必要がある場合は、エージェントノードを使用します。エージェントノードは、一貫したエージェントのような振る舞いが望ましい複雑な多段階の会話を処理するのにも適しています。
+* **LLMノードを選択:** 一方、JSONスキーマ機能を使用してLLMの出力から構造化データを抽出する必要がある場合は、エージェントノードでは利用できないこの機能のためにLLMノードを使用します。LLMノードは、個々のツールレベルでHITLを細かく制御してツール実行をオーケストレーションすることにも優れており、LLMノードに接続された複数のツールノードを使用することで、自動化された実行と人間によるレビューを必要とするツール実行を混在させることができます。
 
-[^1]: In our current context, a lower level of abstraction refers to a system that exposes a greater degree of implementation detail to the developer.
+[^1]: 現在のコンテキストでは、より低いレベルの抽象化は、開発者により多くの実装の詳細を公開するシステムを指します。

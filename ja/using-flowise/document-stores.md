@@ -1,156 +1,156 @@
 ---
-description: Learn how to use the Flowise Document Stores, written by @toi500
+description: Flowiseのドキュメントストアの使用方法について学ぶ（@toi500 著）
 ---
 
-# Document Stores
+# ドキュメントストア
 
 ***
 
-Flowise's Document Stores offer a versatile approach to data management, enabling you to upload, split, and prepare your dataset and upsert it in a single location.
+Flowiseのドキュメントストアは、データ管理に関して柔軟なアプローチを提供し、データセットのアップロード、分割、準備、そして1つの場所への追加挿入(アップサート)を可能にします。
 
-This centralized approach simplifies data handling and allows for efficient management of various data formats, making it easier to organize and access your data within the Flowise app.
+この一元化されたアプローチによってデータ処理が簡素化され、様々なデータ形式を効率的に管理することができ、Flowiseアプリ内でのデータの整理とアクセスが容易になります。
 
-## Setup
+## セットアップ
 
-In this tutorial, we will set up a [Retrieval Augmented Generation (RAG)](../use-cases/multiple-documents-qna.md) system to retrieve information about the _LibertyGuard Deluxe Homeowners Policy_, a topic that LLMs are not extensively trained on.
+このチュートリアルでは、LLMが広範に学習していない「LibertyGuard Deluxe住宅所有者保険」に関する情報を取得するための[検索拡張生成(RAG)](../use-cases/multiple-documents-qna.md)システムをセットアップします。
 
-Using the **Flowise Document Stores**, we'll prepare and upsert data about LibertyGuard and its set of home insurance policies. This will enable our RAG system to accurately answer user queries about LibertyGuard's home insurance offerings.
+**Flowiseドキュメントストア**を使用して、LibertyGuardとその住宅保険商品に関するデータを準備し、アップサートします。これにより、RAGシステムがLibertyGuardの住宅保険商品に関するユーザーの質問に正確に回答できるようになります。
 
-## 1. Add a Document Store
+## 1. ドキュメントストアの追加
 
-* Start by adding a Document Store and naming it. In our case, "LibertyGuard Deluxe Homeowners Policy".
+* まず、ドキュメントストアを追加して名前を付けます。この例では、「LibertyGuard Deluxe住宅所有者保険」とします。
 
 <figure><img src="../.gitbook/assets/ds01.png" alt=""><figcaption></figcaption></figure>
 
-## 2. Select a Document Loader
+## 2. ドキュメントローダーの選択
 
-* Enter the Document Store that you just created and select the [Document Loader](../integrations/langchain/document-loaders/) you want to use. In our case, since our dataset is in PDF format, we'll use the [PDF Loader](../integrations/langchain/document-loaders/pdf-file.md).
+* 作成したドキュメントストアに入り、使用する[ドキュメントローダー](../integrations/langchain/document-loaders/)を選択します。この例では、データセットがPDF形式なので、[PDFローダー](../integrations/langchain/document-loaders/pdf-file.md)を使用します。
 
 <figure><img src="../.gitbook/assets/ds02.png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../.gitbook/assets/ds03.png" alt=""><figcaption></figcaption></figure>
 
-## 3. Prepare Your Data
+## 3. データの準備
 
-* First, we start by uploading our PDF file.
-* Then, we add a **unique metadata key**. This is optional, but a good practice as it allows us to target and filter down this same dataset later on if we need to.
+* まず、PDFファイルをアップロードすることから始めます。
+* 次に、**ユニークなメタデータキー**を追加します。これはオプションですが、後で同じデータセットを対象にしてフィルタリングする必要がある場合に備えて、これを追加しておくことをお勧めします。
 
 <figure><img src="../.gitbook/assets/ds04.png" alt=""><figcaption></figcaption></figure>
 
-* Finally, select the [Text Splitter](../integrations/langchain/text-splitters/) you want to use to chunk your data. In our particular case, we will use the [Recursive Character Text Splitter](../integrations/langchain/text-splitters/recursive-character-text-splitter.md).
+* 最後に、データを分割するための[テキストスプリッター](../integrations/langchain/text-splitters/)を選択します。この例では、[再帰的文字テキストスプリッター](../integrations/langchain/text-splitters/recursive-character-text-splitter.md)を使用します。
 
 {% hint style="info" %}
-In this guide, we've added a generous **Chunk Overlap** size to ensure no relevant data gets missed between chunks. However, the optimal overlap size is dependent on the complexity of your data. You may need to adjust this value based on your specific dataset and the nature of the information you want to extract. More about this topic in this [guide](../use-cases/upserting-data.md).
+このガイドでは、チャンク間で関連データが失われないように、余裕を持った**チャンクオーバーラップ**サイズを設定しています。ただし、最適なオーバーラップサイズはデータの複雑さによって異なります。特定のデータセットや抽出したい情報の性質に基づいて、この値を調整する必要があるかもしれません。この詳細については[こちらのガイド](../use-cases/upserting-data.md)を参照してください。
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/ds05.png" alt=""><figcaption></figcaption></figure>
 
-## 4. Preview Your Data
+## 4. データのプレビュー
 
-* We can now preview how our data will be chunked using our current [Text Splitter](../integrations/langchain/text-splitters/) configuration; `chunk_size=1500`and `chunk_overlap=750`.
+* 現在の[テキストスプリッター](../integrations/langchain/text-splitters/)の設定（`chunk_size=1500`および`chunk_overlap=750`）を使用して、データがどのように分割されるかをプレビューできます。
 
 <figure><img src="../.gitbook/assets/ds06.png" alt=""><figcaption></figcaption></figure>
 
-* It's important to experiment with different [Text Splitters](../integrations/langchain/text-splitters/), Chunk Sizes, and Overlap values to find the optimal configuration for your specific dataset. This preview allows you to refine the chunking process and ensure that the resulting chunks are suitable for your RAG system.
+* 特定のデータセットに最適な設定を見つけるために、異なる[テキストスプリッター](../integrations/langchain/text-splitters/)、チャンクサイズ、オーバーラップ値を試すことが重要です。このプレビューによって、分割プロセスを調整し、結果として得られるチャンクがRAGシステムに適していることを確認できます。
 
 <figure><img src="../.gitbook/assets/ds07.png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-Note that our custom metadata `company: "liberty"` has been inserted into each chunk. This metadata allows us to easily filter and retrieve information from this specific dataset later on, even if we use the same vector store index for other datasets.
+各チャンクにカスタムメタデータ`company: "liberty"`が挿入されていることに注目してください。このメタデータにより、同じベクトルストアインデックスを他のデータセットにも使用している場合でも、この特定のデータセットから簡単に情報をフィルタリングして取得できます。
 {% endhint %}
 
-## 5. Process Your Data
+## 5. データの処理
 
-* Once you are satisfied with the chunking process, it's time to process your data.
+* チャンク分割プロセスに満足したら、データを処理する段階です。
 
 <figure><img src="../.gitbook/assets/ds08.png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../.gitbook/assets/ds09%20(1).png" alt=""><figcaption></figcaption></figure>
 
-After processing your data, you retain the ability to refine individual chunks by deleting or adding content. This granular control offers several advantages:
+データを処理した後でも、個々のチャンクを削除したり追加したりして調整することができます。この詳細な制御には以下のような利点があります：
 
-* **Enhanced Accuracy:** Identify and rectify inaccuracies or inconsistencies present in the original data, ensuring the information used in your application is reliable.
-* **Improved Relevance:** Refine chunk content to emphasize key information and remove irrelevant sections, thereby increasing the precision and effectiveness of your retrieval process.
-* **Query Optimization:** Tailor chunks to better align with anticipated user queries, making them more targeted and improving the overall user experience.
+* **精度の向上:** 元のデータに含まれる不正確さや矛盾を特定して修正し、アプリケーションで使用される情報の信頼性を確保します。
+* **関連性の改善:** チャンクの内容を調整して重要な情報を強調し、関連性の低い部分を削除することで、検索プロセスの精度と効果を高めます。
+* **クエリの最適化:** 予想されるユーザークエリにより適合するようにチャンクを調整し、より的確な検索を実現してユーザー体験全体を向上させます。
 
-## 6. Configure the Upsert Process
+## 6. アップサートプロセスの設定
 
-* With our data properly processed - loaded via a Document Loader and appropriately chunked -, we can now proceed to configure the upsert process.
+* データが適切に処理され（ドキュメントローダーを介してロードされ、適切にチャンク分割された状態）たら、アップサートプロセスの設定に進むことができます。
 
 <figure><img src="../.gitbook/assets/dastore002.png" alt=""><figcaption></figcaption></figure>
 
-The upsert process comprises three fundamental steps:
+アップサートプロセスは3つの基本的なステップで構成されています：
 
-* **Embedding Selection:** We begin by choosing the appropriate embedding model to encode our dataset. This model will transform our data into a numerical vector representation.
-* **Data Store Selection:** Next, we determine the Vector Store where our dataset will reside.
-* **Record Manager Selection (Optional):** Finally, we have the option to implement a Record Manager. This component provides the functionalities for managing our dataset once it's stored within the Vector Store.
+* **埋め込みの選択:** まずデータセットをエンコードするための適切な埋め込みモデルを選択します。このモデルによってデータは数値ベクトル表現に変換されます。
+* **データストアの選択:** 次に、データセットを格納するベクトルストアを決定します。
+* **レコードマネージャーの選択（オプション）:** 最後に、レコードマネージャーを実装するオプションがあります。このコンポーネントは、ベクトルストア内に格納されたデータセットを管理するための機能を提供します。
 
 <figure><img src="../.gitbook/assets/dastore003.png" alt=""><figcaption></figcaption></figure>
 
-### 1. Select Embeddings
+### 1. 埋め込みの選択
 
-* Click on the "Select Embeddings" card and choose your preferred [embedding model](../integrations/langchain/embeddings/). In our case, we will select OpenAI as the embedding provider and use the "text-embedding-ada-002" model with 1536 dimensions.
+* 「Select Embeddings」カードをクリックし、お好みの[埋め込みモデル](../integrations/langchain/embeddings/)を選択します。この例では、OpenAIを埋め込みプロバイダーとして選択し、1536次元の「text-embedding-ada-002」モデルを使用します。
 
 <figure><img src="../.gitbook/assets/dastore004.png" alt=""><figcaption></figcaption></figure>
 
-### 2. Select Vector Store
+### 2. ベクトルストアの選択
 
-* Click on the "Select Vector Store" card and choose your preferred [Vector Store](../integrations/langchain/vector-stores/). In our case, as we need a production-ready option, we will select Upstash.
+* 「Select Vector Store」カードをクリックし、お好みの[ベクトルストア](../integrations/langchain/vector-stores/)を選択します。この例では、本番環境に対応したオプションが必要なため、Upstashを選択します。
 
 <figure><img src="../.gitbook/assets/dastore005.png" alt=""><figcaption></figcaption></figure>
 
-### 3. Select Record Manager
+### 3. レコードマネージャーの選択
 
-* For advanced dataset management within the Vector Store, you can optionally select and configure a [Record Manager](../integrations/langchain/record-managers.md). Detailed instructions on how to set up and utilize this feature can be found in the dedicated [guide](../integrations/langchain/record-managers.md).
+* ベクトルストア内のデータセットの高度な管理のために、オプションで[レコードマネージャー](../integrations/langchain/record-managers.md)を選択・設定することができます。この機能の設定と使用方法の詳細については、専用の[ガイド](../integrations/langchain/record-managers.md)を参照してください。
 
 <figure><img src="../.gitbook/assets/dastore006.png" alt=""><figcaption></figcaption></figure>
 
-## 7. Upsert Your Data to a Vector Store
+## 7. ベクトルストアへのデータのアップサート
 
-* To begin the upsert process and transfer your data to the Vector Store, click the "Upsert" button.
+* データをベクトルストアに転送するアップサートプロセスを開始するには、「Upsert」ボタンをクリックします。
 
 <figure><img src="../.gitbook/assets/dastore013.png" alt=""><figcaption></figcaption></figure>
 
-* As illustrated in the image below, our data has been successfully upserted into the Upstash vector database. The data was divided into 85 chunks to optimize the upsertion process and ensure efficient storage and retrieval.
+* 下図のように、データはUpstashベクトルデータベースに正常にアップサートされました。アップサートプロセスを最適化し、効率的な保存と検索を確保するために、データは85のチャンクに分割されました。
 
 <figure><img src="../.gitbook/assets/dastore007.png" alt="" width="375"><figcaption></figcaption></figure>
 
-## 8. Test Your Dataset
+## 8. データセットのテスト
 
-* To quickly test the functionality of your dataset without navigating away from the Document Store, simply utilize the "Retrieval Query" button. This initiates a test query, allowing you to verify the accuracy and effectiveness of your data retrieval process.
+* ドキュメントストアから離れることなくデータセットの機能を素早くテストするには、「Retrieval Query」ボタンを使用します。これによってテストクエリが開始され、データ検索プロセスの正確性と効果を確認することができます。
 
 <figure><img src="../.gitbook/assets/dastore010.png" alt=""><figcaption></figcaption></figure>
 
-* In our case, we see that when querying for information about kitchen flooring coverage in our insurance policy, we retrieve 4 relevant chunks from Upstash, our designated Vector Store. This retrieval is limited to 4 chunks as per the defined "top k" parameter, ensuring we receive the most pertinent information without unnecessary redundancy.
+* この例では、保険契約のキッチンフローリングの補償に関する情報を検索すると、指定したベクトルストアであるUpstashから4つの関連チャンクが取得されます。この検索は定義された「top k」パラメータにより4チャンクに制限されており、不要な重複を避けながら最も関連性の高い情報を受け取ることができます。
 
 <figure><img src="../.gitbook/assets/dastore009.png" alt=""><figcaption></figcaption></figure>
 
-## 9. Test Your RAG
+## 9. RAGのテスト
 
-* Finally, our Retrieval-Augmented Generation (RAG) system is operational. It's noteworthy how the LLM effectively interprets the query and successfully leverages relevant information from the chunked data to construct a comprehensive response.
+* 最後に、検索拡張生成（RAG）システムが稼働状態になります。LLMがクエリを効果的に解釈し、チャンク分割されたデータから関連情報を活用して包括的な回答を構築する様子は注目に値します。
 
-You can use the vector store that was configured earlier:
+先に設定したベクトルストアを使用することができます：
 
 <figure><img src="../.gitbook/assets/dastore011.png" alt=""><figcaption></figcaption></figure>
 
-Or, use the Document Store (Vector):
+または、ドキュメントストア（ベクトル）を使用することができます：
 
 <figure><img src="../.gitbook/assets/image (215).png" alt=""><figcaption></figcaption></figure>
 
 ## 10. API
 
-There are also APIs support for creating, updating and deleting document store. Refer to [Document Store API](../api-reference/document-store.md) for more details. In this section, we are going to highlight the 2 of the most used APIs: upsert and refresh.
+ドキュメントストアの作成、更新、削除をサポートするAPIも用意されています。詳細については[ドキュメントストアAPI](../api-reference/document-store.md)を参照してください。このセクションでは、最もよく使用される2つのAPI（アップサートと更新）について説明します。
 
-### Upsert API
+### アップサートAPI
 
-There are a few different scenarios for upserting process, and each have different outcomes.
+アップサートプロセスにはいくつかの異なるシナリオがあり、それぞれ異なる結果をもたらします。
 
-#### Scenario 1: In the same document store, use an existing document loader configuration, upsert as new document loader.
+#### シナリオ1: 同じドキュメントストア内で、既存のドキュメントローダー設定を使用し、新しいドキュメントローダーとしてアップサートする
 
 <figure><img src="../.gitbook/assets/Untitled-2025-02-02-1727.png" alt="" width="496"><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-**`docId`** represents the existing document loader ID. It is required in the request body for this scenario.&#x20;
+**`docId`**は既存のドキュメントローダーIDを表します。このシナリオではリクエストボディに必須です。
 {% endhint %}
 
 {% tabs %}
@@ -217,12 +217,12 @@ query(formData).then((response) => {
 {% endtab %}
 {% endtabs %}
 
-#### Scenario 2: In the same document store, replace an existing document loader with new files.
+#### シナリオ2: 同じドキュメントストア内で、既存のドキュメントローダーを新しいファイルで置き換える
 
 <figure><img src="../.gitbook/assets/Untitled-2025-03-02-1727.png" alt="" width="563"><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-**`docId`** and **`replaceExisting`** are both required in the request body for this scenario.&#x20;
+このシナリオでは**`docId`**と**`replaceExisting`**の両方がリクエストボディに必須です。
 {% endhint %}
 
 {% tabs %}
@@ -291,12 +291,12 @@ query(formData).then((response) => {
 {% endtab %}
 {% endtabs %}
 
-#### Scenario 3: In the same document store, upsert as new document loader from scratch.
+#### シナリオ3: 同じドキュメントストア内で、最初から新しいドキュメントローダーとしてアップサートする
 
 <figure><img src="../.gitbook/assets/Untitled-2025-04-02-1727.png" alt="" width="439"><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-**`loader`, `splitter`, `embedding`, `vectorStore`** are all required in the request body for this scenario. **`recordManager`** is optional.
+このシナリオでは**`loader`**、**`splitter`**、**`embedding`**、**`vectorStore`**がすべてリクエストボディに必須です。**`recordManager`**はオプションです。
 {% endhint %}
 
 {% tabs %}
@@ -315,7 +315,7 @@ form_data = {
 
 loader = {
     "name": "pdfFile",
-    "config": {} # you can leave empty to use default config
+    "config": {} # デフォルト設定を使用する場合は空にできます
 }
 
 splitter = {
@@ -376,7 +376,7 @@ formData.append("files", new Blob([await (await fetch('my-another-file.pdf')).bl
 
 const loader = {
     name: "pdfFile",
-    config: {} // You can leave empty to use the default config
+    config: {} // デフォルト設定を使用する場合は空にできます
 };
 
 const splitter = {
@@ -433,21 +433,20 @@ async function query() {
 }
 
 query();
-
 ```
 {% endtab %}
 {% endtabs %}
 
 {% hint style="danger" %}
-Creating from scratch is not recommended as it exposes your credential ID. The recommended way is to create a placeholder document store and configure the parameters on the UI. Then use the placeholder as the base for adding new document loader or creating new document store.
+最初から作成することは、認証情報IDが露出するため推奨されません。推奨される方法は、プレースホルダーのドキュメントストアを作成し、UIでパラメータを設定することです。その後、そのプレースホルダーを新しいドキュメントローダーの追加や新しいドキュメントストアの作成のベースとして使用します。
 {% endhint %}
 
-#### Scenario 4: Create new document store for every upsert
+#### シナリオ4: アップサートごとに新しいドキュメントストアを作成する
 
 <figure><img src="../.gitbook/assets/Untitled-2025-056-02-1727.png" alt="" width="533"><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-**`createNewDocStore`** and **`docStore`** are both required in the request body for this scenario.
+このシナリオでは**`createNewDocStore`**と**`docStore`**の両方がリクエストボディに必須です。
 {% endhint %}
 
 {% tabs %}
@@ -518,21 +517,21 @@ query(formData).then((response) => {
 {% endtab %}
 {% endtabs %}
 
-#### Q: Where to find Document Store ID and Document Loader ID?
+#### Q: ドキュメントストアIDとドキュメントローダーIDはどこで確認できますか？
 
-A: You can find the respective IDs from the URL.
+A: それぞれのIDはURLから確認できます。
 
 <figure><img src="../.gitbook/assets/Picture1.png" alt=""><figcaption></figcaption></figure>
 
-#### Q: Where can I find the available configs to override?
+#### Q: オーバーライド可能な設定はどこで確認できますか？
 
-A: You can find the available configs from the **View API** button on each document loader:
+A: 各ドキュメントローダーの**View API**ボタンから利用可能な設定を確認できます：
 
 <figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-For each upsert, there are 5 elements involved:
+各アップサートには5つの要素が関係します：
 
 * **`loader`**
 * **`splitter`**
@@ -540,7 +539,7 @@ For each upsert, there are 5 elements involved:
 * **`vectorStore`**
 * **`recordManager`**
 
-You can override existing configuration with the **`config`** body of the element. For example, using the screenshot above, you can create a new document loader with a new **`url`**:
+要素の**`config`**ボディで既存の設定をオーバーライドできます。例えば、上のスクリーンショットを使用して、新しい**`url`**で新しいドキュメントローダーを作成できます：
 
 {% tabs %}
 {% tab title="Python" %}
@@ -555,7 +554,7 @@ def query(payload):
 
 output = query({
     "docId": <docLoaderId>,
-    # override existing configuration
+    # 既存の設定をオーバーライド
     "loader": {
         "config": {
             "url": "https://new-url.com"
@@ -585,7 +584,7 @@ async function query(data) {
 
 query({
     "docId": <docLoaderId>,
-    // override existing configuration
+    // 既存の設定をオーバーライド
     "loader": {
         "config": {
             "url": "https://new-url.com"
@@ -598,9 +597,9 @@ query({
 {% endtab %}
 {% endtabs %}
 
-What if the loader has file upload? Yes, you guessed it right, we have to use form data as body!
+ローダーがファイルアップロードを持っている場合はどうでしょうか？そうです、form dataをボディとして使用する必要があります！
 
-Using the image below as an example, we can override the **`usage`** parameter of the PDF File Loader like so:
+以下の画像を例として、PDFファイルローダーの**`usage`**パラメータを次のようにオーバーライドできます：
 
 <figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
@@ -625,7 +624,7 @@ override_loader_config = {
 
 body_data = {
     "docId": <docLoaderId>,
-    "loader": json.dumps(override_loader_config) # Override existing configuration
+    "loader": json.dumps(override_loader_config) # 既存の設定をオーバーライド
 }
 
 headers = {
@@ -680,16 +679,16 @@ query(formData).then((response) => {
 {% endtab %}
 {% endtabs %}
 
-#### Q: When to use Form Data vs JSON as the body of API request?
+#### Q: APIリクエストのボディとしてForm DataとJSONをどのように使い分けるべきですか？
 
-A: For [Document Loaders](../integrations/langchain/document-loaders/) that have File Upload functionality, such as PDF, DOCX, TXT, etc, body must be sent as Form Data.
+A: PDFやDOCX、TXTなどのファイルアップロード機能を持つ[ドキュメントローダー](../integrations/langchain/document-loaders/)の場合、ボディはForm Dataとして送信する必要があります。
 
 {% hint style="warning" %}
-Make sure the sent file type is compatible with the expected file type from document loader.&#x20;
+送信するファイルタイプが、ドキュメントローダーが想定しているファイルタイプと互換性があることを確認してください。
 
-For example, if a [PDF File Loader](../integrations/langchain/document-loaders/pdf-file.md) is being used, you should only send **.pdf** files.
+例えば、[PDFファイルローダー](../integrations/langchain/document-loaders/pdf-file.md)を使用している場合は、**.pdf**ファイルのみを送信する必要があります。
 
-To avoid having separate loaders for different file types, we recommend to use [File Loader](../integrations/langchain/document-loaders/file-loader.md)
+異なるファイルタイプごとに別々のローダーを用意することを避けるために、[ファイルローダー](../integrations/langchain/document-loaders/file-loader.md)の使用をお勧めします。
 {% endhint %}
 
 {% tabs %}
@@ -700,7 +699,7 @@ import json
 
 API_URL = "http://localhost:3000/api/v1/document-store/upsert/<storeId>"
 
-# use form data to upload files
+# ファイルをアップロードするためにform dataを使用
 form_data = {
     "files": ('my-another-file.pdf', open('my-another-file.pdf', 'rb'))
 }
@@ -721,7 +720,7 @@ print(output)
 
 {% tab title="Javascript API" %}
 ```javascript
-// use FormData to upload files
+// ファイルをアップロードするためにFormDataを使用
 let formData = new FormData();
 formData.append("files", input.files[0]);
 formData.append("docId", <docId>);
@@ -745,7 +744,7 @@ query(formData).then((response) => {
 {% endtab %}
 {% endtabs %}
 
-For other [Document Loaders](https://docs.flowiseai.com/integrations/langchain/document-loaders) nodes without Upload File functionality, the API body is in **JSON** format:
+ファイルアップロード機能を持たない他の[ドキュメントローダー](https://docs.flowiseai.com/integrations/langchain/document-loaders)ノードの場合、APIボディは**JSON**形式です：
 
 {% tabs %}
 {% tab title="Python API" %}
@@ -791,9 +790,9 @@ query({
 {% endtab %}
 {% endtabs %}
 
-#### Q: Can I add new metadata?
+#### Q: 新しいメタデータを追加できますか？
 
-A: You can provide new metadata by passing the **`metadata`** inside the body request:
+A: リクエストボディの中に**`metadata`**を含めることで、新しいメタデータを提供できます：
 
 ```json
 {
@@ -804,9 +803,9 @@ A: You can provide new metadata by passing the **`metadata`** inside the body re
 }
 ```
 
-### Refresh API
+### 更新API
 
-Often times you might want to re-process every documents loaders within document store to fetch the latest data, and upsert to vector store, to keep everything in sync. This can be done via Refresh API:
+ドキュメントストア内のすべてのドキュメントローダーを再処理して最新のデータを取得し、ベクトルストアにアップサートして、すべてを同期した状態に保ちたい場合があります。これは更新APIを通じて実行できます：
 
 {% tabs %}
 {% tab title="Python API" %}
@@ -847,7 +846,7 @@ query().then((response) => {
 {% endtab %}
 {% endtabs %}
 
-You can also override existing configuration of specific document loader:
+特定のドキュメントローダーの既存の設定をオーバーライドすることもできます：
 
 {% tabs %}
 {% tab title="Python API" %}
@@ -917,22 +916,22 @@ query({
 {% endtab %}
 {% endtabs %}
 
-## 11. Summary
+## 11. まとめ
 
-We started by creating a Document Store to organize the LibertyGuard Deluxe Homeowners Policy data. This data was then prepared by uploading, chunking, processing, and upserting it, making it ready for our RAG system.
+私たちはLibertyGuard Deluxe住宅所有者保険のデータを整理するためにドキュメントストアを作成することから始めました。このデータは、アップロード、チャンク分割、処理、アップサートを行って準備され、RAGシステムで使用できる状態になりました。
 
-**Advantages of the Document Store:**
+**ドキュメントストアの利点：**
 
-Document Stores offer several benefits for managing and preparing data for Retrieval Augmented Generation (RAG) systems:
+ドキュメントストアは、検索拡張生成（RAG）システム用のデータ管理と準備に関して、いくつかの利点を提供します：
 
-* **Organization and Management:** They provide a central location for storing, managing, and preparing your data.
-* **Data Quality:** The chunking process helps structure data for accurate retrieval and analysis.
-* **Flexibility:** Document Stores allow for refining and adjusting data as needed, improving the accuracy and relevance of your RAG system.
+* **整理と管理：** データの保存、管理、準備のための中心的な場所を提供します。
+* **データ品質：** チャンク分割プロセスにより、正確な検索と分析のためのデータ構造化を支援します。
+* **柔軟性：** ドキュメントストアは必要に応じてデータを改良・調整することができ、RAGシステムの精度と関連性を向上させます。
 
-## 12. Video Tutorials
+## 12. ビデオチュートリアル
 
-### RAG Like a Boss - Flowise Document Store Tutorial
+### RAG Like a Boss - Flowise Document Store チュートリアル
 
-In this video, [Leon](https://youtube.com/@leonvanzyl) provides a step by step tutorial on using Document Stores to easily manage your RAG knowledge bases in FlowiseAI.
+このビデオでは、[Leon](https://youtube.com/@leonvanzyl)がFlowiseAIでRAGナレッジベースを簡単に管理するためのドキュメントストアの使用方法について、ステップバイステップのチュートリアルを提供しています。
 
 {% embed url="https://youtu.be/PLuSfAkOHOA" %}

@@ -1,104 +1,104 @@
-# Evaluations
+# 評価
 
 {% hint style="info" %}
-Evaluations are only available for Cloud and Enterprise plan
+評価機能はCloudプランとEnterpriseプランでのみ利用可能です
 {% endhint %}
 
-Evaluations help you monitor and understand the performance of your Chatflow/Agentflow application. On the high level, an evaluation is a process that takes a set of inputs and corresponding outputs from your Chatflow/Agentflow, and generates scores. These scores can be derived by comparing outputs to reference results, such as through string matching, numeric comparison, or even leveraging an LLM as a judge. These evaluations are conducted using Datasets and Evaluators.
+評価機能は、チャットフロー/エージェントフローアプリケーションのパフォーマンスを監視し理解するのに役立ちます。概要として、評価はチャットフロー/エージェントフローからの一連の入力と対応する出力を取得し、スコアを生成するプロセスです。これらのスコアは、文字列マッチング、数値比較、あるいはLLMを審判として活用するなど、出力を参照結果と比較することで導き出されます。これらの評価はデータセットと評価者を使用して実施されます。
 
-## Datasets
+## データセット
 
-Datasets are the inputs that will be used to run your Chatflow/Agentflow, along with the corresponding outputs for comparison. User can add the input and anticipated output manually, or upload a CSV file with 2 columns: Input and Output.
+データセットは、チャットフロー/エージェントフローの実行に使用される入力と、比較のための対応する出力です。ユーザーは入力と期待される出力を手動で追加するか、「Input」と「Output」の2列を持つCSVファイルをアップロードすることができます。
 
 <figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-| Input                             | Output                       |
-| --------------------------------- | ---------------------------- |
-| What is the capital of UK         | Capital of UK is London      |
-| How many days are there in a year | There are 365 days in a year |
+| 入力                     | 出力                         |
+| ------------------------ | ---------------------------- |
+| イギリスの首都は何ですか | イギリスの首都はロンドンです |
+| 1年は何日ありますか      | 1年は365日です               |
 
-## Evaluators
+## 評価者
 
-Evaluators are like unit tests. During an evaluation, the inputs from Datasets are ran on the selected flows and the outputs are evaluated using selected evaluators. There are 3 types of evaluators:
+評価者はユニットテストのようなものです。評価中、データセットからの入力が選択されたフローで実行され、出力は選択された評価者を使用して評価されます。評価者には3つのタイプがあります：
 
-* **Text Based**: string based checking:
-  * Contains Any
-  * Contains All
-  * Does Not Contains Any
-  * Does Not Contains All
-  * Starts With
-  * Does Not Starts With
+* **テキストベース**: 文字列ベースのチェック:
+  * いずれかを含む
+  * すべてを含む
+  * いずれも含まない
+  * すべてを含まない
+  * で始まる
+  * で始まらない
 
 <figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
 
-* **Numeric Based:** numbers type checking:
-  * Total Tokens
-  * Prompt Tokens
-  * Completion Tokens
-  * API Latency
-  * LLM Latency
-  * Chatflow Latency
-  * Agentflow Latency (coming)
-  * Output Characters Length
+* **数値ベース:** 数値タイプのチェック:
+  * 合計トークン数
+  * プロンプトトークン数
+  * 完了トークン数
+  * APIレイテンシー
+  * LLMレイテンシー
+  * チャットフローレイテンシー
+  * エージェントフローレイテンシー（近日公開）
+  * 出力文字数
 
 <figure><img src="../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
 
-* **LLM Based**: using another LLM to grade the output
-  * Hallucination
-  * Correctness
+* **LLMベース**: 別のLLMを使用して出力を評価
+  * ハルシネーション
+  * 正確性
 
 <figure><img src="../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
 
-## Evaluations
+## 評価
 
-Now that we have Datasets and Evaluators prepared, we can start running an evaluation.
+データセットと評価者の準備ができたら、評価を開始できます。
 
-1.) Select dataset and chatflow to evaluate. You can select multiple datasets and chatflows. Using the example below, every inputs from Dataset1 will be ran against 2 chatflows. Since Dataset1 has 2 inputs, a total of 4 outputs will be produced and evaluated.
+1.) 評価するデータセットとチャットフローを選択します。複数のデータセットとチャットフローを選択できます。以下の例では、Dataset1のすべての入力が2つのチャットフローに対して実行されます。Dataset1には2つの入力があるため、合計4つの出力が生成され評価されます。
 
 <figure><img src="../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
 
-2.) Select the evaluators. Only string based and numeric based evaluators are available to be selected at this stage.
+2.) 評価者を選択します。この段階で選択できるのは、文字列ベースと数値ベースの評価者のみです。
 
 <figure><img src="../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
 
-3.) (Optional) Select LLM Based evaluator. Start Evaluation:
+3.) （オプション）LLMベースの評価者を選択します。評価を開始：
 
 <figure><img src="../.gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
 
-4.) Wait for evaluation to be completed:
+4.) 評価が完了するまで待ちます：
 
 <figure><img src="../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
 
-5.) After evaluation is completed, click the graph icon at the right side to view the details:
+5.) 評価が完了したら、右側のグラフアイコンをクリックして詳細を表示します：
 
 <figure><img src="../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
 
-The 3 charts above show the summary of the evaluation:
+上記の3つのチャートは評価の概要を示しています：
 
-* Pass/fail rate
-* Average prompt and completion tokens used
-* Average latency of the request
+* 合格/不合格率
+* 使用された平均プロンプトトークン数と完了トークン数
+* リクエストの平均レイテンシー
 
-Table below the charts shows the details of each execution.
+チャートの下の表は、各実行の詳細を示しています。
 
 <figure><img src="../.gitbook/assets/image (15).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../.gitbook/assets/image (16).png" alt="" width="355"><figcaption></figcaption></figure>
 
-### Re-run evaluation
+### 評価の再実行
 
-When the flows used on evaluation have been updated/modified, a warning message will be shown:
+評価に使用されたフローが更新/変更された場合、警告メッセージが表示されます：
 
 <figure><img src="../.gitbook/assets/image (17).png" alt=""><figcaption></figcaption></figure>
 
-You can re-run the same evaluation using the Re-Run Evaluation button at the top right corner. You will be able to see the different versions:
+右上隅の「評価を再実行」ボタンを使用して、同じ評価を再実行できます。異なるバージョンを確認することができます：
 
 <figure><img src="../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
 
-You can also view and compare the results from different versions:
+また、異なるバージョンの結果を表示して比較することもできます：
 
 <figure><img src="../.gitbook/assets/image (19).png" alt=""><figcaption></figcaption></figure>
 
-## Video Tutorial
+## ビデオチュートリアル
 
 {% embed url="https://youtu.be/kgUttHMkGFg?si=3rLplEp_0TI0p6UV&t=486" %}

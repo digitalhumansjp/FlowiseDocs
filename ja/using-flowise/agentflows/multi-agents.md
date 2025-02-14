@@ -1,147 +1,152 @@
 ---
-description: Learn how to use Multi-Agents in Flowise, written by @toi500
+description: Flowise でのマルチエージェントの使い方を学びます。@toi500 による執筆
 ---
 
-# Multi-Agents
+# マルチエージェント
 
-This guide intends to provide an introduction of the multi-agent AI system architecture within Flowise, detailing its components, operational constraints, and workflow.
+このガイドでは、Flowise 内のマルチエージェント AI システムアーキテクチャについて、そのコンポーネント、運用上の制約、およびワークフローを詳しく説明します。
 
-## Concept
+## コンセプト
 
-Analogous to a team of domain experts collaborating on a complex project, a multi-agent system uses the principle of specialization within artificial intelligence.
+複雑なプロジェクトで協力する専門家チームのように、マルチエージェントシステムは人工知能における専門化の原則を活用します。
 
-This multi-agent system utilizes a hierarchical, sequential workflow, maximizing efficiency and specialization.
+このマルチエージェントシステムは、効率性と専門性を最大化する階層的で順序立ったワークフローを利用します。
 
-### 1. System Architecture
+### 1. システムアーキテクチャ
 
-We can define the multi-agent AI architecture as a scalable AI system capable of handling complex projects by breaking them down into manageable sub-tasks.
+マルチエージェント AI アーキテクチャは、複雑なプロジェクトを管理可能なサブタスクに分解して処理できるスケーラブルな AI システムとして定義できます。
 
-In Flowise, a multi-agent system comprises two primary nodes or agent types and a user, interacting in a hierarchical graph to process requests and deliver a targeted outcome:
+Flowise では、マルチエージェントシステムは2つの主要なノードまたはエージェントタイプとユーザーで構成され、リクエストを処理して目的の成果を提供するために階層的なグラフで相互作用します:
 
-1. **User:** The user acts as the **system's starting point**, providing the initial input or request. While a multi-agent system can be designed to handle a wide range of requests, it's important that these user requests align with the system's intended purpose. Any request falling outside this scope can lead to inaccurate results, unexpected loops, or even system errors. Therefore, user interactions, while flexible, should always align with the system's core functionalities for optimal performance.
-2. **Supervisor AI:** The Supervisor acts as the **system's orchestrator**, overseeing the entire workflow. It analyzes user requests, decomposes them into a sequence of sub-tasks, assigns these sub-tasks to the specialized worker agents, aggregates the results, and ultimately presents the processed output back to the user.
-3. **Worker AI Team:** This team consists of specialized AI agents, or Workers, each instructed - via prompt messages - to handle a specific task within the workflow. These Workers operate independently, receiving instructions and data from the Supervisor, **executing their specialized functions**, using tools as needed, and returning the results to the Supervisor.
+1. **ユーザー:** ユーザーは**システムの起点**として機能し、最初の入力またはリクエストを提供します。マルチエージェントシステムは幅広いリクエストを処理するように設計できますが、これらのユーザーリクエストがシステムの目的に合致していることが重要です。この範囲外のリクエストは、不正確な結果、予期せぬループ、さらにはシステムエラーを引き起こす可能性があります。そのため、ユーザーとの相互作用は柔軟でありながらも、最適なパフォーマンスを得るためには常にシステムのコア機能に沿ったものである必要があります。
+
+2. **スーパーバイザー AI:** スーパーバイザーは**システムのオーケストレーター**として機能し、ワークフロー全体を監督します。ユーザーのリクエストを分析し、それをサブタスクのシーケンスに分解し、これらのサブタスクを専門のワーカーエージェントに割り当て、結果を集約し、最終的に処理された出力をユーザーに返します。
+
+3. **ワーカー AI チーム:** このチームは、ワークフロー内の特定のタスクを処理するようにプロンプトメッセージで指示された専門の AI エージェント（ワーカー）で構成されています。これらのワーカーは独立して動作し、スーパーバイザーから指示とデータを受け取り、**専門的な機能を実行**し、必要に応じてツールを使用し、結果をスーパーバイザーに返します。
 
 <figure><img src="../../.gitbook/assets/multi-agent-diagram.svg" alt=""><figcaption></figcaption></figure>
 
-### 2. Operational Constraints
+### 2. 運用上の制約
 
-To maintain order and simplicity, this multi-agent system operates under two important constraints:
+秩序と単純さを維持するため、このマルチエージェントシステムは2つの重要な制約の下で動作します:
 
-* **One task at a time:** The Supervisor is intentionally designed to focus on a single task at a time. It waits for the active Worker to complete its task and return the results before it analyzes the next step and delegates the subsequent task. This ensures each step is completed successfully before moving on, preventing overcomplexity.
-* **One Supervisor per flow:** While it's theoretically possible to implement a set of nested multi-agent systems to form a more sophisticated hierarchical structure for highly complex workflows, what LangChain defines as "[Hierarchical Agent Teams](https://github.com/langchain-ai/langgraph/blob/main/examples/multi\_agent/hierarchical\_agent\_teams.ipynb)", with a top-level supervisor and mid-level supervisors managing teams of workers, Flowise's multi-agent systems currently operate with a single Supervisor.
+* **一度に1つのタスク:** スーパーバイザーは意図的に一度に1つのタスクに焦点を当てるように設計されています。アクティブなワーカーがタスクを完了して結果を返すのを待ってから、次のステップを分析し、後続のタスクを委任します。これにより、次のステップに進む前に各ステップが正常に完了することが保証され、過度の複雑さを防ぎます。
+
+* **フローごとに1つのスーパーバイザー:** LangChainが定義する "[階層的エージェントチーム](https://github.com/langchain-ai/langgraph/blob/main/examples/multi\_agent/hierarchical\_agent\_teams.ipynb)" のように、トップレベルのスーパーバイザーと中間レベルのスーパーバイザーがワーカーチームを管理する、より高度な階層構造を形成するために入れ子になったマルチエージェントシステムのセットを実装することは理論的には可能ですが、Flowise のマルチエージェントシステムは現在、単一のスーパーバイザーで動作します。
 
 {% hint style="info" %}
-These two constraints are important when **planning your application's workflow**. If you try to design a workflow where the Supervisor needs to delegate multiple tasks simultaneously, in parallel, the system won't be able to handle it and you'll encounter an error.
+これらの2つの制約は、**アプリケーションのワークフローを計画する**際に重要です。スーパーバイザーが複数のタスクを同時に並行して委任する必要があるワークフローを設計しようとすると、システムはそれを処理できず、エラーが発生します。
 {% endhint %}
 
-## The Supervisor
+## スーパーバイザー
 
-The Supervisor, as the agent governing the overall workflow and responsible for delegating tasks to the appropriate Worker, requires a set of components to function correctly:
+全体のワークフローを管理し、適切なワーカーにタスクを委任する責任を持つスーパーバイザーには、正しく機能するために一連のコンポーネントが必要です:
 
-* **Chat Model capable of function calling** to manage the complexities of task decomposition, delegation, and result aggregation.
-* **Agent Memory (optional)**: While the Supervisor can function without Agent Memory, this node can significantly enhance workflows that require access to past Supervisor states. This **state preservation** could allow the Supervisor to resume the job from a specific point or leverage past data for improved decision-making.
+* タスクの分解、委任、結果の集約の複雑さを管理するための**関数呼び出しが可能なチャットモデル**
+* **エージェントメモリ (オプション)**: スーパーバイザーはエージェントメモリなしでも機能できますが、このノードは過去のスーパーバイザーの状態へのアクセスを必要とするワークフローを大幅に強化できます。この**状態の保存**により、スーパーバイザーは特定のポイントからジョブを再開したり、過去のデータを活用して意思決定を改善したりすることができます。
 
 <figure><img src="../../.gitbook/assets/mas07.png" alt=""><figcaption></figcaption></figure>
 
-### Supervisor Prompt
+### スーパーバイザープロンプト
 
-By default, the Supervisor Prompt is worded in a way that instructs the Supervisor to analyze user requests, decompose them into a sequence of sub-tasks, and assign these sub-tasks to the specialized worker agents.
+デフォルトでは、スーパーバイザープロンプトは、ユーザーのリクエストを分析し、それをサブタスクのシーケンスに分解し、これらのサブタスクを専門のワーカーエージェントに割り当てるように指示する方法で記述されています。
 
-While the Supervisor Prompt is customizable to fit specific application needs, it always requires the following two key elements:
+スーパーバイザープロンプトは特定のアプリケーションのニーズに合わせてカスタマイズ可能ですが、常に以下の2つの重要な要素が必要です:
 
-* **The {team\_members} Variable:** This variable is crucial for the Supervisor's understanding of the available workforce since it provides the Supervisor with list of Worker names. This allows the Supervisor to diligently delegate tasks to the most appropriate Worker based on their expertise.
-* **The "FINISH" Keyword:** This keyword serves as a signal within the Supervisor Prompt. It indicates when the Supervisor should consider the task complete and present the final output to the user. Without a clear "FINISH" directive, the Supervisor might continue delegating tasks unnecessarily or fail to deliver a coherent and finalized result to the user. It signals that all necessary sub-tasks have been executed and the user's request has been fulfilled.
+* **{team\_members} 変数:** この変数は、利用可能なワーカーの名前のリストをスーパーバイザーに提供するため、スーパーバイザーが利用可能な労働力を理解する上で重要です。これにより、スーパーバイザーは各ワーカーの専門知識に基づいて、最も適切なワーカーに慎重にタスクを委任することができます。
+
+* **"FINISH" キーワード:** このキーワードは、スーパーバイザープロンプト内でシグナルとして機能します。これは、スーパーバイザーがタスクを完了したと見なし、最終出力をユーザーに提示するタイミングを示します。明確な "FINISH" 指示がないと、スーパーバイザーは不必要にタスクを委任し続けたり、ユーザーに一貫性のある最終的な結果を提供できなかったりする可能性があります。これは、必要なすべてのサブタスクが実行され、ユーザーのリクエストが満たされたことを示します。
 
 <figure><img src="../../.gitbook/assets/mas06.png" alt="" width="375"><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-It's important to understand that the Supervisor plays a very distinct role from Workers. Unlike Workers, which can be tailored with highly specific instructions, the **Supervisor operates most effectively with general directives, which allow it to plan and delegate tasks as it deems appropriate.** If you're new to multi-agent systems, we recommend sticking with the default Supervisor prompt
+スーパーバイザーがワーカーとは非常に異なる役割を果たすことを理解することが重要です。非常に具体的な指示でカスタマイズできるワーカーとは異なり、**スーパーバイザーは一般的な指示で最も効果的に動作し、それにより適切だと判断したようにタスクを計画して委任することができます。** マルチエージェントシステムに慣れていない場合は、デフォルトのスーパーバイザープロンプトを使用することをお勧めします。
 {% endhint %}
 
-### Understanding Recursion Limit in Supervisor node:
+### スーパーバイザーノードの再帰制限について:
 
-This parameter restricts the maximum depth of nested function calls within our application. In our current context, **it limits how many times the Supervisor can trigger itself within a single workflow execution**. This is important for preventing unbounded recursion and ensuring resources are used efficiently.
+このパラメータは、アプリケーション内のネストされた関数呼び出しの最大深さを制限します。現在のコンテキストでは、**単一のワークフロー実行内でスーパーバイザーが自身をトリガーできる回数を制限します**。これは、無限の再帰を防ぎ、リソースが効率的に使用されることを保証するために重要です。
 
 <figure><img src="../../.gitbook/assets/mas04.png" alt="" width="375"><figcaption></figcaption></figure>
 
-### How the Supervisor works
+### スーパーバイザーの動作の仕組み
 
-Upon receiving a user query, the Supervisor initiates the workflow by analyzing the request and discerning the user's intended outcome.
+ユーザークエリを受け取ると、スーパーバイザーはリクエストを分析し、ユーザーの意図した成果を識別することでワークフローを開始します。
 
-Then, leveraging the `{team_members}` variable in the Supervisor Prompt, which only provides a list of available Worker AI names, the Supervisor infers each Worker's specialty and strategically selects the most suitable Worker for each task within the workflow.
+次に、利用可能なワーカー AI の名前のリストのみを提供するスーパーバイザープロンプトの `{team_members}` 変数を活用して、スーパーバイザーは各ワーカーの専門性を推測し、ワークフロー内の各タスクに最も適したワーカーを戦略的に選択します。
 
 {% hint style="info" %}
-Since the Supervisor only has the Workers' names to infer their functionality inside the workflow, it is very important that those names are set accordingly. **Clear, concise, and descriptive names that accurately reflect the Worker's role or area of expertise are crucial for the Supervisor to make informed decisions when delegating tasks.** This ensures that the right Worker is selected for the right job, maximizing the system's accuracy in fulfilling the user's request.
+スーパーバイザーはワークフロー内でのワーカーの機能を推測するためにワーカーの名前のみを持っているため、これらの名前を適切に設定することが非常に重要です。**ワーカーの役割や専門分野を正確に反映した、明確で簡潔で説明的な名前は、スーパーバイザーがタスクを委任する際に十分な情報に基づいた決定を下すために重要です。** これにより、適切なワーカーが適切なジョブに選択され、ユーザーのリクエストを満たすシステムの精度が最大化されます。
 {% endhint %}
 
 ***
 
-## **The Worker**
+## **ワーカー**
 
-The Worker, as a specialized agent instructed to handle a specific task within the system, requires two essential components to function correctly:
+システム内の特定のタスクを処理するように指示された専門エージェントとしてのワーカーは、正しく機能するために2つの重要なコンポーネントを必要とします:
 
-* **A Supervisor:** Each Worker must be connected to the Supervisor so it can be called upon when a task needs to be delegated. This connection establishes the essential hierarchical relationship within the multi-agent system, ensuring that the Supervisor can efficiently distribute work to the appropriate specialized Workers.
-* **A Chat Model node capable of function calling**: By default, Workers inherit the Supervisor's Chat Model node unless assigned one directly. This function-calling capability enables the Worker to interact with tools designed for its specialized task.
+* **スーパーバイザー:** 各ワーカーは、タスクを委任する必要がある場合に呼び出されるように、スーパーバイザーに接続されている必要があります。この接続により、マルチエージェントシステム内の重要な階層関係が確立され、スーパーバイザーが適切な専門ワーカーに効率的に作業を分配できることが保証されます。
+
+* **関数呼び出しが可能なチャットモデルノード**: デフォルトでは、ワーカーは直接割り当てられていない限り、スーパーバイザーのチャットモデルノードを継承します。この関数呼び出し機能により、ワーカーは専門タスク用に設計されたツールと対話することができます。
 
 <figure><img src="../../.gitbook/assets/mas05.png" alt="" width="375"><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-The ability to assign **different Chat Models to each Worker** provides significant flexibility and optimization opportunities for our application. By selecting [Chat Models](../../integrations/langchain/chat-models/) tailored to specific tasks, we can leverage more cost-effective solutions for simpler tasks and reserve specialized, potentially more expensive, models when truly necessary.
+**各ワーカーに異なるチャットモデルを割り当てる**能力は、アプリケーションに大きな柔軟性と最適化の機会を提供します。特定のタスクに合わせた[チャットモデル](../../integrations/langchain/chat-models/)を選択することで、より単純なタスクにはより費用対効果の高いソリューションを活用し、本当に必要な場合には専門的で、潜在的により高価なモデルを確保することができます。
 {% endhint %}
 
-### Undertanding Max Iteration parameter in Workers
+### ワーカーのマックスイテレーションパラメータについて
 
-[LangChain](https://python.langchain.com/v0.1/docs/modules/agents/how\_to/max\_iterations/) refers to `Max Iterations Cap` as a important control mechanism for preventing haywire within an agentic system. In our current this context, it serves us as a guardrail against excessive, potentially infinite, interactions between the Supervisor and Worker.
+[LangChain](https://python.langchain.com/v0.1/docs/modules/agents/how\_to/max\_iterations/)は、エージェントシステム内の暴走を防ぐための重要な制御メカニズムとして `Max Iterations Cap` を参照しています。現在のこのコンテキストでは、スーパーバイザーとワーカー間の過度の、潜在的に無限の相互作用に対するガードレールとして機能します。
 
-Unlike the Supervisor node's `Recursion Limit`, which restricts how many times the Supervisor can call itself, the Worker node's `Max Iteration` parameter limits how many times a Supervisor can iterated or query a specific Worker.
+スーパーバイザーノードの `再帰制限` がスーパーバイザーが自身を呼び出せる回数を制限するのに対し、ワーカーノードの `マックスイテレーション` パラメータは、スーパーバイザーが特定のワーカーを繰り返しまたは照会できる回数を制限します。
 
-By capping or limiting the Max Iteration, we ensure that costs remain under control, even in cases of unexpected system behavior.
+マックスイテレーションに上限を設けることで、予期せぬシステムの動作が発生した場合でもコストが制御下に維持されることが保証されます。
 
 ***
 
-## Example: A practical user case
+## 例: 実践的なユースケース
 
-Now that we've established a foundational understanding of how Multi-Agent systems work within Flowise, let's explore a practical application.
+Flowise 内でマルチエージェントシステムがどのように動作するかについての基本的な理解が確立されたので、実践的な応用例を見てみましょう。
 
-Imagine a **Lead Outreach multi-agent system** (available in the Marketplace) designed to automate the process of identifying, qualifying, and engaging with potential leads. This system would utilize a Supervisor to orchestrate the following two Workers:
+**リードアウトリーチマルチエージェントシステム**（マーケットプレイスで利用可能）を想像してみてください。これは見込み客の特定、資格審査、エンゲージメントのプロセスを自動化するように設計されています。このシステムは、以下の2つのワーカーを調整するスーパーバイザーを利用します:
 
-* **Lead Researcher:** This Worker, using the Google Search Tool, will be responsible for gathering potential leads based on user-defined criteria.
-* **Lead Sales Generator:** This Worker will utilize the information gathered by the Lead Researcher to create personalized email drafts for the sales team.
+* **リードリサーチャー:** このワーカーは、Google検索ツールを使用して、ユーザー定義の基準に基づいて潜在的な見込み客を収集する責任があります。
+* **リードセールスジェネレーター:** このワーカーは、リードリサーチャーが収集した情報を活用して、営業チーム向けのパーソナライズされたメール下書きを作成します。
 
 <figure><img src="../../.gitbook/assets/mas08.png" alt=""><figcaption></figcaption></figure>
 
-**Background:** A user working at Solterra Renewables wants to gather available information about Evergreen Energy Group, a reputable renewable energy company located in the UK, and target its CEO, Amelia Croft, as a potential lead.
+**背景:** Solterra Renewablesで働くユーザーが、英国に拠点を置く評価の高い再生可能エネルギー企業であるEvergreen Energy Groupについての利用可能な情報を収集し、そのCEOであるAmelia Croftを潜在的な見込み客としてターゲットにしたいと考えています。
 
-**User Request:** The Solterra Renewables employee provides the following query to the multi-agent system: "_I need information about Evergreen Energy Group and Amelia Croft as a potential new customer for our business._"
+**ユーザーリクエスト:** Solterra Renewablesの従業員は、マルチエージェントシステムに次のクエリを提供します: "_Evergreen Energy GroupとAmelia Croftについて、我々のビジネスの潜在的な新規顧客として情報が必要です。_"
 
-1. **Supervisor:**
-   * The Supervisor receives the user request and delegates the "Lead Research" task to the `Lead Researcher Worker`.
-2. **Lead Researcher Worker:**
-   * The Lead Researcher Worker, using the Google Search Tool, gathers information about Evergreen Energy Group, focusing on:
-     * Company background, industry, size, and location.
-     * Recent news and developments.
-     * Key executives, including confirming Amelia Croft's role as CEO.
-   * The Lead Researcher sends the gathered information back to the `Supervisor`.
-3. **Supervisor:**
-   * The Supervisor receives the research data from the Lead Researcher Worker and confirms that Amelia Croft is a relevant lead.
-   * The Supervisor delegates the "Generate Sales Email" task to the `Lead Sales Generator Worker`, providing:
-     * The research information on Evergreen Energy Group.
-     * Amelia Croft's email.
-     * Context about Solterra Renewables.
-4. **Lead Sales Generator Worker:**
-   * The Lead Sales Generator Worker crafts a personalized email draft tailored to Amelia Croft, taking into account:
-     * Her role as CEO and the relevance of Solterra Renewables' services to her company.
-     * Information from the research about Evergreen Energy Group's current focus or projects.
-   * The Lead Sales Generator Worker sends the completed email draft back to the `Supervisor`.
-5. **Supervisor:**
-   * The Supervisor receives the generated email draft and issues the "FINISH" directive.
-   * The Supervisor outputs the email draft back to the user, the `Solterra Renewables employee`.
-6. **User Receives Output:** The Solterra Renewables employee receives a personalized email draft ready to be reviewed and sent to Amelia Croft.
+1. **スーパーバイザー:**
+   * スーパーバイザーはユーザーリクエストを受け取り、"リードリサーチ"タスクを`リードリサーチャーワーカー`に委任します。
+2. **リードリサーチャーワーカー:**
+   * リードリサーチャーワーカーは、Google検索ツールを使用して、Evergreen Energy Groupに関する情報を収集します。以下に焦点を当てます:
+     * 企業の背景、業界、規模、所在地
+     * 最近のニュースと展開
+     * 主要な経営陣（Amelia CroftのCEOとしての役割の確認を含む）
+   * リードリサーチャーは収集した情報を`スーパーバイザー`に送り返します。
+3. **スーパーバイザー:**
+   * スーパーバイザーはリードリサーチャーワーカーから研究データを受け取り、Amelia Croftが関連する見込み客であることを確認します。
+   * スーパーバイザーは"セールスメール生成"タスクを`リードセールスジェネレーターワーカー`に委任し、以下を提供します:
+     * Evergreen Energy Groupに関する研究情報
+     * Amelia Croftのメールアドレス
+     * Solterra Renewablesに関するコンテキスト
+4. **リードセールスジェネレーターワーカー:**
+   * リードセールスジェネレーターワーカーは、以下を考慮しながら、Amelia Croft向けにパーソナライズされたメール下書きを作成します:
+     * CEOとしての彼女の役割と、Solterra Renewablesのサービスが彼女の会社にとって持つ関連性
+     * Evergreen Energy Groupの現在の焦点やプロジェクトに関する研究からの情報
+   * リードセールスジェネレーターワーカーは完成したメール下書きを`スーパーバイザー`に送り返します。
+5. **スーパーバイザー:**
+   * スーパーバイザーは生成されたメール下書きを受け取り、"FINISH"指示を出します。
+   * スーパーバイザーはメール下書きをユーザー（`Solterra Renewablesの従業員`）に出力します。
+6. **ユーザーが出力を受け取る:** Solterra Renewablesの従業員は、レビューしてAmelia Croftに送信する準備ができたパーソナライズされたメール下書きを受け取ります。
 
-## Video Tutorials
+## ビデオチュートリアル
 
-Here, you'll find a list of video tutorials from [Leon's YouTube channel](https://www.youtube.com/@leonvanzyl) showing how to build multi-agent applications in Flowise using no-code.
+ここでは、[LeonのYouTubeチャンネル](https://www.youtube.com/@leonvanzyl)からのビデオチュートリアルのリストを見つけることができます。これらは、ノーコードでFlowiseにマルチエージェントアプリケーションを構築する方法を示しています。
 
 {% embed url="https://www.youtube.com/watch?ab_channel=LeonvanZyl&v=284Z8k7yJRE" %}
 

@@ -1,12 +1,12 @@
 ---
-description: Learn how to analyze and troubleshoot your chatflows and agentflows
+description: チャットフローとエージェントフローを分析してトラブルシューティングする方法を学ぶ
 ---
 
-# Analytic
+# 分析
 
 ***
 
-There are several analytic providers Flowise integrates with:
+Flowiseは以下の分析プロバイダーと統合されています:
 
 * [LunaryAI](https://lunary.ai/)
 * [Langsmith](https://smith.langchain.com/)
@@ -15,35 +15,35 @@ There are several analytic providers Flowise integrates with:
 
 ## Lunary
 
-[Lunary](https://lunary.ai/) is a monitoring and analytics platform for LLM chatbots.
+[Lunary](https://lunary.ai/)は、LLMチャットボット用の監視・分析プラットフォームです。
 
-Flowise has partnered with Lunary to provide a complete integration supporting user tracing, feedback tracking, conversation replays and detailed LLM analytics.
+Flowiseは、ユーザートレース、フィードバック追跡、会話のリプレイ、詳細なLLM分析をサポートする完全な統合を提供するためにLunaryと提携しています。
 
-Flowise users can get a 30% discount on the Teams Plan using code `FLOWISEFRIENDS` during checkout.
+Flowiseユーザーは、チェックアウト時にコード`FLOWISEFRIENDS`を使用することで、チームプランで30%の割引を受けることができます。
 
-Read more on how to setup Lunary with Flowise [here](https://lunary.ai/docs/integrations/flowise).
+FlowiseでLunaryをセットアップする方法の詳細については[こちら](https://lunary.ai/docs/integrations/flowise)をご覧ください。
 
-## Setup
+## セットアップ
 
-1. At the top right corner of your Chatflow or Agentflow, click **Settings** > **Configuration**
+1. チャットフローまたはエージェントフローの右上隅で、**設定** > **構成**をクリックします
 
-<figure><img src="../.gitbook/assets/analytic-1.webp" alt="Screenshot of user clicking in the configuration menu" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/analytic-1.webp" alt="構成メニューをクリックするユーザーのスクリーンショット" width="375"><figcaption></figcaption></figure>
 
-2. Then go to the Analyse Chatflow section
+2. チャットフロー分析セクションに移動します
 
-<figure><img src="../.gitbook/assets/analytic-2.png" alt="Screenshot of the Analyse Chatflow section with the different Analytics providers"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/analytic-2.png" alt="異なる分析プロバイダーを含むチャットフロー分析セクションのスクリーンショット"><figcaption></figcaption></figure>
 
-3. You will see a list of providers, along with their configuration fields
+3. プロバイダーのリストと、その設定フィールドが表示されます
 
-<figure><img src="../.gitbook/assets/image (82).png" alt="Screenshot of an analytics provider with credentials fields expanded"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (82).png" alt="認証情報フィールドが展開された分析プロバイダーのスクリーンショット"><figcaption></figcaption></figure>
 
-3. Fill in the credentials and other configuration details, then turn the provider **ON**
+3. 認証情報やその他の設定詳細を入力し、プロバイダーを**オン**にします
 
-<figure><img src="../.gitbook/assets/image (83).png" alt="Screenshot of analytics providers enabled"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (83).png" alt="有効化された分析プロバイダーのスクリーンショット"><figcaption></figcaption></figure>
 
 ## API
 
-Once the analytic has been turned ON from the UI, you can override or provide additional configuration in the body of the [Prediction API](api.md#prediction-api):
+UIから分析をオンにすると、[予測API](api.md#prediction-api)のボディで設定を上書きまたは追加設定を提供できます:
 
 ```json
 {
