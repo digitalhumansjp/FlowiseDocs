@@ -1,19 +1,19 @@
-# Running Flowise behind company proxy
+# 企業のプロキシ環境下でのFlowiseの実行
 
-If you're running Flowise in an environment that requires a proxy, such as within an organizational network, you can configure Flowise to route all its backend requests through a proxy of your choice. This feature is powered by the `global-agent` package.
+組織のネットワークなど、プロキシが必要な環境でFlowiseを実行する場合、すべてのバックエンドリクエストを任意のプロキシを通してルーティングするように設定できます。この機能は `global-agent` パッケージによって提供されています。
 
 [https://github.com/gajus/global-agent](https://github.com/gajus/global-agent)
 
-## Configuration
+## 設定
 
-There are 2 environment variables you will need to run Flowise behind a company proxy:
+企業のプロキシ環境下でFlowiseを実行するには、2つの環境変数が必要です：
 
-| Variable                   | Purpose                                                                          | Required |
-| -------------------------- | -------------------------------------------------------------------------------- | -------- |
-| `GLOBAL_AGENT_HTTP_PROXY`  | Where to proxy all server HTTP requests through                                  | Yes      |
-| `GLOBAL_AGENT_HTTPS_PROXY` | Where to proxy all server HTTPS requests through                                 | No       |
-| `GLOBAL_AGENT_NO_PROXY`    | A pattern of URLs that should be excluded from proxying. Eg. `*.foo.com,baz.com` | No       |
+| 変数                       | 目的                                                       | 必須   |
+| -------------------------- | ---------------------------------------------------------- | ------ |
+| `GLOBAL_AGENT_HTTP_PROXY`  | すべてのサーバーHTTPリクエストをプロキシする先             | はい   |
+| `GLOBAL_AGENT_HTTPS_PROXY` | すべてのサーバーHTTPSリクエストをプロキシする先            | いいえ |
+| `GLOBAL_AGENT_NO_PROXY`    | プロキシから除外するURLのパターン。例：`*.foo.com,baz.com` | いいえ |
 
-## Outbound Allow-list
+## アウトバウンド許可リスト
 
-For enterprise plan, you must allow several outbound connections for license checking. Please contact support@flowiseai.com for more information.
+エンタープライズプランでは、ライセンスチェックのために複数のアウトバウンド接続を許可する必要があります。詳細については support@flowiseai.com までお問い合わせください。

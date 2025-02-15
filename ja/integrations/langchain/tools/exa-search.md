@@ -1,11 +1,11 @@
 ---
-description: Wrapper around Exa Search API - search engine fully designed for use by LLMs.
+description: Exa検索API - LLMによる使用のために完全に設計された検索エンジンのラッパー
 ---
 
-# Exa Search
+# Exa検索
 
-<figure><img src="../../../.gitbook/assets/up-007.png" alt="" width="285"><figcaption><p>Exa Search Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/up-007.png" alt="" width="285"><figcaption><p>Exa検索ノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を歓迎します。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

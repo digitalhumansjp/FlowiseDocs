@@ -1,40 +1,41 @@
 ---
-description: Learn how to deploy Flowise to the cloud
+description: Flowiseをクラウドにデプロイする方法を学ぶ
 ---
 
-# Deployment
+# デプロイメント
 
 ***
 
-Flowise is designed with a platform-agnostic architecture, ensuring compatibility with a wide range of deployment environments to suit your infrastructure needs.
+Flowiseはプラットフォームに依存しない設計となっており、インフラのニーズに合わせて幅広いデプロイメント環境との互換性を確保しています。
 
-## Local Machine
+## ローカルマシン
 
-To deploy Flowise locally, follow our [Get Started](../../getting-started/) guide.
+Flowiseをローカルにデプロイするには、[Get Started](../../getting-started/)ガイドに従ってください。
 
-## Modern Cloud Providers
+## モダンクラウドプロバイダー
 
-Modern cloud platforms prioritize automation and focus on developer workflows, simplifying cloud management and ongoing maintenance.&#x20;
+モダンクラウドプラットフォームは自動化を重視し、開発者のワークフローに焦点を当てることで、クラウド管理と継続的なメンテナンスを簡素化しています。
 
-This reduces the technical expertise needed, but may limit the level of customization you have over the underlying infrastructure.
+これにより必要な技術的専門知識は減少しますが、基盤となるインフラのカスタマイズレベルが制限される場合があります。
 
 * [Elestio](https://elest.io/open-source/flowiseai)
 * [Hugging Face](hugging-face.md)
 * [Railway](railway.md)
 * [Render](render.md)
 * [Replit](replit.md)
-* [RepoCloud](https://repocloud.io/details/?app\_id=29)
+* [RepoCloud](https://repocloud.io/details/?app_id=29)
 * [Sealos](sealos.md)
 * [Zeabur](zeabur.md)
 
-## Established Cloud Providers
+## 確立されたクラウドプロバイダー
 
-Established cloud providers, on the other hand, require a higher level of technical expertise to manage and optimize for your specific needs.&#x20;
+一方で、確立されたクラウドプロバイダーは、特定のニーズに合わせて管理・最適化するために、より高度な技術的専門知識を必要とします。
 
-This complexity, however, also grants greater flexibility and control over your cloud environment.
+しかし、この複雑さは同時に、クラウド環境に対するより大きな柔軟性とコントロールを提供します。
 
 * [AWS](aws.md)
 * [Azure](azure.md)
+* [アリババクラウド](https://aliyun-computenest.github.io/quickstart-flowise/)
 * [DigitalOcean](digital-ocean.md)
 * [GCP](gcp.md)
 * [Kubernetes using Helm](https://artifacthub.io/packages/helm/cowboysysop/flowise)

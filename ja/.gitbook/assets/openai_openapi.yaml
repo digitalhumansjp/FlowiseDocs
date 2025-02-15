@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: OpenAI API
-  description: APIs for sampling from and fine-tuning language models
+  description: 言語モデルをサンプリングおよびファインチューニングするためのAPI
   version: '1.1.0'
 servers:
   - url: https://api.openai.com/v1
@@ -15,7 +15,7 @@ paths:
       deprecated: true
       tags:
       - OpenAI
-      summary: Lists the currently available (non-finetuned) models, and provides basic information about each one such as the owner and availability.
+      summary: 現在利用可能な（ファインチューニングされていない）モデルをリストし、所有者や利用可能性などの基本情報を提供します。
       responses:
         "200":
           description: OK
@@ -74,14 +74,14 @@ paths:
       deprecated: true
       tags:
       - OpenAI
-      summary: Retrieves a model instance, providing basic information about it such as the owner and availability.
+      summary: モデルインスタンスを取得し、所有者や利用可能性などの基本情報を提供します。
       parameters:
         - in: path
           name: engine_id
           required: true
           schema:
             type: string
-            # ideally this will be an actual ID, so this will always work from browser
+            # 理想的にはこれは実際のIDとなるため、ブラウザからの実行が常に可能になります。
             example:
               davinci
           description: &engine_id_description >
@@ -126,7 +126,7 @@ paths:
       operationId: createCompletion
       tags:
       - OpenAI
-      summary: Creates a completion for the provided prompt and parameters
+      summary: 提供されたプロンプトとパラメータに基づいて文章を生成します。
       requestBody:
         required: true
         content:
@@ -2078,11 +2078,11 @@ components:
               type: integer
             total_tokens:
               type: integer
-          required: 
+          required:
             - prompt_tokens
             - completion_tokens
             - total_tokens
-      required: 
+      required:
         - id
         - object
         - created
@@ -2181,11 +2181,11 @@ components:
               type: integer
             total_tokens:
               type: integer
-          required: 
+          required:
             - prompt_tokens
             - completion_tokens
             - total_tokens
-      required: 
+      required:
         - object
         - created
         - choices
@@ -2335,7 +2335,7 @@ components:
                     type: boolean
                   violence/graphic:
                     type: boolean
-                required: 
+                required:
                   - hate
                   - hate/threatening
                   - self-harm
@@ -2360,7 +2360,7 @@ components:
                     type: number
                   violence/graphic:
                     type: number
-                required: 
+                required:
                   - hate
                   - hate/threatening
                   - self-harm
@@ -2368,11 +2368,11 @@ components:
                   - sexual/minors
                   - violence
                   - violence/graphic
-            required: 
+            required:
               - flagged
               - categories
               - category_scores
-      required: 
+      required:
         - id
         - model
         - results
@@ -2455,7 +2455,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OpenAIFile'
-      required: 
+      required:
         - object
         - data
 
@@ -2490,7 +2490,7 @@ components:
           type: string
         deleted:
           type: boolean
-      required: 
+      required:
         - id
         - object
         - deleted
@@ -2894,7 +2894,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FineTune'
-      required: 
+      required:
         - object
         - data
 
@@ -2907,7 +2907,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FineTuneEvent'
-      required: 
+      required:
         - object
         - data
 
@@ -2967,7 +2967,7 @@ components:
                 type: array
                 items:
                   type: number
-            required: 
+            required:
               - index
               - object
               - embedding
@@ -2978,10 +2978,10 @@ components:
               type: integer
             total_tokens:
               type: integer
-          required: 
+          required:
             - prompt_tokens
             - total_tokens
-      required: 
+      required:
         - object
         - model
         - data
@@ -2999,7 +2999,7 @@ components:
           nullable: true
         ready:
           type: boolean
-      required: 
+      required:
         - id
         - object
         - created
@@ -3016,7 +3016,7 @@ components:
           type: integer
         owned_by:
           type: string
-      required: 
+      required:
         - id
         - object
         - created
@@ -3042,7 +3042,7 @@ components:
         status_details:
           type: object
           nullable: true
-      required: 
+      required:
         - id
         - object
         - bytes
@@ -3088,7 +3088,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FineTuneEvent'
-      required: 
+      required:
         - id
         - object
         - created_at
@@ -3113,7 +3113,7 @@ components:
           type: string
         message:
           type: string
-      required: 
+      required:
         - object
         - created_at
         - level

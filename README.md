@@ -2,7 +2,7 @@
 description: Flowiseの公式ドキュメントへようこそ
 ---
 
-# Introduction
+# はじめに
 
 <figure><img src=".gitbook/assets/flowise.gif" alt=""><figcaption><p>Flowise ドラッグ &#x26; ドロップ UI</p></figcaption></figure>
 

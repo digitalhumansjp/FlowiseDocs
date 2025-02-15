@@ -1,30 +1,30 @@
 ---
-description: Learn how to connect your Flowise instance to a database
+description: Flowise インスタンスをデータベースに接続する方法を学ぶ
 ---
 
-# Databases
+# データベース
 
 ***
 
-Flowise supports 4 database types:
+Flowise は4種類のデータベースをサポートしています:
 
 * SQLite
 * MySQL
 * PostgreSQL
 * MariaDB
 
-## SQLite (Default)
+## SQLite (デフォルト)
 
-SQLite will be the default database. These databases can be configured with following env variables:
+SQLite がデフォルトのデータベースとなります。これらのデータベースは以下の環境変数で設定できます:
 
 ```sh
 DATABASE_TYPE=sqlite
-DATABASE_PATH=/root/.flowise #your preferred location
+DATABASE_PATH=/root/.flowise #任意の保存場所
 ```
 
-A `database.sqlite` file will be created and saved in the path specified by `DATABASE_PATH`. If not specified, the default store path will be in your home directory -> .flowise
+`database.sqlite` ファイルが作成され、`DATABASE_PATH` で指定されたパスに保存されます。指定されていない場合、デフォルトの保存パスはホームディレクトリ -> .flowise となります。
 
-**Note:** If none of the env variables is specified, SQLite will be the fallback database choice.
+**注意:** 環境変数が指定されていない場合、SQLite がフォールバックのデータベース選択となります。
 
 ## MySQL
 
@@ -60,6 +60,6 @@ DATABASE_USER="flowise"
 DATABASE_PASSWORD="mypassword"
 ```
 
-## How to use Flowise databases SQLite and MySQL/MariaDB
+## Flowise データベース SQLite と MySQL/MariaDB の使用方法
 
 {% embed url="https://youtu.be/R-6uV1Cb8I8" %}

@@ -1,38 +1,38 @@
 ---
-description: Learn how to query structured data
+description: 構造化データのクエリ方法を学ぶ
 ---
 
 # SQL QnA
 
 ***
 
-Unlike previous examples like [Web Scrape QnA](web-scrape-qna.md) and [Multiple Documents QnA](multiple-documents-qna.md), querying structured data does not require a vector database. At the high-level, this can be achieved with following steps:
+[Web Scrape QnA](web-scrape-qna.md)や[Multiple Documents QnA](multiple-documents-qna.md)の例とは異なり、構造化データのクエリにはベクトルデータベースは必要ありません。高レベルでは、以下のステップで実現できます:
 
-1. Providing the LLM:
-   * overview of the SQL database schema
-   * example rows data
-2. Return a SQL query with few shot prompting
-3. Validate the SQL query using an [If Else](../integrations/utilities/if-else.md) node
-4. Create a custom function to execute the SQL query, and get the response
-5. Return a natural response from the executed SQL response
+1. LLMに以下を提供:
+   * SQLデータベーススキーマの概要
+   * サンプルの行データ
+2. few-shotプロンプティングでSQLクエリを返す
+3. [If Else](../integrations/utilities/if-else.md)ノードを使用してSQLクエリを検証
+4. SQLクエリを実行してレスポンスを取得するカスタム関数を作成
+5. 実行されたSQLレスポンスから自然な応答を返す
 
 <figure><img src="../.gitbook/assets/image (113).png" alt=""><figcaption></figcaption></figure>
 
-In this example, we are going to create a QnA chatbot that can interact with a SQL database stored in SingleStore
+この例では、SingleStoreに保存されているSQLデータベースと対話できるQnAチャットボットを作成します
 
 <figure><img src="../.gitbook/assets/image (116).png" alt=""><figcaption></figcaption></figure>
 
 ## TL;DR
 
-You can find the chatflow template:
+チャットフローテンプレートはこちらで見つけることができます:
 
 {% file src="../.gitbook/assets/SQL Chatflow.json" %}
 
-## 1. SQL Database Schema + Example Rows
+## 1. SQLデータベーススキーマ + サンプル行
 
-Use a Custom JS Function node to connect to SingleStore, retrieve database schema and top 3 rows.
+カスタムJS関数ノードを使用してSingleStoreに接続し、データベーススキーマと上位3行を取得します。
 
-From the [research paper](https://arxiv.org/abs/2204.00498), it is recommended to generate a prompt with following example format:
+[研究論文](https://arxiv.org/abs/2204.00498)によると、以下のような形式でプロンプトを生成することが推奨されています:
 
 ```
 CREATE TABLE samples (firstName varchar NOT NULL, lastName varchar)
@@ -47,7 +47,7 @@ Steven Repici
 
 <details>
 
-<summary>Full Javascript Code</summary>
+<summary>完全なJavaScriptコード</summary>
 
 ```javascript
 const HOST = 'singlestore-host.com';
@@ -68,28 +68,28 @@ function getSQLPrompt() {
         password: PASSWORD,
         database: DATABASE,
       });
-  
-      // Get schema info
+
+      // スキーマ情報を取得
       const [schemaInfo] = await singleStoreConnection.execute(
         `SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = "${TABLE}"`
       );
-  
+
       const createColumns = [];
       const columnNames = [];
-  
+
       for (const schemaData of schemaInfo) {
         columnNames.push(`${schemaData['COLUMN_NAME']}`);
         createColumns.push(`${schemaData['COLUMN_NAME']} ${schemaData['COLUMN_TYPE']} ${schemaData['IS_NULLABLE'] === 'NO' ? 'NOT NULL' : ''}`);
       }
-  
+
       const sqlCreateTableQuery = `CREATE TABLE samples (${createColumns.join(', ')})`;
       const sqlSelectTableQuery = `SELECT * FROM samples LIMIT 3`;
-  
-      // Get first 3 rows
+
+      // 最初の3行を取得
       const [rows] = await singleStoreConnection.execute(
           sqlSelectTableQuery,
       );
-      
+
       const allValues = [];
       for (const row of rows) {
           const rowValues = [];
@@ -98,9 +98,9 @@ function getSQLPrompt() {
           }
           allValues.push(rowValues.join(' '));
       }
-  
+
       sqlSchemaPrompt = sqlCreateTableQuery + '\n' + sqlSelectTableQuery + '\n' + columnNames.join(' ') + '\n' + allValues.join('\n');
-      
+
       resolve();
     } catch (e) {
       console.error(e);
@@ -120,22 +120,22 @@ return sqlSchemaPrompt;
 
 </details>
 
-You can find more on how to get the `HOST`, `USER`, `PASSWORD` from this [guide](broken-reference/). Once finished, click Execute:
+`HOST`、`USER`、`PASSWORD`の取得方法については、この[ガイド](broken-reference/)で詳しく説明されています。完了したら、実行をクリックします:
 
 <figure><img src="../.gitbook/assets/image (117).png" alt=""><figcaption></figcaption></figure>
 
-We can now see the correct format has been generated. Next step is to bring this into Prompt Template.
+正しい形式が生成されたことが確認できました。次のステップでは、これをプロンプトテンプレートに組み込みます。
 
-## 2. Return a SQL query with few shot prompting
+## 2. few-shotプロンプティングによるSQLクエリの返却
 
-Create a new Chat Model + Prompt Template + LLMChain
+新しいChat Model + Prompt Template + LLMChainを作成します
 
 <figure><img src="../.gitbook/assets/image (118).png" alt=""><figcaption></figcaption></figure>
 
-Specify the following prompt in the Prompt Template:
+Prompt Templateに以下のプロンプトを指定します:
 
 ```
-Based on the provided SQL table schema and question below, return a SQL SELECT ALL query that would answer the user's question. For example: SELECT * FROM table WHERE id = '1'.
+提供されたSQLテーブルスキーマと以下の質問に基づいて、ユーザーの質問に答えるSQLのSELECT ALLクエリを返してください。例: SELECT * FROM table WHERE id = '1'.
 ------------
 SCHEMA: {schema}
 ------------
@@ -144,19 +144,19 @@ QUESTION: {question}
 SQL QUERY:
 ```
 
-Since we are using 2 variables: {schema} and {question}, specify their values in **Format Prompt Values**:
+{schema}と{question}の2つの変数を使用しているため、**Format Prompt Values**でそれらの値を指定します:
 
 <figure><img src="../.gitbook/assets/image (122).png" alt="" width="563"><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-You can provide more examples to the prompt (i.e few-shot prompting) to let the LLM learns better. Or take reference from [dialect-specific prompting](https://js.langchain.com/docs/use\_cases/sql/prompting#dialect-specific-prompting)
+LLMの学習をより良くするために、プロンプトにより多くの例（few-shotプロンプティング）を提供することができます。または[方言固有のプロンプティング](https://js.langchain.com/docs/use_cases/sql/prompting#dialect-specific-prompting)を参照してください。
 {% endhint %}
 
-## 3. Validate the SQL query using [If Else](../integrations/utilities/if-else.md) node
+## 3. [If Else](../integrations/utilities/if-else.md)ノードを使用したSQLクエリの検証
 
-Sometimes the SQL query is invalid, and we do not want to waste resources the execute an invalid SQL query. For example, if a user is asking a general question that is irrelevant to the SQL database. We can use an `If Else` node to route to different path.
+SQLクエリが無効な場合があり、無効なSQLクエリを実行するためにリソースを無駄にしたくありません。例えば、ユーザーがSQLデータベースと無関係な一般的な質問をしている場合などです。`If Else`ノードを使用して異なるパスにルーティングすることができます。
 
-For instance, we can perform a basic check to see if SELECT and WHERE are included in the SQL query given by the LLM.
+例えば、LLMが提供したSQLクエリにSELECTとWHEREが含まれているかどうかの基本的なチェックを実行できます。
 
 {% tabs %}
 {% tab title="If Function" %}
@@ -165,7 +165,7 @@ const sqlQuery = $sqlQuery.trim();
 
 const regex = /SELECT\s.*?(?:\n|$)/gi;
 
-// Extracting the SQL part
+// SQLパートの抽出
 const matches = sqlQuery.match(regex);
 const cleanSql = matches ? matches[0].trim() : "";
 
@@ -184,19 +184,19 @@ return $sqlQuery;
 
 <figure><img src="../.gitbook/assets/image (119).png" alt="" width="327"><figcaption></figcaption></figure>
 
-In the Else Function, we will route to a Prompt Template + LLMChain that basically tells LLM that it is unable to answer user query:
+Else Functionでは、LLMにユーザークエリに回答できないことを伝えるPrompt Template + LLMChainにルーティングします:
 
 <figure><img src="../.gitbook/assets/image (120).png" alt=""><figcaption></figcaption></figure>
 
-## 4. Custom function to execute SQL query, and get the response
+## 4. SQLクエリを実行してレスポンスを取得するカスタム関数
 
-If it is a valid SQL query, we need to execute the query. Connect the _**True**_ output from **If Else** node to a **Custom JS Function** node:
+有効なSQLクエリの場合、クエリを実行する必要があります。**If Else**ノードの_**True**_出力を**Custom JS Function**ノードに接続します:
 
 <figure><img src="../.gitbook/assets/image (123).png" alt="" width="563"><figcaption></figcaption></figure>
 
 <details>
 
-<summary>Full Javascript Code</summary>
+<summary>完全なJavaScriptコード</summary>
 
 ```javascript
 const HOST = 'singlestore-host.com';
@@ -217,13 +217,13 @@ function getSQLResult() {
         password: PASSWORD,
         database: DATABASE,
       });
-     
+
       const [rows] = await singleStoreConnection.execute(
         $sqlQuery
       );
-  
+
       result = JSON.stringify(rows)
-      
+
       resolve();
     } catch (e) {
       console.error(e);
@@ -243,16 +243,16 @@ return result;
 
 </details>
 
-## 5. Return a natural response from the executed SQL response
+## 5. 実行されたSQLレスポンスから自然な応答を返す
 
-Create a new Chat Model + Prompt Template + LLMChain
+新しいChat Model + Prompt Template + LLMChainを作成します
 
 <figure><img src="../.gitbook/assets/image (124).png" alt=""><figcaption></figcaption></figure>
 
-Write the following prompt in the Prompt Template:
+Prompt Templateに以下のプロンプトを記述します:
 
 ```
-Based on the question, and SQL response, write a natural language response, be details as possible:
+質問とSQLレスポンスに基づいて、できるだけ詳細な自然言語での応答を作成してください:
 ------------
 QUESTION: {question}
 ------------
@@ -261,21 +261,21 @@ SQL RESPONSE: {sqlResponse}
 NATURAL LANGUAGE RESPONSE:
 ```
 
-Specify the variables in **Format Prompt Values**:
+**Format Prompt Values**で変数を指定します:
 
 <figure><img src="../.gitbook/assets/image (125).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Voila! Your SQL chatbot is now ready for testing!
+これで完了です！SQLチャットボットのテスト準備が整いました！
 
-## Query
+## クエリ
 
-First, let's ask something related to the database.
+まず、データベースに関連する質問をしてみましょう。
 
 <figure><img src="../.gitbook/assets/image (128).png" alt="" width="434"><figcaption></figcaption></figure>
 
-Looking at the logs, we can see the first LLMChain is able to give us a SQL query:
+ログを見ると、最初のLLMChainがSQLクエリを生成できていることがわかります:
 
-**Input:**
+**入力:**
 
 {% code overflow="wrap" %}
 ```
@@ -283,14 +283,14 @@ Based on the provided SQL table schema and question below, return a SQL SELECT A
 ```
 {% endcode %}
 
-**Output**
+**出力**
 
 <pre class="language-sql"><code class="lang-sql"><strong>SELECT userAddress FROM samples WHERE firstName = 'John'
 </strong></code></pre>
 
-After executing the SQL query, the result is passed to the 2nd LLMChain:
+SQLクエリを実行した後、結果は2番目のLLMChainに渡されます:
 
-**Input**
+**入力**
 
 {% code overflow="wrap" %}
 ```
@@ -298,38 +298,38 @@ Based on the question, and SQL response, write a natural language response, be d
 ```
 {% endcode %}
 
-**Output**
+**出力**
 
 ```
 The address of John is 120 Jefferson St.
 ```
 
-Now, we if ask something that is irrelevant to the SQL database, the Else route is taken.
+次に、SQLデータベースと無関係な質問をすると、Elseルートが実行されます。
 
 <figure><img src="../.gitbook/assets/image (132).png" alt="" width="428"><figcaption></figcaption></figure>
 
-For first LLMChain, a SQL query is generated as below:
+最初のLLMChainでは、以下のようなSQLクエリが生成されます:
 
 ```sql
 SELECT * FROM samples LIMIT 3
 ```
 
-However, it fails the `If Else` check because it doesn't contains both `SELECT` and `WHERE`, hence entering the Else route that has a prompt that says:
+しかし、`SELECT`と`WHERE`の両方を含んでいないため`If Else`チェックに失敗し、以下のプロンプトを持つElseルートに入ります:
 
 ```
 Politely say "I'm not able to answer query"
 ```
 
-And the final output is:
+最終的な出力は:
 
 ```
 I apologize, but I'm not able to answer your query at the moment.
 ```
 
-## Conclusion
+## まとめ
 
-In this example, we have successfully created a SQL chatbot that can interact with your database, and is also able to handle questions that are irrelevant to database. Further improvement includes adding memory to provide conversation history.
+この例では、データベースと対話でき、かつデータベースと無関係な質問も処理できるSQLチャットボットを作成することに成功しました。会話履歴を提供するためのメモリを追加することで、さらに改善することができます。
 
-You can find the chatflow below:
+以下のチャットフローを参照できます:
 
 {% file src="../.gitbook/assets/SQL Chatflow (1).json" %}

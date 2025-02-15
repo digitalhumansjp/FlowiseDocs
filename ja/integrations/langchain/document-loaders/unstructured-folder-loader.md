@@ -1,13 +1,12 @@
 ---
 description: >-
-  Use Unstructured.io to load data from a folder. Note: Currently doesn't
-  support .png and .heic until unstructured is updated.
+  Unstructured.ioを使用してフォルダーからデータを読み込む。注意：unstructuredがアップデートされるまで、.pngと.heicはサポートされていません。
 ---
 
-# Unstructured Folder Loader
+# 非構造化フォルダーローダー
 
-<figure><img src="../../../.gitbook/assets/image (101).png" alt="" width="320"><figcaption><p>Unstructured Folder Loader Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (101).png" alt="" width="320"><figcaption><p>非構造化フォルダーローダーノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

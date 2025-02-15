@@ -1,34 +1,34 @@
-# Refine
+# リファイン
 
-Create and refine an answer by sequentially going through each retrieved text chunk.
+各取得テキストチャンクを順番に処理することで回答を作成・改良します。
 
-**Pros**: Good for more detailed answers
+**長所**: より詳細な回答に適しています
 
-**Cons**: Separate LLM call per Node (can be expensive)
+**短所**: ノードごとに個別のLLMコールが必要（コストがかかる可能性があります）
 
 <figure><img src="../../../.gitbook/assets/image (5) (1) (1) (1) (1) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Refine Prompt**
+**リファインプロンプト**
 
 ```markup
-The original query is as follows: {query}
-We have provided an existing answer: {existingAnswer}
-We have the opportunity to refine the existing answer (only if needed) with some more context below.
+元のクエリは次の通りです: {query}
+既存の回答を提供しています: {existingAnswer}
+以下にさらなるコンテキストがあり、必要に応じて既存の回答を改良する機会があります。
 ------------
 {context}
 ------------
-Given the new context, refine the original answer to better answer the query. If the context isn't useful, return the original answer.
-Refined Answer:
+新しいコンテキストを考慮して、クエリにより良く答えるために元の回答を改良してください。コンテキストが有用でない場合は、元の回答を返してください。
+改良された回答:
 ```
 
-**Text QA Prompt**
+**テキストQAプロンプト**
 
 ```
-Context information is below.
+コンテキスト情報は以下の通りです。
 ---------------------
 {context}
 ---------------------
-Given the context information and not prior knowledge, answer the query.
-Query: {query}
-Answer:
+コンテキスト情報のみを使用し、事前知識は使用せずにクエリに答えてください。
+クエリ: {query}
+回答:
 ```

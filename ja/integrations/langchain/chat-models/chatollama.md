@@ -1,38 +1,38 @@
 # ChatOllama
 
-## Prerequisite
+## 前提条件
 
-1. Download [Ollama](https://github.com/ollama/ollama) or run it on [Docker.](https://hub.docker.com/r/ollama/ollama)&#x20;
-2.  For example, you can use the following command to spin up a Docker instance with llama3
+1. [Ollama](https://github.com/ollama/ollama)をダウンロードするか、[Docker](https://hub.docker.com/r/ollama/ollama)で実行します。
+2. 例えば、以下のコマンドでllama3を使用してDockerインスタンスを起動できます
 
     ```bash
     docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
     docker exec -it ollama ollama run llama3
     ```
 
-## Setup
+## セットアップ
 
-1. **Chat Models** > drag **ChatOllama** node
+1. **Chat Models** > **ChatOllama**ノードをドラッグ
 
 <figure><img src="../../../.gitbook/assets/image (139).png" alt="" width="563"><figcaption></figcaption></figure>
 
-2. Fill in the model that is running on Ollama. For example: `llama2`. You can also use additional parameters:
+2. Ollamaで実行中のモデルを入力します。例：`llama2`。追加パラメータも使用できます：
 
 <figure><img src="../../../.gitbook/assets/image (140).png" alt=""><figcaption></figcaption></figure>
 
-3. Voila [🎉](https://emojipedia.org/party-popper/), you can now use **ChatOllama node** in Flowise
+3. これで[🎉](https://emojipedia.org/party-popper/)Flowiseで**ChatOllamaノード**が使用できるようになりました
 
 <figure><img src="../../../.gitbook/assets/image (141).png" alt=""><figcaption></figcaption></figure>
 
-### Additional
+### 補足
 
-If you are running both Flowise and Ollama on docker. You'll have to change the Base URL for ChatOllama.
+FlowiseとOllamaの両方をDockerで実行している場合、ChatOllamaのベースURLを変更する必要があります。
 
-For Windows and MacOS Operating Systems specify [http://host.docker.internal:8000](http://host.docker.internal:8000/). For Linux based systems the default docker gateway should be used since host.docker.internal is not available: [http://172.17.0.1:8000](http://172.17.0.1:8000/)
+WindowsとMacOSオペレーティングシステムでは[http://host.docker.internal:8000](http://host.docker.internal:8000/)を指定します。Linuxベースのシステムではhost.docker.internalが利用できないため、デフォルトのdockerゲートウェイを使用する必要があります：[http://172.17.0.1:8000](http://172.17.0.1:8000/)
 
 <figure><img src="../../../.gitbook/assets/image (142).png" alt="" width="292"><figcaption></figcaption></figure>
 
-## Resources
+## リソース
 
 * [LangchainJS ChatOllama](https://js.langchain.com/docs/integrations/chat/ollama)
 * [Ollama](https://github.com/ollama/ollama)

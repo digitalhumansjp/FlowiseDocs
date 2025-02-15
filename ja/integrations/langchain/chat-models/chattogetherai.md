@@ -1,11 +1,11 @@
 ---
-description: Wrapper around TogetherAI large language models
+description: TogetherAI大規模言語モデルのラッパー
 ---
 
 # ChatTogetherAI
 
-<figure><img src="../../../.gitbook/assets/image (68).png" alt="" width="266"><figcaption><p>ChatTogetherAI Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (68).png" alt="" width="266"><figcaption><p>ChatTogetherAIノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

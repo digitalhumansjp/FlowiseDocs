@@ -1,11 +1,11 @@
 ---
-description: Wrapper around Groq LLM specific for LlamaIndex.
+description: LlamaIndex専用のGroq LLMのラッパー
 ---
 
 # ChatGroq
 
-<figure><img src="../../../.gitbook/assets/up-015.png" alt="" width="299"><figcaption><p>ChatGroq Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/up-015.png" alt="" width="299"><figcaption><p>ChatGroq ノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

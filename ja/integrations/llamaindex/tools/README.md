@@ -1,13 +1,13 @@
 ---
-description: LlamaIndex Agent Nodes
+description: LlamaIndex エージェントノード
 ---
 
-# Tools
+# ツール
 
 ***
 
-Tools are functions that agents can use to interact with the world. These tools can be generic utilities (e.g. search), other chains, or even other agents.
+ツールは、エージェントが世界とやり取りするために使用できる機能です。これらのツールは、汎用ユーティリティ（例：検索）、他のチェーン、あるいは他のエージェントにもなり得ます。
 
-### Tool Nodes:
+### ツールノード:
 
-* [Query Engine Tool](query-engine-tool.md)
+* [クエリエンジンツール](query-engine-tool.md)

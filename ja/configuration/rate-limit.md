@@ -1,31 +1,31 @@
 ---
-description: Learn how to managing API requests in Flowise
+description: Flowise での API リクエストの管理方法を学ぶ
 ---
 
-# Rate Limit
+# レート制限
 
 ***
 
-When you share your chatflow to public with no API authorization through API or embedded chat, anybody can access the flow. To prevent spamming, you can set the rate limit on your chatflow.
+API や埋め込みチャットを通じて API 認証なしでチャットフローを公開すると、誰でもそのフローにアクセスできます。スパムを防ぐために、チャットフローにレート制限を設定することができます。
 
 <figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="462"><figcaption></figcaption></figure>
 
-* **Message Limit per Duration**: How many messages can be received in a specific duration. Ex: 20
-* **Duration in Seconds**: The specified duration. Ex: 60
-* **Limit Message**: What message to return when the limit is exceeded. Ex: Quota Exceeded
+* **期間あたりのメッセージ制限**: 特定の期間内に受信できるメッセージ数。例: 20
+* **期間（秒）**: 指定された期間。例: 60
+* **制限メッセージ**: 制限を超えた場合に返すメッセージ。例: クォータ超過
 
-Using the example above, that means only 20 messages are allowed to be received in 60 seconds. The rate limitation is tracked by IP-address. If you have deployed Flowise on cloud service, you'll have to set `NUMBER_OF_PROXIES` env variable.
+上記の例では、60秒間に20メッセージまでしか受信できないことを意味します。レート制限は IP アドレスごとに追跡されます。クラウドサービスに Flowise をデプロイしている場合は、`NUMBER_OF_PROXIES` 環境変数を設定する必要があります。
 
-## Rate Limit Setup
+## レート制限の設定
 
-When you are hosting Flowise on cloud such as AWS, GCP, Azure, etc, most likely there you are behind a proxy/load balancer. Therefore, the rate limit might not be able to work. More info can be found [here](https://github.com/express-rate-limit/express-rate-limit/wiki/Troubleshooting-Proxy-Issues).
+AWS、GCP、Azure などのクラウドで Flowise をホスティングしている場合、ほとんどの場合プロキシ/ロードバランサーの背後にあるため、レート制限が機能しない可能性があります。詳細は[こちら](https://github.com/express-rate-limit/express-rate-limit/wiki/Troubleshooting-Proxy-Issues)で確認できます。
 
-To fix the issue:
+問題を解決するには:
 
-1. **Set Environment Variable:** Create an environment variable named `NUMBER_OF_PROXIES` and set its value to `0` in your hosting environment.
-2. **Restart your hosted Flowise instance:** This enables Flowise to apply changes of environment variables.
-3. **Check IP Address:** To verify the IP address, access the following URL: `{{hosted_url}}/api/v1/ip`. You can do this either by entering the URL into your web browser or by making an API request.
-4. **Compare IP Address** After making the request, compare the IP address returned to your current IP address. You can find your current IP address by visiting either of these websites:
+1. **環境変数の設定:** ホスティング環境で `NUMBER_OF_PROXIES` という環境変数を作成し、値を `0` に設定します。
+2. **ホストされている Flowise インスタンスを再起動:** これにより環境変数の変更が Flowise に適用されます。
+3. **IP アドレスの確認:** IP アドレスを確認するには、`{{hosted_url}}/api/v1/ip` という URL にアクセスします。これはウェブブラウザで URL を入力するか、API リクエストを行うことで実行できます。
+4. **IP アドレスの比較:** リクエスト後、返された IP アドレスを現在の IP アドレスと比較します。現在の IP アドレスは以下のウェブサイトで確認できます:
    * [http://ip.nfriedly.com/](http://ip.nfriedly.com/)
    * [https://api.ipify.org/](https://api.ipify.org/)
-5. **Incorrect IP Address:** If the returned IP address does not match your current IP address, increase `NUMBER_OF_PROXIES` by 1 and restart your Flowise instance. Repeat this process until the IP address matches your own.
+5. **IP アドレスが不一致の場合:** 返された IP アドレスが現在の IP アドレスと一致しない場合、`NUMBER_OF_PROXIES` を1増やして Flowise インスタンスを再起動します。IP アドレスが一致するまでこのプロセスを繰り返します。

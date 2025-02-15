@@ -1,12 +1,12 @@
-# Monitoring
+# モニタリング
 
-Flowise has native support for Prometheus with Grafana and OpenTelemetry. However, only high-level metrics such as API requests, counts of flows/predictions are tracked. Refer [here](https://github.com/FlowiseAI/Flowise/blob/main/packages/server/src/Interface.Metrics.ts#L13) for the lists of counter metrics. For details node by node observability, we recommend using [Analytic](analytic.md).
+Flowiseは、PrometheusとGrafana、OpenTelemetryをネイティブにサポートしています。ただし、追跡されるのはAPIリクエスト、フロー/予測のカウントなどの高レベルのメトリクスのみです。カウンターメトリクスの一覧は[こちら](https://github.com/FlowiseAI/Flowise/blob/main/packages/server/src/Interface.Metrics.ts#L13)を参照してください。ノード単位の詳細な可観測性については、[アナリティクス](analytic.md)の使用をお勧めします。
 
 ## Prometheus
 
-[Prometheus](https://prometheus.io/) is an open-source monitoring and alerting solution.
+[Prometheus](https://prometheus.io/)は、オープンソースの監視およびアラートソリューションです。
 
-Before setting up Prometheus, configure the following env variables in Flowise:
+Prometheusを設定する前に、Flowiseで以下の環境変数を設定してください。
 
 ```properties
 ENABLE_METRICS=true
@@ -14,58 +14,58 @@ METRICS_PROVIDER=prometheus
 METRICS_INCLUDE_NODE_METRICS=true
 ```
 
-After Prometheus is installed, run it using a configuration file. Flowise provides a default configuration file that can be found [here](https://github.com/FlowiseAI/Flowise/blob/main/metrics/prometheus/prometheus.config.yml).
+Prometheusをインストールしたら、設定ファイルを使用して実行します。Flowiseは、[こちら](https://github.com/FlowiseAI/Flowise/blob/main/metrics/prometheus/prometheus.config.yml)にあるデフォルトの設定ファイルを提供しています。
 
-Remember to have Flowise instance also running. You can open browser and navigate to port 9090. From the dashboard, you should be able to see the metric endpoint - `/api/v1/metrics` is now live.
+Flowiseインスタンスも実行中であることを忘れないでください。ブラウザを開いてポート9090に移動します。ダッシュボードから、メトリクスエンドポイント - `/api/v1/metrics` が稼働していることが確認できるはずです。
 
 <figure><img src="../.gitbook/assets/image (178).png" alt=""><figcaption></figcaption></figure>
 
-By default, `/api/v1/metrics` is available for Prometheus to pull the metrics from.
+デフォルトでは、`/api/v1/metrics` がPrometheusがメトリクスをプルするために利用可能になっています。
 
 <figure><img src="../.gitbook/assets/image (177).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Grafana
 
-Prometheus collects rich metrics and provides a powerful querying language; Grafana transforms metrics into meaningful visualizations.
+Prometheusは豊富なメトリクスを収集し、強力なクエリ言語を提供します。Grafanaはそれらのメトリクスを意味のある可視化に変換します。
 
-Grafana can be installed in various ways. Refer to the [guide](https://grafana.com/docs/grafana/latest/setup-grafana/installation/).
+Grafanaはさまざまな方法でインストールできます。[ガイド](https://grafana.com/docs/grafana/latest/setup-grafana/installation/)を参照してください。
 
-Grafana by default will expose port 9091:
+Grafanaはデフォルトでポート9091を公開します:
 
 <figure><img src="../.gitbook/assets/image (179).png" alt=""><figcaption></figcaption></figure>
 
-On the left side bar, click Add new connection, and select Prometheus:
+左サイドバーで「Add new connection」をクリックし、Prometheusを選択します:
 
 <figure><img src="../.gitbook/assets/image (180).png" alt=""><figcaption></figcaption></figure>
 
-Since our Prometheus is serving at port 9090:
+Prometheusはポート9090で動作しているため:
 
 <figure><img src="../.gitbook/assets/image (181).png" alt=""><figcaption></figcaption></figure>
 
-Scroll to the bottom and test the connection:
+下までスクロールして接続をテストします:
 
 <figure><img src="../.gitbook/assets/image (182).png" alt=""><figcaption></figcaption></figure>
 
-Take note of the data source ID shown in the toolbar, we'll need this for creating dashboards:
+ツールバーに表示されているデータソースIDをメモしておきます。これはダッシュボード作成時に必要になります:
 
 <figure><img src="../.gitbook/assets/image (184).png" alt=""><figcaption></figcaption></figure>
 
-Now that connection is added successfully, we can start adding dashboard. From the left side bar, click Dashboards, and Create Dashboard.
+接続が正常に追加されたら、ダッシュボードの追加を開始できます。左サイドバーから「Dashboards」をクリックし、「Create Dashboard」を選択します。
 
-Flowise provides 2 template dashboards:
+Flowiseは2つのテンプレートダッシュボードを提供しています:
 
-* [grafana.dashboard.app.json.txt](https://github.com/FlowiseAI/Flowise/blob/main/metrics/grafana/grafana.dashboard.app.json.txt): API metrics such as number of chatflows/agentflows, predictions count, tools, assistant, upserted vectors, etc.
-* [grafana.dashboard.server.json.txt](https://github.com/FlowiseAI/Flowise/blob/main/metrics/grafana/grafana.dashboard.server.json.txt): metrics of the Flowise node.js instance such as heap, CPU, RAM usage
+* [grafana.dashboard.app.json.txt](https://github.com/FlowiseAI/Flowise/blob/main/metrics/grafana/grafana.dashboard.app.json.txt): チャットフロー/エージェントフローの数、予測数、ツール、アシスタント、アップサートされたベクトルなどのAPIメトリクス
+* [grafana.dashboard.server.json.txt](https://github.com/FlowiseAI/Flowise/blob/main/metrics/grafana/grafana.dashboard.server.json.txt): ヒープ、CPU、RAMの使用量などのFlowise Node.jsインスタンスのメトリクス
 
-If you are using templates above, find and replace all occurence of `cds4j1ybfuhogb` with the data source ID you created and saved earlier.
+上記のテンプレートを使用する場合は、`cds4j1ybfuhogb`のすべての出現箇所を、先ほど作成して保存したデータソースIDに置き換えてください。
 
 <figure><img src="../.gitbook/assets/image (183).png" alt=""><figcaption></figcaption></figure>
 
-You can also choose to import first then edit the JSON later:
+最初にインポートしてから後でJSONを編集することもできます:
 
 <figure><img src="../.gitbook/assets/image (185).png" alt=""><figcaption></figcaption></figure>
 
-Now, try to perform some actions on the Flowise, you should be able to see the metrics displayed:
+Flowiseで何らかのアクションを実行すると、メトリクスが表示されるはずです:
 
 <figure><img src="../.gitbook/assets/image (186).png" alt=""><figcaption></figcaption></figure>
 
@@ -73,18 +73,18 @@ Now, try to perform some actions on the Flowise, you should be able to see the m
 
 ## OpenTelemetry
 
-[OpenTelemetry](https://opentelemetry.io/) is an open source framework for creating and managing telemetry data. To enable OTel, configure the following env variables in Flowise:
+[OpenTelemetry](https://opentelemetry.io/)は、テレメトリデータを作成および管理するためのオープンソースフレームワークです。OTelを有効にするには、Flowiseで以下の環境変数を設定します:
 
 ```properties
 ENABLE_METRICS=true
 METRICS_PROVIDER=open_telemetry
 METRICS_INCLUDE_NODE_METRICS=true
 METRICS_OPEN_TELEMETRY_METRIC_ENDPOINT=http://localhost:4318/v1/metrics
-METRICS_OPEN_TELEMETRY_PROTOCOL=http # http | grpc | proto (default is http)
+METRICS_OPEN_TELEMETRY_PROTOCOL=http # http | grpc | proto (デフォルトはhttp)
 METRICS_OPEN_TELEMETRY_DEBUG=true
 ```
 
-Next, we need OpenTelemetry Collector to receive, process and export telemetry data. Flowise provides a [docker compose file](https://github.com/FlowiseAI/Flowise/blob/main/metrics/otel/compose.yaml) which can be used to start the collector container.
+次に、テレメトリデータの受信、処理、エクスポートを行うためのOpenTelemetry Collectorが必要です。Flowiseは、コレクターコンテナを起動するために使用できる[docker composeファイル](https://github.com/FlowiseAI/Flowise/blob/main/metrics/otel/compose.yaml)を提供しています。
 
 ```bash
 cd Flowise
@@ -92,6 +92,6 @@ cd metrics && cd otel
 docker compose up -d
 ```
 
-The collector will be using the [otel.config.yml](https://github.com/FlowiseAI/Flowise/blob/main/metrics/otel/otel.config.yml) file under the same directory for configurations. Currently only [Datadog](https://www.datadoghq.com/) and Prometheus are supported, refer to the [Open Telemetry](https://opentelemetry.io/) documentation to configure different APM tools such as Zipkin, Jeager, New Relic, Splunk and others.
+コレクターは、同じディレクトリにある[otel.config.yml](https://github.com/FlowiseAI/Flowise/blob/main/metrics/otel/otel.config.yml)ファイルを設定に使用します。現在は[Datadog](https://www.datadoghq.com/)とPrometheusのみがサポートされています。Zipkin、Jeager、New Relic、Splunkなどの異なるAPMツールを設定する場合は、[Open Telemetry](https://opentelemetry.io/)のドキュメントを参照してください。
 
-Make sure to replace with the necessary API key for the exporters within the yml file.
+ymlファイル内のエクスポーター用の必要なAPIキーを必ず置き換えてください。

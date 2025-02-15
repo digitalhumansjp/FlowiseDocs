@@ -1,4 +1,4 @@
-# Feedback
+# フィードバック
 
 {% swagger src="../.gitbook/assets/swagger (1) (1) (1).yml" path="/feedback/{id}" method="get" %}
 [swagger (1) (1) (1).yml](<../.gitbook/assets/swagger (1) (1) (1).yml>)

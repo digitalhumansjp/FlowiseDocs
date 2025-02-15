@@ -1,53 +1,53 @@
 # Google VertexAI
 
-## Prerequisites
+## 前提条件
 
-1. [Start your GCP](https://cloud.google.com/docs/get-started)
-2. Install the [Google Cloud CLI](https://cloud.google.com/sdk/docs/install-sdk)
+1. [GCPを開始](https://cloud.google.com/docs/get-started)
+2. [Google Cloud CLI](https://cloud.google.com/sdk/docs/install-sdk)のインストール
 
-## Setup
+## セットアップ
 
-### Enable vertex AI API
+### Vertex AI APIの有効化
 
-1. Go to Vertex AI on GCP and click **"ENABLE ALL RECOMMENDED API"**
+1. GCPのVertex AIに移動し、**"ENABLE ALL RECOMMENDED API"**をクリック
 
 <figure><img src="../../../.gitbook/assets/gcp_credential/vertex_AI_enable.png" alt="" width="563"><figcaption></figcaption></figure>
 
-## Create credential file _(Optional)_
+## クレデンシャルファイルの作成 _(オプション)_
 
-There are 2 ways to create credential file
+クレデンシャルファイルを作成する方法は2つあります
 
-### No. 1 : Use GCP CLI
+### 方法1：GCP CLIを使用
 
-1. Open terminal and run the following command
+1. ターミナルを開き、以下のコマンドを実行
 
 ```bash
 gcloud auth application-default login
 ```
 
-2. Login to your GCP account
-3. Check your credential file. You can find your credential file in `~/.config/gcloud/application_default_credentials.json`
+2. GCPアカウントにログイン
+3. クレデンシャルファイルを確認。`~/.config/gcloud/application_default_credentials.json`にあります
 
-### No. 2 : Use GCP console
+### 方法2：GCPコンソールを使用
 
-1. Go to GCP console and click **"CREATE CREDENTIALS"**
+1. GCPコンソールに移動し、**"CREATE CREDENTIALS"**をクリック
 
 <figure><img src="../../../.gitbook/assets/gcp_credential/create_credential.png" alt="" width="563"><figcaption></figcaption></figure>
 
-2. Create service account
+2. サービスアカウントを作成
 
 <figure><img src="../../../.gitbook/assets/gcp_credential/create_service_account.png" alt="" width="563"><figcaption></figcaption></figure>
 
-3. Fill in the form of Service account details and click **"CREATE AND CONTINUE"**
-4. Select proper role (for example Vertex AI User) and click **"DONE"**
+3. サービスアカウントの詳細フォームに記入し、**"CREATE AND CONTINUE"**をクリック
+4. 適切なロール（例：Vertex AI User）を選択し、**"DONE"**をクリック
 
 <figure><img src="../../../.gitbook/assets/gcp_credential/select_role.png" alt=""><figcaption></figcaption></figure>
 
-5. Click service account that you created and click **"ADD KEY" -> "Create new key"**
+5. 作成したサービスアカウントをクリックし、**"ADD KEY" -> "Create new key"**をクリック
 
 <figure><img src="../../../.gitbook/assets/gcp_credential/add_key.png" alt="" width="563"><figcaption></figcaption></figure>
 
-6. Select JSON and click **"CREATE"** then you can download your credential file
+6. JSONを選択し**"CREATE"**をクリックするとクレデンシャルファイルがダウンロードされます
 
 <figure><img src="../../../.gitbook/assets/gcp_credential/create_key.png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -55,31 +55,31 @@ gcloud auth application-default login
 
 <figure><img src="../../../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-### Without credential file
+### クレデンシャルファイルなし
 
-If you are using a GCP service like Cloud Run, or if you have installed default credentials on your local machine, you do not need to set this credential.
+Cloud Runなどのサービスを使用している場合や、ローカルマシンにデフォルトクレデンシャルをインストールしている場合は、このクレデンシャルを設定する必要はありません。
 
-### With credential file
+### クレデンシャルファイルあり
 
-1. Go to Credential page on Flowise and click **"Add credential"**
-2. Click Google Vertex Auth
+1. Flowiseのクレデンシャルページで**"Add credential"**をクリック
+2. Google Vertex Authをクリック
 
 <figure><img src="../../../.gitbook/assets/gcp_credential/google_vertex_auth.png" alt="" width="563"><figcaption></figcaption></figure>
 
-3. Register your credential file. There are 2 ways to register your credential file.
+3. クレデンシャルファイルを登録。登録方法は2つあります。
 
 <figure><img src="../../../.gitbook/assets/gcp_credential/register_credential.png" alt="" width="563"><figcaption></figcaption></figure>
 
-* **Option 1 : Enter path of your credential file**
-  * If you have credential file on your machine, you can enter the path of your credential file into `Google Application Credential File Path`
-* **Option 2 : Paste text of your credential file**
-  * Or you can copy all text in the credential file and paste it into `Google Credential JSON Object`
+* **オプション1：クレデンシャルファイルのパスを入力**
+  * マシン上にクレデンシャルファイルがある場合、`Google Application Credential File Path`にパスを入力
+* **オプション2：クレデンシャルファイルのテキストを貼り付け**
+  * クレデンシャルファイル内のすべてのテキストをコピーして`Google Credential JSON Object`に貼り付け
 
-4. Finally, click "Add" button.
-5. **🎉**You can now use ChatGoogleVertexAI with the credential in Flowise now!
+4. 最後に"Add"ボタンをクリック
+5. **🎉**これでFlowiseでクレデンシャルを使用してChatGoogleVertexAIが使用できるようになりました！
 
-### Resources
+### リソース
 
 * [LangChain JS GoogleVertexAI](https://js.langchain.com/docs/api/llms_googlevertexai/classes/GoogleVertexAI)
-* [Google Service accounts overview](https://cloud.google.com/iam/docs/service-account-overview?)
-* [Try Google Vertex AI Palm 2 with Flowise: Without Coding to Leverage Intuition](https://tech.beatrust.com/entry/2023/08/22/Try_Google_Vertex_AI_Palm_2_with_Flowise%3A_Without_Coding_to_Leverage_Intuition)
+* [Googleサービスアカウントの概要](https://cloud.google.com/iam/docs/service-account-overview?)
+* [FlowiseでGoogle Vertex AI Palm 2を試す：コーディングなしで直感的に活用](https://tech.beatrust.com/entry/2023/08/22/Try_Google_Vertex_AI_Palm_2_with_Flowise%3A_Without_Coding_to_Leverage_Intuition)

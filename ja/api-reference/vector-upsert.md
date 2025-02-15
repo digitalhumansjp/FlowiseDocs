@@ -1,4 +1,4 @@
-# Vector Upsert
+# ベクトルの更新/挿入
 
 {% swagger src="../.gitbook/assets/swagger (1) (1) (1).yml" path="/vector/upsert/{id}" method="post" %}
 [swagger (1) (1) (1).yml](<../.gitbook/assets/swagger (1) (1) (1).yml>)

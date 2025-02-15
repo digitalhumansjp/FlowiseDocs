@@ -1,27 +1,27 @@
-# Vectara QA Chain
+# Vectara QA チェーン
 
-A chain for performing question-answering tasks with Vectara.
+Vectaraを使用して質問応答タスクを実行するためのチェーンです。
 
 <figure><img src="../../../.gitbook/assets/screely-1700662138252.png" alt=""><figcaption></figcaption></figure>
 
-## Definitions
+## 定義
 
-**A retrieval-based question-answering chain**, which integrates with a Vectara retrieval component and allows you to configure input parameters and perform question-answering tasks.
+**リトリーバルベースの質問応答チェーン**は、Vectaraのリトリーバルコンポーネントと統合され、入力パラメーターを設定して質問応答タスクを実行することができます。
 
-## Inputs
+## 入力
 
-* [Vectara Store](../vector-stores/vectara.md)
+* [Vectara ストア](../vector-stores/vectara.md)
 
-## Parameters
+## パラメーター
 
-| Name                   | Description                                                   |
-| ---------------------- | ------------------------------------------------------------- |
-| Summarizer Prompt Name | model to be used in generating the summary                    |
-| Response Language      | desired language for the response                             |
-| Max Summarized Results | number of top results to use in summarization (defaults to 7) |
+| 名前                   | 説明                                          |
+| ---------------------- | --------------------------------------------- |
+| Summarizer Prompt Name | 要約を生成するために使用するモデル            |
+| レスポンスの言語       | レスポンスの希望する言語                      |
+| 最大要約結果数         | 要約に使用するトップ結果の数（デフォルトは7） |
 
-## Outputs
+## 出力
 
-| Name           | Description                   |
-| -------------- | ----------------------------- |
-| VectaraQAChain | Final node to return response |
+| 名前           | 説明                       |
+| -------------- | -------------------------- |
+| VectaraQAChain | 応答を返すための最終ノード |

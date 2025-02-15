@@ -1,22 +1,22 @@
-# Simple Chat Engine
+# シンプルチャットエンジン
 
-A simple chat engine functions as a complete pipeline for engaging in a dialogue between AI and user, without context retrieval. However it does equipped with [Memory](../../langchain/memory/), allowing to remember conversations.
+シンプルチャットエンジンは、コンテキスト検索なしでAIとユーザー間の対話を実現する完全なパイプラインとして機能します。ただし、[メモリ](../../langchain/memory/)を備えており、会話を記憶することができます。
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-## Inputs
+## 入力
 
-* Chat Model
-* [Memory](../../langchain/memory/)
+* チャットモデル
+* [メモリ](../../langchain/memory/)
 
-## Parameters
+## パラメータ
 
-| Name           | Description                                   |
-| -------------- | --------------------------------------------- |
-| System Message | An instruction for LLM on how to answer query |
+| 名前           | 説明                                        |
+| -------------- | ------------------------------------------- |
+| System Message | クエリに対する回答方法についてのLLMへの指示 |
 
-## Outputs
+## 出力
 
-| Name             | Description                   |
-| ---------------- | ----------------------------- |
-| SimpleChatEngine | Final node to return response |
+| 名前             | 説明                       |
+| ---------------- | -------------------------- |
+| SimpleChatEngine | レスポンスを返す最終ノード |

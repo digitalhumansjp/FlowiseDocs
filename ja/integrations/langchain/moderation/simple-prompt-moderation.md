@@ -1,13 +1,12 @@
 ---
 description: >-
-  Check whether input consists of any text from Deny list, and prevent being
-  sent to LLM.
+  拒否リストに含まれるテキストが入力に含まれているかをチェックし、LLMへの送信を防ぎます。
 ---
 
-# Simple Prompt Moderation
+# シンプルプロンプトモデレーション
 
-<figure><img src="../../../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1).png" alt="" width="301"><figcaption><p>Simple Prompt Moderation Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1).png" alt="" width="301"><figcaption><p>シンプルプロンプトモデレーションノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を歓迎します。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

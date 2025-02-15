@@ -1,22 +1,22 @@
-# Query Engine
+# クエリエンジン
 
-A query engine serves as an end-to-end pipeline enabling users to ask questions about their data. It receives a natural language query and furnishes a response, accompanied by relevant context information retrieved and passed to the LLM (Large Language Model).
+クエリエンジンは、ユーザーがデータについて質問できるようにするエンドツーエンドのパイプラインとして機能します。自然言語のクエリを受け取り、LLM（大規模言語モデル）に渡された関連するコンテキスト情報とともにレスポンスを提供します。
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Inputs
+## 入力
 
-* Vector Store Retriever
-* [Response Synthesizer](../response-synthesizer/)
+* ベクトルストアリトリーバー
+* [レスポンスシンセサイザー](../response-synthesizer/)
 
-## Parameters
+## パラメータ
 
-| Name                    | Description                                                         |
-| ----------------------- | ------------------------------------------------------------------- |
-| Return Source Documents | To return citations/sources that were used to build up the response |
+| 名前                    | 説明                                                  |
+| ----------------------- | ----------------------------------------------------- |
+| Return Source Documents | レスポンスの構築に使用された引用/ソースを返すかどうか |
 
-## Outputs
+## 出力
 
-| Name        | Description                   |
-| ----------- | ----------------------------- |
-| QueryEngine | Final node to return response |
+| 名前        | 説明                       |
+| ----------- | -------------------------- |
+| QueryEngine | レスポンスを返す最終ノード |

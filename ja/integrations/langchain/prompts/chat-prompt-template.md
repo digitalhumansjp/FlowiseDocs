@@ -1,11 +1,11 @@
 ---
-description: Schema to represent a chat prompt.
+description: チャットプロンプトを表現するためのスキーマ。
 ---
 
-# Chat Prompt Template
+# チャットプロンプトテンプレート
 
-<figure><img src="../../../.gitbook/assets/image (14) (1) (1).png" alt="" width="239"><figcaption><p>Chat Prompt Template Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (14) (1) (1).png" alt="" width="239"><figcaption><p>チャットプロンプトテンプレートノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

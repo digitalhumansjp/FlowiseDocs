@@ -1,15 +1,15 @@
 ---
-description: LangChain Prompt Nodes
+description: LangChain プロンプトノード
 ---
 
-# Prompts
+# プロンプト
 
 ***
 
-Prompt template nodes help to translate user input and parameters into instructions for a language model. This can be used to guide a model's response, helping it understand the context and generate relevant and coherent language-based output.
+プロンプトテンプレートノードは、ユーザー入力とパラメータを言語モデルへの指示に変換するのに役立ちます。これは、モデルの応答を導き、コンテキストを理解し、関連性のある一貫した言語ベースの出力を生成するのに役立ちます。
 
-### Prompt Nodes:
+### プロンプトノード:
 
-* [Chat Prompt Template](chat-prompt-template.md)
-* [Few Shot Prompt Template](few-shot-prompt-template.md)
-* [Prompt Template](prompt-template.md)
+* [チャットプロンプトテンプレート](chat-prompt-template.md)
+* [フューショットプロンプトテンプレート](few-shot-prompt-template.md)
+* [プロンプトテンプレート](prompt-template.md)

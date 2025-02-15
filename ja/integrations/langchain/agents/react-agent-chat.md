@@ -1,11 +1,11 @@
-# ReAct Agent Chat
+# ReActエージェントチャット
 
-Agent that uses the [ReAct](https://react-lm.github.io/) (Reasoning and Acting) logic to decide what action to take, optimized to be used with Chat Models.
+チャットモデルでの使用に最適化された、[ReAct](https://react-lm.github.io/)（推論と行動）ロジックを使用してどのアクションを取るかを決定するエージェントです。
 
 <figure><img src="../../../.gitbook/assets/image (173).png" alt="" width="325"><figcaption></figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (6) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="336"><figcaption><p>ReAct Agent Chat Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (6) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="336"><figcaption><p>ReActエージェントチャットノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を歓迎します。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

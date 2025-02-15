@@ -1,4 +1,4 @@
-# Variables
+# 変数
 
 {% swagger src="../.gitbook/assets/swagger (1) (1) (1).yml" path="/variables" method="post" %}
 [swagger (1) (1) (1).yml](<../.gitbook/assets/swagger (1) (1) (1).yml>)

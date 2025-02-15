@@ -1,11 +1,11 @@
 ---
-description: Wrapper around HuggingFace large language models.
+description: HuggingFace大規模言語モデルのラッパー
 ---
 
-# ChatHuggingFace
+# Chat HuggingFace
 
-<figure><img src="../../../.gitbook/assets/image (59).png" alt="" width="259"><figcaption><p>ChatHuggingFace Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (59).png" alt="" width="259"><figcaption><p>ChatHuggingFaceノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

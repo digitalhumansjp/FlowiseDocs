@@ -1,13 +1,12 @@
 ---
 description: >-
-  Agent that uses OpenAI Function Calling to pick the tools and args to call
-  using LlamaIndex.
+  LlamaIndexを使用してOpenAIファンクションコールによりツールとその引数を選択するエージェント
 ---
 
-# OpenAI Tool Agent
+# OpenAI ツールエージェント
 
-<figure><img src="../../../.gitbook/assets/image (9) (1) (1).png" alt="" width="301"><figcaption><p>OpenAI Tool Agent Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (9) (1) (1).png" alt="" width="301"><figcaption><p>OpenAI ツールエージェントノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

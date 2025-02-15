@@ -1,53 +1,52 @@
 ---
 description: >-
-  Upsert embedded data and perform similarity search upon query using Pinecone,
-  a leading fully managed hosted vector database.
+  主要なフルマネージドホステッドベクトルデータベースであるPineconeを使用して、エンベッドされたデータをアップサートし、クエリに対して類似性検索を実行します。
 ---
 
 # Pinecone
 
-## Prerequisite
+## 前提条件
 
-1. Register an account for [Pinecone](https://app.pinecone.io/)
-2. Click **Create index**
+1. [Pinecone](https://app.pinecone.io/)のアカウントを登録
+2. **Create index**をクリック
 
 <figure><img src="../../../.gitbook/assets/pinecone_1.png" alt=""><figcaption></figcaption></figure>
 
-3. Fill in required fields:
-   - **Index Name**, name of the index to be created. (e.g. "flowise-test")
-   - **Dimensions**, size of the vectors to be inserted in the index. (e.g. 1536)
+3. 必要なフィールドを入力:
+   - **Index Name**、作成するインデックスの名前（例: "flowise-test"）
+   - **Dimensions**、インデックスに挿入されるベクトルのサイズ（例: 1536）
 
 <figure><img src="../../../.gitbook/assets/pinecone_2.png" alt="" width="527"><figcaption></figcaption></figure>
 
-4. Click **Create Index**
+4. **Create Index**をクリック
 
-## Setup
+## セットアップ
 
-1.  Get/Create your **API Key**
+1. **API Key**を取得/作成
 
 <figure><img src="../../../.gitbook/assets/pinecone_3.png" alt=""><figcaption></figcaption></figure>
 
-2.  Add a new **Pinecone** node to canvas and fill in the parameters:
-    - Pinecone Index
-    - Pinecone namespace (optional)
+2. キャンバスに新しい**Pinecone**ノードを追加し、パラメータを入力:
+    - Pineconeインデックス
+    - Pineconeネームスペース（オプション）
 
-<figure><img src="../../../.gitbook/assets/pinecone_llamaindex.png" alt="" width="301"><figcaption><p>Pinecone Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/pinecone_llamaindex.png" alt="" width="301"><figcaption><p>Pineconeノード</p></figcaption></figure>
 
-3. Create new Pinecone credential -> Fill in **API Key**
+3. 新しいPineconeクレデンシャルを作成 -> **API Key**を入力
 
 <figure><img src="../../../.gitbook/assets/pinecone_5.png" alt="" width="563"><figcaption></figcaption></figure>
 
-4. Add additional nodes to canvas and start the upsert process
-   - **Document** can be connected with any node under [**Document Loader**](../../langchain/document-loaders/) category
+4. キャンバスに追加のノードを追加してアップサートプロセスを開始
+   - **Document**は[**Document Loader**](../../langchain/document-loaders/)カテゴリの任意のノードと接続可能
      {% hint style="info" %}
-     Document loaders and text splitters for LlamaIndex are not yet available, but using one of the ones available under LangChain will still allow querying with LlamaIndex as normal.
+     LlamaIndexのドキュメントローダーとテキストスプリッターはまだ利用できませんが、LangChainで利用可能なものを使用することで、通常通りLlamaIndexでクエリを実行できます。
      {% endhint %}
-   - **Embeddings** can be connected with any node under [**Embeddings** ](../embeddings/)category
+   - **Embeddings**は[**Embeddings**](../embeddings/)カテゴリの任意のノードと接続可能
 
 <figure><img src="../../../.gitbook/assets/pinecone_llama_chatflow.png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../.gitbook/assets/pinecone_llama_upsert.png" alt=""><figcaption></figcaption></figure>
 
-5. Verify on [Pinecone dashboard](https://app.pinecone.io) that data has been successfully upserted:
+5. [Pineconeダッシュボード](https://app.pinecone.io)でデータが正常にアップサートされたことを確認:
 
 <figure><img src="../../../.gitbook/assets/pinecone_8.png" alt=""><figcaption></figcaption></figure>

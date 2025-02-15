@@ -1,13 +1,12 @@
 ---
 description: >-
-  Load data from Notion Database (each row is a separate document with all
-  properties as metadata).
+  Notionデータベースからデータを読み込みます（各行は、すべてのプロパティをメタデータとして持つ個別のドキュメントとして扱われます）。
 ---
 
-# Notion Database
+# Notionデータベース
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="260"><figcaption><p>Notion Database Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="260"><figcaption><p>Notionデータベースノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

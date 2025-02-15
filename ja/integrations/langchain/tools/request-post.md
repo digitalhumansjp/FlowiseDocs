@@ -1,11 +1,11 @@
 ---
-description: Execute HTTP POST requests.
+description: HTTP POSTリクエストを実行します。
 ---
 
-# Request Post
+# リクエスト Post
 
-<figure><img src="../../../.gitbook/assets/up-010.png" alt="" width="280"><figcaption><p>Request Post Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/up-010.png" alt="" width="280"><figcaption><p>リクエスト Postノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を歓迎します。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

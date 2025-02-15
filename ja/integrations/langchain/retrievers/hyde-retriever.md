@@ -1,11 +1,11 @@
 ---
-description: Use HyDE retriever to retrieve from a vector store.
+description: ベクトルストアからの検索にHyDEリトリーバーを使用します。
 ---
 
-# HyDE Retriever
+# HyDE リトリーバー
 
-<figure><img src="../../../.gitbook/assets/image (143).png" alt="" width="302"><figcaption><p>HyDE Retriever Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (143).png" alt="" width="302"><figcaption><p>HyDEリトリーバーノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

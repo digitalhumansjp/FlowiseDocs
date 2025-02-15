@@ -1,16 +1,16 @@
 ---
-description: LlamaIndex Engine Nodes
+description: LlamaIndex エンジンノード
 ---
 
-# Engine
+# エンジン
 
 ***
 
-In LlamaIndex, an engine node refers to two key components that handle information processing and user interaction.
+LlamaIndexでは、エンジンノードは情報処理とユーザーインタラクションを処理する2つの主要なコンポーネントを指します。
 
-### Engine Nodes:
+### エンジンノード:
 
-* [Query Engine](query-engine.md)
-* [Simple Chat Engine](simple-chat-engine.md)
-* [Context Chat Engine](context-chat-engine.md)
-* [Sub-Question Query Engine](sub-question-query-engine.md)
+* [クエリエンジン](query-engine.md)
+* [シンプルチャットエンジン](simple-chat-engine.md)
+* [コンテキストチャットエンジン](context-chat-engine.md)
+* [サブクエスチョンクエリエンジン](sub-question-query-engine.md)

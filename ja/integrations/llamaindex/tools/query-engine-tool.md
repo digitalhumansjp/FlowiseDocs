@@ -1,22 +1,22 @@
-# Query Engine Tool
+# クエリエンジンツール
 
-Turns Query Engine into a Tool which can then be used by [Sub-Question Query Engine](../engine/sub-question-query-engine.md) or Agent.
+クエリエンジンをツールに変換し、[サブクエスチョンクエリエンジン](../engine/sub-question-query-engine.md)やエージェントで使用できるようにします。
 
 <figure><img src="../../../.gitbook/assets/image (9) (1) (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-## Inputs
+## 入力
 
-* Vector Store Index
+* ベクトルストアインデックス
 
-## Parameters
+## パラメータ
 
-| Name             | Description                                         |
-| ---------------- | --------------------------------------------------- |
-| Tool Name        | Name of the tool                                    |
-| Tool Description | A description to tell when LLM should use this tool |
+| 名前             | 説明                                            |
+| ---------------- | ----------------------------------------------- |
+| Tool Name        | ツールの名前                                    |
+| Tool Description | LLMがこのツールを使用すべき時期を説明する説明文 |
 
-## Outputs
+## 出力
 
-| Name            | Description                                                                                      |
-| --------------- | ------------------------------------------------------------------------------------------------ |
-| QueryEngineTool | Connecting point to Agent or [Sub-Question Query Engine](../engine/sub-question-query-engine.md) |
+| 名前            | 説明                                                                                                       |
+| --------------- | ---------------------------------------------------------------------------------------------------------- |
+| QueryEngineTool | エージェントまたは[サブクエスチョンクエリエンジン](../engine/sub-question-query-engine.md)への接続ポイント |

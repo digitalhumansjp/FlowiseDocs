@@ -1,51 +1,51 @@
 ---
-description: Learn how to deploy Flowise on Azure
+description: FlowiseをAzureにデプロイする方法を学ぶ
 ---
 
 # Azure
 
 ***
 
-## Flowise as Azure App Service with Postgres: Using Terraform
+## Postgresを使用したAzure App ServiceとしてのFlowise: Terraformの使用
 
-### Prerequisites
+### 前提条件
 
-1. **Azure Account**: Ensure you have an Azure account with an active subscription. If you do not have one, sign up at [Azure Portal](https://portal.azure.com/).
-2. **Terraform**: Install Terraform CLI on your machine. Download it from [Terraform's website](https://www.terraform.io/downloads.html).
-3. **Azure CLI**: Install Azure CLI. Instructions can be found on the [Azure CLI documentation page](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
+1. **Azureアカウント**: アクティブなサブスクリプションを持つAzureアカウントが必要です。アカウントをお持ちでない場合は、[Azureポータル](https://portal.azure.com/)でサインアップしてください。
+2. **Terraform**: マシンにTerraform CLIをインストールしてください。[Terraformのウェブサイト](https://www.terraform.io/downloads.html)からダウンロードできます。
+3. **Azure CLI**: Azure CLIをインストールしてください。手順は[Azure CLIドキュメントページ](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)にあります。
 
-### Setting Up Your Environment
+### 環境のセットアップ
 
-1. **Login to Azure**: Open your terminal or command prompt and login to Azure CLI using:
-
-```bash
-az login --tenant <Your Subscription ID> --use-device-code 
-```
-
-Follow the prompts to complete the login process.
-
-2. **Set Subscription**: After logging in, set the Azure subscription using:
+1. **Azureにログイン**: ターミナルまたはコマンドプロンプトを開き、以下を使用してAzure CLIにログインします:
 
 ```bash
-az account set --subscription <Your Subscription ID>
+az login --tenant <サブスクリプションID> --use-device-code
 ```
 
-3. **Initialize Terraform**:
+プロンプトに従ってログインプロセスを完了してください。
 
-Create a `terraform.tfvars` file in your Terraform project directory, if it's not already there, and add the following content:
+2. **サブスクリプションの設定**: ログイン後、以下を使用してAzureサブスクリプションを設定します:
+
+```bash
+az account set --subscription <サブスクリプションID>
+```
+
+3. **Terraformの初期化**:
+
+Terraformプロジェクトディレクトリに`terraform.tfvars`ファイルがまだない場合は作成し、以下の内容を追加します:
 
 ```hcl
-subscription_name = "subscrpiton_name"
-subscription_id = "subscription id"
-project_name = "webapp_name"
-db_username = "PostgresUserName"
-db_password = "strongPostgresPassword"
-flowise_username = "flowiseUserName"
-flowise_password = "strongFlowisePassword"
-flowise_secretkey_overwrite = "longandStrongSecretKey"
+subscription_name = "サブスクリプション名"
+subscription_id = "サブスクリプションID"
+project_name = "Webアプリ名"
+db_username = "Postgresユーザー名"
+db_password = "強力なPostgresパスワード"
+flowise_username = "Flowiseユーザー名"
+flowise_password = "強力なFlowiseパスワード"
+flowise_secretkey_overwrite = "長く強力なシークレットキー"
 webapp_ip_rules = [
   {
-    name = "AllowedIP"
+    name = "許可されたIP"
     ip_address = "X.X.X.X/32"
     headers = null
     virtual_network_subnet_id = null
@@ -57,15 +57,15 @@ webapp_ip_rules = [
 ]
 postgres_ip_rules = {
   "ValbyOfficeIP" = "X.X.X.X"
-  // Add more key-value pairs as needed
+  // 必要に応じてキーと値のペアを追加
 }
 source_image = "flowiseai/flowise:latest"
 tagged_image = "flow:v1"
 ```
 
-Replace the placeholders with actual values for your setup.
+プレースホルダーを実際のセットアップの値に置き換えてください。
 
-The file tree structure is as follows:
+ファイルツリー構造は以下の通りです:
 
 ```
 flow
@@ -78,15 +78,14 @@ flow
 ├── terraform.tfvars.example
 ├── variables.tf
 ├── webapp.tf
-├── .gitignore // ignore your .tfvars and .lock.hcf, .terraform
-
+├── .gitignore // .tfvarsと.lock.hcf、.terraformを無視
 ```
 
-Each `.tf` file in the Terraform configuration likely contains a different aspect of the infrastructure as code:
+Terraform設定の各`.tf`ファイルには、インフラストラクチャのコードの異なる側面が含まれています:
 
 <details>
 
-<summary>`database.tf` would define the configuration for the Postgres database.</summary>
+<summary>`database.tf` は Postgres データベースの設定を定義します。</summary>
 
 ```yaml
 
@@ -130,7 +129,7 @@ resource "azurerm_postgresql_flexible_server_database" "production" {
   charset   = "UTF8"
   collation = "en_US.utf8"
 
-  # prevent the possibility of accidental data loss
+  # 偶発的なデータ損失の可能性を防ぐ
   lifecycle {
     prevent_destroy = false
   }
@@ -148,7 +147,7 @@ resource "azurerm_postgresql_flexible_server_configuration" "postgres_config" {
 
 <details>
 
-<summary>`main.tf` could be the main configuration file that may include the Azure provider configuration and defines the Azure resource group.</summary>
+<summary>`main.tf` は Azure プロバイダーの設定を含み、Azure リソースグループを定義するメインの設定ファイルです。</summary>
 
 ```yaml
 // main.tf
@@ -191,7 +190,7 @@ resource "azurerm_storage_share" "flowise-share" {
 
 <details>
 
-<summary>`network.tf` would include networking resources such as virtual networks, subnets, and network security groups.</summary>
+<summary>`network.tf` は仮想ネットワーク、サブネット、ネットワークセキュリティグループなどのネットワークリソースを含みます。</summary>
 
 ```yaml
 // network.tf
@@ -262,7 +261,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "postgres" {
 
 <details>
 
-<summary>`providers.tf` would define the Terraform providers, such as Azure.</summary>
+<summary>`providers.tf` は Azure などの Terraform プロバイダーを定義します。</summary>
 
 ```yaml
 // providers.tf
@@ -291,7 +290,7 @@ provider "azurerm" {
 
 <details>
 
-<summary>`variables.tf` would declare variables used across all `.tf` files.</summary>
+<summary>`variables.tf` はすべての `.tf` ファイルで使用される変数を宣言します。</summary>
 
 ```yaml
 // variables.tf
@@ -384,11 +383,11 @@ variable "tagged_image" {
 
 <details>
 
-<summary>`webapp.tf` Azure App Services that includes a service plan and linux web app</summary>
+<summary>`webapp.tf` はサービスプランと Linux Web アプリを含む Azure App Services の設定です</summary>
 
 ```yaml
 // webapp.tf
-#Create the Linux App Service Plan
+# Linux App Service Plan の作成
 resource "azurerm_service_plan" "webappsp" {
   name                = "asp${var.project_name}"
   resource_group_name = azurerm_resource_group.rg.name
@@ -487,87 +486,85 @@ resource "azurerm_app_service_virtual_network_swift_connection" "webappvnetinteg
 
 </details>
 
-Note: The `.terraform` directory is created by Terraform when initializing a project (`terraform init`) and it contains the plugins and binary files needed for Terraform to run. The `.terraform.lock.hcl` file is used to record the exact provider versions that are being used to ensure consistent installs across different machines.
+注意: `.terraform` ディレクトリは、プロジェクトの初期化時（`terraform init`）に Terraform によって作成され、Terraform の実行に必要なプラグインとバイナリファイルが含まれています。`.terraform.lock.hcl` ファイルは、異なるマシン間で一貫したインストールを確保するために使用されている正確なプロバイダーのバージョンを記録するために使用されます。
 
-Navigate to your Terraform project directory and run:
+Terraformプロジェクトディレクトリに移動して、以下を実行してください:
 
 ```bash
 terraform init
 ```
 
-This will initialize Terraform and download the required providers.
+これにより Terraform が初期化され、必要なプロバイダーがダウンロードされます。
 
-### Configuring Terraform Variables
+### Terraform 変数の設定
 
-### Deploying with Terraform
+### Terraform でのデプロイ
 
-1.  **Plan the Deployment**: Run the Terraform plan command to see what resources will be created:
+1.  **デプロイの計画**: Terraform plan コマンドを実行して、作成されるリソースを確認します：
 
     ```bash
     terraform plan
     ```
-2.  **Apply the Deployment**: If you are satisfied with the plan, apply the changes:
+2.  **デプロイの適用**: プランに問題がなければ、変更を適用します：
 
     ```bash
     terraform apply
     ```
 
-    Confirm the action when prompted, and Terraform will begin creating the resources.
-3. **Verify the Deployment**: Once Terraform has completed, it will output any defined outputs such as IP addresses or domain names. Verify that the resources are correctly deployed in your Azure Portal.
+    プロンプトが表示されたら操作を確認し、Terraform がリソースの作成を開始します。
+3. **デプロイの確認**: Terraform が完了すると、IP アドレスやドメイン名などの定義された出力が表示されます。Azure ポータルでリソースが正しくデプロイされていることを確認します。***
 
-***
+## Azure Container Instance: Azure ポータル UI または Azure CLI の使用
 
-## Azure Continer Instance: Using Azure Portal UI or Azure CLI
+### 前提条件
 
-### Prerequisites
+1. _(オプション)_ CLI ベースのコマンドを使用する場合は、[Azure CLI をインストール](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)してください
 
-1. _(Optional)_ [Install Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) if you'd like to follow the cli based commands
+## 永続ストレージなしでコンテナインスタンスを作成
 
-## Create a Container Instance without Persistent Storage
+永続ストレージがない場合、データはメモリに保持されます。つまり、コンテナを再起動すると、保存したすべてのデータが消失します。
 
-Without persistent storage your data is kept in memory. This means that on a container restart, all the data that you stored will disappear.
+### ポータルでの作成
 
-### In Portal
+1. マーケットプレイスで Container Instances を検索し、作成をクリックします：
 
-1. Search for Container Instances in Marketplace and click Create:
+<figure><img src="../../.gitbook/assets/azure/deployment/1.png" alt=""><figcaption><p>Azure のマーケットプレイスにある Container Instances のエントリ</p></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/azure/deployment/1.png" alt=""><figcaption><p>Container Instances entry in Azure's Marketplace</p></figcaption></figure>
+2. リソースグループの選択または作成、コンテナ名、リージョン、イメージソース `Other registry`、イメージタイプ、イメージ `flowiseai/flowise`、OS タイプ、サイズを選択します。その後、「次へ：ネットワーク」をクリックして Flowise のポートを設定します：
 
-2. Select or create a Resource group, Container name, Region, Image source `Other registry`, Image type, Image `flowiseai/flowise`, OS type and Size. Then click "Next: Networking" to configure Flowise ports:
+<figure><img src="../../.gitbook/assets/azure/deployment/2.png" alt=""><figcaption><p>Container Instance 作成ウィザードの最初のページ</p></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/azure/deployment/2.png" alt=""><figcaption><p>First page in the Container Instance create wizard</p></figcaption></figure>
+3. デフォルトの `80 (TCP)` の横に新しいポート `3000 (TCP)` を追加します。その後、「次へ：詳細設定」を選択します：
 
-3. Add a new port `3000 (TCP)` next to the default `80 (TCP)`. Then Select "Next: Advanced":
+<figure><img src="../../.gitbook/assets/azure/deployment/3.png" alt=""><figcaption><p>Container Instance 作成ウィザードの2ページ目。ネットワークタイプとポートの設定を求められます。</p></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/azure/deployment/3.png" alt=""><figcaption><p>Second page in the Container Instance create wizard. It asks for netowrking type and ports.</p></figcaption></figure>
+4. 再起動ポリシーを `On failure` に設定します。次に、2つの環境変数 `FLOWISE_USERNAME` と `FLOWISE_PASSWORD` を追加します。コマンドオーバーライドに `["/bin/sh", "-c", "flowise start"]` を追加します。最後に「確認と作成」をクリックします：
 
-4. Set Restart policy to `On failure`. Next, add 2 Environment variables `FLOWISE_USERNAME` and `FLOWISE_PASSWORD`. Add Command override `["/bin/sh", "-c", "flowise start"]`. Finally click "Review + create":
+<figure><img src="../../.gitbook/assets/azure/deployment/4.png" alt=""><figcaption><p>Container Instance 作成ウィザードの3ページ目。再起動ポリシー、環境変数、コンテナ起動時に実行されるコマンドの設定を求められます。</p></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/azure/deployment/4.png" alt=""><figcaption><p>Third page in the Container Instance create wizard. It asks for restart policy, environment variables and command that runs on container start.</p></figcaption></figure>
+5. 最終設定を確認し、「作成」をクリックします：
 
-5. Review final settings and click "Create":
+<figure><img src="../../.gitbook/assets/azure/deployment/5.png" alt=""><figcaption><p>Container Instance の最終確認と作成ページ。</p></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/azure/deployment/5.png" alt=""><figcaption><p>Final review and create page for a Container Instance.</p></figcaption></figure>
+6. 作成が完了したら、「リソースに移動」をクリックします
 
-6. Once creation is completed, click on "Go to resource"
+<figure><img src="../../.gitbook/assets/azure/deployment/6.png" alt=""><figcaption><p>Azure のリソース作成結果ページ。</p></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/azure/deployment/6.png" alt=""><figcaption><p>Resource creation result page in Azure.</p></figcaption></figure>
+7. IP アドレスをコピーし、ポートとして :3000 を追加して Flowise インスタンスにアクセスします：
 
-7. Visit your Flowise instance by copying IP address and adding :3000 as a port:
+<figure><img src="../../.gitbook/assets/azure/deployment/7.png" alt=""><figcaption><p>Container Instance の概要ページ</p></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/azure/deployment/7.png" alt=""><figcaption><p>Container Instance overview page</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/azure/deployment/8.png" alt=""><figcaption><p>Container Instance としてデプロイされた Flowise アプリケーション</p></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/azure/deployment/8.png" alt=""><figcaption><p>Flowise application deployed as Container Instance</p></figcaption></figure>
+### Azure CLI を使用した作成
 
-### Create using Azure CLI
-
-1. Create a resource group (if you don't already have one)
+1. リソースグループの作成（まだ持っていない場合）
 
 ```bash
 az group create --name flowise-rg --location "West US"
 ```
 
-2. Create a Container Instance
+2. Container Instance の作成
 
 ```bash
 az container create -g flowise-rg \
@@ -580,21 +577,21 @@ az container create -g flowise-rg \
 	--restart-policy OnFailure
 ```
 
-3. Visit the IP address (including port :3000) printed from the output of the above command.
+3. 上記のコマンドの出力に表示された IP アドレス（ポート :3000 を含む）にアクセスします。
 
-## Create a Container Instance with Persistent Storage
+## 永続ストレージを使用した Container Instance の作成
 
-The creation of a Container Instance with persistent storage is only possible using CLI:
+永続ストレージを使用した Container Instance の作成は CLI でのみ可能です：
 
-1. Create a resource group (if you don't already have one)
+1. リソースグループの作成（まだ持っていない場合）
 
 ```bash
 az group create --name flowise-rg --location "West US"
 ```
 
-2. Create the Storage Account resource (or use existing one) inside above resource group. You can check how to do it [here](https://learn.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-portal?tabs=azure-portal).
-3. Inside Azure Storage create new File share. You can check how to do it [here](https://learn.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-portal?tabs=azure-portal).
-4. Create a Container Instance
+2. 上記のリソースグループ内にストレージアカウントリソースを作成（または既存のものを使用）します。作成方法は[こちら](https://learn.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-portal?tabs=azure-portal)で確認できます。
+3. Azure Storage 内に新しいファイル共有を作成します。作成方法は[こちら](https://learn.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-portal?tabs=azure-portal)で確認できます。
+4. Container Instance の作成
 
 ```bash
 az container create -g flowise-rg \
@@ -605,15 +602,15 @@ az container create -g flowise-rg \
 	--ip-address public \
 	--ports 80 3000 \
 	--restart-policy OnFailure \
-	--azure-file-volume-share-name here goes the name of your File share \
-	--azure-file-volume-account-name here goes the name of your Storage Account \
-	--azure-file-volume-account-key here goes the access key to your Storage Account \
+	--azure-file-volume-share-name ここにファイル共有の名前を入力 \
+	--azure-file-volume-account-name ここにストレージアカウントの名前を入力 \
+	--azure-file-volume-account-key ここにストレージアカウントのアクセスキーを入力 \
 	--azure-file-volume-mount-path /opt/flowise/.flowise
 ```
 
-5. Visit the IP address (including port :3000) printed from the output of the above command.
-6. From now on your data will be stored in an SQLite database which you can find in your File share.
+5. 上記のコマンドの出力に表示された IP アドレス（ポート :3000 を含む）にアクセスします。
+6. これ以降、データはファイル共有内にある SQLite データベースに保存されます。
 
-Watch video tutorial on deploying to Azure Container Instance:
+Azure Container Instance へのデプロイに関するビデオチュートリアルをご覧ください：
 
 {% embed url="https://www.youtube.com/watch?v=yDebxDfn2yk" %}

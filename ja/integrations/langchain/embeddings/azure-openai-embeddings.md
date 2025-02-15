@@ -1,59 +1,59 @@
-# Azure OpenAI Embeddings
+# Azure OpenAI エンベッディング
 
-## Prerequisite
+## 前提条件
 
-1. [Log in](https://portal.azure.com/) or [sign up](https://azure.microsoft.com/en-us/free/) to Azure
-2. [Create](https://portal.azure.com/#create/Microsoft.CognitiveServicesOpenAI) your Azure OpenAI and wait for approval approximately 10 business days
-3. Your API key will be available at **Azure OpenAI** > click **name\_azure\_openai** > click **Click here to manage keys**
+1. Azureに[ログイン](https://portal.azure.com/)または[サインアップ](https://azure.microsoft.com/en-us/free/)
+2. Azure OpenAIを[作成](https://portal.azure.com/#create/Microsoft.CognitiveServicesOpenAI)し、約10営業日の承認を待つ
+3. APIキーは **Azure OpenAI** > **name_azure_openai**をクリック > **Click here to manage keys**をクリックで確認可能
 
 <figure><img src="../../../.gitbook/assets/azure/azure-general/1.png" alt=""><figcaption></figcaption></figure>
 
-## Setup
+## セットアップ
 
-### Azure OpenAI Embeddings
+### Azure OpenAI エンベッディング
 
-1. Click **Go to Azure OpenaAI Studio**
+1. **Go to Azure OpenaAI Studio**をクリック
 
 <figure><img src="../../../.gitbook/assets/azure/azure-general/2.png" alt=""><figcaption></figcaption></figure>
 
-2. Click **Deployments**
+2. **Deployments**をクリック
 
 <figure><img src="../../../.gitbook/assets/azure/azure-general/3.png" alt=""><figcaption></figcaption></figure>
 
-3. Click **Create new deployment**
+3. **Create new deployment**をクリック
 
 <figure><img src="../../../.gitbook/assets/azure/azure-general/4.png" alt=""><figcaption></figcaption></figure>
 
-4. Select as shown below and click **Create**
+4. 以下のように選択し、**Create**をクリック
 
 <figure><img src="../../../.gitbook/assets/azure/azure-openai-embeddings/1.png" alt="" width="559"><figcaption></figcaption></figure>
 
-5. Successfully created **Azure OpenAI Embeddings**
+5. **Azure OpenAI エンベッディング**の作成が完了
 
-* Deployment name: `text-embedding-ada-002`
-* Instance name: `top right conner`
+* デプロイメント名: `text-embedding-ada-002`
+* インスタンス名: `右上コーナー`
 
 <figure><img src="../../../.gitbook/assets/azure/azure-openai-embeddings/2.png" alt=""><figcaption></figcaption></figure>
 
 ### Flowise
 
-1. **Embeddings** > drag **Azure OpenAI Embeddings** node
+1. **Embeddings** > **Azure OpenAI Embeddings**ノードをドラッグ
 
 <figure><img src="../../../.gitbook/assets/azure/azure-openai-embeddings/3.png" alt="" width="563"><figcaption></figcaption></figure>
 
-2. **Connect Credential** > click **Create New**
+2. **Connect Credential** > **Create New**をクリック
 
 <figure><img src="../../../.gitbook/assets/azure/azure-openai-embeddings/4.png" alt="" width="386"><figcaption></figcaption></figure>
 
-3. Copy & Paste each details (API Key, Instance & Deployment name, [API Version](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#chat-completions)) into **Azure OpenAI Embeddings** credential
+3. 各詳細(APIキー、インスタンス名、デプロイメント名、[APIバージョン](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#chat-completions))を**Azure OpenAI Embeddings**クレデンシャルにコピー＆ペースト
 
 <figure><img src="../../../.gitbook/assets/azure/azure-openai-embeddings/5.png" alt="" width="554"><figcaption></figcaption></figure>
 
-4. Voila [🎉](https://emojipedia.org/party-popper/), you have created **Azure OpenAI Embeddings node** in Flowise
+4. これで[🎉](https://emojipedia.org/party-popper/)Flowiseで**Azure OpenAI Embeddings ノード**の作成が完了しました
 
 <figure><img src="../../../.gitbook/assets/azure/azure-general/5.png" alt=""><figcaption></figcaption></figure>
 
-## Resources
+## リソース
 
-* [LangChain JS Azure OpenAI Embeddings](https://js.langchain.com/docs/modules/data\_connection/text\_embedding/integrations/azure\_openai)
-* [Azure OpenAI Service REST API reference](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference)
+* [LangChain JS Azure OpenAI Embeddings](https://js.langchain.com/docs/modules/data_connection/text_embedding/integrations/azure_openai)
+* [Azure OpenAI Service REST APIリファレンス](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference)

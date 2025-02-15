@@ -1,18 +1,18 @@
-# Threads
+# スレッド
 
-[Threads](https://platform.openai.com/docs/assistants/how-it-works/managing-threads-and-messages) is only used when an OpenAI Assistant is being used. It is a conversation session between an Assistant and a user. Threads store messages and automatically handle truncation to fit content into a model’s context.
+[スレッド](https://platform.openai.com/docs/assistants/how-it-works/managing-threads-and-messages)は、OpenAIアシスタントが使用される場合にのみ使用されます。これはアシスタントとユーザー間の会話セッションです。スレッドはメッセージを保存し、コンテンツをモデルのコンテキストに収まるように自動的に切り詰めを処理します。
 
 <figure><img src="../../../../.gitbook/assets/screely-1699896158130.png" alt=""><figcaption></figcaption></figure>
 
-## Separate conversations for multiple users
+## 複数ユーザーの会話を分離する
 
-### UI & Embedded Chat
+### UIと埋め込みチャット
 
-By default, UI and Embedded Chat will automatically separate threads for multiple users conversations. This is done by generating a unique **`chatId`** for each new interaction. That logic is handled under the hood by Flowise.
+デフォルトでは、UIと埋め込みチャットは複数ユーザーの会話のスレッドを自動的に分離します。これは新しい各インタラクションに対して一意の**`chatId`**を生成することで実現されます。この処理はFlowiseによってバックグラウンドで処理されます。
 
-### Prediction API
+### 予測API
 
-POST /`api/v1/prediction/{your-chatflowid}`, specify the **`chatId`** . Same thread will be used for the same chatId.
+POST /`api/v1/prediction/{your-chatflowid}`に**`chatId`**を指定します。同じchatIdには同じスレッドが使用されます。
 
 ```json
 {
@@ -21,13 +21,13 @@ POST /`api/v1/prediction/{your-chatflowid}`, specify the **`chatId`** . Same thr
 }
 ```
 
-### Message API
+### メッセージAPI
 
 * GET `/api/v1/chatmessage/{your-chatflowid}`
 * DELETE `/api/v1/chatmessage/{your-chatflowid}`
 
-You can also filter via **`chatId` -** `/api/v1/chatmessage/{your-chatflowid}?chatId={your-chatid}`
+**`chatId`**でフィルタリングすることもできます - `/api/v1/chatmessage/{your-chatflowid}?chatId={your-chatid}`
 
-All conversations can be visualized and managed from UI as well:
+すべての会話はUIからも可視化および管理できます：
 
 <figure><img src="../../../../.gitbook/assets/image (77).png" alt=""><figcaption></figcaption></figure>

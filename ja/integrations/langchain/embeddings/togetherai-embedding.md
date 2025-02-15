@@ -1,11 +1,11 @@
 ---
-description: TogetherAI Embedding models to generate embeddings for a given text.
+description: 指定されたテキストのエンベッディングを生成するTogetherAI エンベッディングモデル
 ---
 
-# TogetherAI Embedding
+# TogetherAI エンベッディング
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="301"><figcaption><p>TogetherAI Embedding Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="301"><figcaption><p>TogetherAI エンベッディングノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご協力をお願いいたします。
 {% endhint %}

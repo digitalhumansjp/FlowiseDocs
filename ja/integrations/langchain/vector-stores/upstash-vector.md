@@ -1,40 +1,40 @@
 # Upstash
 
-## Prequisites
+## 前提条件
 
-1. Sign up or Sign In to [Upstash Console](https://console.upstash.com)
-2. Navigate to Vector page and click **Create Index**
+1. [Upstashコンソール](https://console.upstash.com)にサインアップまたはサインイン
+2. Vectorページに移動し、**Create Index**をクリック
    <figure><img src="../../../.gitbook/assets/upstash/list-index.jpeg" alt=""><figcaption></figcaption></figure>
-3. Do the necessary configurations and create the index.
+3. 必要な設定を行い、インデックスを作成。
 
-   1. **Index Name**, name of the index to be created. (e.g. "flowise-upstash-demo")
-   2. **Dimensions**, size of the vectors to be inserted in the index. (e.g. 1536)
-   3. **Embedding Model**, the model to be used in [Upstash Embeddings](https://upstash.com/docs/vector/features/embeddingmodels). This is optional. If you enable it, you don't need to provide embeddings model.
+   1. **Index Name**、作成するインデックスの名前（例: "flowise-upstash-demo"）
+   2. **Dimensions**、インデックスに挿入するベクトルのサイズ（例: 1536）
+   3. **Embedding Model**、[Upstash Embeddings](https://upstash.com/docs/vector/features/embeddingmodels)で使用するモデル。これはオプション。有効にすると、エンベッディングモデルを提供する必要はありません。
 
    <figure><img src="../../../.gitbook/assets/upstash/create-index.jpeg" alt=""><figcaption></figcaption></figure>
 
-## Setup
+## セットアップ
 
-1.  Get your index credentials
+1. インデックスの認証情報を取得
 
 <figure><img src="../../../.gitbook/assets/upstash/env-variables.jpeg" alt=""><figcaption></figcaption></figure>
 
-1. Create new Upstash Vector credential and fill in
-   1. Upstash Vector REST URL from UPSTASH_VECTOR_REST_URL on console
-   2. Upstash Vector Rest Token from UPSTASH_VECTOR_REST_TOKEN on console
+2. 新しいUpstash Vector認証情報を作成し、以下を入力
+   1. コンソールのUPSTASH_VECTOR_REST_URLからUpstash Vector REST URL
+   2. コンソールのUPSTASH_VECTOR_REST_TOKENからUpstash Vector Rest Token
 
 <figure><img src="../../../.gitbook/assets/upstash/credentials.jpeg" alt="" width="563"><figcaption></figcaption></figure>
 
-1.  Add a new **Upstash Vector** node to canvas
+3. キャンバスに新しい**Upstash Vector**ノードを追加
 
 <figure><img src="../../../.gitbook/assets/upstash/upstash-node.jpeg" alt="" width="279"><figcaption></figcaption></figure>
 
-1. Add additional nodes to canvas and start the upsert process
-   - **Document** can be connected with any node under [**Document Loader**](../document-loaders/) category
-   - **Embeddings** can be connected with any node under [**Embeddings** ](../embeddings/)category
+4. キャンバスに追加のノードを追加してアップサート処理を開始
+   - **Document**は[**Document Loader**](../document-loaders/)カテゴリの任意のノードと接続可能
+   - **エンベッディング**は[**Embeddings**](../embeddings/)カテゴリの任意のノードと接続可能
 
 <figure><img src="../../../.gitbook/assets/upstash/flowise-design.jpeg" alt=""><figcaption></figcaption></figure>
 
-1. Verify from [Upstash dashboard](https://console.upstash.com) to see if data has been successfully updated:
+5. [Upstashダッシュボード](https://console.upstash.com)でデータが正常に更新されたことを確認:
 
 <figure><img src="../../../.gitbook/assets/upstash/databrowser.jpeg" alt=""><figcaption></figcaption></figure>

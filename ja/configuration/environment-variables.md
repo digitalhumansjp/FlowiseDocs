@@ -1,141 +1,141 @@
 ---
-description: Learn how to configure environment variables for Flowise
+description: Flowiseの環境変数の設定方法について学びます
 ---
 
-# Environment Variables
+# 環境変数
 
-Flowise support different environment variables to configure your instance. You can specify the following variables in the `.env` file inside `packages/server` folder. Refer to [.env.example](https://github.com/FlowiseAI/Flowise/blob/main/packages/server/.env.example) file.
+Flowiseは様々な環境変数を使用してインスタンスを設定できます。`packages/server`フォルダ内の`.env`ファイルで以下の変数を指定できます。[.env.example](https://github.com/FlowiseAI/Flowise/blob/main/packages/server/.env.example)ファイルを参照してください。
 
-<table><thead><tr><th width="233">Variable</th><th width="219">Description</th><th width="104">Type</th><th>Default</th></tr></thead><tbody><tr><td>PORT</td><td>The HTTP port Flowise runs on</td><td>Number</td><td>3000</td></tr><tr><td>FLOWISE_USERNAME</td><td>Username to login</td><td>String</td><td></td></tr><tr><td>FLOWISE_PASSWORD</td><td>Password to login</td><td>String</td><td></td></tr><tr><td>FLOWISE_FILE_SIZE_LIMIT</td><td>Maximum file size when uploading</td><td>String</td><td><code>50mb</code></td></tr><tr><td>NUMBER_OF_PROXIES</td><td>Rate Limit Proxy</td><td>Number</td><td></td></tr><tr><td>CORS_ORIGINS</td><td>The allowed origins for all cross-origin HTTP calls</td><td>String</td><td></td></tr><tr><td>IFRAME_ORIGINS</td><td>The allowed origins for iframe src embedding</td><td>String</td><td></td></tr><tr><td>SHOW_COMMUNITY_NODES</td><td>Display nodes that are created by community</td><td>Boolean: <code>true</code> or <code>false</code></td><td></td></tr><tr><td>DISABLED_NODES</td><td>Comma separated list of node names to disable</td><td>String</td><td></td></tr></tbody></table>
+<table><thead><tr><th width="233">変数</th><th width="219">説明</th><th width="104">型</th><th>デフォルト値</th></tr></thead><tbody><tr><td>PORT</td><td>Flowiseが実行されるHTTPポート</td><td>Number</td><td>3000</td></tr><tr><td>FLOWISE_USERNAME</td><td>ログインユーザー名</td><td>String</td><td></td></tr><tr><td>FLOWISE_PASSWORD</td><td>ログインパスワード</td><td>String</td><td></td></tr><tr><td>FLOWISE_FILE_SIZE_LIMIT</td><td>アップロード時の最大ファイルサイズ</td><td>String</td><td><code>50mb</code></td></tr><tr><td>NUMBER_OF_PROXIES</td><td>レート制限プロキシ</td><td>Number</td><td></td></tr><tr><td>CORS_ORIGINS</td><td>クロスオリジンHTTPコールで許可されるオリジン</td><td>String</td><td></td></tr><tr><td>IFRAME_ORIGINS</td><td>iframeのsrc埋め込みで許可されるオリジン</td><td>String</td><td></td></tr><tr><td>SHOW_COMMUNITY_NODES</td><td>コミュニティによって作成されたノードを表示</td><td>Boolean: <code>true</code> または <code>false</code></td><td></td></tr><tr><td>DISABLED_NODES</td><td>無効化するノード名のカンマ区切りリスト</td><td>String</td><td></td></tr></tbody></table>
 
-## For Database
+## データベース用
 
-| Variable           | Description                                                      | Type                                       | Default                  |
-| ------------------ | ---------------------------------------------------------------- | ------------------------------------------ | ------------------------ |
-| DATABASE\_TYPE     | Type of database to store the flowise data                       | Enum String: `sqlite`, `mysql`, `postgres` | `sqlite`                 |
-| DATABASE\_PATH     | Location where database is saved (When DATABASE\_TYPE is sqlite) | String                                     | `your-home-dir/.flowise` |
-| DATABASE\_HOST     | Host URL or IP address (When DATABASE\_TYPE is not sqlite)       | String                                     |                          |
-| DATABASE\_PORT     | Database port (When DATABASE\_TYPE is not sqlite)                | String                                     |                          |
-| DATABASE\_USER     | Database username (When DATABASE\_TYPE is not sqlite)            | String                                     |                          |
-| DATABASE\_PASSWORD | Database password (When DATABASE\_TYPE is not sqlite)            | String                                     |                          |
-| DATABASE\_NAME     | Database name (When DATABASE\_TYPE is not sqlite)                | String                                     |                          |
-| DATABASE\_SSL      | Database SSL is required (When DATABASE\_TYPE is not sqlite)     | Boolean: `true` or `false`                 | `false`                  |
+| 変数              | 説明                                                        | 型                                         | デフォルト値             |
+| ----------------- | ----------------------------------------------------------- | ------------------------------------------ | ------------------------ |
+| DATABASE_TYPE     | Flowiseデータを保存するデータベースの種類                   | Enum String: `sqlite`, `mysql`, `postgres` | `sqlite`                 |
+| DATABASE_PATH     | データベースが保存される場所 (DATABASE_TYPEがsqliteの場合)  | String                                     | `your-home-dir/.flowise` |
+| DATABASE_HOST     | ホストURLまたはIPアドレス (DATABASE_TYPEがsqlite以外の場合) | String                                     |                          |
+| DATABASE_PORT     | データベースポート (DATABASE_TYPEがsqlite以外の場合)        | String                                     |                          |
+| DATABASE_USER     | データベースユーザー名 (DATABASE_TYPEがsqlite以外の場合)    | String                                     |                          |
+| DATABASE_PASSWORD | データベースパスワード (DATABASE_TYPEがsqlite以外の場合)    | String                                     |                          |
+| DATABASE_NAME     | データベース名 (DATABASE_TYPEがsqlite以外の場合)            | String                                     |                          |
+| DATABASE_SSL      | データベースSSLが必要 (DATABASE_TYPEがsqlite以外の場合)     | Boolean: `true` または `false`             | `false`                  |
 
-## For Storage
+## ストレージについて
 
-Flowise store the following files under a local path folder by default.
+Flowiseはデフォルトでローカルパスフォルダに以下のファイルを保存します。
 
-* Files uploaded on [Document Loaders](../integrations/langchain/document-loaders/)/Document Store
-* Image/Audio uploads from chat
-* Images/Files from Assistant
-* Files from [Vector Upsert API](../using-flowise/api.md#vector-upsert-api)
+* [Document Loaders](../integrations/langchain/document-loaders/)/Document Storeでアップロードされたファイル
+* チャットからの画像/音声アップロード
+* アシスタントからの画像/ファイル
+* [Vector Upsert API](../using-flowise/api.md#vector-upsert-api)からのファイル
 
-User can specify `STORAGE_TYPE` to use AWS S3 or local path
+ユーザーは`STORAGE_TYPE`を指定してAWS S3またはローカルパスを使用できます。
 
-<table><thead><tr><th width="227">Variable</th><th width="196">Description</th><th width="131">Type</th><th>Default</th></tr></thead><tbody><tr><td>STORAGE_TYPE</td><td>Type of storage for uploaded files. default is <code>local</code></td><td>Enum String: <code>s3</code>, <code>local</code></td><td><code>local</code></td></tr><tr><td>BLOB_STORAGE_PATH</td><td>Local folder path where uploaded files are stored when <code>STORAGE_TYPE</code> is <code>local</code></td><td>String</td><td><code>your-home-dir/.flowise/storage</code></td></tr><tr><td>S3_STORAGE_BUCKET_NAME</td><td>Bucket name to hold the uploaded files when <code>STORAGE_TYPE</code> is <code>s3</code></td><td>String</td><td></td></tr><tr><td>S3_STORAGE_ACCESS_KEY_ID</td><td>AWS Access Key</td><td>String</td><td></td></tr><tr><td>S3_STORAGE_SECRET_ACCESS_KEY</td><td>AWS Secret Key</td><td>String</td><td></td></tr><tr><td>S3_STORAGE_REGION</td><td>Region for S3 bucket</td><td>String</td><td></td></tr><tr><td>S3_ENDPOINT_URL</td><td>Custom S3 endpoint (optional)</td><td>String</td><td></td></tr><tr><td>S3_FORCE_PATH_STYLE</td><td>Force S3 path style (optional)</td><td>Boolean</td><td>false</td></tr></tbody></table>
+<table><thead><tr><th width="227">変数</th><th width="196">説明</th><th width="131">型</th><th>デフォルト値</th></tr></thead><tbody><tr><td>STORAGE_TYPE</td><td>アップロードされたファイルのストレージタイプ。デフォルトは<code>local</code></td><td>Enum String: <code>s3</code>, <code>local</code></td><td><code>local</code></td></tr><tr><td>BLOB_STORAGE_PATH</td><td><code>STORAGE_TYPE</code>が<code>local</code>の場合にアップロードされたファイルが保存されるローカルフォルダパス</td><td>String</td><td><code>your-home-dir/.flowise/storage</code></td></tr><tr><td>S3_STORAGE_BUCKET_NAME</td><td><code>STORAGE_TYPE</code>が<code>s3</code>の場合にアップロードされたファイルを保持するバケット名</td><td>String</td><td></td></tr><tr><td>S3_STORAGE_ACCESS_KEY_ID</td><td>AWSアクセスキー</td><td>String</td><td></td></tr><tr><td>S3_STORAGE_SECRET_ACCESS_KEY</td><td>AWSシークレットキー</td><td>String</td><td></td></tr><tr><td>S3_STORAGE_REGION</td><td>S3バケットのリージョン</td><td>String</td><td></td></tr><tr><td>S3_ENDPOINT_URL</td><td>カスタムS3エンドポイント(オプション)</td><td>String</td><td></td></tr><tr><td>S3_FORCE_PATH_STYLE</td><td>S3パススタイルを強制(オプション)</td><td>Boolean</td><td>false</td></tr></tbody></table>
 
-## For Debugging and Logs
+## デバッグとログについて
 
-| Variable   | Description                         | Type                                             |                                |
-| ---------- | ----------------------------------- | ------------------------------------------------ | ------------------------------ |
-| DEBUG      | Print logs from components          | Boolean                                          |                                |
-| LOG\_PATH  | Location where log files are stored | String                                           | `Flowise/packages/server/logs` |
-| LOG\_LEVEL | Different levels of logs            | Enum String: `error`, `info`, `verbose`, `debug` | `info`                         |
+| 変数      | 説明                         | 型                                               | デフォルト値                   |
+| --------- | ---------------------------- | ------------------------------------------------ | ------------------------------ |
+| DEBUG     | コンポーネントからログを出力 | Boolean                                          |                                |
+| LOG_PATH  | ログファイルが保存される場所 | String                                           | `Flowise/packages/server/logs` |
+| LOG_LEVEL | 異なるレベルのログ           | Enum String: `error`, `info`, `verbose`, `debug` | `info`                         |
 
-`DEBUG`: if set to true, will print logs to terminal/console:
+`DEBUG`: trueに設定すると、ターミナル/コンソールにログを出力します:
 
 <figure><img src="../.gitbook/assets/image (3) (3).png" alt=""><figcaption></figcaption></figure>
 
-`LOG_LEVEL`: Different log levels for loggers to be saved. Can be `error`, `info`, `verbose`, or `debug.` By default it is set to `info,` only `logger.info` will be saved to the log files. If you want to have complete details, set to `debug`.
+`LOG_LEVEL`: ロガーに保存される異なるログレベル。`error`、`info`、`verbose`、または`debug`を指定できます。デフォルトでは`info`に設定されており、`logger.info`のみがログファイルに保存されます。完全な詳細が必要な場合は、`debug`に設定してください。
 
-<figure><img src="../.gitbook/assets/image (2) (4).png" alt=""><figcaption><p><strong>server-requests.log.jsonl - logs every request sent to Flowise</strong></p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (4).png" alt=""><figcaption><p><strong>server-requests.log.jsonl - Flowiseに送信されたすべてのリクエストをログに記録</strong></p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption><p><strong>server.log - logs general actions on Flowise</strong></p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption><p><strong>server.log - Flowiseの一般的なアクションをログに記録</strong></p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (5) (4).png" alt=""><figcaption><p><strong>server-error.log - logs error with stack trace</strong></p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (5) (4).png" alt=""><figcaption><p><strong>server-error.log - スタックトレース付きのエラーをログに記録</strong></p></figcaption></figure>
 
-### Logs Streaming S3
+### ログのS3ストリーミング
 
-When `STORAGE_TYPE` env variable is set to `s3` , logs will be automatically streamed and stored to S3. New log file will be created hourly, enabling easier debugging.
+`STORAGE_TYPE`環境変数が`s3`に設定されている場合、ログは自動的にS3にストリーミングされて保存されます。新しいログファイルは1時間ごとに作成され、デバッグが容易になります。
 
-## For Credentials
+## 認証情報について
 
-Flowise store your third party API keys as encrypted credentials using an encryption key.
+Flowiseは、暗号化キーを使用して第三者のAPIキーを暗号化された認証情報として保存します。
 
-By default, a random encryption key will be generated when starting up the application and stored under a file path. This encryption key is then retrieved everytime to decrypt the credentials used within a chatflow. For example, your OpenAI API key, Pinecone API key, etc.
+デフォルトでは、アプリケーション起動時にランダムな暗号化キーが生成され、ファイルパスに保存されます。この暗号化キーは、チャットフロー内で使用される認証情報（OpenAI APIキー、Pinecone APIキーなど）を復号化するために毎回取得されます。
 
-You can configure to use AWS Secret Manager to store the encryption key instead.
+AWS Secret Managerを使用して暗号化キーを保存するように設定することもできます。
 
-| Variable                      | Description                                           | Type                        | Default                   |
-| ----------------------------- | ----------------------------------------------------- | --------------------------- | ------------------------- |
-| SECRETKEY\_STORAGE\_TYPE      | How to store the encryption key                       | Enum String: `local`, `aws` | `local`                   |
-| SECRETKEY\_PATH               | Local file path where encryption key is saved         | String                      | `Flowise/packages/server` |
-| FLOWISE\_SECRETKEY\_OVERWRITE | Encryption key to be used instead of the existing key | String                      |                           |
-| SECRETKEY\_AWS\_ACCESS\_KEY   |                                                       | String                      |                           |
-| SECRETKEY\_AWS\_SECRET\_KEY   |                                                       | String                      |                           |
-| SECRETKEY\_AWS\_REGION        |                                                       | String                      |                           |
+| 変数                        | 説明                                       | 型                          | デフォルト値              |
+| --------------------------- | ------------------------------------------ | --------------------------- | ------------------------- |
+| SECRETKEY_STORAGE_TYPE      | 暗号化キーの保存方法                       | Enum String: `local`, `aws` | `local`                   |
+| SECRETKEY_PATH              | 暗号化キーが保存されるローカルファイルパス | String                      | `Flowise/packages/server` |
+| FLOWISE_SECRETKEY_OVERWRITE | 既存のキーの代わりに使用する暗号化キー     | String                      |                           |
+| SECRETKEY_AWS_ACCESS_KEY    |                                            | String                      |                           |
+| SECRETKEY_AWS_SECRET_KEY    |                                            | String                      |                           |
+| SECRETKEY_AWS_REGION        |                                            | String                      |                           |
 
-For some reasons, sometimes encryption key might be re-generated or the stored path was changed, this will cause errors like - <mark style="color:red;">Credentials could not be decrypted.</mark>
+何らかの理由で暗号化キーが再生成されたり、保存パスが変更されたりすると、<mark style="color:red;">認証情報を復号化できません</mark>というようなエラーが発生することがあります。
 
-To avoid this, you can set your own encryption key as `FLOWISE_SECRETKEY_OVERWRITE`, so that the same encryption key will be used everytime. There is no restriction on the format, you can set it as any text that you want, or the same as your `FLOWISE_PASSWORD`.
+これを避けるために、`FLOWISE_SECRETKEY_OVERWRITE`として独自の暗号化キーを設定できます。これにより、毎回同じ暗号化キーが使用されます。形式に制限はなく、任意のテキストや`FLOWISE_PASSWORD`と同じものを設定できます。
 
 <figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-Credential API Key returned from the UI is not the same length as your original Api Key that you have set. This is a fake prefix string that prevents network spoofing, that's why we are not returning the Api Key back to UI. However, the correct Api Key will be retrieved and used during your interaction with the chatflow.
+UIから返される認証情報APIキーは、設定した元のAPIキーと同じ長さではありません。これはネットワークスプーフィングを防ぐための偽のプレフィックス文字列であり、そのためUIにAPIキーを返していません。ただし、チャットフローとのやり取り中は正しいAPIキーが取得され使用されます。
 {% endhint %}
 
-## For Models
+## モデルについて
 
-In some cases, you might want to use custom model on the existing Chat Model and LLM nodes, or restrict access to only certain models.
+場合によっては、既存のチャットモデルやLLMノードでカスタムモデルを使用したり、特定のモデルへのアクセスを制限したりすることがあります。
 
-By default, Flowise pulls the model list from [here](https://github.com/FlowiseAI/Flowise/blob/main/packages/components/models.json). However user can create their own `models.json` file and specify the file path:
+デフォルトでは、Flowise は[ここ](https://github.com/FlowiseAI/Flowise/blob/main/packages/components/models.json)からモデルリストを取得します。ただし、ユーザーは独自の`models.json`ファイルを作成してファイルパスを指定できます：
 
-<table><thead><tr><th width="164">Variable</th><th width="196">Description</th><th width="78">Type</th><th>Default</th></tr></thead><tbody><tr><td>MODEL_LIST_CONFIG_JSON</td><td>Link to load list of models from your <code>models.json</code> config file</td><td>String</td><td><a href="https://raw.githubusercontent.com/FlowiseAI/Flowise/main/packages/components/models.json">https://raw.githubusercontent.com/FlowiseAI/Flowise/main/packages/components/models.json</a></td></tr></tbody></table>
+<table><thead><tr><th width="164">変数</th><th width="196">説明</th><th width="78">型</th><th>デフォルト値</th></tr></thead><tbody><tr><td>MODEL_LIST_CONFIG_JSON</td><td>独自の<code>models.json</code>設定ファイルからモデルリストを読み込むためのリンク</td><td>String</td><td><a href="https://raw.githubusercontent.com/FlowiseAI/Flowise/main/packages/components/models.json">https://raw.githubusercontent.com/FlowiseAI/Flowise/main/packages/components/models.json</a></td></tr></tbody></table>
 
-## For API Keys
+## APIキーについて
 
-Users can create multiple API keys within Flowise in order to authenticate with the [APIs](../using-flowise/api.md). By default, keys get stored as a JSON file to your local file path. User can change the behavior by using the below env variable.
+ユーザーは[API](../using-flowise/api.md)認証のためにFlowise内で複数のAPIキーを作成できます。デフォルトでは、キーはJSONファイルとしてローカルファイルパスに保存されます。以下の環境変数を使用して動作を変更できます。
 
-| Variable              | Description                                                                                | Type                      | Default                   |
-| --------------------- | ------------------------------------------------------------------------------------------ | ------------------------- | ------------------------- |
-| APIKEY\_STORAGE\_TYPE | Method to store API keys                                                                   | Enum string: `json`, `db` | `json`                    |
-| APIKEY\_PATH          | Location where the API keys are stored when `APIKEY_STORAGE_TYPE` is unspecified or `json` | String                    | `Flowise/packages/server` |
+| 変数                | 説明                                                                     | 型                        | デフォルト値              |
+| ------------------- | ------------------------------------------------------------------------ | ------------------------- | ------------------------- |
+| APIKEY_STORAGE_TYPE | APIキーの保存方法                                                        | Enum string: `json`, `db` | `json`                    |
+| APIKEY_PATH         | `APIKEY_STORAGE_TYPE`が未指定または`json`の場合にAPIキーが保存される場所 | String                    | `Flowise/packages/server` |
 
-Using `db` as storage type will store the API keys to database instead of a local JSON file.
+ストレージタイプとして`db`を使用すると、APIキーはローカルJSONファイルではなくデータベースに保存されます。
 
-<figure><img src="../.gitbook/assets/image (254).png" alt=""><figcaption><p>Flowise API Keys</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (254).png" alt=""><figcaption><p>Flowise APIキー</p></figcaption></figure>
 
-## For Built-In and External Dependencies
+## ビルトインおよび外部依存関係について
 
-There are certain nodes/features within Flowise that allow user to run Javascript code. For security reasons, by default it only allow certain dependencies. It's possible to lift that restriction for built-in and external modules by setting the following environment variables:
+Flowise内には、JavaScriptコードを実行できる特定のノード/機能があります。セキュリティ上の理由から、デフォルトでは特定の依存関係のみが許可されています。以下の環境変数を設定することで、ビルトインモジュールと外部モジュールの制限を解除することができます：
 
-| Variable                      | Description                                          |        |
-| ----------------------------- | ---------------------------------------------------- | ------ |
-| TOOL\_FUNCTION\_BUILTIN\_DEP  | NodeJS built-in modules to be used for Tool Function | String |
-| TOOL\_FUNCTION\_EXTERNAL\_DEP | External modules to be used for Tool Function        | String |
+| 変数                       | 説明                                           |        |
+| -------------------------- | ---------------------------------------------- | ------ |
+| TOOL_FUNCTION_BUILTIN_DEP  | ツール機能で使用するNodeJSビルトインモジュール | String |
+| TOOL_FUNCTION_EXTERNAL_DEP | ツール機能で使用する外部モジュール             | String |
 
 {% code title=".env" %}
 ```bash
-# Allows usage of all builtin modules
+# すべてのビルトインモジュールの使用を許可
 TOOL_FUNCTION_BUILTIN_DEP=*
 
-# Allows usage of only fs
+# fsのみ使用を許可
 TOOL_FUNCTION_BUILTIN_DEP=fs
 
-# Allows usage of only crypto and fs
+# cryptoとfsのみ使用を許可
 TOOL_FUNCTION_BUILTIN_DEP=crypto,fs
 
-# Allow usage of external npm modules.
+# 外部npmモジュールの使用を許可
 TOOL_FUNCTION_EXTERNAL_DEP=axios,moment
 ```
 {% endcode %}
 
-## Examples of how to set environment variables:
+## 環境変数の設定例：
 
 ### NPM
 
-You can set all these variables when running Flowise using npx. For example:
+npxを使用してFlowiseを実行する際に、これらの変数をすべて設定できます。例：
 
 ```
 npx flowise start --PORT=3000 --DEBUG=true
@@ -155,4 +155,4 @@ docker run -d -p 5678:5678 flowise \
 
 ### Docker Compose
 
-You can set all these variables in the `.env` file inside `docker` folder. Refer to [.env.example](https://github.com/FlowiseAI/Flowise/blob/main/docker/.env.example) file.
+`docker`フォルダ内の`.env`ファイルでこれらの変数をすべて設定できます。[.env.example](https://github.com/FlowiseAI/Flowise/blob/main/docker/.env.example)ファイルを参照してください。

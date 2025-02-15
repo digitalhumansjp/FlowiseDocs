@@ -1,21 +1,21 @@
 ---
-description: Learn to build your own Flowise solutions through practical examples
+description: 実用的な例を通じて、自分のFlowiseソリューションを構築する方法を学ぶ
 ---
 
-# Use Cases
+# ユースケース
 
 ***
 
-This section provides a collection of practical examples to demonstrate how Flowise can be used to build a variety of solutions.
+このセクションでは、Flowiseを使用してさまざまなソリューションを構築する方法を実証するための実用的な例を集めています。
 
-Each use case will guide you through the process of designing, building, and deploying real-world applications using Flowise.
+各ユースケースでは、Flowiseを使用して実際のアプリケーションを設計、構築、デプロイするプロセスを案内します。
 
-## Guides
+## ガイド
 
-* [Calling Children Flows](calling-children-flows.md)
-* [Calling Webhook](webhook-tool.md)
-* [Interacting with API](interacting-with-api.md)
-* [Multiple Documents QnA](multiple-documents-qna.md)
+* [子フローの呼び出し](calling-children-flows.md)
+* [Webhookの呼び出し](webhook-tool.md)
+* [APIとの対話](interacting-with-api.md)
+* [複数ドキュメントのQnA](multiple-documents-qna.md)
 * [SQL QnA](sql-qna.md)
-* [Upserting Data](upserting-data.md)
-* [Web Scrape QnA](web-scrape-qna.md)
+* [データのアップサート](upserting-data.md)
+* [ウェブスクレイピングのQnA](web-scrape-qna.md)

@@ -1,25 +1,25 @@
-# LocalAI Embeddings
+# LocalAI エンベッディング
 
-## LocalAI Setup
+## LocalAI セットアップ
 
-[**LocalAI** ](https://github.com/go-skynet/LocalAI)is a drop-in replacement REST API that’s compatible with OpenAI API specifications for local inferencing. It allows you to run LLMs (and not only) locally or on-prem with consumer grade hardware, supporting multiple model families that are compatible with the ggml format.
+[**LocalAI**](https://github.com/go-skynet/LocalAI)は、ローカルでの推論のためのOpenAI API仕様と互換性のあるドロップイン置き換えRESTAPIです。これにより、一般的なハードウェアでLLM（およびそれ以外）をローカルまたはオンプレミスで実行でき、ggml形式と互換性のある複数のモデルファミリーをサポートしています。
 
-To use LocalAI Embeddings within Flowise, follow the steps below:
+Flowise内でLocalAI Embeddingsを使用するには、以下の手順に従ってください：
 
 1. ```bash
    git clone https://github.com/go-skynet/LocalAI
    ```
 2. <pre class="language-bash"><code class="lang-bash"><strong>cd LocalAI
    </strong></code></pre>
-3. LocalAI provides an [API endpoint](https://localai.io/api-endpoints/index.html#applying-a-model---modelsapply) to download/install the model. In this example, we are going to use BERT Embeddings model:
+3. LocalAIは、モデルのダウンロード/インストールのための[APIエンドポイント](https://localai.io/api-endpoints/index.html#applying-a-model---modelsapply)を提供しています。この例では、BERTエンベッディングモデルを使用します：
 
 <figure><img src="../../../.gitbook/assets/image (27) (1).png" alt=""><figcaption></figcaption></figure>
 
-4. In the `/models` folder, you should be able to see the downloaded model in there:
+4. `/models`フォルダ内にダウンロードされたモデルが表示されるはずです：
 
 <figure><img src="../../../.gitbook/assets/image (23) (1).png" alt=""><figcaption></figcaption></figure>
 
-5. You can now test the embeddings:
+5. エンベッディングをテストできます：
 
 ```bash
 curl http://localhost:8080/v1/embeddings -H "Content-Type: application/json" -d '{
@@ -28,19 +28,19 @@ curl http://localhost:8080/v1/embeddings -H "Content-Type: application/json" -d 
   }'
 ```
 
-6. Response should looks like:
+6. レスポンスは以下のようになります：
 
 <figure><img src="../../../.gitbook/assets/image (29).png" alt="" width="375"><figcaption></figcaption></figure>
 
-## Flowise Setup
+## Flowise セットアップ
 
-Drag and drop a new LocalAIEmbeddings component to canvas:
+新しいLocalAIEmbeddingsコンポーネントをキャンバスにドラッグ＆ドロップします：
 
 <figure><img src="../../../.gitbook/assets/image (21) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-Fill in the fields:
+フィールドに入力します：
 
-* **Base Path**: The base url from LocalAI such as [http://localhost:8080/v1](http://localhost:8080/v1)
-* **Model Name**: The model you want to use. Note that it must be inside `/models` folder of LocalAI directory. For instance: `text-embedding-ada-002`
+* **Base Path**: LocalAIのベースURLです（例：[http://localhost:8080/v1](http://localhost:8080/v1)）
+* **Model Name**: 使用したいモデル名です。LocalAIディレクトリの`/models`フォルダ内に存在する必要があります。例：`text-embedding-ada-002`
 
-That's it! For more information, refer to LocalAI [docs](https://localai.io/models/index.html#embeddings-bert).
+以上です！詳細については、LocalAIの[ドキュメント](https://localai.io/models/index.html#embeddings-bert)を参照してください。

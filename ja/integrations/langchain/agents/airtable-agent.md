@@ -1,34 +1,34 @@
 ---
-description: Agent used to to answer queries on Airtable table.
+description: Airtableテーブルに対してクエリを実行するために使用されるエージェント
 ---
 
-# Airtable Agent
+# Airtableエージェント
 
-<figure><img src="../../../.gitbook/assets/image_airtable.png" alt="" width="271"><figcaption><p>Airtable Agent Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image_airtable.png" alt="" width="271"><figcaption><p>Airtableエージェントノード</p></figcaption></figure>
 
-## Airtable Agent Functionality
+## Airtableエージェントの機能
 
-The Airtable Agent is designed to facilitate interactions between Flowise AI and Airtable tables, enabling users to query Airtable data in a conversational manner. By using this agent, users can ask questions about the contents of their Airtable base and receive relevant responses based on the stored data. This can be particularly useful for quickly extracting specific pieces of information, automating workflows, or generating summaries from the data stored in Airtable.
+Airtableエージェントは、Flowise AIとAirtableテーブル間のインタラクションを容易にするように設計されており、ユーザーが会話形式でAirtableのデータにクエリを実行することを可能にします。このエージェントを使用することで、ユーザーはAirtableベースの内容について質問し、保存されたデータに基づいて関連する回答を受け取ることができます。これは、特定の情報を素早く抽出したり、ワークフローを自動化したり、Airtableに保存されたデータからサマリーを生成したりする際に特に有用です。
 
-For example, the Airtable Agent can be used to answer questions like:
+例えば、Airtableエージェントは以下のような質問に答えることができます：
 
-* "How many tasks are still incomplete in my project tracker table?"
-* "What are the contact details of the clients listed in the CRM?"
-* "Give me a summary of all records added in the past week."
+* "プロジェクトトラッカーテーブルで未完了のタスクは何個ありますか？"
+* "CRMに記載されているクライアントの連絡先詳細を教えてください"
+* "先週追加されたすべてのレコードの要約を教えてください"
 
-This functionality helps users get insights from their Airtable bases without needing to navigate through the Airtable interface, making it easier to manage and analyze their data in a seamless, interactive way.
+この機能により、ユーザーはAirtableインターフェースを操作することなくAirtableベースからインサイトを得ることができ、シームレスでインタラクティブな方法でデータを管理・分析することが容易になります。
 
-## Inputs
+## 入力
 
-The Airtable Agent requires the following inputs to function effectively:
+Airtableエージェントが効果的に機能するためには、以下の入力が必要です：
 
-* **Language Model**: The language model to be used for processing queries. This input is required and helps determine the quality and accuracy of responses provided by the agent.
-* **Input Moderation**: Optional input that enables content moderation. This helps ensure that queries are appropriate and do not contain offensive or harmful content.
-* **Connect Credential**: Required input to connect to Airtable. Users must select the appropriate credential that has permissions to access their Airtable data.
-* **Base ID**: The ID of the Airtable base to connect to. This is a required field and can be found in the Airtable API documentation or the base settings. If your table URL looks like `https://airtable.com/app11RobdGoX0YNsC/tblJdmvbrgizbYlCO/viw9UrP77idOCE4ee`, `app11RobdGoX0YNsC` is the Base ID. It is used to specify which Airtable base contains the data to be queried.
-* **Table ID**: The ID of the specific table within the Airtable base. This is also a required field and helps the agent target the correct table for data retrieval. In the example URL `https://airtable.com/app11RobdGoX0YNsC/tblJdmvbrgizbYlCO/viw9UrP77idOCE4ee`, `tblJdmvbrgizbYlCO` is the Table ID.
-* **Additional Parameters**: Optional parameters that can be used to customize the behavior of the agent. These parameters can be configured based on specific use cases.
-  * **Return All**: This option allows users to return all records from the specified table. If enabled, all records will be retrieved, otherwise, only a limited number will be returned.
-  * **Limit**: Specifies the maximum number of records to be returned if **Return All** is not enabled. The default value is `100`.
+* **言語モデル**: クエリの処理に使用される言語モデル。この入力は必須で、エージェントが提供する応答の品質と精度を決定するのに役立ちます。
+* **入力モデレーション**: コンテンツモデレーションを有効にするオプションの入力。クエリが適切で、攻撃的または有害なコンテンツを含まないことを確認するのに役立ちます。
+* **接続クレデンシャル**: Airtableに接続するために必要な入力。ユーザーはAirtableデータにアクセスする権限を持つ適切なクレデンシャルを選択する必要があります。
+* **ベースID**: 接続するAirtableベースのID。これは必須フィールドで、AirtableのAPIドキュメントまたはベース設定で確認できます。テーブルのURLが`https://airtable.com/app11RobdGoX0YNsC/tblJdmvbrgizbYlCO/viw9UrP77idOCE4ee`の場合、`app11RobdGoX0YNsC`がベースIDです。クエリを実行するデータを含むAirtableベースを指定するために使用されます。
+* **テーブルID**: Airtableベース内の特定のテーブルのID。これも必須フィールドで、データ取得のために正しいテーブルを指定するのに役立ちます。例のURL`https://airtable.com/app11RobdGoX0YNsC/tblJdmvbrgizbYlCO/viw9UrP77idOCE4ee`では、`tblJdmvbrgizbYlCO`がテーブルIDです。
+* **追加パラメータ**: エージェントの動作をカスタマイズするために使用できるオプションのパラメータ。これらのパラメータは特定のユースケースに基づいて設定できます。
+  * **すべて返す**: 指定されたテーブルからすべてのレコードを返すオプション。有効にすると、すべてのレコードが取得され、そうでない場合は限られた数のレコードのみが返されます。
+  * **制限**: **すべて返す**が有効でない場合に返されるレコードの最大数を指定します。デフォルト値は`100`です。
 
-**Note**: This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+**注**: このセクションは作業中です。このセクションの完成にご協力いただける方を歓迎します。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。

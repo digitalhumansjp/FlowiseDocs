@@ -1,7 +1,7 @@
-# Extract Metadata Retriever
+# メタデータ抽出リトリーバー
 
-This retriever is designed to automatically extract keywords from query. The extracted JSON output is used as metadata filter for vector store.
+このリトリーバーは、クエリからキーワードを自動的に抽出するように設計されています。抽出されたJSON出力は、ベクトルストアのメタデータフィルターとして使用されます。
 
-For example, when we ask a question: "What is the profit for Apple", LLM will give an output of `{source: "apple"}`, and this will be passed to vectore store's metadata filter.
+例えば、「Appleの利益はいくらですか」という質問をした場合、LLMは `{source: "apple"}` という出力を生成し、これがベクトルストアのメタデータフィルターに渡されます。
 
 <figure><img src="../../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>

@@ -1,18 +1,18 @@
 ---
-description: LangChain Vector Store Nodes
+description: LangChain ベクトルストアノード
 ---
 
-# Vector Stores
+# ベクトルストア
 
 ***
 
-A vector store or vector database refers to a type of database system that specializes in storing and retrieving high-dimensional numerical vectors. Vector stores are designed to efficiently manage and index these vectors, allowing for fast similarity searches.
+ベクトルストアまたはベクトルデータベースとは、高次元の数値ベクトルの保存と検索に特化したデータベースシステムの一種を指します。ベクトルストアは、これらのベクトルを効率的に管理・インデックス化し、高速な類似性検索を可能にするように設計されています。
 
-### Watch an intro on Vector Stores and how you can use that on Flowise
+### ベクトルストアの紹介とFlowiseでの使用方法について
 
 {% embed url="https://youtu.be/m0nr1_pnAxc" %}
 
-### Vector Store Nodes:
+### ベクトルストアノード:
 
 * [AstraDB](astradb.md)
 * [Chroma](chroma.md)
@@ -31,5 +31,5 @@ A vector store or vector database refers to a type of database system that speci
 * [Upstash Vector](upstash-vector.md)
 * [Vectara](vectara.md)
 * [Weaviate](weaviate.md)
-* [Zep Collection - Open Source](zep-collection-open-source.md)
-* [Zep Collection - Cloud](zep-collection-cloud.md)
+* [Zep Collection - オープンソース](zep-collection-open-source.md)
+* [Zep Collection - クラウド](zep-collection-cloud.md)

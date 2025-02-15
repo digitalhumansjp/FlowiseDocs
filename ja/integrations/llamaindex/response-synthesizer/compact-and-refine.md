@@ -1,36 +1,36 @@
-# Compact And Refine
+# コンパクト＆リファイン
 
-This is the default when no Response Synthesizer is explicilty defined.
+これはレスポンスシンセサイザーが明示的に定義されていない場合のデフォルトです。
 
-Compact the prompt during each LLM call by stuffing as many text chunks that can fit within the maximum prompt size. If there are too many chunks to stuff in one prompt, "create and refine" an answer by going through multiple compact prompts.
+最大プロンプトサイズに収まる限り多くのテキストチャンクを詰め込むことで、各LLMコールでプロンプトをコンパクトにします。1つのプロンプトに詰め込むにはチャンクが多すぎる場合、複数のコンパクトプロンプトを通じて回答を「作成・改良」します。
 
-**Pros**: The same as [Refine](refine.md), Good for more detailed answers, and should result in less LLM calls
+**長所**: [リファイン](refine.md)と同様に、より詳細な回答に適しており、LLMコール数が少なくなるはずです
 
-**Cons**: Due to the multiple LLM calls , can be expensive
+**短所**: 複数のLLMコールが必要なため、コストがかかる可能性があります
 
 <figure><img src="../../../.gitbook/assets/image (6) (1) (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-**Refine Prompt**
+**リファインプロンプト**
 
 ```markup
-The original query is as follows: {query}
-We have provided an existing answer: {existingAnswer}
-We have the opportunity to refine the existing answer (only if needed) with some more context below.
+元のクエリは次の通りです: {query}
+既存の回答を提供しています: {existingAnswer}
+以下にさらなるコンテキストがあり、必要に応じて既存の回答を改良する機会があります。
 ------------
 {context}
 ------------
-Given the new context, refine the original answer to better answer the query. If the context isn't useful, return the original answer.
-Refined Answer:
+新しいコンテキストを考慮して、クエリにより良く答えるために元の回答を改良してください。コンテキストが有用でない場合は、元の回答を返してください。
+改良された回答:
 ```
 
-**Text QA Prompt**
+**テキストQAプロンプト**
 
 ```
-Context information is below.
+コンテキスト情報は以下の通りです。
 ---------------------
 {context}
 ---------------------
-Given the context information and not prior knowledge, answer the query.
-Query: {query}
-Answer:
+コンテキスト情報のみを使用し、事前知識は使用せずにクエリに答えてください。
+クエリ: {query}
+回答:
 ```

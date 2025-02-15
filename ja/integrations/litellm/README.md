@@ -1,22 +1,22 @@
 ---
-description: Learn how Flowise integrates with LiteLLM Proxy
+description: FlowiseがLiteLLM Proxyとどのように統合されるかを学ぶ
 ---
 
-# LiteLLM Proxy
+# LiteLLMプロキシ
 
-Use [LiteLLM Proxy](https://docs.litellm.ai/docs/simple_proxy) with Flowise to:
+FlowiseでLiteLLM Proxyを使用することで以下が可能になります:
 
-- Load balance Azure OpenAI/LLM endpoints
-- Call 100+ LLMs in the OpenAI Format 
-- Use Virtual Keys to set budgets, rate limits and track usage
+- Azure OpenAI/LLMエンドポイントのロードバランシング
+- OpenAIフォーマットで100以上のLLMを呼び出し
+- 仮想キーを使用して予算、レート制限を設定し、使用状況を追跡
 
-## How to use LiteLLM Proxy with Flowise
+## FlowiseでLiteLLM Proxyを使用する方法
 
-### Step 1: Define your LLM Models in the LiteLLM config.yaml file
+### ステップ1: LiteLLM config.yamlファイルでLLMモデルを定義
 
-LiteLLM Requires a config with all your models defined - we will call this file `litellm_config.yaml`
+LiteLLMではすべてのモデルを定義した設定ファイルが必要です - このファイルを`litellm_config.yaml`と呼びます
 
-[Detailed docs on how to setup litellm config - here](https://docs.litellm.ai/docs/proxy/configs)
+[litellm configのセットアップ方法の詳細ドキュメントはこちら](https://docs.litellm.ai/docs/proxy/configs)
 
 ```yaml
 model_list:
@@ -25,21 +25,20 @@ model_list:
       model: azure/chatgpt-v-2
       api_base: https://openai-gpt-4-test-v-1.openai.azure.com/
       api_version: "2023-05-15"
-      api_key: 
+      api_key:
   - model_name: gpt-4
     litellm_params:
       model: azure/gpt-4
-      api_key: 
+      api_key:
       api_base: https://openai-gpt-4-test-v-2.openai.azure.com/
   - model_name: gpt-4
     litellm_params:
       model: azure/gpt-4
-      api_key: 
+      api_key:
       api_base: https://openai-gpt-4-test-v-2.openai.azure.com/
 ```
 
-
-### Step 2. Start litellm proxy
+### ステップ2. litellm proxyを起動
 
 ```shell
 docker run \
@@ -49,12 +48,11 @@ docker run \
     --config /app/config.yaml --detailed_debug
 ```
 
-On success, the proxy will start running on `http://localhost:4000/`
+成功すると、プロキシは`http://localhost:4000/`で実行を開始します
 
-### Step 3: Use the LiteLLM Proxy in Flowise
+### ステップ3: FlowiseでLiteLLM Proxyを使用
 
-In Flowise, specify the **standard OpenAI nodes (not the Azure OpenAI nodes)** -- this goes for **chat models, embeddings, llms -- everything**
+Flowiseでは、**標準のOpenAIノード(Azure OpenAIノードではない)を指定します** -- これはチャットモデル、エンベッディング、LLMなどすべてに適用されます
 
-- Set `BasePath` to LiteLLM Proxy URL (`http://localhost:4000` when running locally)
-- Set the following headers `Authorization: Bearer <your-litellm-master-key>`
-
+- `BasePath`をLiteLLM Proxy URL(`http://localhost:4000`：ローカルで実行時)に設定
+- 以下のヘッダーを設定 `Authorization: Bearer <your-litellm-master-key>`

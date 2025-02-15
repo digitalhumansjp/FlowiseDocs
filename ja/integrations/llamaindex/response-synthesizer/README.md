@@ -1,16 +1,16 @@
 ---
-description: LlamaIndex Response Synthesizer Nodes
+description: LlamaIndex レスポンスシンセサイザーノード
 ---
 
-# Response Synthesizer
+# レスポンスシンセサイザー
 
 ***
 
-Response Synthesizer nodes are responsible for sending the query, nodes, and prompt templates to the LLM to generate a response. There are 4 modes for generating a response:
+レスポンスシンセサイザーノードは、クエリ、ノード、プロンプトテンプレートをLLMに送信してレスポンスを生成する役割を担います。レスポンスを生成するには4つのモードがあります：
 
-### Synthesizer Nodes:
+### シンセサイザーノード:
 
-* [Refine](refine.md)
-* [Compact and Refine](compact-and-refine.md)
-* [Simple Response Builder](simple-response-builder.md)
-* [Tree Summarize](tree-summarize.md)
+* [リファイン](refine.md)
+* [コンパクト＆リファイン](compact-and-refine.md)
+* [シンプルレスポンスビルダー](simple-response-builder.md)
+* [ツリーサマライズ](tree-summarize.md)

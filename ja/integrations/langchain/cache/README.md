@@ -1,18 +1,18 @@
 ---
-description: LangChain Cache Nodes
+description: LangChain キャッシュノード
 ---
 
-# Cache
+# キャッシュ
 
 ***
 
-Caching can save you money by reducing the number of API calls you make to the LLM provider, if you're often requesting the same completion multiple times. It can speed up your application by reducing the number of API calls you make to the LLM provider.
+同じ補完を複数回リクエストする場合、キャッシュを使用することでLLMプロバイダーへのAPI呼び出し回数を減らし、コストを節約することができます。また、LLMプロバイダーへのAPI呼び出し回数を減らすことで、アプリケーションの速度を向上させることができます。
 
-### Cache Nodes:
+### キャッシュノード:
 
-* [InMemory Cache](in-memory-cache.md)
-* [InMemory Embedding Cache](inmemory-embedding-cache.md)
-* [Momento Cache](momento-cache.md)
-* [Redis Cache](redis-cache.md)
-* [Redis Embeddings Cache](redis-embeddings-cache.md)
-* [Upstash Redis Cache](upstash-redis-cache.md)
+* [インメモリキャッシュ](in-memory-cache.md)
+* [インメモリエンベッディングキャッシュ](inmemory-embedding-cache.md)
+* [Momentoキャッシュ](momento-cache.md)
+* [Redisキャッシュ](redis-cache.md)
+* [Redisエンベッディングキャッシュ](redis-embeddings-cache.md)
+* [Upstash Redisキャッシュ](upstash-redis-cache.md)

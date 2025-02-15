@@ -1,11 +1,11 @@
 ---
-description: Search documents with scores from vector store.
+description: ベクトルストアからスコア付きのドキュメントを検索する
 ---
 
-# VectorStore To Document
+# ベクトルストアからドキュメントへの変換
 
-<figure><img src="../../../.gitbook/assets/image (106).png" alt="" width="324"><figcaption><p>VectorStore To Document Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (106).png" alt="" width="324"><figcaption><p>ベクトルストアからドキュメントノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

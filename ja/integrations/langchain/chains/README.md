@@ -1,34 +1,38 @@
 ---
-description: LangChain Chain Nodes
+description: LangChain チェーンノード
 ---
 
-# Chains
+# チェーン
 
 ***
 
-In the context of chatbots and large language models, "chains" typically refer to sequences of text or conversation turns. These chains are used to store and manage the conversation history and context for the chatbot or language model. Chains help the model understand the ongoing conversation and provide coherent and contextually relevant responses.
+チャットボットや大規模言語モデルのコンテキストにおいて、「チェーン」は通常、テキストや会話のターンの連鎖を指します。これらのチェーンは、チャットボットや言語モデルの会話履歴とコンテキストを保存・管理するために使用されます。チェーンは、モデルが進行中の会話を理解し、一貫性のある文脈に即した応答を提供するのに役立ちます。
 
-Here's how chains work:
+チェーンの仕組みは以下の通りです：
 
-1. **Conversation History**: When a user interacts with a chatbot or language model, the conversation is often represented as a series of text messages or conversation turns. Each message from the user and the model is stored in chronological order to maintain the context of the conversation.
-2. **Input and Output**: Each chain consists of both user input and model output. The user's input is usually referred to as the "input chain," while the model's responses are stored in the "output chain." This allows the model to refer back to previous messages in the conversation.
-3. **Contextual Understanding**: By preserving the entire conversation history in these chains, the model can understand the context and refer to earlier messages to provide coherent and contextually relevant responses. This is crucial for maintaining a natural and meaningful conversation with users.
-4. **Maximum Length**: Chains have a maximum length to manage memory usage and computational resources. When a chain becomes too long, older messages may be removed or truncated to make room for new messages. This can potentially lead to loss of context if important conversation details are removed.
-5. **Continuation of Conversation**: In a real-time chatbot or language model interaction, the input chain is continually updated with the user's new messages, and the output chain is updated with the model's responses. This allows the model to keep track of the ongoing conversation and respond appropriately.
+1. **会話履歴**: ユーザーがチャットボットや言語モデルと対話する際、会話は一連のテキストメッセージや会話ターンとして表現されます。会話のコンテキストを維持するために、ユーザーとモデルからのメッセージは時系列順に保存されます。
 
-Chains are a fundamental concept in building and maintaining chatbot and language model conversations. They ensure that the model has access to the context it needs to generate meaningful and context-aware responses, making the interaction more engaging and useful for users.
+2. **入力と出力**: 各チェーンはユーザーの入力とモデルの出力の両方で構成されます。ユーザーの入力は「入力チェーン」、モデルの応答は「出力チェーン」として保存されます。これにより、モデルは会話の以前のメッセージを参照することができます。
 
-### Chain Nodes:
+3. **文脈理解**: 会話履歴全体をこれらのチェーンで保持することで、モデルはコンテキストを理解し、以前のメッセージを参照して一貫性のある文脈に即した応答を提供できます。これは、ユーザーとの自然で意味のある会話を維持する上で重要です。
 
-* [GET API Chain](get-api-chain.md)
-* [OpenAPI Chain](openapi-chain.md)
-* [POST API Chain](post-api-chain.md)
-* [Conversation Chain](conversation-chain.md)
-* [Conversational Retrieval QA Chain](conversational-retrieval-qa-chain.md)
-* [LLM Chain](llm-chain.md)
-* [Multi Prompt Chain](multi-prompt-chain.md)
-* [Multi Retrieval QA Chain](multi-retrieval-qa-chain.md)
-* [Retrieval QA Chain](retrieval-qa-chain.md)
-* [Sql Database Chain](sql-database-chain.md)
-* [Vectara QA Chain](vectara-chain.md)
-* [VectorDB QA Chain](vectordb-qa-chain.md)
+4. **最大長**: チェーンはメモリ使用量と計算リソースを管理するために最大長が設定されています。チェーンが長くなりすぎると、新しいメッセージのためのスペースを確保するために古いメッセージが削除または切り詰められる場合があります。重要な会話の詳細が削除されると、コンテキストが失われる可能性があります。
+
+5. **会話の継続**: リアルタイムのチャットボットや言語モデルの対話では、入力チェーンはユーザーの新しいメッセージで、出力チェーンはモデルの応答で継続的に更新されます。これにより、モデルは進行中の会話を追跡し、適切に応答することができます。
+
+チェーンは、チャットボットと言語モデルの会話を構築・維持する上で基本的な概念です。モデルが意味のある文脈を意識した応答を生成するために必要なコンテキストにアクセスできるようにし、ユーザーとの対話をより魅力的で有用なものにします。
+
+### チェーンノード:
+
+* [GET APIチェーン](get-api-chain.md)
+* [OpenAPIチェーン](openapi-chain.md)
+* [POST APIチェーン](post-api-chain.md)
+* [会話チェーン](conversation-chain.md)
+* [会話検索QAチェーン](conversational-retrieval-qa-chain.md)
+* [LLMチェーン](llm-chain.md)
+* [マルチプロンプトチェーン](multi-prompt-chain.md)
+* [マルチ検索QAチェーン](multi-retrieval-qa-chain.md)
+* [検索QAチェーン](retrieval-qa-chain.md)
+* [SQLデータベースチェーン](sql-database-chain.md)
+* [Vectara QAチェーン](vectara-chain.md)
+* [ベクトルDB QAチェーン](vectordb-qa-chain.md)

@@ -1,21 +1,21 @@
-# Cheerio Web Scraper
+# Cheerio ウェブスクレイパー
 
-Cheerio is lightweight and doesn't require a full browser environment like some other scraping tools. Keep in mind that when scraping websites, **you should always review and comply with the website's terms of service and policies to ensure ethical and legal use of the data**.
+Cheerioは軽量で、他のスクレイピングツールのような完全なブラウザ環境を必要としません。ウェブサイトをスクレイピングする際は、**データの倫理的かつ合法的な使用を確保するため、必ずウェブサイトの利用規約とポリシーを確認し、遵守してください**。
 
-## Scrape One URL
+## 単一URLのスクレイピング
 
-1. _(Optional)_ Connect [**Text Splitter**](../text-splitters/).
-2. Input desired URL to be scraped.
+1. _(オプション)_ [**テキストスプリッター**](../text-splitters/)を接続します。
+2. スクレイピングしたいURLを入力します。
 
-## Crawl & Scrape Multiple URLs
+## 複数URLのクロールとスクレイピング
 
-Visit [**Web Crawl**](../../../use-cases/web-scrape-qna.md#id-1.-crawl-multiple-pages) guide to allow scaping of multiple pages.
+複数ページのスクレイピングを行うには、[**ウェブクロール**](../../../use-cases/web-scrape-qna.md#id-1.-crawl-multiple-pages)ガイドを参照してください。
 
-## Output
+## 出力
 
-Loads URL content as Document
+URLコンテンツをドキュメントとして読み込みます。
 
-## Resources
+## リソース
 
-* [LangChain JS Cheerio](https://js.langchain.com/docs/integrations/document\_loaders/web\_loaders/web\_cheerio)
+* [LangChain JS Cheerio](https://js.langchain.com/docs/integrations/document_loaders/web_loaders/web_cheerio)
 * [Cheerio](https://cheerio.js.org/)

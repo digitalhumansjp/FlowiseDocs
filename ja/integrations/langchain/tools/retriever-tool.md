@@ -1,11 +1,11 @@
 ---
-description: Use a retriever as allowed tool for agent.
+description: エージェントの許可されたツールとしてリトリーバーを使用します。
 ---
 
-# Retriever Tool
+# リトリーバーツール
 
-<figure><img src="../../../.gitbook/assets/image (8) (1) (1) (1) (1).png" alt="" width="311"><figcaption><p>Retriever Tool Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (8) (1) (1) (1) (1).png" alt="" width="311"><figcaption><p>リトリーバーツールノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を歓迎します。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

@@ -1,14 +1,14 @@
 ---
-description: LlamaIndex Chat Model Nodes
+description: LlamaIndex チャットモデルノード
 ---
 
-# Chat Models
+# チャットモデル
 
 ***
 
-Chat models take a list of messages as input and return a model-generated message as output. These models such as **gpt-3.5-turbo** or **gpt4** are powerful and cheaper than its predecessor Completions models such as **text-davincii-003**.
+チャットモデルは、メッセージのリストを入力として受け取り、モデルが生成したメッセージを出力として返します。**gpt-3.5-turbo**や**gpt4**などのこれらのモデルは、**text-davincii-003**などの前身の完了モデルと比べて強力で、かつ低コストです。
 
-### Chat Model Nodes:
+### チャットモデルノード:
 
 * [AzureChatOpenAI](azurechatopenai.md)
 * [ChatAnthropic](chatanthropic.md)

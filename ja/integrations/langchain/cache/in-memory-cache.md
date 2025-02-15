@@ -1,11 +1,11 @@
 ---
-description: Caches LLM response in local memory, will be cleared when app is restarted.
+description: LLMのレスポンスをローカルメモリにキャッシュし、アプリの再起動時にクリアされます。
 ---
 
-# InMemory Cache
+# インメモリキャッシュ
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="344"><figcaption><p>InMemory Cache Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="344"><figcaption><p>インメモリキャッシュノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を歓迎します。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

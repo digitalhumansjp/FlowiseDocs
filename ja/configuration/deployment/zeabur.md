@@ -1,5 +1,5 @@
 ---
-description: Learn how to deploy Flowise on Zeabur
+description: ZeaburへのFlowiseのデプロイ方法を学ぶ
 ---
 
 # Zeabur
@@ -7,36 +7,36 @@ description: Learn how to deploy Flowise on Zeabur
 ***
 
 {% hint style="warning" %}
-Please note that the following template made by Zeabur is outdated (from 2024-01-24).
+Zeaburによって作成された以下のテンプレートは古いバージョン（2024-01-24時点）であることにご注意ください。
 {% endhint %}
 
-1. Click the following prebuilt [template](https://zeabur.com/templates/2JYZTR) or the button below.
+1. 以下の事前ビルドされた[テンプレート](https://zeabur.com/templates/2JYZTR)または下のボタンをクリックします。
 
 [![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/2JYZTR)
 
-2. Click Deploy
+2. Deployをクリック
 
 <figure><img src="../../.gitbook/assets/zeabur/1.png" alt="zeabur template"><figcaption></figcaption></figure>
 
-3. Select your favorite region and continue
+3. 任意のリージョンを選択して続行
 
 <figure><img src="../../.gitbook/assets/zeabur/2.png" alt="select region"><figcaption></figcaption></figure>
 
-4. You will be redirected to Zeabur's dashboard and you will see the deployment process
+4. Zeaburのダッシュボードにリダイレクトされ、デプロイプロセスが表示されます
 
 <figure><img src="../../.gitbook/assets/zeabur/3.png" alt="deployment process"><figcaption></figcaption></figure>
 
-5. To add authorization, navigate to Variables tab and add:
+5. 認証を追加するには、Variablesタブに移動して以下を追加：
 
-* FLOWISE\_USERNAME
-* FLOWISE\_PASSWORD
+* FLOWISE_USERNAME
+* FLOWISE_PASSWORD
 
 <figure><img src="../../.gitbook/assets/zeabur/4.png" alt="authorization"><figcaption></figcaption></figure>
 
-6. There are list of env variables you can configure. Refer to [environment-variables.md](../environment-variables.md "mention")
+6. 設定可能な環境変数の一覧は[environment-variables.md](../environment-variables.md "mention")を参照してください
 
-That's it! You now have a deployed Flowise on Zeabur [🎉](https://emojipedia.org/party-popper/)[🎉](https://emojipedia.org/party-popper/)
+これで完了です！ZeaburにFlowiseがデプロイされました[🎉](https://emojipedia.org/party-popper/)[🎉](https://emojipedia.org/party-popper/)
 
-## Persistent Volume
+## 永続ボリューム
 
-Zeabur will automatically create a persistent volume for you so you don't have to worry about it.
+Zeaburは自動的に永続ボリュームを作成するため、この点について心配する必要はありません。

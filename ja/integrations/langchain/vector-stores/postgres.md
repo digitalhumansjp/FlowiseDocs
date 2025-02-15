@@ -1,19 +1,18 @@
 ---
 description: >-
-  Upsert embedded data and perform similarity search upon query using pgvector
-  on Postgres.
+  Postgresのpgvectorを使用して、エンベッドされたデータをアップサートし、クエリに対して類似性検索を実行します。
 ---
 
 # Postgres
 
-<figure><img src="../../../.gitbook/assets/image (163).png" alt="" width="292"><figcaption><p>Postgres Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (163).png" alt="" width="292"><figcaption><p>Postgresノード</p></figcaption></figure>
 
-There are multiple methods to connect to Postgres based on how your instance is set up. Below is an example of a local configuration using a prebuilt Docker image provided by the pgvector team.
+インスタンスの設定方法に基づいて、Postgresに接続する方法は複数あります。以下は、pgvectorチームが提供する事前ビルドされたDockerイメージを使用したローカル設定の例です。
 
-Create a file named `docker-compose.yml` with the content below:
+`docker-compose.yml`という名前のファイルを作成し、以下の内容を記述します:
 
 ```yaml
-# Run this command to start the database:
+# データベースを起動するには以下のコマンドを実行:
 # docker-compose up --build
 version: "3"
 services:
@@ -31,16 +30,16 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 ```
 
-`docker compose up` to start the Postgres container.
+`docker compose up`でPostgresコンテナを起動します。
 
-Create new credential with the configured user and password:
+設定したユーザーとパスワードで新しい認証情報を作成します:
 
 <figure><img src="../../../.gitbook/assets/image (50).png" alt="" width="526"><figcaption></figcaption></figure>
 
-Fill in the node's field with values configured in `docker-compose.yml`. For example:
+`docker-compose.yml`で設定した値でノードのフィールドを入力します。例:
 
-* Host: **localhost**
-* Database: **api**
-* Port: **5432**
+* ホスト: **localhost**
+* データベース: **api**
+* ポート: **5432**
 
-Voila! You have now successfully setup Postgres Vector ready to be used.
+これで完了です！Postgres Vectorの設定が完了し、使用できる状態になりました。

@@ -1,30 +1,30 @@
 ---
-description: Learn how Flowise integrates with the LangChain framework
+description: FlowiseがLangChainフレームワークとどのように統合されているかを学ぶ
 ---
 
 # LangChain
 
 ***
 
-[**LangChain**](https://www.langchain.com/) is a framework for developing applications powered by language models. It simplifies the process of creating generative AI application, connecting data sources, vectors, memories with LLMs.
+[**LangChain**](https://www.langchain.com/)は言語モデルを活用したアプリケーションを開発するためのフレームワークです。生成AIアプリケーションの作成、データソース、ベクトル、メモリとLLMsの接続プロセスを簡素化します。
 
-Flowise complements LangChain by offering a visual interface. Here, nodes are organized into distinct sections, making it easier to build workflows.
+Flowiseはビジュアルインターフェースを提供することでLangChainを補完します。ノードは個別のセクションに整理され、ワークフローの構築が容易になります。
 
-### LangChain Sections:
+### LangChainのセクション:
 
-* [Agents](agents/)
-* [Cache](cache/)
-* [Chains](chains/)
-* [Chat Models](chat-models/)
-* [Document Loaders](document-loaders/)
-* [Embeddings](embeddings/)
+* [エージェント](agents/)
+* [キャッシュ](cache/)
+* [チェーン](chains/)
+* [チャットモデル](chat-models/)
+* [ドキュメントローダー](document-loaders/)
+* [エンベッディング](embeddings/)
 * [LLMs](llms/)
-* [Memory](memory/)
-* [Moderation](moderation/)
-* [Output Parsers](output-parsers/)
-* [Prompts](prompts/)
-* [Record Managers](record-managers.md)
-* [Retrievers](retrievers/)
-* [Text Splitters](text-splitters/)
-* [Tools](tools/)
-* [Vector Stores](vector-stores/)
+* [メモリ](memory/)
+* [モデレーション](moderation/)
+* [アウトプットパーサー](output-parsers/)
+* [プロンプト](prompts/)
+* [レコードマネージャー](record-managers.md)
+* [リトリーバー](retrievers/)
+* [テキストスプリッター](text-splitters/)
+* [ツール](tools/)
+* [ベクトルストア](vector-stores/)

@@ -1,24 +1,24 @@
-# Context Chat Engine
+# コンテキストチャットエンジン
 
-A chat engine serves as an end-to-end pipeline for having a human-like conversation with your data, allowing for multiple exchanges rather than a single question-and-answer interaction.
+チャットエンジンは、データとの人間のような会話を実現するためのエンドツーエンドのパイプラインとして機能し、単一の質疑応答ではなく、複数のやり取りを可能にします。
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Inputs
+## 入力
 
-* Chat Model
-* Vector Store Retriever
-* [Memory](../../langchain/memory/)
+* チャットモデル
+* ベクトルストアリトリーバー
+* [メモリ](../../langchain/memory/)
 
-## Parameters
+## パラメータ
 
-| Name                    | Description                                                         |
-| ----------------------- | ------------------------------------------------------------------- |
-| Return Source Documents | To return citations/sources that were used to build up the response |
-| System Message          | An instruction for LLM on how to answer query                       |
+| 名前                    | 説明                                                  |
+| ----------------------- | ----------------------------------------------------- |
+| Return Source Documents | レスポンスの構築に使用された引用/ソースを返すかどうか |
+| System Message          | クエリに対する回答方法についてのLLMへの指示           |
 
-## Outputs
+## 出力
 
-| Name              | Description                   |
-| ----------------- | ----------------------------- |
-| ContextChatEngine | Final node to return response |
+| 名前              | 説明                       |
+| ----------------- | -------------------------- |
+| ContextChatEngine | レスポンスを返す最終ノード |

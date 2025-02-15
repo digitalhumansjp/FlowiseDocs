@@ -1,24 +1,24 @@
-# Sub-Question Query Engine
+# サブクエスチョンクエリエンジン
 
-A query engine designed to solve problem of answering a complex query using multiple data sources. It first breaks down the complex query into sub questions for each relevant data source, then gather all the intermediate reponses and synthesizes a final response.
+複数のデータソースを使用して複雑なクエリに回答する問題を解決するために設計されたクエリエンジンです。まず複雑なクエリを各関連データソースに対するサブクエスチョンに分解し、すべての中間レスポンスを収集して最終的なレスポンスを合成します。
 
 <figure><img src="../../../.gitbook/assets/image (4) (1) (1) (1) (1) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Inputs
+## 入力
 
-* Query Engine Tools
-* Chat Model
-* Embeddings
-* [Response Synthesizer](../response-synthesizer/)
+* クエリエンジンツール
+* チャットモデル
+* エンベッディング
+* [レスポンスシンセサイザー](../response-synthesizer/)
 
-## Parameters
+## パラメータ
 
-| Name                    | Description                                                         |
-| ----------------------- | ------------------------------------------------------------------- |
-| Return Source Documents | To return citations/sources that were used to build up the response |
+| 名前                    | 説明                                                  |
+| ----------------------- | ----------------------------------------------------- |
+| Return Source Documents | レスポンスの構築に使用された引用/ソースを返すかどうか |
 
-## Outputs
+## 出力
 
-| Name                   | Description                   |
-| ---------------------- | ----------------------------- |
-| SubQuestionQueryEngine | Final node to return response |
+| 名前                   | 説明                       |
+| ---------------------- | -------------------------- |
+| SubQuestionQueryEngine | レスポンスを返す最終ノード |

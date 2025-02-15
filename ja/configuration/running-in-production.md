@@ -1,34 +1,34 @@
-# Running in Production
+# 本番環境での実行
 
-## Mode
+## モード
 
-When running in production, we highly recommend using [Queue](running-flowise-using-queue.md) mode with the following settings:
+本番環境で実行する場合、以下の設定で[キュー](running-flowise-using-queue.md)モードを使用することを強く推奨します：
 
-* At least 2 main servers with load balancing, each starting from 2 CPU 4GB RAM
-* At least 2 workers, each starting from 1 CPU 2GB RAM
+* ロードバランシングを行う2台以上のメインサーバー、各サーバーは最低2 CPU 4GB RAM
+* 2台以上のワーカー、各ワーカーは最低1 CPU 2GB RAM
 
-You can configure auto scaling depending on the traffic and volume.
+トラフィックと処理量に応じて自動スケーリングを設定できます。
 
-## Database
+## データベース
 
-By default, Flowise will use SQLite as the database. However when running at scale, its recommended to use PostgresQL.
+デフォルトでは、FlowiseはSQLiteをデータベースとして使用します。ただし、スケールする場合はPostgreSQLの使用を推奨します。
 
-## Storage
+## ストレージ
 
-Currently Flowise only supports [AWS S3](https://aws.amazon.com/s3/) with plan to support more blob storage providers. This will allow files and logs to be stored on S3, instead of local file path. Refer [#for-storage](environment-variables.md#for-storage "mention")
+現在、Flowiseは[AWS S3](https://aws.amazon.com/s3/)のみをサポートしており、より多くのBlobストレージプロバイダーのサポートを計画しています。これにより、ファイルとログをローカルファイルパスではなくS3に保存できます。[#for-storage](environment-variables.md#for-storage "mention")を参照してください。
 
-## Encryption
+## 暗号化
 
-Flowise uses an encryption key to encrypt/decrypt credentials you use such as OpenAI API keys. [AWS Secret Manager](https://aws.amazon.com/secrets-manager/) is recommended to be used in production for better security control and key rotation. Refer [#for-credentials](environment-variables.md#for-credentials "mention")
+FlowiseはOpenAI APIキーなどの認証情報の暗号化/復号化に暗号化キーを使用します。本番環境では、セキュリティ制御とキーローテーションを向上させるために[AWS Secret Manager](https://aws.amazon.com/secrets-manager/)の使用を推奨します。[#for-credentials](environment-variables.md#for-credentials "mention")を参照してください。
 
-## API Key Storage
+## APIキーストレージ
 
-Users can create multiple API keys within Flowise in order to authenticate with the [APIs](../using-flowise/api.md). By default, keys get stored as a JSON file to your local file path. However when you have multiple instances, each instance will create a new JSON file, causing confusion. You can change the behaviour to store into database instead. Refer [#for-flowise-api-keys](environment-variables.md#for-flowise-api-keys "mention")
+ユーザーは[API](../using-flowise/api.md)認証のために、Flowise内で複数のAPIキーを作成できます。デフォルトでは、キーはJSONファイルとしてローカルファイルパスに保存されます。ただし、複数のインスタンスがある場合、各インスタンスが新しいJSONファイルを作成し、混乱を招く可能性があります。代わりにデータベースに保存する動作に変更できます。[#for-flowise-api-keys](environment-variables.md#for-flowise-api-keys "mention")を参照してください。
 
-## Rate Limit
+## レート制限
 
-When deployed to cloud/on-prem, most likely the instances are behind a proxy/load balancer. The IP address of the request might be the IP of the load balancer/reverse proxy, making the rate limiter effectively a global one and blocking all requests once the limit is reached or `undefined`. Setting the correct `NUMBER_OF_PROXIES` can resolve the issue. Refer [#rate-limit-setup](rate-limit.md#rate-limit-setup "mention")
+クラウド/オンプレミスにデプロイする場合、ほとんどのインスタンスはプロキシ/ロードバランサーの背後にあります。リクエストのIPアドレスがロードバランサー/リバースプロキシのIPになる可能性があり、レート制限が事実上グローバルなものとなり、制限に達するか`undefined`になるとすべてのリクエストがブロックされます。正しい`NUMBER_OF_PROXIES`を設定することでこの問題を解決できます。[#rate-limit-setup](rate-limit.md#rate-limit-setup "mention")を参照してください。
 
-## Load Testing
+## 負荷テスト
 
-Artillery can be used to load testing your deployed Flowise application. Example script can be found [here](https://github.com/FlowiseAI/Flowise/blob/main/artillery-load-test.yml).
+Artilleryを使用してデプロイされたFlowiseアプリケーションの負荷テストを行うことができます。サンプルスクリプトは[こちら](https://github.com/FlowiseAI/Flowise/blob/main/artillery-load-test.yml)で確認できます。

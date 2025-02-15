@@ -1,97 +1,97 @@
 ---
-description: LangChain Record Manager Nodes
+description: LangChain レコードマネージャーノード
 ---
 
-# Record Managers
+# レコードマネージャー
 
 ***
 
-Record Managers keep track of your indexed documents, preventing duplicated vector embeddings in [Vector Store](vector-stores/).
+レコードマネージャーは、インデックス付けされたドキュメントを追跡し、[ベクトルストア](vector-stores/)内のベクトル埋め込みの重複を防ぎます。
 
-When document chunks are upserting, each chunk will be hashed using [SHA-1](https://github.com/emn178/js-sha1) algorithm. These hashes will get stored in Record Manager. If there is an existing hash, the embedding and upserting process will be skipped.
+ドキュメントチャンクがアップサートされる際、各チャンクは[SHA-1](https://github.com/emn178/js-sha1)アルゴリズムを使用してハッシュ化されます。これらのハッシュはレコードマネージャーに保存されます。既存のハッシュが存在する場合、埋め込みとアップサートのプロセスはスキップされます。
 
-In some cases, you might want to delete existing documents that are derived from the same sources as the new documents being indexed. For that, there are 3 cleanup modes for Record Manager:
+場合によっては、インデックス付けされる新しいドキュメントと同じソースから派生した既存のドキュメントを削除したい場合があります。そのため、レコードマネージャーには3つのクリーンアップモードがあります：
 
 {% tabs %}
 {% tab title="Incremental" %}
-When you are upserting multiple documents, and you want to prevent deletion of the existing documents that are not part of the current upserting process, use **Incremental** Cleanup mode.
+複数のドキュメントをアップサートする際に、現在のアップサートプロセスの一部ではない既存のドキュメントの削除を防ぎたい場合は、**Incremental**クリーンアップモードを使用します。
 
-1. Let's have a Record Manager with `Incremental` Cleanup and `source` as SourceId Key
+1. `Incremental`クリーンアップと`source`をSourceId Keyとするレコードマネージャーを作成します
 
 <div align="left"><figure><img src="../../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="264"><figcaption></figcaption></figure> <figure><img src="../../.gitbook/assets/image (5) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="410"><figcaption></figcaption></figure></div>
 
-2. And have the following 2 documents:
+2. 以下の2つのドキュメントを用意します：
 
-| Text | Metadata         |
-| ---- | ---------------- |
-| Cat  | `{source:"cat"}` |
-| Dog  | `{source:"dog"}` |
+| テキスト | メタデータ       |
+| -------- | ---------------- |
+| Cat      | `{source:"cat"}` |
+| Dog      | `{source:"dog"}` |
 
 <div align="left"><figure><img src="../../.gitbook/assets/image (11) (1) (1) (1) (1).png" alt="" width="202"><figcaption></figcaption></figure> <figure><img src="../../.gitbook/assets/image (10) (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure></div>
 
 <div align="left"><figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (2).png" alt="" width="231"><figcaption></figcaption></figure> <figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (2).png" alt="" width="563"><figcaption></figcaption></figure></div>
 
-3. After an upsert, we will see 2 documents that are upserted:
+3. アップサート後、2つのドキュメントがアップサートされたことが確認できます：
 
 <figure><img src="../../.gitbook/assets/image (9) (1) (1) (1) (1) (2).png" alt="" width="433"><figcaption></figcaption></figure>
 
-4. Now, if we delete the **Dog** document, and update **Cat** to **Cats**, we will now see the following:
+4. ここで、**Dog**ドキュメントを削除し、**Cat**を**Cats**に更新すると、以下のようになります：
 
 <figure><img src="../../.gitbook/assets/image (13) (2).png" alt="" width="425"><figcaption></figcaption></figure>
 
-* The original **Cat** document is deleted
-* A new document with **Cats** is added
-* **Dog** document is left untouched
-* The remaining vector embeddings in Vector Store are **Cats** and **Dog**
+* 元の**Cat**ドキュメントは削除されます
+* **Cats**という新しいドキュメントが追加されます
+* **Dog**ドキュメントは変更されません
+* ベクトルストアに残っているベクトル埋め込みは**Cats**と**Dog**です
 
 <figure><img src="../../.gitbook/assets/image (15) (1) (1).png" alt="" width="448"><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Full" %}
-When you are upserting multiple documents, **Full** Cleanup mode will automatically delete any vector embeddings that are not part of the current upserting process.
+複数のドキュメントをアップサートする際、**Full**クリーンアップモードは現在のアップサートプロセスの一部ではないベクトル埋め込みを自動的に削除します。
 
-1. Let's have a Record Manager with `Full` Cleanup. We don't need to have a SourceId Key for Full Cleanup mode.
+1. `Full`クリーンアップを持つレコードマネージャーを作成します。FullクリーンアップモードではSourceId Keyは必要ありません。
 
 <div align="left"><figure><img src="../../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="264"><figcaption></figcaption></figure> <figure><img src="../../.gitbook/assets/image (17) (1) (1).png" alt="" width="407"><figcaption></figcaption></figure></div>
 
-2. And have the following 2 documents:
+2. 以下の2つのドキュメントを用意します：
 
-| Text | Metadata         |
-| ---- | ---------------- |
-| Cat  | `{source:"cat"}` |
-| Dog  | `{source:"dog"}` |
+| テキスト | メタデータ       |
+| -------- | ---------------- |
+| Cat      | `{source:"cat"}` |
+| Dog      | `{source:"dog"}` |
 
 <div align="left"><figure><img src="../../.gitbook/assets/image (11) (1) (1) (1) (1).png" alt="" width="202"><figcaption></figcaption></figure> <figure><img src="../../.gitbook/assets/image (10) (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure></div>
 
 <div align="left"><figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (2).png" alt="" width="231"><figcaption></figcaption></figure> <figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (2).png" alt="" width="563"><figcaption></figcaption></figure></div>
 
-3. After an upsert, we will see 2 documents that are upserted:
+3. アップサート後、2つのドキュメントがアップサートされたことが確認できます：
 
 <figure><img src="../../.gitbook/assets/image (9) (1) (1) (1) (1) (2).png" alt="" width="433"><figcaption></figcaption></figure>
 
-4. Now, if we delete the **Dog** document, and update **Cat** to **Cats**, we will now see the following:
+4. ここで、**Dog**ドキュメントを削除し、**Cat**を**Cats**に更新すると、以下のようになります：
 
 <figure><img src="../../.gitbook/assets/image (18) (1) (1).png" alt="" width="430"><figcaption></figcaption></figure>
 
-* The original **Cat** document is deleted
-* A new document with **Cats** is added
-* **Dog** document is deleted
-* The remaining vector embeddings in Vector Store is just **Cats**
+* 元の**Cat**ドキュメントは削除されます
+* **Cats**という新しいドキュメントが追加されます
+* **Dog**ドキュメントは削除されます
+* ベクトルストアに残っているベクトル埋め込みは**Cats**のみです
 
 <figure><img src="../../.gitbook/assets/image (19) (1) (1).png" alt="" width="527"><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="None" %}
-No cleanup will be performed
+クリーンアップは実行されません
 {% endtab %}
 {% endtabs %}
 
-Current available Record Manager nodes are:
+現在利用可能なレコードマネージャーノードは以下の通りです：
 
 * SQLite
 * MySQL
 * PostgresQL
 
-## Resources
+## リソース
 
-* [LangChain Indexing - How it works](https://js.langchain.com/docs/how_to/indexing/#how-it-works)
+* [LangChain Indexing - 仕組みについて](https://js.langchain.com/docs/how_to/indexing/#how-it-works)

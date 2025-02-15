@@ -1,4 +1,4 @@
-# Chatflows
+# チャットフロー
 
 {% swagger src="../.gitbook/assets/swagger (1) (1) (1).yml" path="/chatflows" method="get" %}
 [swagger (1) (1) (1).yml](<../.gitbook/assets/swagger (1) (1) (1).yml>)

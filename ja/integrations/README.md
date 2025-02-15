@@ -1,50 +1,53 @@
 ---
-description: Learn about all available integrations / nodes in Flowise
+description: Flowiseで利用可能なすべての統合/ノードについて学ぶ
 ---
 
-# Integrations
+# 統合機能
 
 ***
 
-In Flowise, nodes are referred to as integrations. Similar to LEGO, you can build a customized LLM ochestration flow, a chatbot, an agent with all the integrations available in Flowise.
+Flowiseでは、ノードは統合機能と呼ばれています。LEGOのように、Flowiseで利用可能なすべての統合機能を使用して、カスタマイズされたLLMオーケストレーションフロー、チャットボット、エージェントを構築できます。
 
 ### LangChain
 
-* [Agents](langchain/agents/)
-* [Cache](langchain/cache/)
-* [Chains](langchain/chains/)
-* [Chat Models](langchain/chat-models/)
-* [Document Loaders](langchain/document-loaders/)
-* [Embeddings](langchain/embeddings/)
-* [LLMs](langchain/llms/)
-* [Memory](langchain/memory/)
-* [Moderation](langchain/moderation/)
-* [Output Parsers](langchain/output-parsers/)
-* [Prompts](langchain/prompts/)
-* [Record Managers](langchain/record-managers.md)
-* [Retrievers](langchain/retrievers/)
-* [Text Splitters](langchain/text-splitters/)
-* [Tools](langchain/tools/)
-* [Vector Stores](langchain/vector-stores/)
+* [エージェント](langchain/agents/)
+* [キャッシュ](langchain/cache/)
+* [チェーン](langchain/chains/)
+* [チャットモデル](langchain/chat-models/)
+* [ドキュメントローダー](langchain/document-loaders/)
+* [エンベッディング](langchain/embeddings/)
+* [LLM](langchain/llms/)
+* [メモリ](langchain/memory/)
+* [モデレーション](langchain/moderation/)
+* [出力パーサー](langchain/output-parsers/)
+* [プロンプト](langchain/prompts/)
+* [レコードマネージャー](langchain/record-managers.md)
+* [リトリーバー](langchain/retrievers/)
+* [テキストスプリッター](langchain/text-splitters/)
+* [ツール](langchain/tools/)
+* [ベクトルストア](langchain/vector-stores/)
+
+### LiteLLM Proxy
+
+  * [LiteLLMプロキシ](litellm/README.md)
 
 ### LlamaIndex
 
-* [Agents](llamaindex/agents/)
-* [Chat Models](llamaindex/chat-models/)
-* [Embeddings](llamaindex/embeddings/)
-* [Engine](llamaindex/engine/)
-* [Response Synthesizer](llamaindex/response-synthesizer/)
-* [Tools](llamaindex/tools/)
-* [Vector Stores](llamaindex/vector-stores/)
+* [エージェント](llamaindex/agents/)
+* [チャットモデル](llamaindex/chat-models/)
+* [エンベッディング](llamaindex/embeddings/)
+* [エンジン](llamaindex/engine/)
+* [レスポンスシンセサイザー](llamaindex/response-synthesizer/)
+* [ツール](llamaindex/tools/)
+* [ベクトルストア](llamaindex/vector-stores/)
 
-### Utilities
+### ユーティリティ
 
-* [Custom JS Function](utilities/custom-js-function.md)
-* [Set/Get Variable](utilities/set-get-variable.md)
+* [カスタムJS関数](utilities/custom-js-function.md)
+* [変数の設定/取得](utilities/set-get-variable.md)
 * [If Else](utilities/if-else.md)
-* [Set Variable](broken-reference)
-* [Sticky Note](utilities/sticky-note.md)
+* [付箋](utilities/sticky-note.md)
 
-### External Integrations
+### 外部インテグレーション
 
 * [Zapier Zaps](3rd-party-platform-integration/zapier-zaps.md)

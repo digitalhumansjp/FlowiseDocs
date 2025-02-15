@@ -1,4 +1,4 @@
-# Chat Message
+# チャットメッセージ
 
 {% swagger src="../.gitbook/assets/swagger (3).yml" path="/chatmessage/{id}" method="get" %}
 [swagger (3).yml](<../.gitbook/assets/swagger (3).yml>)

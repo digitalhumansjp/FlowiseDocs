@@ -1,120 +1,118 @@
-# Zep Memory
+# Zepメモリー
 
-[Zep](https://github.com/getzep/zep) is long-term memory store for LLM applications. It stores, summarizes, embeds, indexes, and enriches LLM app / chatbot histories, and exposes them via simple, low-latency APIs.
+[Zep](https://github.com/getzep/zep)はLLMアプリケーション用の長期メモリーストアです。LLMアプリ/チャットボットの履歴を保存、要約、埋め込み、インデックス化、エンリッチ化し、シンプルで低レイテンシーなAPIを通じて公開します。
 
-## Guide to Deploy Zep to Render
+## RenderへのZepデプロイガイド
 
-You can easily deploy Zep to cloud services like [Render](https://render.com/), [Flyio](https://fly.io/). If you prefer to test it locally, you can also spin up a docker container by following their [quick guide](https://github.com/getzep/zep#quick-start).
+[Render](https://render.com/)や[Flyio](https://fly.io/)などのクラウドサービスに簡単にZepをデプロイできます。ローカルでテストしたい場合は、[クイックガイド](https://github.com/getzep/zep#quick-start)に従ってDockerコンテナを起動することもできます。
 
-In this example, we are going to deploy to Render.
+この例では、Renderにデプロイします。
 
-1. Head over to [Zep Repo](https://github.com/getzep/zep#quick-start) and click **Deploy to Render**
-2. This will bring you to Render's Blueprint page and simply click **Create New Resources**
+1. [Zepリポジトリ](https://github.com/getzep/zep#quick-start)に移動し、**Deploy to Render**をクリックします
+2. RenderのBlueprintページに移動するので、**Create New Resources**をクリックします
 
 <figure><img src="../../../.gitbook/assets/image (21) (1).png" alt=""><figcaption></figcaption></figure>
 
-3. When the deployment is done, you should see 3 applications created on your dashboard
+3. デプロイが完了すると、ダッシュボードに3つのアプリケーションが作成されます
 
 <figure><img src="../../../.gitbook/assets/image (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-4. Simply click the first one called **zep** and copy the deployed URL
+4. **zep**という名前の最初のものをクリックし、デプロイされたURLをコピーします
 
 <figure><img src="../../../.gitbook/assets/image (38) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Guide to Deploy Zep to Digital Ocean (via Docker)
+## Digital Ocean(Docker経由)へのZepデプロイガイド
 
-1. Clone the Repo
+1. リポジトリをクローン
 
 ```bash
 git clone https://github.com/getzep/zep.git
 cd zep
 nano .env
-
 ```
 
-2. Add IN your OpenAI API Key in.ENV
+2. .ENVファイルにOpenAI APIキーを追加
 
 ```bash
 ZEP_OPENAI_API_KEY=
-
 ```
 
 ```bash
 docker compose up -d --build
 ```
 
-3. Allow firewall access to port 8000
+3. ポート8000へのファイアウォールアクセスを許可
 
 ```bash
 sudo ufw allow from any to any port 8000 proto tcp
 ufw status numbered
 ```
 
-If using Digital ocean separate firewall from dashboard, make sure port 8000 is added there too
+Digital Oceanのダッシュボードで別のファイアウォールを使用している場合は、ポート8000がそこにも追加されていることを確認してください
 
-## Use in Flowise UI
+## Flowise UIでの使用
 
-1. Back to Flowise application, simply create a new canvas or use one of the template from marketplace. In this example, we are going to use **Simple Conversational Chain**
+1. Flowiseアプリケーションに戻り、新しいキャンバスを作成するか、マーケットプレイスからテンプレートを使用します。この例では、**Simple Conversational Chain**を使用します
 
 <figure><img src="../../../.gitbook/assets/Untitled (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-2. Replace **Buffer Memory** with **Zep Memory**. Then replace the **Base URL** with the Zep URL you have copied above
+2. **Buffer Memory**を**Zep Memory**に置き換えます。次に、**Base URL**を上でコピーしたZep URLに置き換えます
 
 <figure><img src="../../../.gitbook/assets/Untitled (5).png" alt=""><figcaption></figcaption></figure>
 
-3. Save the chatflow and test it out to see if conversations are remembered.
+3. チャットフローを保存し、会話が記憶されているかテストします
 
 <figure><img src="../../../.gitbook/assets/image (27).png" alt=""><figcaption></figcaption></figure>
 
-4. Now try clearing the chat history, you should see that it is now unable to remember the previous conversations.
+4. チャット履歴をクリアしてみると、以前の会話を覚えていないことがわかります
 
 <figure><img src="../../../.gitbook/assets/image (8) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Zep Authentication
+## Zep認証
 
-Zep allows you to secure your instance using JWT authentication. We'll be using the `zepcli` command line utility [here](https://github.com/getzep/zepcli/releases).
+Zepでは、JWTを使用してインスタンスを保護できます。ここでは[zepcli](https://github.com/getzep/zepcli/releases)コマンドラインユーティリティを使用します。
 
-#### 1. Generate a secret and the JWT token <a href="#id-1-generate-a-secret-and-the-jwt-token" id="id-1-generate-a-secret-and-the-jwt-token"></a>
+#### 1. シークレットとJWTトークンの生成
 
-After downloaded the ZepCLI:
+ZepCLIをダウンロードした後:
 
-On Linux or MacOS
+LinuxまたはMacOSの場合
 
 ```
 ./zepcli -i
 ```
 
-On Windows
+Windowsの場合
 
 ```
 zepcli.exe -i
 ```
 
-You will first get your SECRET Token:
+まず、SECRETトークンが表示されます:
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Then you will get JWT Token:
+次に、JWTトークンが表示されます:
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-#### 2. Configure Auth environment variables <a href="#id-2-configure-auth-environment-variables" id="id-2-configure-auth-environment-variables"></a>
+#### 2. 認証環境変数の設定
 
-Set the following environment variables in your Zep server environment:
+Zepサーバー環境で以下の環境変数を設定します:
 
 ```
 ZEP_AUTH_REQUIRED=true
-ZEP_AUTH_SECRET=<the secret you generated above>
+ZEP_AUTH_SECRET=<上で生成したシークレット>
 ```
 
-#### 3. Configure Credential on Flowise <a href="#id-2-configure-auth-environment-variables" id="id-2-configure-auth-environment-variables"></a>
+#### 3. Flowiseでの認証情報の設定
 
-Add a new credential for Zep, and put in the JWT Token in the API Key field:
+Zep用の新しい認証情報を追加し、APIキーフィールドにJWTトークンを入力します:
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
-#### 4. Use the created credential on Zep node <a href="#id-2-configure-auth-environment-variables" id="id-2-configure-auth-environment-variables"></a>
+#### 4. Zepノードで作成した認証情報を使用
 
-In the Zep node Connect Credential, select the credential you have just created. And that's it!
+Zepノードの接続認証情報で、作成した認証情報を選択します。これで完了です！
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>

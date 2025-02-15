@@ -1,21 +1,21 @@
-# Tree Summarize
+# ツリーサマライズ
 
-When provided with text chunks and a query, recursively build a tree structure and return the root node as the result.
+テキストチャンクとクエリが提供された場合、再帰的にツリー構造を構築し、ルートノードを結果として返します。
 
-**Pros**: Beneficial for summarization tasks
+**長所**: 要約タスクに有効です
 
-**Cons**: Accuracy of answer might be lost during traversal of tree structure
+**短所**: ツリー構造の走査中に回答の正確性が失われる可能性があります
 
 <figure><img src="../../../.gitbook/assets/image (7) (1) (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-**Prompt**
+**プロンプト**
 
 ```
-Context information from multiple sources is below.
+複数のソースからのコンテキスト情報は以下の通りです。
 ---------------------
 {context}
 ---------------------
-Given the information from multiple sources and not prior knowledge, answer the query.
-Query: {query}
-Answer:
+複数のソースからの情報のみを使用し、事前知識は使用せずにクエリに答えてください。
+クエリ: {query}
+回答:
 ```

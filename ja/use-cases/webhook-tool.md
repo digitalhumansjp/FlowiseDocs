@@ -1,28 +1,30 @@
 ---
-description: Learn how to call a webhook on Make
+
+description: MakeでWebhookを呼び出す方法を学びます
+
 ---
 
-# Calling Webhook
+# Webhookの呼び出し
 
 ***
 
-In this use case tutorial, we are going to create a custom tool that will be able to call a webhook endpoint, and pass in the necessary parameters into the webhook body. We'll be using [Make.com](https://www.make.com/en) to create the webhook workflow.
+このユースケースチュートリアルでは、Webhookエンドポイントを呼び出し、Webhookボディに必要なパラメータを渡すことができるカスタムツールを作成します。[Make.com](https://www.make.com/en) を使用してWebhookワークフローを作成します。
 
 ## Make
 
-Head over to Make.com, after registering an account, create a workflow that has a Webhook module and Discord module, which looks like below:
+Make.comにアクセスし、アカウント登録後にWebhookモジュールとDiscordモジュールを持つワークフローを作成します。以下のようになります：
 
 <figure><img src="../.gitbook/assets/screely-1691756705932.png" alt=""><figcaption></figcaption></figure>
 
-From the Webhook module, you should be able to see a webhook URL:
+Webhookモジュールから、WebhookのURLを確認することができます：
 
 <figure><img src="../.gitbook/assets/image (46).png" alt="" width="563"><figcaption></figcaption></figure>
 
-From the Discord module, we are passing the `message` body from the Webhook as the message to send to Discord channel:
+Discordモジュールでは、Webhookから`message`ボディを受け取り、Discordチャンネルに送信するメッセージとして渡します：
 
 <figure><img src="../.gitbook/assets/image (47).png" alt="" width="563"><figcaption></figcaption></figure>
 
-To test it out, you can click Run once at the bottom left corner, and send a POST request with a JSON body
+テストするには、左下の「Run once」をクリックし、JSONボディを含むPOSTリクエストを送信します
 
 ```json
 {
@@ -32,24 +34,24 @@ To test it out, you can click Run once at the bottom left corner, and send a POS
 
 <figure><img src="../.gitbook/assets/image (48).png" alt="" width="563"><figcaption></figcaption></figure>
 
-You'll be able to see a Discord message sent to the channel:
+Discordチャンネルにメッセージが送信されるのが確認できます：
 
 <figure><img src="../.gitbook/assets/image (49).png" alt="" width="249"><figcaption></figcaption></figure>
 
-Perfect! We have successfully configured a workflow that is able to pass a message and send to Discord channel [🎉 ](https://emojiterra.com/party-popper/)[🎉](https://emojiterra.com/party-popper/)
+完璧です！メッセージを渡してDiscordチャンネルに送信できるワークフローの設定が完了しました[🎉 ](https://emojiterra.com/party-popper/)[🎉](https://emojiterra.com/party-popper/)
 
 ## Flowise
 
-In Flowise, we are going to create a custom tool that is able to call the Webhook POST request, with the message body.
+Flowiseでは、メッセージボディを含むWebhookのPOSTリクエストを呼び出すことができるカスタムツールを作成します。
 
-From the dashboard, click **Tools**, then click **Create**
+ダッシュボードから、**Tools**をクリックし、その後に**Create**をクリックします。
 
 <figure><img src="../.gitbook/assets/screely-1691758397783.png" alt=""><figcaption></figcaption></figure>
 
-We can then fill in the following fields (feel free to change this according to your needs):
+以下の項目を入力します（必要に応じて変更してください）：
 
-* **Tool Name**: make\_webhook (must be in snake\_case)
-* **Tool Description**: Useful when you need to send message to Discord
+* **Tool Name**: make\_webhook（スネークケースでなければなりません）
+* **Tool Description**: Discordにメッセージを送る必要がある時に便利です
 * **Tool Icon Src**: [https://github.com/FlowiseAI/Flowise/assets/26460777/517fdab2-8a6e-4781-b3c8-fb92cc78aa0b](https://github.com/FlowiseAI/Flowise/assets/26460777/517fdab2-8a6e-4781-b3c8-fb92cc78aa0b)
 * **Input Schema**:
 
@@ -80,49 +82,49 @@ try {
 }
 ```
 
-Click **Add** to save the custom tool, and you should be able to see it now:
+**Add**をクリックしてカスタムツールを保存すると、ツールが表示されるはずです：
 
 <figure><img src="../.gitbook/assets/image (51).png" alt="" width="279"><figcaption></figcaption></figure>
 
-Now, create a new canvas with following nodes:
+次に、以下のノードを使用して新しいキャンバスを作成します：
 
 * **Buffer Memory**
 * **ChatOpenAI**
-* **Custom Tool** (select the make\_webhook tool we just created)
+* **Custom Tool**（先ほど作成したmake\_webhookツールを選択）
 * **OpenAI Function Agent**
 
-It should looks like below after connecting them up:
+接続した後は、以下のように見えるはずです：
 
 <figure><img src="../.gitbook/assets/screely-1691758990676.png" alt=""><figcaption></figcaption></figure>
 
-Save the chatflow, and start testing it!
+チャットフローを保存し、テストを始めてみましょう！
 
-For example, we can ask question like _"how to cook an egg"_
+例えば、「卵の料理法を教えて」と質問することができます。
 
 <figure><img src="../.gitbook/assets/image (52).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Then ask the agent to send all of these to Discord:
+その後、エージェントにこれらをすべてDiscordに送信するように依頼します：
 
 <figure><img src="../.gitbook/assets/image (53).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Go to the Discord channel, and you will be able to see the message:
+Discordチャンネルに移動すると、メッセージが表示されます：
 
 <figure><img src="../.gitbook/assets/image (54).png" alt=""><figcaption></figcaption></figure>
 
-That's it! OpenAI Function Agent will be able to automatically figure out what to pass as the message and send it over to Discord. This is just a quick example of how to trigger a webhook workflow with dynamic body. The same idea can be applied to workflow that has a webhook and Gmail, GoogleSheets etc.
+以上です！OpenAI Function Agentは、メッセージとして何を渡すかを自動的に判断し、それをDiscordに送信します。これは、ダイナミックな本文でWebhookワークフローをトリガーする方法の簡単な例です。同じアイデアは、WebhookとGmail、Google Sheetsなどを持つワークフローにも適用できます。
 
-You can read more on how to pass chat information like `sessionId`, `flowid` and `variables` to custom tool - [#additional](../integrations/langchain/tools/custom-tool.md#additional "mention")
+`sessionId`、`flowid`、`variables`などのチャット情報をカスタムツールに渡す方法について、詳しくは[#additional](../integrations/langchain/tools/custom-tool.md#additional "mention")をご覧ください。
 
-## Tutorials
+## チュートリアル
 
-* Watch a step-by-step instruction video on using Webhooks with Flowise custom tools.
+* WebhooksをFlowiseカスタムツールで使用するためのステップバイステップの指示ビデオをご覧ください。
 
 {% embed url="https://youtu.be/_K9xJqEgnrU" %}
 
-* Watch how to connect Flowise to Google Sheets using webhooks
+* Webhooksを使用してFlowiseをGoogle Sheetsに接続する方法をご覧ください。
 
 {% embed url="https://youtu.be/fehXLdRLJFo" %}
 
-* Watch how to connect Flowise to Microsoft Excel using webhooks
+* Webhooksを使用してFlowiseをMicrosoft Excelに接続する方法をご覧ください。
 
 {% embed url="https://youtu.be/cB2GC8JznJc" %}

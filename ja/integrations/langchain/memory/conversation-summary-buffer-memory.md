@@ -1,16 +1,16 @@
-# Conversation Summary Buffer Memory
+# 会話サマリーバッファメモリー
 
-Use Flowise database table `chat_message` as the storage mechanism for storing/retrieving conversations.
+会話の保存/取得のためのストレージメカニズムとしてFlowise データベースの `chat_message` テーブルを使用します。
 
-This memory keeps a buffer of recent interactions and compiles old ones into a summary, using both in its storage. Instead of flushing old interactions based solely on their number, it now considers the total length of tokens to decide when to clear them out.
+このメモリーは最近の対話のバッファを保持し、古い対話をサマリーにまとめて、両方をストレージに使用します。古い対話を単純に数で削除するのではなく、トークンの合計長を考慮して削除のタイミングを決定します。
 
 <figure><img src="../../../.gitbook/assets/image (4) (1) (2).png" alt="" width="297"><figcaption></figcaption></figure>
 
-## Input
+## 入力
 
-| Parameter       | Description                                                                   | Default       |
-| --------------- | ----------------------------------------------------------------------------- | ------------- |
-| Chat Model      | LLM used to perform summarization                                             |               |
-| Max Token Limit | Summarize conversations once token limit is reached                           | 2000          |
-| Session Id      | An ID to retrieve/store messages. If not specified, a random ID will be used. |               |
-| Memory Key      | A key used to format messages in prompt template                              | chat\_history |
+| パラメータ      | 説明                                                                              | デフォルト   |
+| --------------- | --------------------------------------------------------------------------------- | ------------ |
+| Chat Model      | 要約を実行するために使用されるLLM                                                 |              |
+| Max Token Limit | トークン制限に達したら会話を要約する                                              | 2000         |
+| Session Id      | メッセージを取得/保存するためのID。指定されない場合、ランダムなIDが使用されます。 |              |
+| Memory Key      | プロンプトテンプレートでメッセージをフォーマットするために使用されるキー          | chat_history |

@@ -1,30 +1,27 @@
 ---
-description: LangChain Chat Model Nodes
+description: LangChain チャットモデルノード
 ---
 
-# Chat Models
+# チャットモデル
 
 ***
 
-Chat models take a list of messages as input and return a model-generated message as output. These models such as **gpt-3.5-turbo** or **gpt4** are powerful and cheaper than its predecessor Completions models such as **text-davincii-003**.
+チャットモデルはメッセージのリストを入力として受け取り、モデルが生成したメッセージを出力として返します。**gpt-3.5-turbo**や**gpt4**などのこれらのモデルは、前身の**text-davincii-003**などのCompletionsモデルと比べて強力で安価です。
 
-### Chat Model Nodes:
+### チャットモデルノード:
 
 * [AWS ChatBedrock](aws-chatbedrock.md)
-* [Azure ChatOpenAI](../../llamaindex/chat-models/azurechatopenai.md)
-* [NIBittensorChat](broken-reference)
-* [ChatAnthropic](chatanthropic.md)
-* [ChatCohere](chatcohere.md)
+* [Azure ChatOpenAI](azure-chatopenai-1.md)
+* [Nvdia NIM](nvdia-nim.md)
+* [Chat Anthropic](chatanthropic.md)
+* [Chat Cohere](chatcohere.md)
 * [Chat Fireworks](chat-fireworks.md)
 * [ChatGoogleGenerativeAI](google-ai.md)
-* [ChatGooglePaLM](broken-reference)
 * [Google VertexAI](google-vertexai.md)
 * [ChatHuggingFace](chathuggingface.md)
 * [ChatLocalAI](chatlocalai.md)
 * [ChatMistralAI](mistral-ai.md)
 * [ChatOllama](chatollama.md)
-* [ChatOllama Funtion](broken-reference)
 * [ChatOpenAI](azure-chatopenai.md)
-* [ChatOpenAI Custom](broken-reference)
 * [ChatTogetherAI](chattogetherai.md)
 * [GroqChat](groqchat.md)

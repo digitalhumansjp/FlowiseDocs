@@ -1,11 +1,11 @@
 ---
-description: Split your content into documents based on the Markdown headers.
+description: マークダウンのヘッダーに基づいてコンテンツをドキュメントに分割します。
 ---
 
-# Markdown Text Splitter
+# マークダウンテキストスプリッター
 
-<figure><img src="../../../.gitbook/assets/image (153).png" alt="" width="311"><figcaption><p>Markdown Text Splitter Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (153).png" alt="" width="311"><figcaption><p>マークダウンテキストスプリッターノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

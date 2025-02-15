@@ -1,31 +1,31 @@
-# Conversational Retrieval QA Chain
+# 会話検索QAチェーン
 
-A chain for performing question-answering tasks with a retrieval component.
+検索コンポーネントを使用して質問応答タスクを実行するためのチェーンです。
 
 <figure><img src="../../../.gitbook/assets/image (6) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Definitions
+## 定義
 
-**A retrieval-based question-answering chain**, which integrates with a retrieval component and allows you to configure input parameters and perform question-answering tasks.\
-**Retrieval-Based Chatbots:** Retrieval-based chatbots are chatbots that generate responses by selecting pre-defined responses from a database or a set of possible responses. They "retrieve" the most appropriate response based on the input from the user.\
-**QA (Question Answering):** QA systems are designed to answer questions posed in natural language. They typically involve understanding the question and searching for or generating an appropriate answer.
+**検索ベースの質問応答チェーン**は、検索コンポーネントと統合され、入力パラメータを設定して質問応答タスクを実行することができます。\
+**検索ベースのチャットボット:** 検索ベースのチャットボットは、データベースや可能な応答のセットから事前定義された応答を選択して応答を生成するチャットボットです。ユーザーからの入力に基づいて最も適切な応答を「検索」します。\
+**QA（質問応答）:** QAシステムは、自然言語で投げかけられた質問に答えるように設計されています。通常、質問を理解し、適切な回答を検索または生成することを含みます。
 
-## Inputs
+## 入力
 
-* [Language Model](../chat-models/)
-* [Vector Store Retriever](../vector-stores/)
-* [Memory (optional)](../memory/)
+* [言語モデル](../chat-models/)
+* [ベクトルストアリトリーバー](../vector-stores/)
+* [メモリ（オプション）](../memory/)
 
-## Parameters
+## パラメータ
 
-| Name                    | Description                                                                                                                                               |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Return Source Documents | To return citations/sources that were used to build up the response                                                                                       |
-| System Message          | An instruction for LLM on how to answer query                                                                                                             |
-| Chain Option            | Method on how to summarize, answer questions, and extract information from documents. Read [more](https://js.langchain.com/docs/modules/chains/document/) |
+| 名前                     | 説明                                                                                                                       |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| ソースドキュメントを返す | 応答の構築に使用された引用/ソースを返すかどうか                                                                            |
+| システムメッセージ       | クエリに答える方法についてのLLMへの指示                                                                                    |
+| チェーンオプション       | ドキュメントから情報を要約、質問に回答、抽出する方法。[詳細](https://js.langchain.com/docs/modules/chains/document/)を参照 |
 
-## Outputs
+## 出力
 
-| Name                           | Description                   |
-| ------------------------------ | ----------------------------- |
-| ConversationalRetrievalQAChain | Final node to return response |
+| 名前                           | 説明                 |
+| ------------------------------ | -------------------- |
+| ConversationalRetrievalQAChain | 応答を返す最終ノード |

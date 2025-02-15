@@ -1,21 +1,21 @@
 ---
-description: Learn how Flowise integrates with the LlamaIndex framework
+description: FlowiseのLlamaIndexフレームワークとの統合について学ぶ
 ---
 
 # LlamaIndex
 
 ***
 
-[LlamaIndex](https://www.llamaindex.ai/) is a data framework for LLM applications to ingest, structure, and access private or domain-specific data. It has advanced retrieval techniques for designing RAG (Retrieval Augmented Generation) apps.
+[LlamaIndex](https://www.llamaindex.ai/)は、プライベートまたはドメイン固有のデータを取り込み、構造化し、アクセスするためのLLMアプリケーション向けデータフレームワークです。RAG（Retrieval Augmented Generation）アプリを設計するための高度な検索技術を備えています。
 
-Flowise complements LlamaIndex by offering a visual interface. Here, nodes are organized into distinct sections, making it easier to build workflows.
+Flowiseは、ビジュアルインターフェースを提供することでLlamaIndexを補完します。ここでは、ノードが異なるセクションに整理され、ワークフローの構築が容易になっています。
 
-### LlamaIndex Sections:
+### LlamaIndexのセクション:
 
-* [Agents](agents/)
-* [Chat Models](chat-models/)
-* [Embeddings](embeddings/)
-* [Engine](engine/)
-* [Response Synthesizer](response-synthesizer/)
-* [Tools](tools/)
-* [Vector Stores](vector-stores/)
+* [エージェント](agents/)
+* [チャットモデル](chat-models/)
+* [エンベッディング](embeddings/)
+* [エンジン](engine/)
+* [レスポンスシンセサイザー](response-synthesizer/)
+* [ツール](tools/)
+* [ベクトルストア](vector-stores/)

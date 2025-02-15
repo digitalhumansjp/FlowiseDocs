@@ -1,16 +1,15 @@
 ---
 description: >-
-  Upsert embedded data and perform similarity or mmr search using Weaviate, a
-  scalable open-source vector database.
+  スケーラブルなオープンソースベクトルデータベースであるWeaviateを使用して、エンベッドされたデータをアップサートし、類似性検索またはMMR検索を実行します。
 ---
 
 # Weaviate
 
-<figure><img src="../../../.gitbook/assets/image (165).png" alt="" width="295"><figcaption><p>Weaviate Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (165).png" alt="" width="295"><figcaption><p>Weaviateノード</p></figcaption></figure>
 
-## Filtering
+## フィルタリング
 
-Weaviate supports following [syntax](https://weaviate.io/developers/weaviate/search/filters) when it comes to filtering:
+Weaviateはフィルタリングに関して以下の[構文](https://weaviate.io/developers/weaviate/search/filters)をサポートしています:
 
 **UI**
 
@@ -32,11 +31,11 @@ Weaviate supports following [syntax](https://weaviate.io/developers/weaviate/sea
 }
 ```
 
-## Resources
+## リソース
 
 * [LangchainJS Weaviate](https://js.langchain.com/v0.1/docs/integrations/vectorstores/weaviate/#usage-query-documents)
-* [Weaviate Filtering](https://weaviate.io/developers/weaviate/search/filters)
+* [Weaviateフィルタリング](https://weaviate.io/developers/weaviate/search/filters)
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご協力をお願いいたします。
 {% endhint %}

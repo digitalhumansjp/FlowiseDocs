@@ -1,11 +1,11 @@
 ---
-description: Split documents based on language-specific syntax.
+description: 言語固有の構文に基づいてドキュメントを分割します。
 ---
 
-# Code Text Splitter
+# コードテキストスプリッター
 
-<figure><img src="../../../.gitbook/assets/image (151).png" alt="" width="296"><figcaption><p>Code Text Splitter Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (151).png" alt="" width="296"><figcaption><p>コードテキストスプリッターノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

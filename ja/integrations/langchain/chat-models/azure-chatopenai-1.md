@@ -1,37 +1,37 @@
 # Azure ChatOpenAI
 
-## Prerequisite
+## 前提条件
 
-1. [Log in](https://portal.azure.com/) or [sign up](https://azure.microsoft.com/en-us/free/) to Azure
-2. [Create](https://portal.azure.com/#create/Microsoft.CognitiveServicesOpenAI) your Azure OpenAI and wait for approval approximately 10 business days
-3. Your API key will be available at **Azure OpenAI** > click **name\_azure\_openai** > click **Click here to manage keys**
+1. Azureに[ログイン](https://portal.azure.com/)または[サインアップ](https://azure.microsoft.com/en-us/free/)
+2. Azure OpenAIを[作成](https://portal.azure.com/#create/Microsoft.CognitiveServicesOpenAI)し、約10営業日の承認を待つ
+3. APIキーは**Azure OpenAI** > **name_azure_openai**をクリック > **Click here to manage keys**をクリックすると利用可能
 
 <figure><img src="../../../.gitbook/assets/azure/azure-general/1.png" alt=""><figcaption></figcaption></figure>
 
-## Setup
+## セットアップ
 
 ### Azure ChatOpenAI
 
-1. Click **Go to Azure OpenaAI Studio**
+1. **Go to Azure OpenaAI Studio**をクリック
 
 <figure><img src="../../../.gitbook/assets/azure/azure-general/2.png" alt=""><figcaption></figcaption></figure>
 
-2. Click **Deployments**
+2. **Deployments**をクリック
 
 <figure><img src="../../../.gitbook/assets/azure/azure-general/3.png" alt=""><figcaption></figcaption></figure>
 
-3. Click **Create new deployment**
+3. **Create new deployment**をクリック
 
 <figure><img src="../../../.gitbook/assets/azure/azure-general/4.png" alt=""><figcaption></figcaption></figure>
 
-4. Select as shown below and click **Create**
+4. 以下のように選択し、**Create**をクリック
 
 <figure><img src="../../../.gitbook/assets/azure/azure-chatopenai/1.png" alt="" width="558"><figcaption></figcaption></figure>
 
-5. Successfully created **Azure ChatOpenAI**
+5. **Azure ChatOpenAI**の作成が完了
 
-* Deployment name: `gpt-35-turbo`
-* Instance name: `top right conner`
+* デプロイメント名: `gpt-35-turbo`
+* インスタンス名: `右上隅に表示`
 
 <figure><img src="../../../.gitbook/assets/azure/azure-chatopenai/2.png" alt=""><figcaption></figcaption></figure>
 
@@ -39,23 +39,23 @@
 
 ### Flowise
 
-1. **Chat Models** > drag **Azure ChatOpenAI** node
+1. **Chat Models** > **Azure ChatOpenAI**ノードをドラッグ
 
 <figure><img src="../../../.gitbook/assets/azure/azure-chatopenai/3.png" alt="" width="563"><figcaption></figcaption></figure>
 
-2. **Connect Credential** > click **Create New**
+2. **Connect Credential** > **Create New**をクリック
 
 <figure><img src="../../../.gitbook/assets/azure/azure-chatopenai/4.png" alt="" width="421"><figcaption></figcaption></figure>
 
-3. Copy & Paste each details (API Key, Instance & Deployment name, [API Version](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#chat-completions)) into **Azure ChatOpenAI** credential
+3. 各詳細(APIキー、インスタンス名、デプロイメント名、[APIバージョン](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#chat-completions))を**Azure ChatOpenAI**クレデンシャルにコピー＆ペースト
 
 <figure><img src="../../../.gitbook/assets/azure/azure-chatopenai/5.png" alt="" width="563"><figcaption></figcaption></figure>
 
-4. Voila [🎉](https://emojipedia.org/party-popper/), you have created **Azure ChatOpenAI node** in Flowise
+4. これで[🎉](https://emojipedia.org/party-popper/)Flowiseで**Azure ChatOpenAIノード**の作成が完了しました
 
 <figure><img src="../../../.gitbook/assets/azure/azure-general/5.png" alt=""><figcaption></figcaption></figure>
 
-## Resources
+## リソース
 
-* [LangChain JS Azure ChatOpenAI](https://js.langchain.com/docs/modules/model\_io/models/chat/integrations/azure)
-* [Azure OpenAI Service REST API reference](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference)
+* [LangChain JS Azure ChatOpenAI](https://js.langchain.com/docs/modules/model_io/models/chat/integrations/azure)
+* [Azure OpenAI Service REST APIリファレンス](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference)

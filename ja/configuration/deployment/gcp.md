@@ -1,53 +1,53 @@
 ---
-description: Learn how to deploy Flowise on GCP
+description: GCPへのFlowiseのデプロイ方法を学ぶ
 ---
 
 # GCP
 
 ***
 
-## Prerequisites
+## 前提条件
 
-1. Notedown your Google Cloud \[ProjectId]
-2. Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-3. Install the [Google Cloud CLI](https://cloud.google.com/sdk/docs/install-sdk)
-4. Install [Docker Desktop](https://docs.docker.com/desktop/)
+1. Google Cloudの[ProjectId]をメモしておく
+2. [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)をインストール
+3. [Google Cloud CLI](https://cloud.google.com/sdk/docs/install-sdk)をインストール
+4. [Docker Desktop](https://docs.docker.com/desktop/)をインストール
 
-## Setup Kubernetes Cluster
+## Kubernetesクラスターのセットアップ
 
-1. Create a Kubernetes Cluster if you don't have one.
+1. Kubernetesクラスターがない場合は作成します。
 
-<figure><img src="../../.gitbook/assets/gcp/1.png" alt=""><figcaption><p>Click `Clusters` to create one.</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/gcp/1.png" alt=""><figcaption><p>「Clusters」をクリックして作成します。</p></figcaption></figure>
 
-2. Name the Cluster, choose the right resource location, use `Autopilot` mode and keep all other default configs.
-3. Once the Cluster is created, Click the 'Connect' menu from the actions menu
+2. クラスターに名前を付け、適切なリソースロケーションを選択し、`Autopilot`モードを使用して、他のデフォルト設定はそのままにします。
+3. クラスターが作成されたら、アクションメニューから「Connect」メニューをクリックします。
 
 <figure><img src="../../.gitbook/assets/gcp/2.png" alt=""><figcaption></figcaption></figure>
 
-4. Copy the command and paste into your terminal and hit enter to connect your cluster.
-5. Run the below command and select correct context name, which looks like `gke_[ProjectId]_[DataCenter]_[ClusterName]`
+4. コマンドをコピーしてターミナルに貼り付け、Enterを押してクラスターに接続します。
+5. 以下のコマンドを実行し、`gke_[ProjectId]_[DataCenter]_[ClusterName]`のような正しいコンテキスト名を選択します。
 
 ```
 kubectl config get-contexts
 ```
 
-6. Set the current context
+6. 現在のコンテキストを設定します。
 
 ```
 kubectl config use-context gke_[ProjectId]_[DataCenter]_[ClusterName]
 ```
 
-## Build and Push the Docker image
+## Dockerイメージのビルドとプッシュ
 
-Run the following commands to build and push the Docker image to GCP Container Registry.
+以下のコマンドを実行して、DockerイメージをビルドしGCPコンテナレジストリにプッシュします。
 
-1. Clone the Flowise
+1. Flowiseをクローンします。
 
 ```
 git clone https://github.com/FlowiseAI/Flowise.git
 ```
 
-2. Build the Flowise
+2. Flowiseをビルドします。
 
 ```
 cd Flowise
@@ -55,38 +55,38 @@ pnpm install
 pnpm build
 ```
 
-3. Update the `Dockerfile` file a little.
+3. `Dockerfile`を少し修正します。
 
-> Specify the platform of nodejs
+> nodejsのプラットフォームを指定
 >
 > ```
 > FROM --platform=linux/amd64 node:18-alpine
 > ```
 >
-> Add python3, make and g++ to install
+> python3、make、g++をインストールに追加
 >
 > ```
 > RUN apk add --no-cache python3 make g++
 > ```
 
-3. Build as Docker image, make sure the Docker desktop app is running
+3. Dockerイメージとしてビルドします。Docker desktopアプリが実行中であることを確認してください。
 
 ```
 docker build -t gcr.io/[ProjectId]/flowise:dev .
 ```
 
-4. Push the Docker image to GCP container registry.
+4. DockerイメージをGCPコンテナレジストリにプッシュします。
 
 ```
 docker push gcr.io/[ProjectId]/flowise:dev
 ```
 
-## Deployment to GCP
+## GCPへのデプロイ
 
-1. Create a `yamls` root folder in the project.
-2. Add the `deployment.yaml` file into that folder.
+1. プロジェクトに`yamls`ルートフォルダを作成します。
+2. そのフォルダに`deployment.yaml`ファイルを追加します。
 
-```
+```yaml
 # deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -108,15 +108,15 @@ spec:
       - name: flowise
         image: gcr.io/[ProjectID]/flowise:dev
         imagePullPolicy: Always
-        resources: 
+        resources:
           requests:
             cpu: "1"
             memory: "1Gi"
 ```
 
-3. Add the `service.yaml` file into that folder.
+3. そのフォルダに`service.yaml`ファイルを追加します。
 
-```
+```yaml
 # service.yaml
 apiVersion: "v1"
 kind: "Service"
@@ -133,39 +133,38 @@ spec:
   selector:
     app: "flowise"
   type: "LoadBalancer"
-
 ```
 
-It will be look like below.
+以下のような構成になります。
 
 <figure><img src="../../.gitbook/assets/gcp/3.png" alt=""><figcaption></figcaption></figure>
 
-4. Deploy the yaml files by running following commands.
+4. 以下のコマンドを実行してyamlファイルをデプロイします。
 
 ```
 kubectl apply -f yamls/deployment.yaml
 kubectl apply -f yamls/service.yaml
 ```
 
-5. Go to `Workloads` in the GCP, you can see your pod is running.
+5. GCPの`Workloads`に移動すると、ポッドが実行中であることが確認できます。
 
 <figure><img src="../../.gitbook/assets/gcp/4.png" alt=""><figcaption></figcaption></figure>
 
-6. Go to `Services & Ingress`, you can click the `Endpoint` where the Flowise is hosted.
+6. `Services & Ingress`に移動すると、Flowiseがホストされている`Endpoint`をクリックできます。
 
 <figure><img src="../../.gitbook/assets/gcp/5.png" alt=""><figcaption></figcaption></figure>
 
-## Congratulations!
+## おめでとうございます！
 
-You have successfully hosted the Flowise apps on GCP [🥳](https://emojipedia.org/partying-face/)
+FlowiseアプリをGCPに正常にホストできました[🥳](https://emojipedia.org/partying-face/)
 
-## Timeout
+## タイムアウト
 
-By default, there is a 30 seconds timeout assigned to the proxy by GCP. This caused issue when the response is taking longer than 30 seconds threshold to return. In order to fix this issue, make the following changes to YAML files:
+デフォルトでは、GCPによってプロキシに30秒のタイムアウトが設定されています。これにより、レスポンスが30秒の閾値を超えて返される場合に問題が発生します。この問題を解決するには、YAMLファイルに以下の変更を加えてください：
 
-Note: To set the timeout to be 10 minutes (for example) -- we specify 600 seconds below.
+注：タイムアウトを（例えば）10分に設定するには、以下のように600秒を指定します。
 
-1. Create a `backendconfig.yaml` file with the following content:
+1. 以下の内容で`backendconfig.yaml`ファイルを作成します：
 
 ```yaml
 apiVersion: cloud.google.com/v1
@@ -177,8 +176,8 @@ spec:
   timeoutSec: 600
 ```
 
-2. Issue: `kubectl apply -f backendconfig.yaml`
-3. Update your `service.yaml` file with the following reference to the `BackendConfig`:
+2. 実行：`kubectl apply -f backendconfig.yaml`
+3. `service.yaml`ファイルを`BackendConfig`への参照を含むように更新します：
 
 ```yaml
 apiVersion: v1
@@ -191,4 +190,4 @@ metadata:
 ...
 ```
 
-4. Issue: `kubectl apply -f service.yaml`
+4. 実行：`kubectl apply -f service.yaml`

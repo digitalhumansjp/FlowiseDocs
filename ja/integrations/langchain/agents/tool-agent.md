@@ -1,11 +1,11 @@
 ---
-description: Agent that uses Function Calling to pick the tools and args to call.
+description: 関数呼び出しを使用してツールとその引数の呼び出しを選択するエージェント
 ---
 
-# Tool Agent
+# ツールエージェント
 
-<figure><img src="../../../.gitbook/assets/image (8) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="337"><figcaption><p>Tool Agent Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (8) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="337"><figcaption><p>ツールエージェントノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を歓迎します。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

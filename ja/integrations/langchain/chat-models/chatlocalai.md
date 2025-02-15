@@ -1,64 +1,65 @@
 # ChatLocalAI
 
-## LocalAI Setup
+## LocalAIのセットアップ
 
-[**LocalAI** ](https://github.com/go-skynet/LocalAI)is a drop-in replacement REST API that’s compatible with OpenAI API specifications for local inferencing. It allows you to run LLMs (and not only) locally or on-prem with consumer grade hardware, supporting multiple model families that are compatible with the ggml format.
+[**LocalAI**](https://github.com/go-skynet/LocalAI)は、OpenAI APIの仕様と互換性のあるドロップイン置き換えRESTAPIです。これにより、一般的なハードウェアでLLM（およびそれ以外）をローカルまたはオンプレミスで実行でき、ggml形式と互換性のある複数のモデルファミリーをサポートしています。
 
-To use ChatLocalAI within Flowise, follow the steps below:
+FlowiseでChatLocalAIを使用するには、以下の手順に従ってください：
 
 1. ```bash
    git clone https://github.com/go-skynet/LocalAI
    ```
-2. <pre class="language-bash"><code class="lang-bash"><strong>cd LocalAI
-   </strong></code></pre>
+2. ```bash
+   cd LocalAI
+   ```
 3. ```bash
-   # copy your models to models/
+   # モデルをmodels/にコピー
    cp your-model.bin models/
    ```
 
-For example:
+例：
 
-Download one of the models from [gpt4all.io](https://gpt4all.io/index.html)
+[gpt4all.io](https://gpt4all.io/index.html)からモデルの1つをダウンロード
 
 ```bash
-# Download gpt4all-j to models/
+# gpt4all-jをmodels/にダウンロード
 wget https://gpt4all.io/models/ggml-gpt4all-j.bin -O models/ggml-gpt4all-j
 ```
 
-In the `/models` folder, you should be able to see the downloaded model in there:
+`/models`フォルダ内に、ダウンロードしたモデルが表示されるはずです：
 
 <figure><img src="../../../.gitbook/assets/image (22) (1).png" alt=""><figcaption></figcaption></figure>
 
-Refer [here](https://localai.io/model-compatibility/index.html) for list of supported models.
+サポートされているモデルのリストは[こちら](https://localai.io/model-compatibility/index.html)を参照してください。
 
 4. ```bash
    docker compose up -d --pull always
    ```
-5. Now API is accessible at localhost:8080
+5. これでAPIはlocalhost:8080でアクセス可能になります
 
 ```bash
-# Test API
+# APIのテスト
 curl http://localhost:8080/v1/models
 # {"object":"list","data":[{"id":"ggml-gpt4all-j.bin","object":"model"}]}
 ```
 
-## Flowise Setup
+## Flowiseのセットアップ
 
-Drag and drop a new ChatLocalAI component to canvas:
+新しいChatLocalAIコンポーネントをキャンバスにドラッグ＆ドロップします：
 
 <figure><img src="../../../.gitbook/assets/image (39).png" alt=""><figcaption></figcaption></figure>
 
-Fill in the fields:
+フィールドに入力：
 
-* **Base Path**: The base url from LocalAI such as [http://localhost:8080/v1](http://localhost:8080/v1)
-* **Model Name**: The model you want to use. Note that it must be inside `/models` folder of LocalAI directory. For instance: `ggml-gpt4all-j.bin`
+* **Base Path**: LocalAIのベースURL（例：[http://localhost:8080/v1](http://localhost:8080/v1)）
+* **Model Name**: 使用したいモデル。LocalAIディレクトリの`/models`フォルダ内にある必要があります。例：`ggml-gpt4all-j.bin`
 
 {% hint style="info" %}
-If you are running both Flowise and LocalAI on Docker, you might need to change the base path to [http://host.docker.internal:8080/v1](http://host.docker.internal:8080/v1). For Linux based systems the default docker gateway should be used since host.docker.internal is not available: [http://172.17.0.1:8080/v1](http://172.17.0.1:8080/v1)
+FlowiseとLocalAIの両方をDockerで実行している場合、ベースパスを[http://host.docker.internal:8080/v1](http://host.docker.internal:8080/v1)に変更する必要があるかもしれません。Linuxベースのシステムではhost.docker.internalが利用できないため、デフォルトのdockerゲートウェイを使用する必要があります：[http://172.17.0.1:8080/v1](http://172.17.0.1:8080/v1)
 {% endhint %}
 
-That's it! For more information, refer to LocalAI [docs](https://localai.io/basics/getting\_started/index.html).
+以上です！詳細については、LocalAIの[ドキュメント](https://localai.io/basics/getting_started/index.html)を参照してください。
 
-Watch how you can use LocalAI on Flowise
+FlowiseでLocalAIを使用する方法を動画でご覧ください
 
 {% embed url="https://youtu.be/0B0oIs8NS9k" %}

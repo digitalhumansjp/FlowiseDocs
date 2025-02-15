@@ -1,40 +1,40 @@
 # AstraDB
 
-## Setup
+## セットアップ
 
-1. Register an account on [AstraDB](https://astra.datastax.com/)
-2. Login to portal. Create a Database
+1. [AstraDB](https://astra.datastax.com/)でアカウントを登録
+2. ポータルにログインし、データベースを作成
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-3. Choose Serverless (Vector), fill in the Database name, Provider, and Region
+3. Serverless (Vector)を選択し、データベース名、プロバイダー、リージョンを入力
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (2) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
-4. After database has been setup, grab the API Endpoint, and generate Application Token
+4. データベースのセットアップ後、APIエンドポイントを取得し、アプリケーショントークンを生成
 
 <figure><img src="../../../.gitbook/assets/Picture7.png" alt=""><figcaption></figcaption></figure>
 
-5. Create a new collection, select the desired dimenstion and similarity metric:
+5. 新しいコレクションを作成し、希望の次元数と類似度メトリックを選択:
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-6. Back to Flowise canvas, drag and drop Astra node. Click **Create New** from the Credentials dropdown:
+6. Flowiseキャンバスに戻り、Astraノードをドラッグ＆ドロップ。認証情報ドロップダウンから**新規作成**をクリック:
 
 <figure><img src="../../../.gitbook/assets/image (4) (1) (1) (1) (1) (2).png" alt="" width="235"><figcaption></figcaption></figure>
 
-7. Specify the API Endpoint and Application Token:
+7. APIエンドポイントとアプリケーショントークンを指定:
 
 <figure><img src="../../../.gitbook/assets/image (5) (1) (1) (1) (1) (2).png" alt="" width="563"><figcaption></figcaption></figure>
 
-8. You can now upsert data to AstraDB
+8. これでAstraDBにデータをアップサートできます
 
 <figure><img src="../../../.gitbook/assets/image (6) (1) (1) (1) (1) (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-9. Navigate back to Astra portal, and to your collection, you will be able to see all the data that has been upserted:
+9. Astraポータルに戻り、コレクションに移動すると、アップサートされたすべてのデータを確認できます:
 
 <figure><img src="../../../.gitbook/assets/image (7) (1) (1) (1) (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-10. Start querying!
+10. クエリを開始!
 
 <figure><img src="../../../.gitbook/assets/image (8) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>

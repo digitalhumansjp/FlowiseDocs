@@ -1,30 +1,30 @@
 ---
-description: LangChain Text Splitter Nodes
+description: LangChain テキストスプリッターノード
 ---
 
-# Text Splitters
+# テキストスプリッター
 
 ***
 
-**When you want to deal with long pieces of text, it is necessary to split up that text into chunks.**\
-As simple as this sounds, there is a lot of potential complexity here. Ideally, you want to keep the semantically related pieces of text together. What "semantically related" means could depend on the type of text. This notebook showcases several ways to do that.
+**長いテキストを扱う場合、そのテキストをチャンク(断片)に分割する必要があります。**\
+これは単純に聞こえますが、実際には多くの複雑さが潜んでいます。理想的には、意味的に関連のあるテキスト部分を一緒に保持したいと考えます。「意味的に関連している」の定義は、テキストの種類によって異なる場合があります。このノートブックでは、それを実現するいくつかの方法を紹介します。
 
-**At a high level, text splitters work as following:**
+**テキストスプリッターは大まかに以下のように機能します:**
 
-1. Split the text up into small, semantically meaningful chunks (often sentences).
-2. Start combining these small chunks into a larger chunk until you reach a certain size (as measured by some function).
-3. Once you reach that size, make that chunk its own piece of text and then start creating a new chunk of text with some overlap (to keep context between chunks).
+1. テキストを意味的に意味のある小さなチャンク(多くの場合は文)に分割します。
+2. これらの小さなチャンクを、特定のサイズ(何らかの関数で測定)に達するまで、より大きなチャンクに結合していきます。
+3. そのサイズに達したら、そのチャンクを独立したテキストとし、一定の重複(チャンク間のコンテキストを保持するため)を持たせて新しいテキストチャンクの作成を開始します。
 
-**That means there are two different axes along which you can customize your text splitter:**
+**つまり、テキストスプリッターをカスタマイズできる軸が2つあります:**
 
-1. How the text is split
-2. How the chunk size is measured
+1. テキストの分割方法
+2. チャンクサイズの測定方法
 
-### Text Splitter Nodes:
+### テキストスプリッターノード:
 
-* [Character Text Splitter](character-text-splitter.md)
-* [Code Text Splitter](code-text-splitter.md)
-* [Html-To-Markdown Text Splitter](html-to-markdown-text-splitter.md)
-* [Markdown Text Splitter](markdown-text-splitter.md)
-* [Recursive Character Text Splitter](recursive-character-text-splitter.md)
-* [Token Text Splitter](token-text-splitter.md)
+* [キャラクターテキストスプリッター](character-text-splitter.md)
+* [コードテキストスプリッター](code-text-splitter.md)
+* [HTMLからマークダウンへのテキストスプリッター](html-to-markdown-text-splitter.md)
+* [マークダウンテキストスプリッター](markdown-text-splitter.md)
+* [再帰的キャラクターテキストスプリッター](recursive-character-text-splitter.md)
+* [トークンテキストスプリッター](token-text-splitter.md)

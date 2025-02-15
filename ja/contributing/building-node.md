@@ -1,4 +1,4 @@
-# ノードの構築
+# Nodeの構築
 
 ### Gitのインストール
 
@@ -6,7 +6,7 @@
 
 ### 構造
 
-Flowiseはすべてのノード統合を`packages/components/nodes`フォルダに分けています。シンプルなツールを作成してみましょう！
+FlowiseはすべてのNode統合を`packages/components/nodes`フォルダに分けています。シンプルなツールを作成してみましょう！
 
 ### 計算機ツールの作成
 
@@ -43,9 +43,9 @@ class Calculator_Tools implements INode {
 module.exports = { nodeClass: Calculator_Tools }
 ```
 
-すべてのノードは`INode`基底クラスを実装します。各プロパティの意味の内訳：
+すべてのNodeは`INode`基底クラスを実装します。各プロパティの意味の内訳：
 
-<table><thead><tr><th width="271">プロパティ</th><th>説明</th></tr></thead><tbody><tr><td>label</td><td>UIに表示されるノードの名前</td></tr><tr><td>name</td><td>コードで使用される名前。<strong>キャメルケース</strong>である必要があります</td></tr><tr><td>version</td><td>ノードのバージョン</td></tr><tr><td>type</td><td>通常はラベルと同じ。UIでこの特定のタイプに接続できるノードを定義</td></tr><tr><td>icon</td><td>ノードのアイコン</td></tr><tr><td>category</td><td>ノードのカテゴリー</td></tr><tr><td>author</td><td>ノードの作成者</td></tr><tr><td>description</td><td>ノードの説明</td></tr><tr><td>baseClasses</td><td>ノードの基底クラス。ノードは基底コンポーネントから拡張できるため。UIでこのノードに接続できるノードを定義</td></tr></tbody></table>
+<table><thead><tr><th width="271">プロパティ</th><th>説明</th></tr></thead><tbody><tr><td>label</td><td>UIに表示されるNodeの名前</td></tr><tr><td>name</td><td>コードで使用される名前。<strong>キャメルケース</strong>である必要があります</td></tr><tr><td>version</td><td>Nodeのバージョン</td></tr><tr><td>type</td><td>通常はラベルと同じ。UIでこの特定のタイプに接続できるNodeを定義</td></tr><tr><td>icon</td><td>Nodeのアイコン</td></tr><tr><td>category</td><td>Nodeのカテゴリー</td></tr><tr><td>author</td><td>Nodeの作成者</td></tr><tr><td>description</td><td>Nodeの説明</td></tr><tr><td>baseClasses</td><td>Nodeの基底クラス。Nodeは基底コンポーネントから拡張できるため。UIでこのNodeに接続できるNodeを定義</td></tr></tbody></table>
 
 ### クラスの定義
 
@@ -73,7 +73,7 @@ export class Calculator extends Tool {
 
 ### 仕上げ
 
-`Calculator.ts`ファイルに戻り、`async init`関数を追加して仕上げます。この関数では、先程作成したCalculatorクラスを初期化します。フローが実行されると、各ノード内の`init`関数が呼び出され、LLMがこのツールを呼び出すことを決定すると、`_call`関数が実行されます。
+`Calculator.ts`ファイルに戻り、`async init`関数を追加して仕上げます。この関数では、先程作成したCalculatorクラスを初期化します。フローが実行されると、各Node内の`init`関数が呼び出され、LLMがこのツールを呼び出すことを決定すると、`_call`関数が実行されます。
 
 ```javascript
 import { INode } from '../../../src/Interface'

@@ -1,4 +1,4 @@
-# Tools
+# ツール
 
 {% swagger src="../.gitbook/assets/swagger (1) (1) (1).yml" path="/tools" method="post" %}
 [swagger (1) (1) (1).yml](<../.gitbook/assets/swagger (1) (1) (1).yml>)

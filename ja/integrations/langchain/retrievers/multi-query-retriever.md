@@ -1,13 +1,12 @@
 ---
 description: >-
-  Generate multiple queries from different perspectives for a given user input
-  query.
+  ユーザーの入力クエリに対して、異なる視点から複数のクエリを生成します。
 ---
 
-# Multi Query Retriever
+# マルチクエリリトリーバー
 
-<figure><img src="../../../.gitbook/assets/up-006.png" alt="" width="283"><figcaption><p>Multi Query Retriever Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/up-006.png" alt="" width="283"><figcaption><p>マルチクエリリトリーバーノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

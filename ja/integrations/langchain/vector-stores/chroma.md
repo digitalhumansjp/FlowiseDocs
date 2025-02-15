@@ -1,58 +1,58 @@
 # Chroma
 
-## Prerequisite
+## 前提条件
 
-1. Download & Install [Docker ](https://www.docker.com/)and [Git](https://git-scm.com/)
-2. Clone [Chroma's repository](https://github.com/chroma-core/chroma) with your terminal
+1. [Docker](https://www.docker.com/)と[Git](https://git-scm.com/)をダウンロード＆インストール
+2. ターミナルで[Chromaのリポジトリ](https://github.com/chroma-core/chroma)をクローン
 
 ```bash
 git clone https://github.com/chroma-core/chroma.git
 ```
 
-3. Change directory path to your cloned Chroma
+3. クローンしたChromaのディレクトリに移動
 
 ```bash
 cd chroma
 ```
 
-4. Run docker compose to build up Chroma image and container
+4. docker composeを実行してChromaイメージとコンテナをビルド
 
 ```bash
 docker compose up -d --build
 ```
 
-5. If success, you will be able to see the docker images spun up:
+5. 成功すると、以下のようにdockerイメージが起動しているのが確認できます:
 
 <figure><img src="../../../.gitbook/assets/image (4) (1) (3).png" alt="" width="390"><figcaption></figcaption></figure>
 
-## Setup
+## セットアップ
 
-| Input           | Description                                                                                                                                        | Default               |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| Document        | Can be connected with nodes from [Document Loader](../document-loaders/)                                                                           |                       |
-| Embeddings      | Can be connected with nodes from [Embeddings](../embeddings/)                                                                                      |                       |
-| Collection Name | Chroma collection name. Refer to [here](https://docs.trychroma.com/usage-guide#creating-inspecting-and-deleting-collections) for naming convention |                       |
-| Chroma URL      | Specify the URL of your chroma instance                                                                                                            | http://localhost:8000 |
+| 入力             | 説明                                                                                                                                | デフォルト            |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| Document         | [Document Loader](../document-loaders/)のノードと接続可能                                                                           |                       |
+| エンベッディング | [Embeddings](../embeddings/)のノードと接続可能                                                                                      |                       |
+| コレクション名   | Chromaコレクション名。命名規則は[こちら](https://docs.trychroma.com/usage-guide#creating-inspecting-and-deleting-collections)を参照 |                       |
+| Chroma URL       | ChromaインスタンスのURLを指定                                                                                                       | http://localhost:8000 |
 
 <figure><img src="../../../.gitbook/assets/image (6) (1) (1) (1) (1) (2).png" alt="" width="238"><figcaption></figcaption></figure>
 
-### Additional
+### 追加設定
 
-If you are running both Flowise and Chroma on Docker, there are additional steps involved.
+FlowiseとChromaの両方をDockerで実行する場合は、追加の手順が必要です。
 
-1. Spin up Chroma docker first
+1. まずChromaのdockerを起動
 
 ```bash
 docker compose up -d --build
 ```
 
-2. Open `docker-compose.yml` in Flowise
+2. Flowiseの`docker-compose.yml`を開く
 
 ```bash
 cd Flowise && cd docker
 ```
 
-3. Modify the file to:
+3. ファイルを以下のように修正:
 
 ```sh
 version: '3.1'
@@ -86,17 +86,17 @@ networks:
         external: true
 ```
 
-4. Spin up Flowise docker image
+4. Flowise dockerイメージを起動
 
 ```bash
 docker compose up -d
 ```
 
-5. On the Chroma URL, for Windows and MacOS Operating Systems specify [http://host.docker.internal:8000](http://host.docker.internal:8000/). For Linux based systems the default docker gateway should be used since host.docker.internal is not available: [http://172.17.0.1:8000](http://172.17.0.1:8000/)
+5. Chroma URLについて、WindowsとMacOSの場合は[http://host.docker.internal:8000](http://host.docker.internal:8000/)を指定。Linuxベースのシステムではhost.docker.internalが利用できないため、デフォルトのdockerゲートウェイ[http://172.17.0.1:8000](http://172.17.0.1:8000/)を使用します。
 
 <figure><img src="../../../.gitbook/assets/image (5) (5).png" alt="" width="256"><figcaption></figcaption></figure>
 
-## Resources
+## リソース
 
-* [LangChain JS Chroma](https://js.langchain.com/docs/modules/indexes/vector\_stores/integrations/chroma)
-* [Chroma Getting Started](https://docs.trychroma.com/getting-started)
+* [LangChain JS Chroma](https://js.langchain.com/docs/modules/indexes/vector_stores/integrations/chroma)
+* [Chroma 入門](https://docs.trychroma.com/getting-started)

@@ -1,38 +1,38 @@
 ---
-description: Learn how to deploy Flowise on Digital Ocean
+description: Digital Ocean での Flowise のデプロイ方法を学ぶ
 ---
 
 # Digital Ocean
 
 ***
 
-## Create Droplet
+## Droplet の作成
 
-In this section, we are going to create a Droplet. For more information, refer to [official guide](https://docs.digitalocean.com/products/droplets/quickstart/).
+このセクションでは、Droplet を作成します。詳細については、[公式ガイド](https://docs.digitalocean.com/products/droplets/quickstart/)を参照してください。
 
-1. First, Click **Droplets** from the dropdown
+1. まず、ドロップダウンから **Droplets** をクリックします
 
 <figure><img src="../../.gitbook/assets/image (15) (2).png" alt=""><figcaption></figcaption></figure>
 
-2. Select Data Region and a Basic $6/mo Droplet type
+2. データリージョンと Basic $6/月の Droplet タイプを選択します
 
 <figure><img src="../../.gitbook/assets/image (17) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-3. Select Authentication Method. In this example, we are going to use Password
+3. 認証方法を選択します。この例では、パスワードを使用します
 
 <figure><img src="../../.gitbook/assets/image (5) (2).png" alt=""><figcaption></figcaption></figure>
 
-4. After a while you should be able to see your droplet created successfully
+4. しばらくすると、Droplet が正常に作成されたことが確認できます
 
 <figure><img src="../../.gitbook/assets/image (7) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-## How to Connect to your Droplet
+## Droplet への接続方法
 
-For Windows follow this [guide](https://docs.digitalocean.com/products/droplets/how-to/connect-with-ssh/putty/).
+Windows の場合は、この[ガイド](https://docs.digitalocean.com/products/droplets/how-to/connect-with-ssh/putty/)に従ってください。
 
-For Mac/Linux, follow this [guide](https://docs.digitalocean.com/products/droplets/how-to/connect-with-ssh/openssh/).
+Mac/Linux の場合は、この[ガイド](https://docs.digitalocean.com/products/droplets/how-to/connect-with-ssh/openssh/)に従ってください。
 
-## Install Docker
+## Docker のインストール
 
 1. ```
    curl -fsSL https://get.docker.com -o get-docker.sh
@@ -40,33 +40,33 @@ For Mac/Linux, follow this [guide](https://docs.digitalocean.com/products/drople
 2. ```
    sudo sh get-docker.sh
    ```
-3. Install docker-compose:
+3. docker-compose のインストール：
 
 ```
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 ```
 
-4. Set permission:
+4. 権限の設定：
 
 ```
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-## Setup
+## セットアップ
 
-1. Clone the repo
+1. リポジトリのクローン
 
 ```
 git clone https://github.com/FlowiseAI/Flowise.git
 ```
 
-2. Cd into docker folder
+2. docker フォルダに移動
 
 ```bash
 cd Flowise && cd docker
 ```
 
-3. Create a `.env` file. You can use your favourite editor. I'll use `nano`
+3. `.env` ファイルの作成。お好みのエディタを使用できます。ここでは `nano` を使用します
 
 ```bash
 nano .env
@@ -74,7 +74,7 @@ nano .env
 
 <figure><img src="../../.gitbook/assets/image (10) (2).png" alt="" width="375"><figcaption></figcaption></figure>
 
-4. Specify the env variables:
+4. 環境変数の指定：
 
 ```sh
 PORT=3000
@@ -85,57 +85,57 @@ LOG_PATH=/root/.flowise/logs
 BLOB_STORAGE_PATH=/root/.flowise/storage
 ```
 
-4. _(Optional)_ You can also specify `FLOWISE_USERNAME` and `FLOWISE_PASSWORD` for app level authorization. See more [broken-reference](broken-reference/ "mention")
-5. Then press `Ctrl + X` to Exit, and `Y` to save the file
-6. Run docker compose
+4. _(オプション)_ アプリケーションレベルの認証のために `FLOWISE_USERNAME` と `FLOWISE_PASSWORD` を指定することもできます。詳細は [broken-reference](broken-reference/ "mention") を参照してください
+5. `Ctrl + X` を押して終了し、`Y` を押してファイルを保存します
+6. docker compose の実行
 
 ```bash
 docker compose up -d
 ```
 
-7. You can then view the app: "Your Public IPv4 DNS":3000. Example: `176.63.19.226:3000`
-8. You can bring the app down by:
+7. "パブリック IPv4 DNS":3000 でアプリにアクセスできます。例：`176.63.19.226:3000`
+8. 以下のコマンドでアプリを停止できます：
 
 ```bash
 docker compose stop
 ```
 
-9. You can pull from latest image by:
+9. 以下のコマンドで最新のイメージを取得できます：
 
 ```bash
 docker pull flowiseai/flowise
 ```
 
-## Adding Reverse Proxy & SSL
+## リバースプロキシと SSL の追加
 
-A reverse proxy is the recommended method to expose an application server to the internet. It will let us connect to our droplet using a URL alone instead of the server IP and port number. This provides security benefits in isolating the application server from direct internet access, the ability to centralize firewall protection, a minimized attack plane for common threats such as denial of service attacks, and most importantly for our purposes, the ability to terminate SSL/TLS encryption in a single place.
+リバースプロキシは、アプリケーションサーバーをインターネットに公開するための推奨される方法です。サーバーの IP とポート番号の代わりに URL だけで Droplet に接続することができます。これにより、アプリケーションサーバーを直接のインターネットアクセスから分離するセキュリティ上の利点、ファイアウォール保護の一元化、サービス拒否攻撃などの一般的な脅威に対する攻撃面の最小化、そして最も重要な目的である SSL/TLS 暗号化を一箇所で終端する機能が提供されます。
 
-> A lack of SSL on your Droplet will cause the embeddable widget and API endpoints to be inaccessible in modern browsers. This is because browsers have begun to deprecate HTTP in favor of HTTPS, and block HTTP requests from pages loaded over HTTPS.
+> Droplet に SSL がないと、最新のブラウザでは埋め込みウィジェットと API エンドポイントにアクセスできなくなります。これは、ブラウザが HTTP よりも HTTPS を優先するようになり、HTTPS で読み込まれたページからの HTTP リクエストをブロックするようになったためです。
 
-### Step 1 — Installing Nginx
+### ステップ 1 — Nginx のインストール
 
-1. Nginx is available for installation with apt through the default repositories. Update your repository index, then install Nginx:
+1. Nginx はデフォルトのリポジトリから apt を使用してインストールできます。リポジトリインデックスを更新し、Nginx をインストールします：
 
 ```bash
 sudo apt update
 sudo apt install nginx
 ```
 
-> Press Y to confirm the installation. If you are asked to restart services, press ENTER to accept the defaults.
+> Y を押してインストールを確認します。サービスの再起動を求められた場合は、ENTER を押してデフォルトを受け入れます。
 
-2. You need to allow access to Nginx through your firewall. Having set up your server according to the initial server prerequisites, add the following rule with ufw:
+2. サーバーの初期設定に従ってセットアップした後、ufw で以下のルールを追加してファイアウォールを通じて Nginx へのアクセスを許可する必要があります：
 
 ```bash
 sudo ufw allow 'Nginx HTTP'
 ```
 
-3. Now you can verify that Nginx is running:
+3. Nginx が実行されていることを確認できます：
 
 ```bash
 systemctl status nginx
 ```
 
-Output:
+出力：
 
 ```bash
 ● nginx.service - A high performance web server and a reverse proxy server
@@ -151,25 +151,25 @@ Output:
              └─9920 "nginx: worker process
 ```
 
-Next you will add a custom server block with your domain and app server proxy.
+次に、ドメインとアプリケーションサーバーのプロキシを含むカスタムサーバーブロックを追加します。
 
-### Step 2 — Configuring your Server Block + DNS Record
+### ステップ 2 — サーバーブロックと DNS レコードの設定
 
-It is recommended practice to create a custom configuration file for your new server block additions, instead of editing the default configuration directly.
+デフォルトの設定を直接編集する代わりに、新しいサーバーブロックの追加用にカスタム設定ファイルを作成することが推奨されます。
 
-1. Create and open a new Nginx configuration file using nano or your preferred text editor:
+1. nano または任意のテキストエディタを使用して、新しい Nginx 設定ファイルを作成し開きます：
 
 ```bash
 sudo nano /etc/nginx/sites-available/your_domain
 ```
 
-2. Insert the following into your new file, making sure to replace `your_domain` with your own domain name:
+2. 新しいファイルに以下を挿入し、`your_domain` を自分のドメイン名に置き換えてください：
 
 ```
 server {
     listen 80;
     listen [::]:80;
-    server_name your_domain; #Example: demo.flowiseai.com
+    server_name your_domain; #例：demo.flowiseai.com
     location / {
         proxy_pass http://localhost:3000;
         proxy_http_version 1.1;
@@ -181,36 +181,36 @@ server {
 }
 ```
 
-3. Save and exit, with `nano` you can do this by hitting `CTRL+O` then `CTRL+X`.
-4. Next, enable this configuration file by creating a link from it to the sites-enabled directory that Nginx reads at startup, making sure again to replace `your_domain` with your own domain name::
+3. `nano` の場合は `CTRL+O` を押した後 `CTRL+X` を押して保存し終了します。
+4. 次に、この設定ファイルを有効にするために、Nginx が起動時に読み込む sites-enabled ディレクトリにリンクを作成します。ここでも `your_domain` を自分のドメイン名に置き換えてください：
 
 ```bash
 sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
 ```
 
-5. You can now test your configuration file for syntax errors:
+5. 設定ファイルの構文エラーをテストできます：
 
 ```bash
 sudo nginx -t
 ```
 
-6. With no problems reported, restart Nginx to apply your changes:
+6. 問題が報告されなければ、Nginx を再起動して変更を適用します：
 
 ```bash
 sudo systemctl restart nginx
 ```
 
-7. Go to your DNS provider, and add a new A record. Name will be your domain name, and value will be the Public IPv4 address from your droplet
+7. DNS プロバイダーに移動し、新しい A レコードを追加します。名前はドメイン名、値は Droplet のパブリック IPv4 アドレスになります
 
 <figure><img src="../../.gitbook/assets/image (3) (2).png" alt="" width="367"><figcaption></figcaption></figure>
 
-Nginx is now configured as a reverse proxy for your application server. You should now be able to open the app: http://yourdomain.com.
+これで Nginx がアプリケーションサーバーのリバースプロキシとして設定されました。http://yourdomain.com でアプリを開くことができるはずです。
 
-### Step 3 — Installing Certbot for HTTPS (SSL)
+### ステップ 3 — HTTPS (SSL) 用の Certbot のインストール
 
-If you'd like to add a secure `https` connection to your Droplet like https://yourdomain.com, you'll need to do the following:
+https://yourdomain.com のような安全な `https` 接続を Droplet に追加したい場合は、以下の手順を実行する必要があります：
 
-1. For installing Certbot and enabling HTTPS on NGINX, we will rely on Python. So, first of all, let's set up a virtual environment:
+1. NGINX に Certbot をインストールし HTTPS を有効にするために、Python を使用します。まず、仮想環境をセットアップします：
 
 ```bash
 apt install python3.10-venv
@@ -218,64 +218,64 @@ sudo python3 -m venv /opt/certbot/
 sudo /opt/certbot/bin/pip install --upgrade pip
 ```
 
-2. Afterwards, run this command to install Certbot:
+2. その後、このコマンドを実行して Certbot をインストールします：
 
 ```bash
 sudo /opt/certbot/bin/pip install certbot certbot-nginx
 ```
 
-3. Now, execute the following command to ensure that the `certbot` command can be run:
+3. `certbot` コマンドが実行できることを確認するために、以下のコマンドを実行します：
 
 ```bash
 sudo ln -s /opt/certbot/bin/certbot /usr/bin/certbot
 ```
 
-4. Finally, run the following command to obtain a certificate and let Certbot automatically modify the NGINX configuration, enabling HTTPS:
+4. 最後に、以下のコマンドを実行して証明書を取得し、Certbot に NGINX 設定を自動的に変更させ、HTTPS を有効にします：
 
 ```bash
 sudo certbot --nginx
 ```
 
-5. After following the certificate generation wizard, we will be able to access our Droplet via HTTPS using the address https://yourdomain.com
+5. 証明書生成ウィザードに従った後、https://yourdomain.com のアドレスを使用して HTTPS 経由で Droplet にアクセスできるようになります
 
-### Set up automatic renewal
+### 自動更新の設定
 
-To enable Certbot to automatically renew the certificates, it is sufficient to add a cron job by running the following command:
+Certbot が証明書を自動的に更新できるようにするには、以下のコマンドを実行して cron ジョブを追加するだけで十分です：
 
 ```bash
 echo "0 0,12 * * * root /opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && sudo certbot renew -q" | sudo tee -a /etc/crontab > /dev/null
 ```
 
-## Congratulations!
+## おめでとうございます！
 
-You have successfully setup Flowise on your Droplet, with SSL certificate on your domain [🥳](https://emojipedia.org/partying-face/)
+ドメインに SSL 証明書を設定し、Droplet に Flowise を正常にセットアップできました [🥳](https://emojipedia.org/partying-face/)
 
-## Steps to update Flowise on Digital Ocean
+## Digital Ocean で Flowise を更新する手順
 
-1. Navigate to the directory you installed flowise in
+1. Flowise をインストールしたディレクトリに移動します
 
 ```bash
 cd Flowise/docker
 ```
 
-2. Stop and remove docker image
+2. docker イメージを停止して削除します
 
-Note: This will not delete your flows as the database is stored in a separate folder
+注意：データベースは別のフォルダに保存されているため、これによってフローが削除されることはありません
 
 ```bash
 sudo docker compose stop
 sudo docker compose rm
 ```
 
-3. Pull the latest Flowise Image
+3. 最新の Flowise イメージを取得します
 
-You can check the latest version release [here](https://github.com/FlowiseAI/Flowise/releases)
+最新のバージョンリリースは[こちら](https://github.com/FlowiseAI/Flowise/releases)で確認できます
 
 ```bash
 docker pull flowiseai/flowise
 ```
 
-4. Start the docker
+4. docker を起動します
 
 ```bash
 docker compose up -d

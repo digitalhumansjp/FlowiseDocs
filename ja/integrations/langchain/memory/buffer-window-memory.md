@@ -1,15 +1,15 @@
-# Buffer Window Memory
+# バッファウィンドウメモリー
 
-Use Flowise database table `chat_message` as the storage mechanism for storing/retrieving conversations.
+会話の保存/取得のためのストレージメカニズムとしてFlowise データベースの `chat_message` テーブルを使用します。
 
-Difference being it only fetches the last K interactions. This approach is beneficial for preserving a sliding window of the most recent interactions, ensuring the buffer remains manageable in size.
+異なる点は、最後のK回の対話のみを取得することです。このアプローチは、最新の対話のスライディングウィンドウを保持することで、バッファのサイズを管理可能な状態に保つのに有効です。
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (3) (1).png" alt="" width="298"><figcaption></figcaption></figure>
 
-## Input
+## 入力
 
-| Parameter  | Description                                                                   | Default       |
-| ---------- | ----------------------------------------------------------------------------- | ------------- |
-| Size       | Last K messages to fetch                                                      | 4             |
-| Session Id | An ID to retrieve/store messages. If not specified, a random ID will be used. |               |
-| Memory Key | A key used to format messages in prompt template                              | chat\_history |
+| パラメータ | 説明                                                                              | デフォルト   |
+| ---------- | --------------------------------------------------------------------------------- | ------------ |
+| Size       | 取得する最後のKメッセージ数                                                       | 4            |
+| Session Id | メッセージを取得/保存するためのID。指定されない場合、ランダムなIDが使用されます。 |              |
+| Memory Key | プロンプトテンプレートでメッセージをフォーマットするために使用されるキー          | chat_history |

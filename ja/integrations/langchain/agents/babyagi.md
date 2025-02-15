@@ -1,13 +1,13 @@
 ---
 description: >-
-  Task Driven Autonomous Agent which creates new task and reprioritizes task
-  list based on objective
+  目的に基づいて新しいタスクを作成し、タスクリストの優先順位を再設定する
+  タスク駆動型自律エージェント
 ---
 
 # BabyAGI
 
-<figure><img src="../../../.gitbook/assets/image (14) (1) (1) (1).png" alt="" width="275"><figcaption><p>BabyAGI Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (14) (1) (1) (1).png" alt="" width="275"><figcaption><p>BabyAGIノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を歓迎します。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

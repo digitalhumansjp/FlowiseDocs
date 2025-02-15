@@ -1,18 +1,18 @@
-# Workspaces
+# ワークスペース
 
 {% hint style="info" %}
-Workspaces is only available for Enterprise for now. Coming soon to Cloud Pro plan
+ワークスペースは現在エンタープライズ版でのみ利用可能です。Cloud Proプランでも近日提供予定です
 {% endhint %}
 
-Upon your initial login, a default workspace will be automatically generated for you. Workspaces serve to partition resources among various teams or business units. Inside each workspace, Role-Based Access Control (RBAC) is used to manage permissions and access, ensuring users have access only to the resources and settings required for their role.
+初回ログイン時に、デフォルトのワークスペースが自動的に生成されます。ワークスペースは、様々なチームやビジネスユニット間でリソースを分割するために使用されます。各ワークスペース内では、ロールベースのアクセス制御(RBAC)を使用して権限とアクセスを管理し、ユーザーが自分の役割に必要なリソースと設定にのみアクセスできるようにします。
 
 <figure><img src="../.gitbook/assets/Untitled-2024-10-19-0050.png" alt=""><figcaption></figcaption></figure>
 
-## Setting up Admin Account
+## 管理者アカウントの設定
 
 <details>
 
-<summary>For self-hosted enterprise, following env variables must be set</summary>
+<summary>セルフホスト型エンタープライズの場合、以下の環境変数を設定する必要があります</summary>
 
 ```
 JWT_AUTH_TOKEN_SECRET
@@ -28,43 +28,43 @@ TOKEN_HASH_SECRET
 
 </details>
 
-By default, new installation of Flowise will require an admin setup, similar to how you have to setup a root user for your database initially.
+デフォルトでは、Flowiseの新規インストール時に管理者のセットアップが必要です。これはデータベースの初期設定時にrootユーザーを設定する必要があるのと同様です。
 
 <figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt="" width="478"><figcaption></figcaption></figure>
 
-After setting up, user will be brought to Flowise dashboard. From the left side bar, you will see User & Workspace Management section. A default workspace was automatically created.
+設定後、ユーザーはFlowiseダッシュボードに移動します。左側のサイドバーには、ユーザー＆ワークスペース管理セクションが表示されます。デフォルトのワークスペースが自動的に作成されています。
 
 <figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Creating Workspace
+## ワークスペースの作成
 
-To create a new Workspace, click Add New:
+新しいワークスペースを作成するには、「Add New」をクリックします:
 
 <figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-You will see yourself added as the Organization Admin in the workspace you created.
+作成したワークスペースで、自分が組織管理者として追加されているのが確認できます。
 
 <figure><img src="../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
-To invite new users to the workspace, you need to create a Role first.
+ワークスペースに新しいユーザーを招待するには、まずロールを作成する必要があります。
 
-## Creating Role
+## ロールの作成
 
-Navigate to Roles in the left side bar, and click Add Role:
+左サイドバーの「Roles」に移動し、「Add Role」をクリックします:
 
 <figure><img src="../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-User can specify granular control of permissions for each resources. The only exceptions are the resources in **User & Workspace Management** (Roles, Users, Workspaces, Login Activity). These are only available for Account Admin for now.
+ユーザーは各リソースに対して詳細な権限制御を指定できます。唯一の例外は、**User & Workspace Management**（Roles、Users、Workspaces、Login Activity）のリソースです。これらは現在アカウント管理者のみが利用可能です。
 
-Here, we create an editor role which has access to everything. And another role with view-only permissions.
+ここでは、すべてにアクセスできるエディターロールと、閲覧のみ可能な別のロールを作成します。
 
 <figure><img src="../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Invite User
+## ユーザーの招待
 
 <details>
 
-<summary>For self-hosted enterprise, the following env variables must be set</summary>
+<summary>セルフホスト型エンタープライズの場合、以下の環境変数を設定する必要があります</summary>
 
 ```
 INVITE_TOKEN_EXPIRY_IN_HOURS
@@ -76,92 +76,92 @@ SMTP_PASSWORD
 
 </details>
 
-Navigate to Users in left side bar, you will see yourself as the account admin. This is indicated by the person icon with a star:
+左サイドバーの「Users」に移動すると、自分がアカウント管理者として表示されます。これは星付きの人物アイコンで示されます:
 
 <figure><img src="../.gitbook/assets/image (7) (1).png" alt=""><figcaption></figcaption></figure>
 
-Click Invite User, and enter email to be invited, the workspace to be assigned, and the role as well.
+「Invite User」をクリックし、招待するメールアドレス、割り当てるワークスペース、およびロールを入力します。
 
 <figure><img src="../.gitbook/assets/image (8) (1).png" alt=""><figcaption></figcaption></figure>
 
-Click Send Invite. The invited email will receive an invitation:
+「Send Invite」をクリックすると、招待されたメールアドレスに招待状が送信されます:
 
 <figure><img src="../.gitbook/assets/image (9) (1).png" alt=""><figcaption></figcaption></figure>
 
-Upon clicking the invitation link, invited user will be brought to a Sign Up page.
+招待リンクをクリックすると、招待されたユーザーはサインアップページに移動します。
 
 <figure><img src="../.gitbook/assets/image (10) (1).png" alt="" width="463"><figcaption></figcaption></figure>
 
-After signed up and logged in as invited user, you will be in the workspace assigned, and there will be no User & Workspace Management section:
+招待されたユーザーがサインアップしてログインすると、割り当てられたワークスペースに入り、User & Workspace Managementセクションは表示されません:
 
 <figure><img src="../.gitbook/assets/image (11) (1).png" alt=""><figcaption></figcaption></figure>
 
-If you are invited into multiple workspaces, you can switch to different workspaces from the top right dropdown button. Here we are assigned to Workspace 2 with **view only** permission. You can notice the Add New button for Chatflow is no longer visible. This ensure user can only view, not create, update nor delete. The same RBAC rules apply for API as well.
+複数のワークスペースに招待された場合、右上のドロップダウンボタンから異なるワークスペースに切り替えることができます。ここでは**閲覧のみ**の権限でWorkspace 2に割り当てられています。Chatflowの「Add New」ボタンが表示されなくなっていることに注目してください。これにより、ユーザーは閲覧のみ可能で、作成、更新、削除はできません。同じRBACルールはAPIにも適用されます。
 
 <figure><img src="../.gitbook/assets/image (12) (1).png" alt=""><figcaption></figcaption></figure>
 
-Now, back to Account Admin, you will be able to see the users invited, their status, roles, and active workspace:
+アカウント管理者に戻ると、招待したユーザー、その状態、ロール、アクティブなワークスペースを確認できます:
 
 <figure><img src="../.gitbook/assets/image (14) (1).png" alt=""><figcaption></figcaption></figure>
 
-Account admin can also modify the settings for other users:
+アカウント管理者は他のユーザーの設定も変更できます:
 
 <figure><img src="../.gitbook/assets/image (15) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Login Activity
+## ログイン履歴
 
-Admin will be able to see every login and logout from all users:
+管理者は全ユーザーのログインとログアウトの履歴を確認できます:
 
 <figure><img src="../.gitbook/assets/image (13) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Creating item in Workspace
+## ワークスペースでのアイテム作成
 
-Every items created in a workspace, are isolated from another workspace. Workspaces are a way to logically group users and resources within an organization, ensuring separate trust boundaries for resource management and access control. It is recommended to create distinct workspaces for each team.
+ワークスペースで作成されたアイテムは、他のワークスペースから分離されています。ワークスペースは、組織内のユーザーとリソースを論理的にグループ化する方法で、リソース管理とアクセス制御のための個別の信頼境界を確保します。各チームごとに個別のワークスペースを作成することをお勧めします。
 
-Here, we create a Chatflow named **Chatflow1** in **Workspace1**:
+ここでは、**Workspace1**で**Chatflow1**という名前のChatflowを作成します:
 
 <figure><img src="../.gitbook/assets/image (16) (1).png" alt=""><figcaption></figcaption></figure>
 
-When we switch to **Workspace2**, **Chatflow1** will not be visible. This applies to every resources such as Agentflows, Tools, Assistants, etc.
+**Workspace2**に切り替えると、**Chatflow1**は表示されません。これはAgentflows、Tools、Assistantsなどすべてのリソースに適用されます。
 
 <figure><img src="../.gitbook/assets/image (17) (1).png" alt=""><figcaption></figcaption></figure>
 
-The diagram below illustrates the relationship between organizations, workspaces, and the various resources associated with and contained within a workspace.
+以下の図は、組織、ワークスペース、およびワークスペースに関連付けられ含まれる様々なリソースの関係を示しています。
 
 <figure><img src="../.gitbook/assets/Untitled-2024-10-19-0050.png" alt=""><figcaption></figcaption></figure>
 
-## Sharing Credential
+## 認証情報の共有
 
-You can share credential to other workspaces. This allow users to reuse same set of credentials in different workspaces.
+認証情報を他のワークスペースと共有することができます。これにより、ユーザーは異なるワークスペースで同じ認証情報セットを再利用できます。
 
-After creating a credential, Account Admin or user with Share Credential permission from the RBAC will be able to click Share:
+認証情報を作成した後、アカウント管理者またはRBACで認証情報共有の権限を持つユーザーは「Share」をクリックできます:
 
 <figure><img src="../.gitbook/assets/image (18) (1).png" alt=""><figcaption></figcaption></figure>
 
-User can select the workspaces to share the credential with:
+ユーザーは認証情報を共有するワークスペースを選択できます:
 
 <figure><img src="../.gitbook/assets/image (19) (1).png" alt=""><figcaption></figcaption></figure>
 
-Now, switch to the workspace where the credential was shared, you will see the Shared Credential. User is not able to edit shared credential.
+認証情報が共有されたワークスペースに切り替えると、共有された認証情報が表示されます。ユーザーは共有された認証情報を編集することはできません。
 
 <figure><img src="../.gitbook/assets/image (20) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Deleting a Workspace
+## ワークスペースの削除
 
-Currently only Account Admin can delete workspaces. By default, you are not able to delete a workspace if there are still users within that workspace.
+現在、ワークスペースの削除はアカウント管理者のみが実行できます。デフォルトでは、そのワークスペース内にまだユーザーが存在する場合、ワークスペースを削除することはできません。
 
 <figure><img src="../.gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
 
-You will need to unlink all of the invited users first. This allow flexibility in case you just want to remove certain users from a workspace. Note that Organization Owner who created the workspace is not able to be unlinked from a workspace.
+まず、招待されたすべてのユーザーのリンクを解除する必要があります。これにより、特定のユーザーをワークスペースから削除したい場合の柔軟性が確保されます。なお、ワークスペースを作成した組織オーナーは、ワークスペースからリンクを解除することはできません。
 
 <figure><img src="../.gitbook/assets/image (22).png" alt=""><figcaption></figcaption></figure>
 
-After unlinking invited users, and the only user left within the workspace is the Organization Owner, delete button is now clickable:
+招待されたユーザーのリンクを解除し、ワークスペース内に組織オーナーのみが残っている場合、削除ボタンがクリック可能になります:
 
 <figure><img src="../.gitbook/assets/image (23).png" alt=""><figcaption></figcaption></figure>
 
-Deleting a workspace is an irreversible action and will cascade delete all items within that workspace. You will see a warning box:
+ワークスペースの削除は元に戻せない操作であり、そのワークスペース内のすべてのアイテムがカスケード削除されます。警告ボックスが表示されます:
 
 <figure><img src="../.gitbook/assets/image (24).png" alt=""><figcaption></figcaption></figure>
 
-After deleting a workspace, user will fallback to the Default workspace. Default workspace that was automatically created at the start is not able to be deleted.
+ワークスペースを削除すると、ユーザーはデフォルトワークスペースにフォールバックします。開始時に自動的に作成されたデフォルトワークスペースは削除できません。

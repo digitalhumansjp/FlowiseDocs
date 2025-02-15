@@ -1,23 +1,23 @@
 ---
-description: Custom Retriever allows user to specify the format of the context to LLM
+description: カスタムリトリーバーを使用すると、LLMへのコンテキストのフォーマットをユーザーが指定できます
 ---
 
-# Custom Retriever
+# カスタムリトリーバー
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt="" width="298"><figcaption></figcaption></figure>
 
-By default, when context is being retrieved from vector store, they are in the following format:
+デフォルトでは、ベクトルストアからコンテキストが取得される際、以下のような形式になっています：
 
 ```json
-[ 
+[
     {
-        "pageContent": "This is an example",
+        "pageContent": "これは例です",
         "metadata": {
             "source": "example.pdf"
         }
     },
     {
-        "pageContent": "This is example 2",
+        "pageContent": "これは例2です",
         "metadata": {
             "source": "example2.txt"
         }
@@ -25,25 +25,25 @@ By default, when context is being retrieved from vector store, they are in the f
 ]
 ```
 
-**pageContent** of the array will be joined together as a string, and fed back to LLM for completion.
+配列の**pageContent**は文字列として結合され、LLMに送られて処理されます。
 
-However, in some cases, you might want to include information from metadata to give more information to LLM, such as source, link, etc. This is where **Custom Retriever** comes in. We can specify the format to return to LLM.
+しかし、場合によってはソース、リンクなどのメタデータの情報をLLMに提供したい場合があります。そこで**カスタムリトリーバー**の出番です。LLMに返すフォーマットを指定することができます。
 
-For instance, using the following format:
+例えば、以下のようなフォーマットを使用すると：
 
 ```javascript
 {{context}}
 Source: {{metadata.source}}
 ```
 
-Will results in the combined string as below:
+以下のような結合された文字列が生成されます：
 
 ```
-This is an example
+これは例です
 Source: example.pdf
 
-This is example 2
+これは例2です
 Source: example2.txt
 ```
 
-This will be sent back to LLM. Since LLM now has the sources of the answers, we can use prompts to instruct LLM to return answers followed by citations.
+これがLLMに送り返されます。LLMが回答のソースを把握できるようになったので、プロンプトを使用してLLMに引用付きの回答を返すよう指示することができます。

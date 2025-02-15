@@ -1,16 +1,16 @@
 ---
-description: Learn how to use external API integrations with Flowise
+description: Flowiseで外部API統合を使用する方法を学ぶ
 ---
 
-# Interacting with API
+# APIとのインタラクション
 
 ***
 
-The OpenAPI Specification (OAS) defines a standard, language-agnostic interface to HTTP APIs. The goal of this use case is to have the LLM automatically figure out which API to call, while still having a stateful conversation with user.
+OpenAPI Specification (OAS)は、HTTP APIへの標準的で言語に依存しないインターフェースを定義します。このユースケースの目標は、LLMがどのAPIを呼び出すべきかを自動的に判断しながら、ユーザーとの状態を保持した対話を行うことです。
 
-## OpenAPI Chain
+## OpenAPIチェイン
 
-1. In this tutorial, we are going to use [Klarna OpenAPI](https://gist.github.com/HenryHengZJ/b60f416c42cb9bcd3160fe797421119a)
+1. このチュートリアルでは、[Klarna OpenAPI](https://gist.github.com/HenryHengZJ/b60f416c42cb9bcd3160fe797421119a)を使用します。
 
 {% code overflow="wrap" %}
 ```json
@@ -43,7 +43,7 @@ The OpenAPI Specification (OAS) defines a standard, language-agnostic interface 
           {
             "name": "countryCode",
             "in": "query",
-            "description": "ISO 3166 country code with 2 characters based on the user location. Currently, only US, GB, DE, SE and DK are supported.",
+            "description": "ユーザーの場所に基づく2文字のISO 3166国コード。現在、US、GB、DE、SE、DKのみサポートされています。",
             "required": true,
             "schema": {
               "type": "string"
@@ -52,7 +52,7 @@ The OpenAPI Specification (OAS) defines a standard, language-agnostic interface 
           {
             "name": "q",
             "in": "query",
-            "description": "A precise query that matches one very small category or product that needs to be searched for to find the products the user is looking for. If the user explicitly stated what they want, use that as a query. The query is as specific as possible to the product name or category mentioned by the user in its singular form, and don't contain any clarifiers like latest, newest, cheapest, budget, premium, expensive or similar. The query is always taken from the latest topic, if there is a new topic a new query is started. If the user speaks another language than English, translate their request into English (example: translate fia med knuff to ludo board game)!",
+            "description": "ユーザーが探している製品を見つけるために検索する必要がある非常に小さなカテゴリまたは製品に一致する具体的なクエリ。ユーザーが明示的に求めたものをクエリとして使用します。クエリは可能な限り具体的で、ユーザーが言及した製品名やカテゴリを単数形で含み、最新、最安、予算、プレミアム、高価などの修飾語を含まないようにします。ユーザーが英語以外の言語を話す場合はその要求を英語に翻訳します（例：fia med knuffをludo board gameに翻訳）。",
             "required": true,
             "schema": {
               "type": "string"
@@ -61,7 +61,7 @@ The OpenAPI Specification (OAS) defines a standard, language-agnostic interface 
           {
             "name": "size",
             "in": "query",
-            "description": "number of products returned",
+            "description": "返される製品の数",
             "required": false,
             "schema": {
               "type": "integer"
@@ -70,7 +70,7 @@ The OpenAPI Specification (OAS) defines a standard, language-agnostic interface 
           {
             "name": "min_price",
             "in": "query",
-            "description": "(Optional) Minimum price in local currency for the product searched for. Either explicitly stated by the user or implicitly inferred from a combination of the user's request and the kind of product searched for.",
+            "description": "（オプション）検索対象の製品の最低価格を現地通貨で示します。ユーザーが明示的に述べた場合、またはユーザーの要求と検索する製品の種類の組み合わせから暗黙的に推測された場合。",
             "required": false,
             "schema": {
               "type": "integer"
@@ -79,7 +79,7 @@ The OpenAPI Specification (OAS) defines a standard, language-agnostic interface 
           {
             "name": "max_price",
             "in": "query",
-            "description": "(Optional) Maximum price in local currency for the product searched for. Either explicitly stated by the user or implicitly inferred from a combination of the user's request and the kind of product searched for.",
+            "description": "（オプション）検索対象の製品の最高価格を現地通貨で示します。ユーザーが明示的に述べた場合、またはユーザーの要求と検索する製品の種類の組み合わせから暗黙的に推測された場合。",
             "required": false,
             "schema": {
               "type": "integer"
@@ -88,7 +88,7 @@ The OpenAPI Specification (OAS) defines a standard, language-agnostic interface 
         ],
         "responses": {
           "200": {
-            "description": "Products found",
+            "description": "製品が見つかりました",
             "content": {
               "application/json": {
                 "schema": {
@@ -98,7 +98,7 @@ The OpenAPI Specification (OAS) defines a standard, language-agnostic interface 
             }
           },
           "503": {
-            "description": "one or more services are unavailable"
+            "description": "1つ以上のサービスが利用できません"
           }
         },
         "deprecated": false
@@ -146,43 +146,43 @@ The OpenAPI Specification (OAS) defines a standard, language-agnostic interface 
 ```
 {% endcode %}
 
-2. You can use a [JSON to YAML converter](https://jsonformatter.org/json-to-yaml) and save it as a `.yaml` file, and upload it to **OpenAPI Chain**, then test by asking some questions. **OpenAPI Chain** will send the whole specs to LLM, and have the LLM automatically use the correct method and parameters for the API call.
+2. [JSON to YAML コンバーター](https://jsonformatter.org/json-to-yaml)を使用して`.yaml`ファイルとして保存し、**OpenAPI Chain**にアップロードして、質問を行ってテストします。**OpenAPI Chain**はLLMに全仕様を送り、LLMが自動的にAPIの正しいメソッドとパラメータを使用します。
 
 <figure><img src="../.gitbook/assets/image (133).png" alt=""><figcaption></figcaption></figure>
 
-3. However, if you want to have a normal conversation chat, it is not able to do so. You will see the following error. This is because OpenAPI Chain has the following prompt:
+3. しかし、通常の会話をしたい場合はそれができません。以下のエラーが表示されます。これは、OpenAPI Chainに次のプロンプトがあるためです。
 
 ```
-Use the provided API's to respond to this user query
+提供されたAPIを使用してこのユーザーのクエリに応答してください
 ```
 
-Since we "forced" it to always find the API to answer user query, in the cases of normal conversation that is irrelevant to the OpenAPI, it fails to do so.
+APIを必ず見つけてユーザーのクエリに答えるように「強制」したため、OpenAPIと関係のない通常の会話の場合には失敗します。
 
 <figure><img src="../.gitbook/assets/image (134).png" alt="" width="361"><figcaption></figcaption></figure>
 
-Using this method might not work well if you have large OpenAPI spec. This is because we are including all the specifications as part of the message sent to LLM. We then rely on LLM to figure out the correct URL, query parameters, request body, and other necessary parameters needed to answer user query. As you can imagine, if your OpenAPI specs are complicated, there is a higher chance LLM will hallucinates.
+この方法は大規模なOpenAPI仕様を持っている場合にはうまく機能しないかもしれません。これは、すべての仕様をLLMに送るメッセージの一部として含めているためです。そのためにLLMが正しいURLやクエリパラメータ、リクエストボディ、その他必要なパラメータを見つけ出す必要があり、仕様が複雑であるほど、LLMが誤って認識する可能性が高くなります。
 
-## Tool Agent + OpenAPI Toolkit
+## ツールエージェント + OpenAPIツールキット
 
-In order to solve the above error, we can use Agent. From the official cookbook by OpenAI: [Function calling with an OpenAPI specification](https://cookbook.openai.com/examples/function_calling_with_an_openapi_spec), it is recommended to convert each API into a tool itself, instead of feeding all the APIs into LLM as single message. An agent is also capable of having human-like interaction, with the ability to decide which tool to use depending on user's query.
+上記のエラーを解決するために、エージェントを使用することができます。OpenAIの公式クックブックより：[OpenAPI仕様による関数呼び出し](https://cookbook.openai.com/examples/function_calling_with_an_openapi_spec)では、すべてのAPIを1つのメッセージとしてLLMに送るのではなく、各APIをそれ自体としてツールに変換することを推奨しています。この方法では、ユーザーのクエリに応じてどのツールを使用するかを決定する能力を持つ、人間のような会話が可能です。
 
-OpenAPI Toolkit will converts each of the API from YAML file into a set of tools. This way, users don't have to create a [Custom Tool](../integrations/langchain/tools/custom-tool.md) for each API.
+OpenAPIツールキットは、YAMLファイルから各APIを一連のツールに変換します。これにより、ユーザーは各APIごとに[カスタムツール](../integrations/langchain/tools/custom-tool.md)を作成する必要がありません。
 
-1. Connect **ToolAgent** with **OpenAPI Toolkit**. Here, we upload the YAML spec for OpenAI API. The spec file can be found at the bottom of the page.
+1. **ToolAgent**を**OpenAPIツールキット**に接続します。ここでは、OpenAI APIに使うYAML仕様をアップロードします。仕様ファイルはページの下部にあります。
 
 <figure><img src="../.gitbook/assets/image (25).png" alt=""><figcaption></figcaption></figure>
 
-2. Let's try it!
+2. 試してみましょう！
 
 <figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-As you can noticed from the chat, the agent is capable of carrying out normal conversation, and use appropriate tool to answer user query. If you are using Analytic Tool, you can see the list of tools we converted from the YAML file:
+チャットからわかるように、エージェントは通常の会話を実行し、ユーザーのクエリに適したツールを使用することができます。アナリティクスツールを使用している場合、YAMLファイルから変換したツールのリストを見ることができます：
 
 <figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Conclusion
+## 結論
 
-We've successfully created an agent that can interact with API when necessary, and still be able handle stateful conversations with users. Below are the templates used in this section:
+必要に応じてAPIとやり取りしながら、ユーザーとの状態を保持した会話を処理できるエージェントを作成しました。このセクションで使用したテンプレートは以下です：
 
 {% file src="../.gitbook/assets/OpenAPI Chatflow.json" %}
 

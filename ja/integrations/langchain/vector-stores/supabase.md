@@ -1,48 +1,48 @@
 # Supabase
 
-## Prerequisite
+## 前提条件
 
-1. Register an account for [Supabase](https://supabase.com/)
-2. Click **New project**
+1. [Supabase](https://supabase.com/)のアカウントを登録
+2. **New project**をクリック
 
 <figure><img src="../../../.gitbook/assets/image (8) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-3. Input required fields
+3. 必要なフィールドを入力
 
-| Field Name                | Description                                       |
-| ------------------------- | ------------------------------------------------- |
-| **Name**                  | name of the project to be created. (e.g. Flowise) |
-| **Database** **Password** | password to your postgres database                |
+| フィールド名          | 説明                                      |
+| --------------------- | ----------------------------------------- |
+| **Name**              | 作成するプロジェクトの名前（例: Flowise） |
+| **Database Password** | postgresデータベースのパスワード          |
 
 <figure><img src="../../../.gitbook/assets/image (25) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-4. Click **Create new project** and wait for the project to finish setting up
-5. Click **SQL Editor**
+4. **Create new project**をクリックしてプロジェクトのセットアップが完了するまで待機
+5. **SQL Editor**をクリック
 
 <figure><img src="../../../.gitbook/assets/image (7) (2).png" alt=""><figcaption></figcaption></figure>
 
-6. Click **New query**
+6. **New query**をクリック
 
 <figure><img src="../../../.gitbook/assets/image (36) (1).png" alt=""><figcaption></figcaption></figure>
 
-7. Copy and Paste the below SQL query and run it by `Ctrl + Enter` or click **RUN**. Take note of the table name and function name.
+7. 以下のSQLクエリをコピー＆ペーストし、`Ctrl + Enter`または**RUN**をクリックして実行。テーブル名と関数名をメモしておきます。
 
-* **Table name**: `documents`
-* **Query name**: `match_documents`
+* **テーブル名**: `documents`
+* **クエリ名**: `match_documents`
 
 ```plsql
--- Enable the pgvector extension to work with embedding vectors
+-- エンベッディングベクトルを扱うためのpgvector拡張を有効化
 create extension vector;
 
--- Create a table to store your documents
+-- ドキュメントを保存するテーブルを作成
 create table documents (
   id bigserial primary key,
-  content text, -- corresponds to Document.pageContent
-  metadata jsonb, -- corresponds to Document.metadata
-  embedding vector(1536) -- 1536 works for OpenAI embeddings, change if needed
+  content text, -- Document.pageContentに対応
+  metadata jsonb, -- Document.metadataに対応
+  embedding vector(1536) -- OpenAIエンベッディングでは1536、必要に応じて変更
 );
 
--- Create a function to search for documents
+-- ドキュメントを検索する関数を作成
 create function match_documents (
   query_embedding vector(1536),
   match_count int DEFAULT null,
@@ -69,30 +69,29 @@ begin
   limit match_count;
 end;
 $$;
-
 ```
 
-If some cases, you might be using [Record Manager](../record-managers.md) to keep track of the upserts and prevent duplications. Since Record Manager generates a random UUID for each embeddings, you will have to change the id column entity to text:
+[Record Manager](../record-managers.md)を使用してアップサートを追跡し重複を防ぐ場合、Record Managerは各エンベッディングにランダムなUUIDを生成するため、idカラムのエンティティをtextに変更する必要があります:
 
 ```sql
--- Enable the pgvector extension to work with embedding vectors
+-- エンベッディングベクトルを扱うためのpgvector拡張を有効化
 create extension vector;
 
--- Create a table to store your documents
+-- ドキュメントを保存するテーブルを作成
 create table documents (
-  id text primary key, -- CHANGE TO TEXT
+  id text primary key, -- TEXTに変更
   content text,
   metadata jsonb,
   embedding vector(1536)
 );
 
--- Create a function to search for documents
+-- ドキュメントを検索する関数を作成
 create function match_documents (
   query_embedding vector(1536),
   match_count int DEFAULT null,
   filter jsonb DEFAULT '{}'
 ) returns table (
-  id text, -- CHANGE TO TEXT
+  id text, -- TEXTに変更
   content text,
   metadata jsonb,
   similarity float
@@ -113,35 +112,34 @@ begin
   limit match_count;
 end;
 $$;
-
 ```
 
 <figure><img src="../../../.gitbook/assets/image (19) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Setup
+## セットアップ
 
-1. Click **Project Settings**
+1. **Project Settings**をクリック
 
 <figure><img src="../../../.gitbook/assets/image (30) (1).png" alt=""><figcaption></figcaption></figure>
 
-2. Get your **Project URL & API Key**
+2. **Project URL & API Key**を取得
 
 <figure><img src="../../../.gitbook/assets/image (2) (3).png" alt=""><figcaption></figcaption></figure>
 
-3. Copy and Paste each details (_API Key, URL, Table Name, Query Name_) into **Supabase** node
+3. 各詳細（_API Key、URL、テーブル名、クエリ名_）を**Supabase**ノードにコピー＆ペースト
 
 <figure><img src="../../../.gitbook/assets/image (85).png" alt="" width="331"><figcaption></figcaption></figure>
 
-4. **Document** can be connected with any node under [**Document Loader**](../document-loaders/) category
-5. **Embeddings** can be connected with any node under [**Embeddings** ](../embeddings/)category
+4. **Document**は[**Document Loader**](../document-loaders/)カテゴリの任意のノードと接続可能
+5. **エンベッディング**は[**Embeddings**](../embeddings/)カテゴリの任意のノードと接続可能
 
-## Filtering
+## フィルタリング
 
-Let's say you have different documents upserted, each specified with a unique value under the metadata key `{source}`
+メタデータキー`{source}`の下に一意の値を指定して、異なるドキュメントをアップサートしたとします。
 
 <figure><img src="../../../.gitbook/assets/Untitled.png" alt=""><figcaption></figcaption></figure>
 
-You can use metadata filtering to query specific metadata:
+メタデータフィルタリングを使用して特定のメタデータをクエリできます:
 
 **UI**
 
@@ -157,8 +155,8 @@ You can use metadata filtering to query specific metadata:
 }
 ```
 
-## Resources
+## リソース
 
 * [LangChain JS Supabase](https://js.langchain.com/docs/modules/indexes/vector_stores/integrations/supabase)
-* [Supabase Blog Post](https://supabase.com/blog/openai-embeddings-postgres-vector)
-* [Metadata Filtering](https://js.langchain.com/docs/integrations/vectorstores/supabase#metadata-filtering)
+* [Supabaseブログ投稿](https://supabase.com/blog/openai-embeddings-postgres-vector)
+* [メタデータフィルタリング](https://js.langchain.com/docs/integrations/vectorstores/supabase#metadata-filtering)

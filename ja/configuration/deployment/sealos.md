@@ -1,33 +1,33 @@
 ---
-description: Learn how to deploy Flowise on Sealos
+description: SealosへのFlowiseのデプロイ方法を学ぶ
 ---
 
 # Sealos
 
 ***
 
-1. Click the following prebuilt [template](https://template.cloud.sealos.io/deploy?templateName=flowise)
-2. Add authorization
-   * FLOWISE\_USERNAME
-   * FLOWISE\_PASSWORD
+1. 以下の事前ビルドされた[テンプレート](https://template.cloud.sealos.io/deploy?templateName=flowise)をクリック
+2. 認証を追加
+   * FLOWISE_USERNAME
+   * FLOWISE_PASSWORD
 
 <figure><img src="../../.gitbook/assets/1.jpg" alt=""><figcaption></figcaption></figure>
 
-3. Click "Deploy Application" on the template page to start deployment.
-4. Once deployment concludes, click "Details" to navigate to the application's details.
+3. テンプレートページの「Deploy Application」をクリックしてデプロイを開始
+4. デプロイが完了したら、「Details」をクリックしてアプリケーションの詳細に移動
 
 <figure><img src="../../.gitbook/assets/2.png" alt=""><figcaption></figcaption></figure>
 
-5. Wait for the application's status to switch to running. Subsequently, click on the external link to open the application's Web interface directly through the external domain.
+5. アプリケーションのステータスが実行中に切り替わるまで待ちます。その後、外部リンクをクリックして外部ドメインを通じて直接アプリケーションのWebインターフェースを開きます。
 
 <figure><img src="../../.gitbook/assets/3.png" alt=""><figcaption></figcaption></figure>
 
-## Persistent Volume
+## 永続ボリューム
 
-Click "Update" top-right on the app details page, then click "Advanced" -> "Add volume", Fill in the value of "mount path": `/root/.flowise`.
+アプリの詳細ページの右上にある「Update」をクリックし、「Advanced」->「Add volume」をクリックして、「mount path」の値に`/root/.flowise`を入力します。
 
 <figure><img src="../../.gitbook/assets/4.png" alt="" width="375"><figcaption></figcaption></figure>
 
-To wrap up, click the "Deploy" button.
+最後に「Deploy」ボタンをクリックします。
 
-Now try creating a flow and save it in Flowise. Then try restarting service or redeploy, you should still be able to see the flow you have saved previously.
+Flowiseでフローを作成して保存してみてください。その後、サービスを再起動するか再デプロイしても、以前保存したフローを確認できるはずです。

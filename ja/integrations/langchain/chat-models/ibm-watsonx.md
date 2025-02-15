@@ -1,49 +1,49 @@
 # IBM Watsonx
 
-## Prerequisite
+## 前提条件
 
-1. Register an account on [IBM Watsonx](https://www.ibm.com/watsonx)
-2. Create a new project:
+1. [IBM Watsonx](https://www.ibm.com/watsonx)でアカウントを登録
+2. 新しいプロジェクトを作成:
 
 <figure><img src="../../../.gitbook/assets/image (238).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../.gitbook/assets/image (239).png" alt=""><figcaption></figcaption></figure>
 
-3. After project has been created, back to the main dashboard, and click **Explore foundation models**:
+3. プロジェクト作成後、メインダッシュボードに戻り、**Explore foundation models**をクリック:
 
 <figure><img src="../../../.gitbook/assets/image (240).png" alt=""><figcaption></figcaption></figure>
 
-4. Choose the model you would like to use and open in Prompt Lab:
+4. 使用したいモデルを選択し、Prompt Labで開く:
 
 <figure><img src="../../../.gitbook/assets/image (241).png" alt=""><figcaption></figcaption></figure>
 
-5. From the top right corner, click on View Code:
+5. 右上隅からView Codeをクリック:
 
 <figure><img src="../../../.gitbook/assets/image (242).png" alt=""><figcaption></figcaption></figure>
 
-6. Take note on the `model_id` and `version` parameter. In this case, it is `ibm/granite-3-8b-instruct,` and the version is `2023-05-29`.
-7. Click the navigation bar from the left side, and click Developer access
+6. `model_id`と`version`パラメータをメモします。この場合、`ibm/granite-3-8b-instruct`とバージョン`2023-05-29`です。
+7. 左側のナビゲーションバーをクリックし、Developer accessをクリック
 
 <figure><img src="../../../.gitbook/assets/image (243).png" alt="" width="308"><figcaption></figcaption></figure>
 
-8. Take note on the `watsonx.ai URL`, `Project ID` and create a new API key from IBM Cloud Console.
-9. By now, you should have the following information:
+8. `watsonx.ai URL`、`Project ID`をメモし、IBM Cloud Consoleから新しいAPIキーを作成します。
+9. この時点で、以下の情報が必要です:
    * Watsonx.ai URL
    * Project ID
-   * API Key
-   * Model's version
-   * Model's ID
+   * APIキー
+   * モデルのバージョン
+   * モデルID
 
-## Setup
+## セットアップ
 
-1. **Chat Models** > drag **ChatIBMWatsonx** node
+1. **Chat Models** > **ChatIBMWatsonx**ノードをドラッグ
 
 <figure><img src="../../../.gitbook/assets/image (244).png" alt="" width="306"><figcaption></figcaption></figure>
 
-2. Fill in the Model with the Model ID earlier. Create New Credential and fill in all the details.
+2. 先ほどのModel IDでModelを入力します。新しいクレデンシャルを作成し、すべての詳細を入力します。
 
 <figure><img src="../../../.gitbook/assets/image (245).png" alt="" width="419"><figcaption></figcaption></figure>
 
-2. Voila [🎉](https://emojipedia.org/party-popper/), you can now use **ChatIBMWatsonx node** in Flowise!
+2. これで[🎉](https://emojipedia.org/party-popper/)Flowiseで**ChatIBMWatsonxノード**が使用できるようになりました！
 
 <figure><img src="../../../.gitbook/assets/image (246).png" alt=""><figcaption></figcaption></figure>

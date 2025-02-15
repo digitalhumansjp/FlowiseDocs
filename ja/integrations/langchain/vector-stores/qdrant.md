@@ -1,51 +1,51 @@
 # Qdrant
 
-## Prerequisites
+## 前提条件
 
-A [locally running instance of Qdrant](https://qdrant.tech/documentation/quick-start/) or a Qdrant cloud instance.
+[ローカルで実行されているQdrantインスタンス](https://qdrant.tech/documentation/quick-start/)またはQdrantクラウドインスタンスが必要です。
 
-To get a Qdrant cloud instance:
+Qdrantクラウドインスタンスを取得するには:
 
-1. Head to the Clusters section of the [Cloud Dashboard](https://cloud.qdrant.io/overview).
-2. Select **Clusters** and then click **+ Create**.
+1. [クラウドダッシュボード](https://cloud.qdrant.io/overview)のClustersセクションに移動します。
+2. **Clusters**を選択し、**+ Create**をクリックします。
 
 <figure><img src="../../../.gitbook/assets/qdrant/2.png" alt=""><figcaption></figcaption></figure>
 
-3. Choose your cluster configurations and region.
-4. Hit **Create** to provision your cluster.
+3. クラスター構成とリージョンを選択します。
+4. **Create**をクリックしてクラスターをプロビジョニングします。
 
-## Setup
+## セットアップ
 
-1. Get/Create your **API Key** from the **Data Access Control** section of the [Cloud Dashboard](https://cloud.qdrant.io/overview).
-2. Add a new **Qdrant** node on canvas.
-3. Create new Qdrant credential using the API Key
+1. [クラウドダッシュボード](https://cloud.qdrant.io/overview)の**Data Access Control**セクションから**API Key**を取得/作成します。
+2. キャンバスに新しい**Qdrant**ノードを追加します。
+3. API Keyを使用して新しいQdrant認証情報を作成します。
 
 <figure><img src="../../../.gitbook/assets/qdrant/1.png" alt="" width="563"><figcaption></figcaption></figure>
 
-4. Enter the required info into the **Qdrant** node:
-   * Qdrant server URL
-   * Collection name
+4. **Qdrant**ノードに必要な情報を入力します:
+   * QdrantサーバーURL
+   * コレクション名
 
 <figure><img src="../../../.gitbook/assets/qdrant/3.png" alt="" width="239"><figcaption></figcaption></figure>
 
-5. **Document** input can be connected with any node under [**Document Loader**](../document-loaders/) category.
-6. **Embeddings** input can be connected with any node under [**Embeddings**](../embeddings/) category.
+5. **Document**入力は[**Document Loader**](../document-loaders/)カテゴリの任意のノードと接続できます。
+6. **エンベッディング**入力は[**Embeddings**](../embeddings/)カテゴリの任意のノードと接続できます。
 
-## Filtering
+## フィルタリング
 
-Let's say you have different documents upserted, each specified with a unique value under the metadata key `{source}`
+メタデータキー`{source}`の下に一意の値を指定して、異なるドキュメントをアップサートしたとします。
 
 <div align="left">
 
 <figure><img src="../../../.gitbook/assets/Screenshot 2024-03-05 141551.png" alt="" width="563"><figcaption></figcaption></figure>
 
- 
+
 
 <figure><img src="../../../.gitbook/assets/Screenshot 2024-03-05 141619.png" alt="" width="563"><figcaption></figcaption></figure>
 
 </div>
 
-Then, you want to filter by it. Qdrant supports following [syntax](https://qdrant.tech/documentation/concepts/filtering/#nested-key) when it comes to filtering:
+そして、それでフィルタリングしたい場合。Qdrantはフィルタリングに関して以下の[構文](https://qdrant.tech/documentation/concepts/filtering/#nested-key)をサポートしています:
 
 **UI**
 
@@ -68,8 +68,8 @@ Then, you want to filter by it. Qdrant supports following [syntax](https://qdran
 }
 ```
 
-## Resources
+## リソース
 
-* [Qdrant documentation](https://qdrant.tech/documentation/)
+* [Qdrantドキュメント](https://qdrant.tech/documentation/)
 * [LangChain JS Qdrant](https://js.langchain.com/docs/integrations/vectorstores/qdrant)
-* [Qdrant Filter](https://qdrant.tech/documentation/concepts/filtering/#nested-key)
+* [Qdrantフィルター](https://qdrant.tech/documentation/concepts/filtering/#nested-key)

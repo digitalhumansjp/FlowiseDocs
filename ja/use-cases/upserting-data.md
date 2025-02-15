@@ -1,159 +1,153 @@
----
-description: Learn how to upsert data to Vector Stores with Flowise
----
-
-# Upserting Data
+# データのアップサート
 
 ***
 
-There are two fundamental ways to upsert your data into a [Vector Store](../integrations/langchain/vector-stores/) using Flowise, either via [API calls](../using-flowise/api.md#id-2.-vector-upsert-api) or by using a set of dedicated nodes we have ready for this purpose.
+Flowiseを使用して[ベクトルストア](../integrations/langchain/vector-stores/)にデータをアップサートする方法は、[APIコール](../using-flowise/api.md#id-2.-vector-upsert-api)を使用する方法と、この目的のために用意された専用のノードセットを使用する方法の2つがあります。
 
-In this guide, even though it is **highly recommended** that you prepare your data using the [Document Stores](../using-flowise/document-stores.md) before upserting to a Vector Store, we will go through the entire process by using the specific nodes required for this end, outlining the steps, advantages of this approach, and optimization strategies for efficient data handling.
+このガイドでは、ベクトルストアにアップサートする前に[ドキュメントストア](../using-flowise/document-stores.md)を使用してデータを準備することを**強く推奨**しますが、この目的に必要な特定のノードを使用してプロセス全体を説明し、手順、このアプローチの利点、効率的なデータ処理のための最適化戦略について説明します。
 
-## Understanding the upserting process
+## アップサートプロセスの理解
 
-The first thing we need to understand is that the upserting data process to a [Vector Store](../integrations/langchain/vector-stores/) is a fundamental piece for the formation of a [Retrieval Augmented Generation (RAG)](multiple-documents-qna.md) system. However, once this process is finished, the RAG can be executed independently.
+最初に理解する必要があるのは、[ベクトルストア](../integrations/langchain/vector-stores/)へのデータのアップサートプロセスは、[検索拡張生成(RAG)](multiple-documents-qna.md)システムの形成における基本的な要素だということです。ただし、このプロセスが完了すると、RAGは独立して実行できます。
 
-In other words, in Flowise you can upsert data without a full RAG setup, and you can run your RAG without the specific nodes used in the upsert process, meaning that although a well-populated vector store is crucial for RAG to function, the actual retrieval and generation processes don't require continuous upserting.
+つまり、Flowiseでは完全なRAGセットアップなしでデータをアップサートでき、アップサートプロセスで使用される特定のノードなしでRAGを実行できます。これは、適切に構築されたベクトルストアがRAGの機能に不可欠である一方で、実際の検索と生成のプロセスには継続的なアップサートは必要ないことを意味します。
 
-<figure><img src="../.gitbook/assets/ud_01.png" alt=""><figcaption><p>Upsert vs. RAG</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/ud_01.png" alt=""><figcaption><p>アップサート vs. RAG</p></figcaption></figure>
 
-## Setup
+## セットアップ
 
-Let's say we have a long dataset in PDF format that we need to upsert to our [Upstash Vector Store](../integrations/langchain/vector-stores/upstash-vector.md) so we could instruct an LLM to retrieve specific information from that document.
+PDFフォーマットの長いデータセットがあり、それを[Upstashベクトルストア](../integrations/langchain/vector-stores/upstash-vector.md)にアップサートして、LLMにそのドキュメントから特定の情報を取得するように指示したいとします。
 
-In order to do that, and for illustrating this tutorial, we would need to create an **upserting flow** with 5 different nodes:
+そのために、このチュートリアルでは、5つの異なるノードを使用して**アップサートフロー**を作成する必要があります：
 
-<figure><img src="../.gitbook/assets/UD_02.png" alt=""><figcaption><p>Upserting Flow</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/UD_02.png" alt=""><figcaption><p>アップサートフロー</p></figcaption></figure>## 1. ドキュメントローダー
 
-## 1. Document Loader
+最初のステップは、[ドキュメントローダーノード](../integrations/langchain/document-loaders/)を使用して**PDFデータをFlowiseインスタンスにアップロード**することです。ドキュメントローダーは、**PDF**、**TXT**、**CSV**、Notionページなど、様々なドキュメント形式の取り込みを処理する専用のノードです。
 
-The first step is to **upload our PDF data into the Flowise instance** using a [Document Loader node](../integrations/langchain/document-loaders/). Document Loaders are specialized nodes that handle the ingestion of various document formats, including **PDFs**, **TXT**, **CSV**, Notion pages, and more.
+重要な点として、すべてのドキュメントローダーには、データセットからメタデータを任意に追加および省略できる2つの重要な**追加パラメータ**が付属しています。
 
-It is important to mention that every Document Loader comes with two important **additional parameters** that allow us to add and omit metadata from our dataset at will.
-
-<figure><img src="../.gitbook/assets/UD_03.png" alt="" width="375"><figcaption><p>Additional Parameters</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/UD_03.png" alt="" width="375"><figcaption><p>追加パラメータ</p></figcaption></figure>
 
 {% hint style="info" %}
-**Tip**: The add/omit metadata parameters, although they are optional, are very useful for targeting our dataset once it is upserted in a Vector Store or for removing unnecessary metadata from it.
+**ヒント**：メタデータの追加/省略パラメータはオプションですが、ベクトルストアにアップサートされたデータセットをターゲットにしたり、不要なメタデータを削除したりする際に非常に便利です。
 {% endhint %}
 
-## 2. Text Splitter
+## 2. テキストスプリッター
 
-Once we have uploaded our PDF or datset, we need to **split it into smaller pieces, documents, or chunks**. This is a crucial preprocessing step for 2 main reasons:
+PDFやデータセットをアップロードしたら、**それを小さな部分、ドキュメント、またはチャンクに分割**する必要があります。これは主に2つの理由で重要な前処理ステップです：
 
-* **Retrieval speed and relevance:** Storing and querying large documents as single entities in a vector database can lead to slower retrieval times and potentially less relevant results. Splitting the document into smaller chunks allows for more targeted retrieval. By querying against smaller, more focused units of information, we can achieve faster response times and improve the precision of the retrieved results.
-* **Cost-effective:** Since we only retrieve relevant chunks rather than the entire document, the number of tokens processed by the LLM is significantly reduced. This targeted retrieval approach directly translates to lower usage costs for our LLM, as billing is typically based on token consumption. By minimizing the amount of irrelevant information sent to the LLM, we also optimize for cost.
+* **検索速度と関連性：**大きなドキュメントをベクトルデータベースに単一のエンティティとして保存して検索すると、検索時間が遅くなり、関連性の低い結果が得られる可能性があります。ドキュメントを小さなチャンクに分割することで、より的確な検索が可能になります。より小さく、焦点を絞った情報単位に対して検索を行うことで、より速いレスポンスタイムと検索結果の精度向上を実現できます。
+* **コスト効率：**ドキュメント全体ではなく関連するチャンクのみを取得するため、LLMが処理するトークン数が大幅に削減されます。この的確な検索アプローチは、通常トークン消費量に基づいて課金されるLLMの使用コストの削減に直接つながります。LLMに送信される不要な情報を最小限に抑えることで、コストも最適化されます。
 
-### Nodes
+### ノード
 
-In Flowise, this splitting process is accomplished using the [Text Splitter nodes](../integrations/langchain/text-splitters/). Those nodes provide a range of text segmentation strategies, including:
+Flowiseでは、この分割プロセスは[テキストスプリッターノード](../integrations/langchain/text-splitters/)を使用して実行されます。これらのノードは以下のようなテキスト分割戦略を提供します：
 
-* **Character Text Splitting:** Dividing the text into chunks of a fixed number of characters. This method is straightforward but may split words or phrases across chunks, potentially disrupting context.
-* **Token Text Splitting:** Segmenting the text based on word boundaries or tokenization schemes specific to the chosen embedding model. This approach often leads to more semantically coherent chunks, as it preserves word boundaries and considers the underlying linguistic structure of the text.
-* **Recursive Character Text Splitting:** This strategy aims to divide text into chunks that maintain semantic coherence while staying within a specified size limit. It's particularly well-suited for hierarchical documents with nested sections or headings. Instead of blindly splitting at the character limit, it recursively analyzes the text to find logical breakpoints, such as sentence endings or section breaks. This approach ensures that each chunk represents a meaningful unit of information, even if it slightly exceeds the target size.
-* **Markdown Text Splitter:** Designed specifically for markdown-formatted documents, this splitter logically segments the text based on markdown headings and structural elements, creating chunks that correspond to logical sections within the document.
-* **Code Text Splitter:** Tailored for splitting code files, this strategy considers code structure, function definitions, and other programming language-specific elements to create meaningful chunks that are suitable for tasks like code search and documentation.
-* **HTML-to-Markdown Text Splitter:** This specialized splitter first converts HTML content to Markdown and then applies the Markdown Text Splitter, allowing for structured segmentation of web pages and other HTML documents.
+* **文字テキスト分割：**テキストを固定文字数のチャンクに分割します。この方法は単純ですが、単語やフレーズがチャンク間で分割される可能性があり、文脈が損なわれる可能性があります。
+* **トークンテキスト分割：**選択したエンベッディングモデルに特有の単語境界やトークン化スキームに基づいてテキストを分割します。この方法は単語境界を保持し、テキストの基本的な言語構造を考慮するため、より意味的に一貫性のあるチャンクが得られることが多いです。
+* **再帰的文字テキスト分割：**この戦略は、指定されたサイズ制限内で意味的な一貫性を維持しながらテキストをチャンクに分割することを目的としています。階層的なドキュメントやネストされたセクションを持つドキュメントに特に適しています。文字制限で単純に分割するのではなく、文末やセクション区切りなどの論理的な区切り点を見つけるために再帰的にテキストを分析します。この方法により、目標サイズを若干超えても、各チャンクが意味のある情報単位を表現することが保証されます。
+* **マークダウンテキストスプリッター：**マークダウン形式のドキュメント用に設計されたこのスプリッターは、マークダウンの見出しと構造要素に基づいてテキストを論理的に分割し、ドキュメント内の論理的なセクションに対応するチャンクを作成します。
+* **コードテキストスプリッター：**コードファイルの分割用に調整されたこの戦略は、コード構造、関数定義、その他のプログラミング言語固有の要素を考慮して、コード検索やドキュメント化などのタスクに適した意味のあるチャンクを作成します。
+* **HTMLからマークダウンへのテキストスプリッター：**この特殊なスプリッターは、まずHTMLコンテンツをマークダウンに変換し、その後マークダウンテキストスプリッターを適用することで、Webページやその他のHTMLドキュメントの構造化された分割を可能にします。
 
-The Text Splitter nodes provide granular control over text segmentation, allowing for customization of parameters such as:
+テキストスプリッターノードは、以下のようなパラメータのカスタマイズを可能にし、テキスト分割の詳細な制御を提供します：
 
-* **Chunk Size:** The desired maximum size of each chunk, usually defined in characters or tokens.
-* **Chunk Overlap:** The number of characters or tokens to overlap between consecutive chunks, useful for maintaining contextual flow across chunks.
+* **チャンクサイズ：**各チャンクの希望する最大サイズで、通常は文字数またはトークン数で定義されます。
+* **チャンクオーバーラップ：**連続するチャンク間でオーバーラップさせる文字数またはトークン数で、チャンク間の文脈の流れを維持するのに役立ちます。
 
 {% hint style="info" %}
-**Tip:** Note that Chunk Size and Chunk Overlap values are not additive. Selecting `chunk_size=1200` and `chunk_overlap=400` does not result in a total chunk size of 1600. The overlap value determines the number of tokens from the preceding chunk included in the current chunk to maintain context. It does not increase the overall chunk size.
+**ヒント：**チャンクサイズとチャンクオーバーラップの値は加算されません。`chunk_size=1200`と`chunk_overlap=400`を選択しても、合計チャンクサイズは1600にはなりません。オーバーラップ値は、文脈を維持するために前のチャンクから現在のチャンクに含まれるトークン数を決定します。全体のチャンクサイズを増加させるものではありません。
 {% endhint %}
 
-### Undertanding Chunk Overlap
+### チャンクオーバーラップの理解
 
-In the context of vector-based retrieval and LLM querying, chunk overlap plays an **important role in maintaining contextual continuity** and **improving response accuracy**, especially when dealing with limited retrieval depth or **top K**, which is the parameter that determines the maximum number of most similar chunks that are retrieved from the [Vector Store](../integrations/langchain/vector-stores/) in response to a query.
+ベクトルベースの検索とLLMのクエリの文脈において、チャンクオーバーラップは**文脈の連続性を維持**し、**応答の正確性を向上させる**上で**重要な役割**を果たします。特に、制限された検索深度または**top K**（クエリに応じて[ベクトルストア](../integrations/langchain/vector-stores/)から取得される最も類似したチャンクの最大数を決定するパラメータ）を扱う場合に重要です。
 
-During query processing, the LLM executes a similarity search against the Vector Store to retrieve the most semantically relevant chunks to the given query. If the retrieval depth, represented by the top K parameter, is set to a small value, 4 for default, the LLM initially uses information only from these 4 chunks to generate its response.
+クエリ処理中、LLMはベクトルストアに対して類似度検索を実行し、与えられたクエリに対して意味的に最も関連性の高いチャンクを取得します。検索深度（top Kパラメータで表される）がデフォルトの4のような小さな値に設定されている場合、LLMは最初にこれら4つのチャンクからの情報のみを使用して応答を生成します。
 
-This scenario presents us with a problem, since relying solely on a limited number of chunks without overlap can lead to incomplete or inaccurate answers, particularly when dealing with queries that require information spanning multiple chunks.
+このシナリオでは問題が発生します。オーバーラップのない限られた数のチャンクのみに依存すると、特に複数のチャンクにまたがる情報を必要とするクエリを扱う場合、不完全または不正確な回答につながる可能性があるためです。
 
-Chunk overlap helps with this issue by ensuring that a portion of the textual context is shared across consecutive chunks, **increasing the likelihood that all relevant information for a given query is contained within the retrieved chunks**.
+チャンクオーバーラップは、連続するチャンク間でテキストの文脈の一部を共有することで、この問題を解決します。これにより、**与えられたクエリに関連するすべての情報が取得されたチャンク内に含まれる可能性が高まります**。
 
-In other words, this overlap serves as a bridge between chunks, enabling the LLM to access a wider contextual window even when limited to a small set of retrieved chunks (top K). If a query relates to a concept or piece of information that extends beyond a single chunk, the overlapping regions increase the likelihood of capturing all the necessary context.
+言い換えると、このオーバーラップはチャンク間の橋渡しとして機能し、取得されるチャンク（top K）が少数に制限されている場合でも、LLMがより広い文脈のウィンドウにアクセスできるようになります。クエリが単一のチャンクを超えて広がる概念や情報に関連する場合、オーバーラップ領域により、必要な文脈をすべて捉える可能性が高まります。
 
-Therefore, by introducing chunk overlap during the text splitting phase, we enhance the LLM's ability to:
+したがって、テキスト分割フェーズでチャンクオーバーラップを導入することで、LLMの以下の能力が向上します：
 
-1. **Preserve contextual continuity:** Overlapping chunks provide a smoother transition of information between consecutive segments, allowing the model to maintain a more coherent understanding of the text.
-2. **Improve retrieval accuracy:** By increasing the probability of capturing all relevant information within the target top K retrieved chunks, overlap contributes to more accurate and contextually appropriate responses.
+1. **文脈の連続性の保持：**オーバーラップするチャンクにより、連続するセグメント間の情報の移行がスムーズになり、モデルがテキストのより一貫した理解を維持できます。
+2. **検索精度の向上：**ターゲットとなるtop K取得チャンク内に関連するすべての情報を捉える確率を高めることで、オーバーラップはより正確で文脈に適した応答に貢献します。
 
-### Accuracy vs. Cost
+### 精度とコストのバランス
 
-So, to further optimize the trade-off between retrieval accuracy and cost, two primary strategies can be used:
+検索精度とコストのトレードオフをさらに最適化するために、2つの主要な戦略を使用できます：
 
-1. **Increase/Decrease Chunk Overlap:** Adjusting the overlap percentage during text splitting allows for fine-grained control over the amount of shared context between chunks. Higher overlap percentages generally lead to improved context preservation but may also increase costs since you would need to use more chunks to encompass the entire document. Conversely, lower overlap percentages can reduce costs but risk losing key contextual information between chunks, potentially leading to less accurate or incomplete answers from the LLM.
-2. **Increase/Decrease Top K:** Raising the default top K value (4) expands the number of chunks considered for response generation. While this can improve accuracy, it also increases cost.
+1. **チャンクオーバーラップの増減：**テキスト分割時のオーバーラップ率を調整することで、チャンク間で共有される文脈の量を細かく制御できます。オーバーラップ率が高いほど、一般的に文脈の保持が改善されますが、ドキュメント全体を包含するためにより多くのチャンクが必要となるため、コストが増加する可能性があります。逆に、オーバーラップ率を低くするとコストを削減できますが、チャンク間の重要な文脈情報が失われるリスクがあり、LLMからの回答が不正確または不完全になる可能性があります。
+2. **top Kの増減：**デフォルトのtop K値（4）を上げると、応答生成に考慮されるチャンクの数が増加します。これにより精度は向上しますが、コストも増加します。
 
 {% hint style="info" %}
-**Tip:** The choice of optimal **overlap** and **top K** values depends on factors such as document complexity, embedding model characteristics, and the desired balance between accuracy and cost. Experimentation with these values is important for finding the ideal configuration for a specific need.
+**ヒント：**最適な**オーバーラップ**と**top K**の値の選択は、ドキュメントの複雑さ、エンベッディングモデルの特性、精度とコストのバランスの希望などの要因に依存します。特定のニーズに対する理想的な設定を見つけるためには、これらの値を実験することが重要です。
 {% endhint %}
 
-## 3. Embedding
+## 3. エンベッディング
 
-We have now uploaded our dataset and configured how our data is going to be split before it gets upserted to our [Vector Store](../integrations/langchain/vector-stores/). At this point, [the embedding nodes](../integrations/langchain/embeddings/) come into play, **converting all those chunks into a "language" that an LLM can easily understand**.
+これで、データセットをアップロードし、[ベクトルストア](../integrations/langchain/vector-stores/)にアップサートされる前にデータがどのように分割されるかを設定しました。この段階で、[エンベッディングノード](../integrations/langchain/embeddings/)が登場し、**それらのチャンクすべてをLLMが簡単に理解できる「言語」に変換します**。
 
-In this current context, embedding is the process of converting text into a numerical representation that captures its meaning. This numerical representation, also called the embedding vector, is a multi-dimensional array of numbers, where each dimension represents a specific aspect of the text's meaning.
+この文脈において、エンベッディングはテキストをその意味を捉えた数値表現に変換するプロセスです。この数値表現（エンベッディングベクトルとも呼ばれる）は、各次元がテキストの意味の特定の側面を表す多次元の数値配列です。
 
-These vectors allow LLMs to compare and search for similar pieces of text within the vector store by measuring the distance or similarity between them in this multi-dimensional space.
+これらのベクトルにより、LLMはこの多次元空間内でベクトル間の距離や類似性を測定することで、ベクトルストア内の類似したテキストを比較・検索することができます。
 
-### Understanding Embeddings/Vector Store dimensions
+### エンベッディング/ベクトルストアの次元の理解
 
-The number of dimensions in a Vector Store index is determined by the embedding model used when we upsert our data, and vice versa. Each dimension represents a specific feature or concept within the data. For example, a **dimension** might **represent a particular topic, sentiment, or other aspect of the text**.
+ベクトルストアインデックスの次元数は、データをアップサートする際に使用するエンベッディングモデルによって決定され、その逆も同様です。各次元はデータ内の特定の特徴や概念を表します。例えば、**次元**は**特定のトピック、感情、またはテキストの他の側面を表現**する可能性があります。
 
-The more dimensions we use to embed our data, the greater the potential for capturing nuanced meaning from our text. However, this increase comes at the cost of higher computational requirements per query.
+データのエンベッドに使用する次元が多いほど、テキストからより微妙な意味を捉える可能性が高まります。ただし、この増加はクエリごとの計算要件の増加というコストを伴います。
 
-In general, a larger number of dimensions needs more resources to store, process, and compare the resulting embedding vectors. Therefore, embeddings models like the Google `embedding-001`, which uses 768 dimensions, are, in theory, cheaper than others like the OpenAI `text-embedding-3-large`, with 3072 dimensions.
+一般的に、次元数が大きいほど、結果として得られるエンベッディングベクトルの保存、処理、比較により多くのリソースが必要になります。したがって、768次元を使用するGoogle `embedding-001`のようなエンベッディングモデルは、理論的には3072次元を持つOpenAI `text-embedding-3-large`などと比べて安価です。
 
-It's important to note that the **relationship between dimensions and meaning capture isn't strictly linear**; there's a point of diminishing returns where adding more dimensions provides negligible benefit for the added unnecessary cost.
+重要な点として、**次元と意味の捕捉の関係は厳密に線形ではありません**。次元を追加することで得られる利点が、不必要なコストの増加に対して無視できるレベルになる点が存在します。
 
 {% hint style="info" %}
-**Tip:** To ensure compatibility between an embedding model and a Vector Store index, dimensional alignment is essential. Both **the model and the index must utilize the same number of dimensions for vector representation**. Dimensionality mismatch will result in upsertion errors, as the Vector Store is designed to handle vectors of a specific size determined by the chosen embedding model.
+**ヒント：**エンベッディングモデルとベクトルストアインデックス間の互換性を確保するには、次元の整合性が不可欠です。**モデルとインデックスの両方が、ベクトル表現に同じ次元数を使用する必要があります**。次元の不一致はアップサートエラーを引き起こします。これは、ベクトルストアが選択されたエンベッディングモデルによって決定される特定のサイズのベクトルを処理するように設計されているためです。
 {% endhint %}
 
-## 4. Vector Store
+## 4. ベクトルストア
 
-The [Vector Store node](../integrations/langchain/vector-stores/) is the **end node of our upserting flow**. It acts as the bridge between our Flowise instance and our vector database, enabling us to send the generated embeddings, along with any associated metadata, to our target Vector Store index for persistent storage and subsequent retrieval.
+[ベクトルストアノード](../integrations/langchain/vector-stores/)は**アップサートフローの終端ノード**です。これはFlowiseインスタンスとベクトルデータベース間のブリッジとして機能し、生成されたエンベッディングを関連するメタデータと共に、永続的な保存と後続の検索のためにターゲットのベクトルストアインデックスに送信することを可能にします。
 
-It is in this node where we can set parameters like "**top K**", which, as we said previously, is the parameter that determines the maximum number of most similar chunks that are retrieved from the Vector Store in response to a query.
+このノードで、先に説明した「**top K**」のようなパラメータを設定できます。これは、クエリに応答してベクトルストアから取得される最も類似したチャンクの最大数を決定するパラメータです。
 
 <figure><img src="../.gitbook/assets/UD_04.png" alt="" width="375"><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-**Tip:** A lower top K value will yield fewer but potentially more relevant results, while a higher value will return a broader range of results, potentially capturing more information.
+**ヒント：**top Kの値が低いと、より少ないが潜在的により関連性の高い結果が得られ、値が高いとより広範な結果が返され、より多くの情報を捉える可能性があります。
 {% endhint %}
 
-## 5. Record Manager
+## 5. レコードマネージャー
 
-The [Record Manager node](../integrations/langchain/record-managers.md) is an optional but incredibly useful addition to our upserting flow. It allows us to maintain records of all the chunks that have been upserted to our Vector Store, enabling us to efficiently add or delete chunks as needed.
+[レコードマネージャーノード](../integrations/langchain/record-managers.md)は、アップサートフローにおいてオプションですが、非常に有用な追加機能です。ベクトルストアにアップサートされたすべてのチャンクの記録を維持し、必要に応じてチャンクを効率的に追加または削除することができます。
 
-For a more in-depth guide, we refer you to [this guide](../integrations/langchain/record-managers.md).
+より詳細なガイドについては、[このガイド](../integrations/langchain/record-managers.md)を参照してください。
 
 <figure><img src="../.gitbook/assets/UD_05.png" alt="" width="375"><figcaption></figcaption></figure>
 
-## 6. Full Overview
+## 6. 全体の概要
 
-Finally, let's examine each stage, from initial document loading to the final vector representation, highlighting the key components and their roles in the upserting process.
+最後に、初期のドキュメント読み込みから最終的なベクトル表現まで、各段階を検証し、アップサートプロセスにおける主要なコンポーネントとその役割を強調します。
 
 <figure><img src="../.gitbook/assets/UD_06.png" alt=""><figcaption></figcaption></figure>
 
-1. **Document Ingestion**:
-   * We begin by feeding our raw data into Flowise using the appropriate **Document Loader node** for your data format.
-2. **Strategic Splitting**
-   * Next, the **Text Splitter node** divides our document into smaller, more manageable chunks. This is crucial for efficient retrieval and cost control.
-   * We have flexibility in how this splitting happens by selecting the appropriate text splitter node and, importantly, by fine-tuning chunk size and chunk overlap to balance context preservation with efficiency.
-3. **Meaningful Embeddings**
-   * Now, just before our data is going to be recorded in the Vector Store, the **Embedding node** steps in. It transforms each text chunk and its meaning into a numerical representation that our LLM can understand.
-4. **Vector Store Index**
-   * Finally, the **Vector Store node** acts as the bridge between Flowise and our database. It sends our embeddings, along with any associated metadata, to the designated Vector Store index.
-   * Here, in this node, we can control the retrieval behavior by setting the **top K** parameter, which influences how many chunks are considered when answering a query.
-5. **Data Ready**
-   * Once upserted, our data is now represented as vectors within the Vector Store, ready for similarity search and retrieval.
-6. **Record Keeping (Optional)**
-   * For enhanced control and management data, the **Record Manager** node keeps track of all upserted chunks. This facilitates easy updates or removals as your data or needs evolve.
+1. **ドキュメントの取り込み**：
+   * データ形式に適した**ドキュメントローダーノード**を使用して、生データをFlowiseに取り込むことから始めます。
+2. **戦略的分割**
+   * 次に、**テキストスプリッターノード**がドキュメントをより小さく管理しやすいチャンクに分割します。これは効率的な検索とコスト管理に重要です。
+   * 適切なテキストスプリッターノードを選択し、特にチャンクサイズとチャンクオーバーラップを微調整することで、文脈の保持と効率性のバランスを取りながら、この分割方法に柔軟性を持たせることができます。
+3. **意味のあるエンベッディング**
+   * データがベクトルストアに記録される直前に、**エンベッディングノード**が介入します。各テキストチャンクとその意味をLLMが理解できる数値表現に変換します。
+4. **ベクトルストアインデックス**
+   * 最後に、**ベクトルストアノード**がFlowiseとデータベース間のブリッジとして機能します。エンベッディングを関連するメタデータと共に、指定されたベクトルストアインデックスに送信します。
+   * このノードで、クエリに回答する際に考慮されるチャンクの数に影響を与える**top K**パラメータを設定することで、検索動作を制御できます。
+5. **データの準備完了**
+   * アップサートが完了すると、データはベクトルストア内でベクトルとして表現され、類似度検索と取得の準備が整います。
+6. **記録の保持（オプション）**
+   * 拡張された制御とデータ管理のために、**レコードマネージャー**ノードはアップサートされたすべてのチャンクを追跡します。これにより、データやニーズの進化に応じて簡単に更新や削除が可能になります。
 
-In essence, the upserting process transforms our raw data into an LLM-ready format, optimized for fast and cost-effective retrieval.
+本質的に、アップサートプロセスは生データを高速でコスト効率の良い検索に最適化された、LLMが利用可能な形式に変換します。

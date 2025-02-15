@@ -1,12 +1,12 @@
-# Buffer Memory
+# バッファメモリー
 
-Use Flowise database table `chat_message` as the storage mechanism for storing/retrieving conversations.
+会話の保存/取得のためのストレージメカニズムとしてFlowise データベースの `chat_message` テーブルを使用します。
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (3).png" alt="" width="299"><figcaption></figcaption></figure>
 
-## Input
+## 入力
 
-| Parameter  | Description                                                                   | Default       |
-| ---------- | ----------------------------------------------------------------------------- | ------------- |
-| Session Id | An ID to retrieve/store messages. If not specified, a random ID will be used. |               |
-| Memory Key | A key used to format messages in prompt template                              | chat\_history |
+| パラメータ | 説明                                                                              | デフォルト   |
+| ---------- | --------------------------------------------------------------------------------- | ------------ |
+| Session Id | メッセージを取得/保存するためのID。指定されない場合、ランダムなIDが使用されます。 |              |
+| Memory Key | プロンプトテンプレートでメッセージをフォーマットするために使用されるキー          | chat_history |

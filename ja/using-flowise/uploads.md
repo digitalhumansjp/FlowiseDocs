@@ -1,14 +1,14 @@
 ---
-description: Learn how to use upload images, audio, and other files
+description: 画像、音声、その他のファイルのアップロード方法について学ぶ
 ---
 
-# Uploads
+# アップロード
 
-Flowise lets you upload images, audio, and other files from the chat. In this section, you'll learn how to enable and use these features.
+Flowiseでは、チャットから画像、音声、その他のファイルをアップロードできます。このセクションでは、これらの機能を有効にして使用する方法について説明します。
 
-## Image
+## 画像
 
-Certain chat models allow you to input images. Always refer to the official documentation of the LLM to confirm if the model supports image input.
+特定のチャットモデルでは画像を入力できます。モデルが画像入力をサポートしているかどうかは、必ずLLMの公式ドキュメントを参照してください。
 
 * [ChatOpenAI](../integrations/llamaindex/chat-models/chatopenai.md)
 * [AzureChatOpenAI](../integrations/llamaindex/chat-models/azurechatopenai.md)
@@ -19,16 +19,16 @@ Certain chat models allow you to input images. Always refer to the official docu
 * [Google Vertex AI](../integrations/langchain/llms/googlevertex-ai.md)
 
 {% hint style="warning" %}
-Image processing only works with certain chains/agents in Chatflow.
+画像処理は、Chatflowの特定のチェーン/エージェントでのみ機能します。
 
-[LLMChain](../integrations/langchain/chains/llm-chain.md), [Conversation Chain](../integrations/langchain/chains/conversation-chain.md), [ReAct Agent](../integrations/langchain/agents/react-agent-chat.md), [Conversational Agent](../integrations/langchain/agents/conversational-agent.md), [Tool Agent](../integrations/langchain/agents/tool-agent.md)
+[LLMChain](../integrations/langchain/chains/llm-chain.md)、[Conversation Chain](../integrations/langchain/chains/conversation-chain.md)、[ReAct Agent](../integrations/langchain/agents/react-agent-chat.md)、[Conversational Agent](../integrations/langchain/agents/conversational-agent.md)、[Tool Agent](../integrations/langchain/agents/tool-agent.md)
 {% endhint %}
 
-If you enable **Allow Image Upload**, you can upload images from the chat interface.
+**画像アップロードを許可**を有効にすると、チャットインターフェースから画像をアップロードできます。
 
 <div align="center"><figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="255"><figcaption></figcaption></figure> <figure><img src="../.gitbook/assets/Screenshot 2024-02-29 011714.png" alt="" width="290"><figcaption></figcaption></figure></div>
 
-To upload images with the API:
+APIで画像をアップロードするには:
 
 {% tabs %}
 {% tab title="Python" %}
@@ -39,12 +39,12 @@ API_URL = "http://localhost:3000/api/v1/prediction/<chatflowid>"
 def query(payload):
     response = requests.post(API_URL, json=payload)
     return response.json()
-    
+
 output = query({
-    "question": "Can you describe the image?",
+    "question": "この画像を説明できますか?",
     "uploads": [
         {
-            "data": "data:image/png;base64,iVBORw0KGgdM2uN0", # base64 string or url
+            "data": "data:image/png;base64,iVBORw0KGgdM2uN0", # base64文字列またはURL
             "type": "file", # file | url
             "name": "Flowise.png",
             "mime": "image/png"
@@ -72,10 +72,10 @@ async function query(data) {
 }
 
 query({
-    "question": "Can you describe the image?",
+    "question": "この画像を説明できますか?",
     "uploads": [
         {
-            "data": "data:image/png;base64,iVBORw0KGgdM2uN0", //base64 string or url
+            "data": "data:image/png;base64,iVBORw0KGgdM2uN0", //base64文字列またはURL
             "type": "file", // file | url
             "name": "Flowise.png",
             "mime": "image/png"
@@ -88,19 +88,19 @@ query({
 {% endtab %}
 {% endtabs %}
 
-## Audio
+## 音声
 
-In the Chatflow Configuration, you can select a speech-to-text module. Supported integrations include:
+Chatflowの設定で、音声認識モジュールを選択できます。サポートされている連携先は以下の通りです:
 
 * OpenAI
 * AssemblyAI
 * [LocalAI](../integrations/langchain/chat-models/chatlocalai.md)
 
-When this is enabled, users can speak directly into the microphone. Their speech is be transcribed into text.
+これが有効になっている場合、ユーザーは直接マイクに向かって話すことができます。音声はテキストに変換されます。
 
 <div align="left"><figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure> <figure><img src="../.gitbook/assets/Screenshot 2024-02-29 012538.png" alt="" width="431"><figcaption></figcaption></figure></div>
 
-To upload audio with the API:
+APIで音声をアップロードするには:
 
 {% tabs %}
 {% tab title="Python" %}
@@ -111,11 +111,11 @@ API_URL = "http://localhost:3000/api/v1/prediction/<chatflowid>"
 def query(payload):
     response = requests.post(API_URL, json=payload)
     return response.json()
-    
+
 output = query({
     "uploads": [
         {
-            "data": "data:audio/webm;codecs=opus;base64,GkXf", # base64 string
+            "data": "data:audio/webm;codecs=opus;base64,GkXf", # base64文字列
             "type": "audio",
             "name": "audio.wav",
             "mime": "audio/webm"
@@ -145,7 +145,7 @@ async function query(data) {
 query({
     "uploads": [
         {
-            "data": "data:audio/webm;codecs=opus;base64,GkXf", // base64 string
+            "data": "data:audio/webm;codecs=opus;base64,GkXf", // base64文字列
             "type": "audio",
             "name": "audio.wav",
             "mime": "audio/webm"
@@ -158,58 +158,58 @@ query({
 {% endtab %}
 {% endtabs %}
 
-## Files
+## ファイル
 
-You can upload files in two ways:
+ファイルのアップロードには2つの方法があります:
 
-* Retrieval augmented generation (RAG) file uploads
-* Full file uploads
+* 検索拡張生成(RAG)ファイルアップロード
+* 完全ファイルアップロード
 
-When both options are on, full file uploads take precedence.
+両方のオプションが有効な場合、完全ファイルアップロードが優先されます。
 
-### RAG File Uploads
+### RAG ファイルアップロード
 
-You can upsert uploaded files on the fly to the vector store. To enable file uploads, make sure you meet these prerequisites:
+アップロードされたファイルをベクトルストアにその場でアップサートできます。ファイルアップロードを有効にするには、以下の前提条件を満たす必要があります:
 
-* You must include a vector store that supports file uploads in the chatflow.
+* ファイルアップロードをサポートするベクトルストアをチャットフローに含める必要があります。
   * [Pinecone](../integrations/langchain/vector-stores/pinecone.md)
   * [Milvus](../integrations/langchain/vector-stores/milvus.md)
   * [Postgres](../integrations/langchain/vector-stores/postgres.md)
   * [Qdrant](../integrations/langchain/vector-stores/qdrant.md)
   * [Upstash](../integrations/langchain/vector-stores/upstash-vector.md)
-* If you have multiple vector stores in a chatflow, you can only turn on file upload for one vector store at a time.
-* You must connect at least one document loader node to the vector store's document input.
-* Supported document loaders:
-  * [CSV File](../integrations/langchain/document-loaders/csv-file.md)
-  * [Docx File](../integrations/langchain/document-loaders/docx-file.md)
-  * [Json File](../integrations/langchain/document-loaders/json-file.md)
-  * [Json Lines File](../integrations/langchain/document-loaders/json-lines-file.md)
-  * [PDF File](../integrations/langchain/document-loaders/pdf-file.md)
-  * [Text File](../integrations/langchain/document-loaders/text-file.md)
-  * [Unstructured File](../integrations/langchain/document-loaders/unstructured-file-loader.md)
+* チャットフローに複数のベクトルストアがある場合、一度に1つのベクトルストアでのみファイルアップロードを有効にできます。
+* ベクトルストアのドキュメント入力に少なくとも1つのドキュメントローダーノードを接続する必要があります。
+* サポートされているドキュメントローダー:
+  * [CSVファイル](../integrations/langchain/document-loaders/csv-file.md)
+  * [Docxファイル](../integrations/langchain/document-loaders/docx-file.md)
+  * [Jsonファイル](../integrations/langchain/document-loaders/json-file.md)
+  * [Json Linesファイル](../integrations/langchain/document-loaders/json-lines-file.md)
+  * [PDFファイル](../integrations/langchain/document-loaders/pdf-file.md)
+  * [テキストファイル](../integrations/langchain/document-loaders/text-file.md)
+  * [非構造化ファイル](../integrations/langchain/document-loaders/unstructured-file-loader.md)
 
 <figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-You can upload one or more files in the chat:
+チャットで1つまたは複数のファイルをアップロードできます:
 
 <div align="left"><figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt="" width="380"><figcaption></figcaption></figure> <figure><img src="../.gitbook/assets/Screenshot 2024-08-26 170456.png" alt=""><figcaption></figcaption></figure></div>
 
-Here's how it works:
+仕組みは以下の通りです:
 
-1. The metadata for uploaded files is updated with the chatId.
-2. This associates the file with the chatId.
-3. When querying, an **OR** filter applies:
+1. アップロードされたファイルのメタデータがchatIdで更新されます。
+2. これによりファイルとchatIdが関連付けられます。
+3. クエリ時には、**OR**フィルターが適用されます:
 
-* Metadata contains `flowise_chatId`, and the value is the current chat session ID
-* Metadata does not contain `flowise_chatId`
+* メタデータに`flowise_chatId`が含まれ、値が現在のチャットセッションIDである
+* メタデータに`flowise_chatId`が含まれない
 
-An example of a vector embedding upserted on Pinecone:
+Pineconeにアップサートされたベクトル埋め込みの例:
 
 <figure><img src="../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-To do this with the API, follow these two steps:
+APIでこれを行うには、以下の2つのステップに従います:
 
-1. Use the [Vector Upsert API](api.md#vector-upsert-api) with `formData` and `chatId`:
+1. [Vector Upsert API](api.md#vector-upsert-api)を`formData`と`chatId`で使用:
 
 {% tabs %}
 {% tab title="Python" %}
@@ -218,7 +218,7 @@ import requests
 
 API_URL = "http://localhost:3000/api/v1/vector/upsert/<chatflowid>"
 
-# Use form data to upload files
+# ファイルをアップロードするためにform dataを使用
 form_data = {
     "files": ("state_of_the_union.txt", open("state_of_the_union.txt", "rb"))
 }
@@ -239,7 +239,7 @@ print(output)
 
 {% tab title="Javascript" %}
 ```javascript
-// Use FormData to upload files
+// ファイルをアップロードするためにFormDataを使用
 let formData = new FormData();
 formData.append("files", input.files[0]);
 formData.append("chatId", "some-session-id");
@@ -263,7 +263,7 @@ query(formData).then((response) => {
 {% endtab %}
 {% endtabs %}
 
-2. Use the [Prediction API](api.md#prediction) with `uploads` and the `chatId` from step 1:
+2. ステップ1の`chatId`と`uploads`を使用して[Prediction API](api.md#prediction)を使用:
 
 {% tabs %}
 {% tab title="Python" %}
@@ -274,10 +274,10 @@ API_URL = "http://localhost:3000/api/v1/prediction/<chatflowid>"
 def query(payload):
     response = requests.post(API_URL, json=payload)
     return response.json()
-    
+
 output = query({
-    "question": "What is the speech about?",
-    "chatId": "same-session-id-from-step-1",
+    "question": "スピーチの内容は何ですか?",
+    "chatId": "ステップ1と同じセッションID",
     "uploads": [
         {
             "data": "data:text/plain;base64,TWFkYWwcy4=",
@@ -308,8 +308,8 @@ async function query(data) {
 }
 
 query({
-    "question": "What is the speech about?",
-    "chatId": "same-session-id-from-step-1",
+    "question": "スピーチの内容は何ですか?",
+    "chatId": "ステップ1と同じセッションID",
     "uploads": [
         {
             "data": "data:text/plain;base64,TWFkYWwcy4=",
@@ -323,21 +323,19 @@ query({
 });
 ```
 {% endtab %}
-{% endtabs %}
+{% endtabs %}### 完全ファイルアップロード
 
-### Full File Uploads
+RAGファイルアップロードでは、スプレッドシートやテーブルなどの構造化データを扱うことができず、完全なコンテキストがないため完全な要約を実行することもできません。場合によっては、特にGeminiやClaudeのような長いコンテキストウィンドウを持つモデルで、ファイルの内容全体をプロンプトに直接含めたい場合があります。[この研究論文](https://arxiv.org/html/2407.16833v1)は、RAGと長いコンテキストウィンドウを比較した多くの論文の1つです。
 
-With RAG file uploads, you can't work with structured data like spreadsheets or tables, and you can't perform full summarization due to lack of full context. In some cases, you might want to include all the file content directly in the prompt for an LLM, especially with models like Gemini and Claude that have longer context windows. [This research paper](https://arxiv.org/html/2407.16833v1) is one of many that compare RAG with longer context windows.
-
-To enable full file uploads, go to **Chatflow Configuration**, open the **File Upload** tab, and click the switch:
+完全ファイルアップロードを有効にするには、**Chatflow Configuration**に移動し、**File Upload**タブを開いてスイッチをクリックします:
 
 <figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-You can see the **File Attachment** button in the chat, where you can upload one or more files. Under the hood, the [File Loader](../integrations/langchain/document-loaders/file-loader.md) processes each file and converts it into text.
+チャットで**ファイル添付**ボタンが表示され、1つまたは複数のファイルをアップロードできます。内部的には、[File Loader](../integrations/langchain/document-loaders/file-loader.md)が各ファイルを処理してテキストに変換します。
 
 <figure><img src="../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-To upload files with the API:
+APIでファイルをアップロードするには:
 
 {% tabs %}
 {% tab title="Python" %}
@@ -348,9 +346,9 @@ API_URL = "http://localhost:3000/api/v1/prediction/<chatflowid>"
 def query(payload):
     response = requests.post(API_URL, json=payload)
     return response.json()
-    
+
 output = query({
-    "question": "What is the data about?",
+    "question": "このデータは何に関するものですか?",
     "chatId": "some-session-id",
     "uploads": [
         {
@@ -382,7 +380,7 @@ async function query(data) {
 }
 
 query({
-    "question": "What is the data about?",
+    "question": "このデータは何に関するものですか?",
     "chatId": "some-session-id",
     "uploads": [
         {
@@ -399,11 +397,11 @@ query({
 {% endtab %}
 {% endtabs %}
 
-As you can see in the examples, uploads require a base64 string. To get a base64 string for a file, use the [Create Attachments API](../api-reference/attachments.md).
+例からわかるように、アップロードにはbase64文字列が必要です。ファイルのbase64文字列を取得するには、[Create Attachments API](../api-reference/attachments.md)を使用してください。
 
-### Difference between Full & RAG Uploads
+### 完全アップロードとRAGアップロードの違い
 
-Both Full and RAG (Retrieval-Augmented Generation) file uploads serve different purposes.
+完全アップロードとRAG（検索拡張生成）ファイルアップロードは、それぞれ異なる目的で使用されます。
 
-* **Full File Upload**: This method parses the entire file into a string and sends it to the LLM (Large Language Model). It's beneficial for summarizing the document or extracting key information. However, with very large files, the model might produce inaccurate results or "hallucinations" due to token limitations.
-* **RAG File Upload**: Recommended if you aim to reduce token costs by not sending the entire text to the LLM. This approach is suitable for Q\&A tasks on the documents but isn't ideal for summarization since it lacks the full document context. This approach might takes longer time because of the upsert process.
+* **完全ファイルアップロード**: このメソッドはファイル全体を文字列に解析し、LLM（大規模言語モデル）に送信します。文書の要約や重要な情報の抽出に適しています。ただし、非常に大きなファイルの場合、トークン制限により、モデルが不正確な結果や「幻覚」を生成する可能性があります。
+* **RAGファイルアップロード**: LLMに全テキストを送信しないことでトークンコストを削減したい場合に推奨されます。このアプローチは文書に関するQ&Aタスクに適していますが、文書全体のコンテキストがないため要約には適していません。アップサート処理のため、時間がかかる場合があります。

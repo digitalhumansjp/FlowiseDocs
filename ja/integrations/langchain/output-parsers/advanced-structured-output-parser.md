@@ -1,13 +1,12 @@
 ---
 description: >-
-  Parse the output of an LLM call into a given structure by providing a Zod
-  schema.
+  Zodスキーマを提供することで、LLMの出力を指定された構造にパースします。
 ---
 
-# Advanced Structured Output Parser
+# 高度な構造化アウトプットパーサー
 
-<figure><img src="../../../.gitbook/assets/image (129).png" alt="" width="299"><figcaption><p>Advanced Structured Output Parser Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (129).png" alt="" width="299"><figcaption><p>高度な構造化アウトプットパーサーノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

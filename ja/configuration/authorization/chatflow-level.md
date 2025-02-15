@@ -1,35 +1,35 @@
 ---
-description: Learn how to set up chatflow-level access control for your Flowise instances
+description: Flowise インスタンスのチャットフローレベルのアクセス制御の設定方法を学ぶ
 ---
 
-# Chatflow Level
+# チャットフローレベル
 
 ***
 
-After you have a chatflow / agentflow constructed, by default, your flow is available to public. Anyone that has access to the Chatflow ID is able to run prediction through Embed or API.
+チャットフロー/エージェントフローを構築した後、デフォルトではフローは公開されています。チャットフロー ID にアクセスできる人は誰でも、埋め込みや API を通じて予測を実行できます。
 
-In cases where you might want to allow certain people to be able to access and interact with it, you can do so by assigning an API key for that specific chatflow.
+特定の人々だけがアクセスして操作できるようにしたい場合は、そのチャットフロー専用の API キーを割り当てることができます。
 
-## API Key
+## API キー
 
-In dashboard, navigate to API Keys section, and you should be able to see a DefaultKey created. You can also add or delete any keys.
+ダッシュボードで API キーセクションに移動すると、DefaultKey が作成されているのが確認できます。キーの追加や削除も可能です。
 
 <figure><img src="../../.gitbook/assets/image (6) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Chatflow
+## チャットフロー
 
-Navigate to the chatflow, and now you can select the API Key you want to use to protect the chatflow.
+チャットフローに移動し、チャットフローを保護するために使用したい API キーを選択できます。
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-After assigning an API key, one can only access the chatflow API when the Authorization header is provided with the correct API key specified during a HTTP call.
+API キーを割り当てた後は、HTTP 呼び出し時に正しい API キーを含む Authorization ヘッダーを提供した場合のみ、チャットフロー API にアクセスできます。
 
 ```json
 "Authorization": "Bearer <your-api-key>"
 ```
 
-An example of calling the API using POSTMAN
+POSTMAN を使用した API 呼び出しの例
 
 <figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-You can specify the location where the api keys are stored by specifying `APIKEY_PATH` env variables. Read more [environment-variables.md](../environment-variables.md "mention")
+`APIKEY_PATH` 環境変数を指定することで、API キーを保存する場所を指定できます。詳細は [environment-variables.md](../environment-variables.md "mention") を参照してください。

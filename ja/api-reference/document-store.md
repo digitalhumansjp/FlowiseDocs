@@ -1,4 +1,4 @@
-# Document Store
+# ドキュメントストア
 
 {% swagger src="../.gitbook/assets/swagger (1) (1) (1).yml" path="/document-store/store" method="post" %}
 [swagger (1) (1) (1).yml](<../.gitbook/assets/swagger (1) (1) (1).yml>)

@@ -1,13 +1,12 @@
 ---
 description: >-
-  Iterate over the initially returned documents and extract, from each, only the
-  content that is relevant to the query.
+  最初に返されたドキュメントを反復処理し、クエリに関連する内容のみを各ドキュメントから抽出します。
 ---
 
-# LLM Filter Retriever
+# LLM フィルターリトリーバー
 
-<figure><img src="../../../.gitbook/assets/image (144).png" alt="" width="297"><figcaption><p>LLM Filter Retriever Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (144).png" alt="" width="297"><figcaption><p>LLMフィルターリトリーバーノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

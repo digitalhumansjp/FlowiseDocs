@@ -1,47 +1,46 @@
 ---
 description: >-
-  Upsert embedded data and perform vector search upon query using Couchbase,
-  a NoSQL cloud developer data platform for critical, AI-powered applications.
+  NoSQLクラウド開発者データプラットフォームであるCouchbaseを使用して、エンベッドされたデータをアップサートし、クエリに対してベクトル検索を実行します。
 ---
 
 # Couchbase
 
-## Prerequisite
+## 前提条件
 
-### Requirements
-1. Couchbase Cluster (Self Managed or Capella) version **7.6+** with [Search Service](https://docs.couchbase.com/server/current/search/search.html).
-2. Capella Setup: 
-    To know more about connecting to your Capella cluster, please follow the [instructions](https://docs.couchbase.com/cloud/get-started/connect.html?_gl=1*1yhpmel*_gcl_au*MTMzNDE3NTQxLjE3MzY5MjA5MzQ.).
+### 要件
+1. [Search Service](https://docs.couchbase.com/server/current/search/search.html)を備えたCouchbaseクラスター（セルフマネージドまたはCapella）バージョン**7.6以上**
+2. Capellaのセットアップ:
+    Capellaクラスターへの接続について詳しくは、[手順](https://docs.couchbase.com/cloud/get-started/connect.html?_gl=1*1yhpmel*_gcl_au*MTMzNDE3NTQxLjE3MzY5MjA5MzQ.)に従ってください。
 
-    Specifically, you need to do the following:
+    具体的には以下が必要です:
 
-    - Create the [database credentials](https://docs.couchbase.com/cloud/clusters/manage-database-users.html?_gl=1*19zk7vq*_gcl_au*MTMzNDE3NTQxLjE3MzY5MjA5MzQ.) to access cluster.
-    - [Allow access](https://docs.couchbase.com/cloud/clusters/allow-ip-address.html?_gl=1*19zk7vq*_gcl_au*MTMzNDE3NTQxLjE3MzY5MjA5MzQ.) to the Cluster from the IP on which the application is running.
+    - クラスターにアクセスするための[データベース認証情報](https://docs.couchbase.com/cloud/clusters/manage-database-users.html?_gl=1*19zk7vq*_gcl_au*MTMzNDE3NTQxLjE3MzY5MjA5MzQ.)の作成
+    - アプリケーションを実行するIPからクラスターへの[アクセスを許可](https://docs.couchbase.com/cloud/clusters/allow-ip-address.html?_gl=1*19zk7vq*_gcl_au*MTMzNDE3NTQxLjE3MzY5MjA5MzQ.)
 
-    Self Managed Setup: 
-    - Follow [Couchbase Installation Options](https://developer.couchbase.com/tutorial-couchbase-installation-options) for installing the latest Couchbase Database Server Instance. Make sure to add the Search Service.
+    セルフマネージドのセットアップ:
+    - 最新のCouchbaseデータベースサーバーインスタンスをインストールするには[Couchbaseインストールオプション](https://developer.couchbase.com/tutorial-couchbase-installation-options)に従ってください。Search Serviceを追加することを忘れないでください。
 
-3. Search Index Creation on the Full Text Service in Couchbase.
+3. CouchbaseのFull Text Serviceでの検索インデックスの作成
 
-### Importing Search Index  
+### 検索インデックスのインポート
 
 #### [Couchbase Capella]((https://docs.couchbase.com/cloud/search/import-search-index.html?_gl=1*18d2l9w*_gcl_au*MTMzNDE3NTQxLjE3MzY5MjA5MzQ.))
-Follow these steps to import a Search Index in Capella:  
-- Copy the index definition to a new file named `index.json`.
-- Import the file in Capella following the instructions in the documentation.
-- Click Create Index to finalize the index creation.
+Capellaに検索インデックスをインポートするには以下の手順に従います:
+- インデックス定義を`index.json`という新しいファイルにコピー
+- ドキュメントの手順に従ってCapellaにファイルをインポート
+- Create Indexをクリックしてインデックス作成を完了
 
 #### [Couchbase Server]((https://docs.couchbase.com/server/current/search/import-search-index.html?_gl=1*18d2l9w*_gcl_au*MTMzNDE3NTQxLjE3MzY5MjA5MzQ.))
-Follow these steps for Couchbase Server:  
-- Navigate to Search → Add Index → Import.
-- Copy the provided Index definition into the Import screen.
-- Click Create Index to finalize the index creation.
+Couchbase Serverでは以下の手順に従います:
+- Search → Add Index → Importに移動
+- 提供されたインデックス定義をインポート画面にコピー
+- Create Indexをクリックしてインデックス作成を完了
 
-You may also create a vector index using Search UI on both [Couchbase Capella](https://docs.couchbase.com/cloud/vector-search/create-vector-search-index-ui.html?_gl=1*1rglcpj*_gcl_au*MTMzNDE3NTQxLjE3MzY5MjA5MzQ.) and [Couchbase Self Managed Server](https://docs.couchbase.com/server/current/vector-search/create-vector-search-index-ui.html?_gl=1*t7aeet*_gcl_au*MTMzNDE3NTQxLjE3MzY5MjA5MzQ.).
+[Couchbase Capella](https://docs.couchbase.com/cloud/vector-search/create-vector-search-index-ui.html?_gl=1*1rglcpj*_gcl_au*MTMzNDE3NTQxLjE3MzY5MjA5MzQ.)と[Couchbase Self Managed Server](https://docs.couchbase.com/server/current/vector-search/create-vector-search-index-ui.html?_gl=1*t7aeet*_gcl_au*MTMzNDE3NTQxLjE3MzY5MjA5MzQ.)の両方で、Search UIを使用してベクトルインデックスを作成することもできます。
 
-### Index Definition
+### インデックス定義
 
-Here, we are creating the index `vector-index` on the documents. The Vector field is set to `embedding` with 1536 dimensions and the text field set to `text`. We are also indexing and storing all the fields under `metadata` in the document as a dynamic mapping to account for varying document structures. The similarity metric is set to `dot_product`. If there is a change in these parameters, please adapt the index accordingly.
+ここでは、ドキュメントに対して`vector-index`というインデックスを作成します。ベクトルフィールドは1536次元の`embedding`に設定され、テキストフィールドは`text`に設定されています。また、様々なドキュメント構造に対応するため、ドキュメント内の`metadata`以下のすべてのフィールドを動的マッピングとしてインデックス化して保存しています。類似度メトリックは`dot_product`に設定されています。これらのパラメータに変更がある場合は、インデックスを適宜調整してください。
 
 ```json
 {
@@ -120,37 +119,34 @@ Here, we are creating the index `vector-index` on the documents. The Vector fiel
     "numReplicas": 0
   }
 }
-
 ```
 
+## セットアップ
 
-## Setup
-
-1. Add a new **Couchbase** node on canvas and fill in the Bucket Name, Scope Name, Collection Name and Index Name
+1. キャンバスに新しい**Couchbase**ノードを追加し、バケット名、スコープ名、コレクション名、インデックス名を入力
 
 <figure><img src="../../../.gitbook/assets/couchbase_1.png" alt=""><figcaption></figcaption></figure>
 
-2. Add new credential and fill in the parameters:
-    - Couchbase Connection String
-    - Cluster Username 
-    - Cluster Password
+2. 新しい認証情報を追加し、以下のパラメータを入力:
+    - Couchbase接続文字列
+    - クラスターユーザー名
+    - クラスターパスワード
 
 <figure><img src="../../../.gitbook/assets/couchbase_2.png" alt=""><figcaption></figcaption></figure>
 
-3. Add additional nodes to canvas and start the upsert process
-   - **Document** can be connected with any node under [**Document Loader**](../document-loaders/) category
-   - **Embeddings** can be connected with any node under [**Embeddings** ](../embeddings/)category
-
+3. キャンバスに追加のノードを追加してアップサート処理を開始
+   - **Document**は[**Document Loader**](../document-loaders/)カテゴリの任意のノードと接続可能
+   - **エンベッディング**は[**Embeddings**](../embeddings/)カテゴリの任意のノードと接続可能
 
 <figure><img src="../../../.gitbook/assets/couchbase_3.png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../.gitbook/assets/couchbase_4.png" alt=""><figcaption></figcaption></figure>
 
-5. Verify from the Couchbase UI to see if data has been successfully upserted!
+5. Couchbase UIでデータが正常にアップサートされたことを確認してください！
 
-## Resources
+## リソース
 
-- LangChain Couchbase vectorstore integrations
+- LangChain Couchbaseベクトルストア統合
   - [Python](https://python.langchain.com/docs/integrations/vectorstores/couchbase/)
   - [NodeJS](https://js.langchain.com/docs/integrations/vectorstores/couchbase/)
-- Refer to the [Couchbase Documentation](https://docs.couchbase.com/home/index.html) to learn about Couchbase.
+- Couchbaseについて学ぶには[Couchbaseドキュメント](https://docs.couchbase.com/home/index.html)を参照してください。

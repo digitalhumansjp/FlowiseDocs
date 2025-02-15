@@ -1,9 +1,9 @@
-# Simple Response Builder
+# シンプルレスポンスビルダー
 
-Using a collection of text segments and a query, execute the query on each segment, gathering the responses into an array. Return a combined string containing all responses.
+テキストセグメントのコレクションとクエリを使用して、各セグメントに対してクエリを実行し、レスポンスを配列に収集します。すべてのレスポンスを含む結合された文字列を返します。
 
-**Pros**: Useful for individually querying each text segment with the same query
+**長所**: 同じクエリで各テキストセグメントを個別に照会するのに有用です
 
-**Cons**: Not suitable for complex and detailed answer
+**短所**: 複雑で詳細な回答には適していません
 
 <figure><img src="../../../.gitbook/assets/image (8) (1) (1) (1) (1) (1) (1) (2).png" alt=""><figcaption></figcaption></figure>

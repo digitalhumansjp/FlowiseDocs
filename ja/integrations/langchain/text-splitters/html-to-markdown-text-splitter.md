@@ -1,13 +1,12 @@
 ---
 description: >-
-  Converts Html to Markdown and then split your content into documents based on
-  the Markdown headers.
+  HTMLをマークダウンに変換し、マークダウンのヘッダーに基づいてコンテンツをドキュメントに分割します。
 ---
 
-# Html-To-Markdown Text Splitter
+# HTMLからマークダウンへのテキストスプリッター
 
-<figure><img src="../../../.gitbook/assets/image (152).png" alt="" width="301"><figcaption><p>Html-To-Markdown Text Splitter Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (152).png" alt="" width="301"><figcaption><p>HTMLからマークダウンへのテキストスプリッターノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

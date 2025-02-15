@@ -1,17 +1,17 @@
-# Set/Get Variable
+# 変数の設定/取得
 
-If you are running a Custom Function, or LLM Chain, you might want to reuse the result in other nodes without having to recompute/rerun the same thing again. You can save the output result as a variable, and reuse it for other nodes that is further down the flow path.
+カスタム関数やLLMチェーンを実行する際、同じ処理を再計算/再実行することなく、結果を他のノードで再利用したい場合があります。出力結果を変数として保存し、フローパスの下流にある他のノードで再利用することができます。
 
 <figure><img src="../../.gitbook/assets/savereuse.png" alt=""><figcaption></figcaption></figure>
 
-### Set Variable
+### 変数の設定
 
-Taking inputs from any node that outputs `string, number, boolean, json, array,` we can assign a variable name to it.
+`string、number、boolean、json、array`を出力する任意のノードからの入力を受け取り、変数名を割り当てることができます。
 
 <figure><img src="../../.gitbook/assets/image (11) (1) (1) (1) (1) (1).png" alt="" width="270"><figcaption></figcaption></figure>
 
-### Get Variable
+### 変数の取得
 
-You can get the variable value from the variable name at a later stage:
+後の段階で変数名から変数の値を取得することができます：
 
 <figure><img src="../../.gitbook/assets/image (12) (1) (2).png" alt="" width="563"><figcaption></figcaption></figure>

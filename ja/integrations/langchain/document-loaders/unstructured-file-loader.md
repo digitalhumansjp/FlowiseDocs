@@ -1,11 +1,11 @@
 ---
-description: Use Unstructured.io to load data from a file path.
+description: Unstructured.ioを使用してファイルパスからデータを読み込む
 ---
 
-# Unstructured File Loader
+# 非構造化ファイルローダー
 
-<figure><img src="../../../.gitbook/assets/image (90).png" alt="" width="332"><figcaption><p>Unstructured File Loader Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (90).png" alt="" width="332"><figcaption><p>非構造化ファイルローダーノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

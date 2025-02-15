@@ -1,27 +1,26 @@
 ---
 description: >-
-  Upsert embedded data and perform similarity or mmr search upon query using
-  MongoDB Atlas, a managed cloud mongodb database.
+  マネージドクラウドMongoDBデータベースであるMongoDB Atlasを使用して、エンベッドされたデータをアップサートし、クエリに対して類似性検索またはMMR検索を実行します。
 ---
 
 # MongoDB Atlas
 
-<figure><img src="../../../.gitbook/assets/image (161).png" alt="" width="308"><figcaption><p>MongoDB Atlas Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (161).png" alt="" width="308"><figcaption><p>MongoDB Atlasノード</p></figcaption></figure>
 
-### Cluster Configuration[​](https://js.langchain.com/docs/integrations/vectorstores/mongodb_atlas/#initial-cluster-configuration) <a href="#initial-cluster-configuration" id="initial-cluster-configuration"></a>
+### クラスター設定[​](https://js.langchain.com/docs/integrations/vectorstores/mongodb_atlas/#initial-cluster-configuration) <a href="#initial-cluster-configuration" id="initial-cluster-configuration"></a>
 
-To set up a MongoDB Atlas cluster, go to the [MongoDB Atlas ](https://www.mongodb.com/)website and sign up if you don’t have an account. When prompted, create and name your cluster, which will appear under the Database section. Then, select "**Browse Collections**" to either create a new collection or use one from the sample data provided.
+MongoDB Atlasクラスターを設定するには、[MongoDB Atlas](https://www.mongodb.com/)のウェブサイトにアクセスし、アカウントをお持ちでない場合は登録してください。プロンプトが表示されたら、データベースセクションに表示されるクラスターを作成し名前を付けます。次に、「**Browse Collections**」を選択して、新しいコレクションを作成するか、提供されているサンプルデータからコレクションを使用します。
 
 {% hint style="warning" %}
-Ensure the cluster you create is version 7.0 or higher.
+作成するクラスターがバージョン7.0以上であることを確認してください。
 {% endhint %}
 
-### Creating Index
+### インデックスの作成
 
-After setting up your cluster, the next step is to create an index for the collection field you intend to search.
+クラスターを設定した後、次のステップは検索対象のコレクションフィールドのインデックスを作成することです。
 
-1. Go to the **Atlas Search** tab and click on **Create Search Index**.
-2. Select **Atlas Vector Search - JSON Editor**, choose the appropriate database and collection, and then paste the following into the text box:
+1. **Atlas Search**タブに移動し、**Create Search Index**をクリックします。
+2. **Atlas Vector Search - JSON Editor**を選択し、適切なデータベースとコレクションを選択して、以下をテキストボックスに貼り付けます:
 
 ```json
 {
@@ -36,32 +35,32 @@ After setting up your cluster, the next step is to create an index for the colle
 }
 ```
 
-Make sure the `numDimensions` property corresponds to the dimensionality of the embeddings you're using. For instance, Cohere embeddings typically have 1024 dimensions, while OpenAI embeddings have 1536 by default.
+`numDimensions`プロパティが使用するエンベッディングの次元数と一致していることを確認してください。例えば、Cohereエンベッディングは通常1024次元、OpenAIエンベッディングはデフォルトで1536次元です。
 
-**Note:** The vector store expects certain default values, such as:
+**注意:** ベクトルストアは以下のようなデフォルト値を想定しています:
 
-* An index name of `default`
-* A collection field name of `embedding`
-* A raw text field name of `text`
+* インデックス名は`default`
+* コレクションフィールド名は`embedding`
+* 生テキストフィールド名は`text`
 
-Ensure you initialize the vector store with field names that match your index and collection schema, as shown in the example above.
+上記の例のように、インデックスとコレクションスキーマに一致するフィールド名でベクトルストアを初期化してください。
 
-Once this is done, proceed to build the index.
+これが完了したら、インデックスのビルドに進みます。
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご協力をお願いいたします。
 {% endhint %}
 
-### Flowise Configuration
+### Flowise設定
 
-Drag and drop the MongoDB Atlas Vector Store, and add a new credential. Use the connection string provided from the MongoDB Atlas dashboard:
+MongoDB Atlas Vector Storeをドラッグ＆ドロップし、新しい認証情報を追加します。MongoDB Atlasダッシュボードから提供される接続文字列を使用します:
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Fill in the rest of the fields:
+残りのフィールドを入力します:
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="252"><figcaption></figcaption></figure>
 
-You may also configure more details from Additional Parameters:
+追加パラメータからより詳細な設定も可能です:
 
 <figure><img src="../../../.gitbook/assets/image (164).png" alt="" width="518"><figcaption></figcaption></figure>

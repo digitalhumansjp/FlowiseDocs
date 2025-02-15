@@ -1,25 +1,25 @@
 ---
-description: LlamaIndex Embeddings Nodes
+description: LlamaIndex エンベッディングノード
 ---
 
-# Embeddings
+# エンベッディング
 
 ***
 
-An embedding is a vector (list) of floating point numbers. The distance between two vectors measures their relatedness. Small distances suggest high relatedness and large distances suggest low relatedness.
+エンベッディングは浮動小数点数のベクトル（リスト）です。2つのベクトル間の距離は、それらの関連性を測ります。距離が小さいほど関連性が高く、距離が大きいほど関連性が低いことを示します。
 
-Embeddings can be used to create a numerical representation of textual data. This numerical representation is useful because it can be used to find similar documents.
+エンベッディングはテキストデータの数値表現を作成するために使用できます。この数値表現は、類似したドキュメントを見つけるのに役立つため有用です。
 
-They are commonly used for:
+一般的に以下の用途で使用されます：
 
-* Search (where results are ranked by relevance to a query string)
-* Clustering (where text strings are grouped by similarity)
-* Recommendations (where items with related text strings are recommended)
-* Anomaly detection (where outliers with little relatedness are identified)
-* Diversity measurement (where similarity distributions are analyzed)
-* Classification (where text strings are classified by their most similar label)
+* 検索（クエリ文字列との関連性によって結果がランク付けされる）
+* クラスタリング（類似性によってテキスト文字列がグループ化される）
+* レコメンデーション（関連するテキスト文字列を持つアイテムが推奨される）
+* 異常検出（関連性の低い外れ値が特定される）
+* 多様性測定（類似性の分布が分析される）
+* 分類（テキスト文字列が最も類似したラベルによって分類される）
 
-### Embedding Nodes:
+### エンベッディングノード:
 
-* [Azure OpenAI Embeddings](azure-openai-embeddings.md)
-* [OpenAI Embedding](openai-embedding.md)
+* [Azure OpenAI エンベッディング](azure-openai-embeddings.md)
+* [OpenAI エンベッディング](openai-embedding.md)

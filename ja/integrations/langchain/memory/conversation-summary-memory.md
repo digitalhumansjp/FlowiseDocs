@@ -1,15 +1,15 @@
-# Conversation Summary Memory
+# 会話サマリーメモリー
 
-Use Flowise database table `chat_message` as the storage mechanism for storing/retrieving conversations.
+会話の保存/取得のためのストレージメカニズムとしてFlowise データベースの `chat_message` テーブルを使用します。
 
-This memory type creates a brief summary of the conversation over time. This is useful for shortening information from long discussions. It updates and saves a current summary as the conversation goes on. This is especially helpful in longer chats, where saving every past message would take up too much space.
+このメモリータイプは、時間の経過とともに会話の簡潔な要約を作成します。これは長い議論から情報を短縮するのに役立ちます。会話が進むにつれて現在の要約を更新して保存します。これは特に、過去のメッセージをすべて保存すると多くの容量を必要とする長いチャットで役立ちます。
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (2).png" alt="" width="296"><figcaption></figcaption></figure>
 
-## Input
+## 入力
 
-| Parameter  | Description                                                                   | Default       |
-| ---------- | ----------------------------------------------------------------------------- | ------------- |
-| Chat Model | LLM used to perform summarization                                             |               |
-| Session Id | An ID to retrieve/store messages. If not specified, a random ID will be used. |               |
-| Memory Key | A key used to format messages in prompt template                              | chat\_history |
+| パラメータ | 説明                                                                              | デフォルト   |
+| ---------- | --------------------------------------------------------------------------------- | ------------ |
+| Chat Model | 要約を実行するために使用されるLLM                                                 |              |
+| Session Id | メッセージを取得/保存するためのID。指定されない場合、ランダムなIDが使用されます。 |              |
+| Memory Key | プロンプトテンプレートでメッセージをフォーマットするために使用されるキー          | chat_history |

@@ -1,11 +1,11 @@
 ---
-description: Summarizes the conversation and stores the memory in Redis server.
+description: 会話を要約し、メモリをRedisサーバーに保存します。
 ---
 
-# Redis-Backed Chat Memory
+# Redis バックドチャットメモリ
 
-<figure><img src="../../../.gitbook/assets/image (109).png" alt="" width="302"><figcaption><p>Redis-Backed Chat Memory Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (109).png" alt="" width="302"><figcaption><p>Redis バックドチャットメモリノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。セクションの完成にご協力いただけると幸いです。始めるには、私たちの[貢献ガイド](../../../contributing/)を確認してください。
 {% endhint %}

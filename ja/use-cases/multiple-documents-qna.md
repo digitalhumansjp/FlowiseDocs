@@ -1,173 +1,171 @@
 ---
-description: Learn how to query multiple documents correctly
+description: 複数のドキュメントを正しく照会する方法を学ぶ
 ---
 
-# Multiple Documents QnA
+# 複数ドキュメントのQ&A
 
 ***
 
-From the last [Web Scrape QnA](web-scrape-qna.md) example, we are only upserting and querying 1 website. What if we have multiple websites, or multiple documents? Let's take a look and see how we can achieve that.
+前回の[WebスクレイピングQ&A](web-scrape-qna.md)の例では、1つのウェブサイトのみをアップサートおよびクエリしていました。複数のウェブサイトやドキュメントがある場合はどうでしょうか？その方法を見ていきましょう。
 
-In this example, we are going to perform QnA on 2 PDFs, which are FORM-10K of APPLE and TESLA.
+この例では、APPLEとTESLAのFORM-10Kという2つのPDFを用いてQ&Aを行います。
 
 <div align="left" data-full-width="false"><figure><img src="../.gitbook/assets/image (93).png" alt="" width="375"><figcaption></figcaption></figure> <figure><img src="../.gitbook/assets/image (94).png" alt="" width="375"><figcaption></figcaption></figure></div>
 
-## Upsert
+## アップサート
 
-1. Find the example flow called - **Conversational Retrieval QA Chain** from the marketplace templates.
-2. We are going to use [PDF File Loader](../integrations/langchain/document-loaders/pdf-file.md), and upload the respective files:
+1. マーケットプレースのテンプレートから**Conversational Retrieval QA Chain**という例のフローを探します。
+2. [PDFファイルローダー](../integrations/langchain/document-loaders/pdf-file.md)を使用し、それぞれのファイルをアップロードします：
 
 <figure><img src="../.gitbook/assets/multi-docs-upload.png" alt=""><figcaption></figcaption></figure>
 
-3. Click the **Additional Parameters** of PDF File Loader, and specify metadata object. For instance, PDF File with Apple FORM-10K uploaded can have a metadata object `{source: apple}`, whereas PDF File with Tesla FORM-10K uploaded can have `{source: tesla}` . This is done to seggregate the documents during retrieval time.
+3. PDFファイルローダーの**追加パラメータ**をクリックし、メタデータオブジェクトを指定します。例えば、APPLEのFORM-10KをアップロードしたPDFファイルには`{source: apple}`というメタデータオブジェクトを持たせ、TESLAのFORM-10KをアップロードしたPDFファイルには`{source: tesla}`を持たせることができます。これは取得時にドキュメントを区別するためです。
 
 <div align="left"><figure><img src="../.gitbook/assets/multi-docs-apple.png" alt="" width="563"><figcaption></figcaption></figure> <figure><img src="../.gitbook/assets/multi-docs-tesla.png" alt="" width="563"><figcaption></figcaption></figure></div>
 
-4. After filling in the credentials for Pinecone, click Upsert:
+4. Pineconeの資格情報を入力した後、アップサートをクリックします：
 
 <figure><img src="../.gitbook/assets/multi-docs-upsert.png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../.gitbook/assets/image (98).png" alt=""><figcaption></figcaption></figure>
 
-5. On the [Pinecone console](https://app.pinecone.io) you will be able to see the new vectors that were added.
+5. [Pineconeコンソール](https://app.pinecone.io)で、新しく追加されたベクトルを見ることができます。
 
 <figure><img src="../.gitbook/assets/multi-docs-console.png" alt=""><figcaption></figcaption></figure>
 
-## Query
+## クエリ
 
-1. After verifying data has been upserted to Pinecone, we can now start asking question in the chat!
+1. データがPineconeにアップサートされたことが確認できたら、チャットで質問を始めることができます！
 
 <figure><img src="../.gitbook/assets/image (100).png" alt=""><figcaption></figcaption></figure>
 
-2. However, the context retrieved used to return the answer is a mix of both APPLE and TESLA documents. As you can see from the Source Documents:
+2. ただし、取得されるコンテキストはAPPLEとTESLAの両方のドキュメントが混在しています。ソースドキュメントから見てとれます：
 
 <div align="left"><figure><img src="../.gitbook/assets/Untitled (7).png" alt="" width="563"><figcaption></figcaption></figure> <figure><img src="../.gitbook/assets/Untitled (8).png" alt="" width="563"><figcaption></figcaption></figure></div>
 
-3. We can fix this by specifying a metadata filter from the Pinecone node. For example, if we only want to retrieve context from APPLE FORM-10K, we can look back at the metadata we have specified earlier in the [#upsert](multiple-documents-qna.md#upsert "mention") step, then use the same in the Metadata Filter below:
+3. これを修正するために、Pineconeノードからメタデータフィルターを指定できます。例えば、APPLEのFORM-10Kからのみコンテキストを取得したい場合、[アップサート](multiple-documents-qna.md#upsert "mention")のステップで指定したメタデータを振り返り、下のメタデータフィルターに同じものを使用します：
 
 <figure><img src="../.gitbook/assets/image (102).png" alt=""><figcaption></figcaption></figure>
 
-4. Let's ask the same question again, we should now see all context retrieved are indeed from APPLE FORM-10K:
+4. 同じ質問をもう一度してみます。今度は取得されるコンテキストがすべてAPPLEのFORM-10Kからであることが確認できます：
 
 <figure><img src="../.gitbook/assets/image (103).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-Each vector databse provider has different format of filtering syntax, recommend to read through the respective vector database documentation
+各ベクトルデータベースプロバイダーには異なるフィルタリング構文の形式があります。それぞれのベクトルデータベースのドキュメントを読むことをお勧めします。
 {% endhint %}
 
-5. However, the problem with this is that metadata filtering is sort of _**"hard-coded"**_. Ideally, we should let the LLM to decide which document to retrieve based on the question.
+5. ただし、この問題の一つとして、メタデータフィルタリングが_**「ハードコーディング」**_されているという点があります。理想的には、LLMが質問に基づいてどのドキュメントを取得するかを決定するべきです。
 
-## Tool Agent
+## ツールエージェント
 
-We can solve the _**"hard-coded"**_ metadata filter problem by using [Tool Agent](../integrations/langchain/agents/tool-agent.md).
+_**「ハードコーディング」**_されたメタデータフィルタの問題を解決するために、[ツールエージェント](../integrations/langchain/agents/tool-agent.md)を使用できます。
 
-By providing tools to agent, we can let the agent to decide which tool is suitable to be used depending on the question.
+エージェントにツールを提供することで、エージェントが質問に応じてどのツールを適切に使用するかを決定できます。
 
-1. Create a [Retriever Tool](../integrations/langchain/tools/retriever-tool.md) with following name and description:
+1. 以下の名前と説明で[Retriever Tool](../integrations/langchain/tools/retriever-tool.md)を作成します：
 
-<table><thead><tr><th width="178">Name</th><th>Description</th></tr></thead><tbody><tr><td>search_apple</td><td>Use this function to answer user questions about Apple Inc (APPL). It contains a SEC Form 10K filing describing the financials of Apple Inc (APPL) for the 2022 time period.</td></tr></tbody></table>
+<table><thead><tr><th width="178">名前</th><th>説明</th></tr></thead><tbody><tr><td>search_apple</td><td>Apple Inc (APPL)に関するユーザーの質問に答えるためにこの関数を使用します。Apple Inc (APPL)の2022年の財務を記述したSEC Form 10Kが含まれています。</td></tr></tbody></table>
 
-2. Connect to Pinecone node with metadata filter `{source: apple}`
+2. メタデータフィルター`{source: apple}`を使用してPineconeノードに接続します。
 
 <figure><img src="../.gitbook/assets/image (104).png" alt="" width="563"><figcaption></figcaption></figure>
 
-3. Repeat the same for Tesla:
+3. Teslaについても同様に行います：
 
-<table><thead><tr><th width="175">Name</th><th width="322">Description</th><th>Pinecone Metadata Filter</th></tr></thead><tbody><tr><td>search_tsla</td><td>Use this function to answer user questions about Tesla Inc (TSLA). It contains a SEC Form 10K filing describing the financials of Tesla Inc (TSLA) for the 2022 time period.</td><td><code>{source: tesla}</code></td></tr></tbody></table>
+<table><thead><tr><th width="175">名前</th><th width="322">説明</th><th>Pineconeメタデータフィルター</th></tr></thead><tbody><tr><td>search_tsla</td><td>Tesla Inc (TSLA)に関するユーザーの質問に答えるためにこの関数を使用します。Tesla Inc (TSLA)の2022年の財務を記述したSEC Form 10Kが含まれています。</td><td><code>{source: tesla}</code></td></tr></tbody></table>
 
 {% hint style="info" %}
-It is important to specify a clear and concise description. This allows LLM to better decide when to use which tool
+明確で簡潔な説明を指定することが重要です。これにより、LLMがどのツールをいつ使用するべきかをよりよく決定できます。
 {% endhint %}
 
-Your flow should looks like below:
+フローは以下のようになります：
 
 <figure><img src="../.gitbook/assets/image (154).png" alt=""><figcaption></figcaption></figure>
 
-4. Now, we need to create a general instruction to Tool Agent. Click **Additional Parameters** of the node, and specify the **System Message**. For example:
+4. 次に、ツールエージェントに一般的な指示を作成する必要があります。ノードの**追加パラメータ**をクリックし、**システムメッセージ**を指定します。例として：
 
 ```
-You are an expert financial analyst that always answers questions with the most relevant information using the tools at your disposal.
-These tools have information regarding companies that the user has expressed interest in.
-Here are some guidelines that you must follow:
-* For financial questions, you must use the tools to find the answer and then write a response.
-* Even if it seems like your tools won't be able to answer the question, you must still use them to find the most relevant information and insights. Not using them will appear as if you are not doing your job.
-* You may assume that the users financial questions are related to the documents they've selected.
-* For any user message that isn't related to financial analysis, respectfully decline to respond and suggest that the user ask a relevant question.
-* If your tools are unable to find an answer, you should say that you haven't found an answer but still relay any useful information the tools found.
-* Dont ask clarifying questions, just return answer.
+あなたは常に最も関連性のある情報を使って質問に答える専門の金融アナリストです。
+これらのツールには、ユーザーが興味を示した企業に関する情報が含まれています。
+以下のガイドラインを遵守しなければなりません：
+* 金融の質問については、ツールを使用して回答を見つけ、レスポンスを書かなければなりません。
+* ツールで質問に答えられないように思える場合でも、それらを使用して最も関連性のある情報と洞察を見つけなければなりません。それらを使わないと、仕事をしていないように見えます。
+* ユーザーの金融の質問は、選択されたドキュメントに関連していると想定できます。
+* 金融分析に関連しないユーザーメッセージについては、回答を控え、関連する質問をするよう提案します。
+* ツールが答えを見つけられない場合、答えが見つからなかったことを伝えつつ、ツールで見つけた役立つ情報を伝えます。
+* 質問をクリアにするための質問をせず、ただ答えを返します。
 
-The tools at your disposal have access to the following SEC documents that the user has selected to discuss with you:
+あなたが使用できるツールには、ユーザーが討論するために選択した以下のSECドキュメントがあります：
 - Apple Inc (APPL) FORM 10K 2022
 - Tesla Inc (TSLA) FORM 10K 2022
 
-The current date is: 2024-01-28
+現在の日付は: 2024-01-28
 ```
 
-5. Save the Chatflow, and start asking question!
+5. チャットフローを保存し、質問を始めてみてください！
 
 <figure><img src="../.gitbook/assets/image (110).png" alt=""><figcaption></figcaption></figure>
 
 <div align="left"><figure><img src="../.gitbook/assets/Untitled (9).png" alt="" width="375"><figcaption></figcaption></figure> <figure><img src="../.gitbook/assets/Untitled (10).png" alt="" width="375"><figcaption></figcaption></figure></div>
 
-6. Follow up with Tesla:
+6. 続けてTeslaについて質問してください：
 
 <figure><img src="../.gitbook/assets/image (111).png" alt=""><figcaption></figcaption></figure>
 
-7. We are now able to ask questions about any documents that we've previously upserted to vector database without "hard-coding" the metadata filtering by using tools + agent.
+7. これで、ツールとエージェントを使用して、メタデータフィルタを「ハードコーディング」せずに、以前にベクトルデータベースにアップサートした任意のドキュメントについて質問することができます。
 
-## Metadata Retriever
+## メタデータリトリーバー
 
-With the Tool Agent approach, user has to create multiple retriever tools to retrieve documents from different sources. This could be a problem if there is a large number of document sources with different metadata. Using the example above with only Apple and Tesla, we could potentially expand to other companies such as Disney, Amazon, etc. It would be a tedious task to create one retrever tool for each company.
+ツールエージェントアプローチでは、ユーザーが異なるソースからドキュメントを取得するために複数のリトリーバーツールを作成する必要があります。大量のドキュメントソースと異なるメタデータがある場合、これは問題となる可能性があります。前述のAppleとTeslaだけでなく、ディズニーやアマゾンなど他の企業にも拡張することが考えられます。この場合、会社ごとにリトリーバーツールを作成するのは面倒な作業になります。
 
-Metadata Retriever comes into play. The idea is to have LLM extract the metadata from user question, then use it as filter when searching through vector databases.
+メタデータリトリーバーが役立ちます。この概念は、ユーザーの質問からメタデータをLLMが抽出し、それをフィルターとしてベクトルデータベース検索を行うことです。
 
-For example, if a user is asking questions related to Apple, a metadata filter `{source: apple}` will be automatically applied on vector database search.
+例えば、ユーザーがAppleに関連する質問をする場合、メタデータフィルター`{source: apple}`がベクトルデータベース検索で自動的に適用されます。
 
 <div align="left"><figure><img src="../.gitbook/assets/image (235).png" alt="" width="297"><figcaption></figcaption></figure> <figure><img src="../.gitbook/assets/Screenshot 2024-11-29 155926.png" alt="" width="526"><figcaption></figcaption></figure></div>
 
-In this scenario, we can have a single retriever tool, and place the **Metadata Retriever** between vector database and retriever tool.
+このシナリオでは、単一のリトリーバーツールを持ち、ベクトルデータベースとリトリーバーツールの間に**メタデータリトリーバー**を配置することができます。
 
 <figure><img src="../.gitbook/assets/image (236).png" alt=""><figcaption></figcaption></figure>
 
+## XMLエージェント
 
+一部のLLMは、関数呼び出し機能をサポートしていないことがあります。この場合、提供されたツールを使用する目的で、より構造化されたフォーマット/構文でLLMにプロンプトを送るためにXMLエージェントを使用します。
 
-## XML Agent
-
-For some LLMs, function callings capabilities are not supported. In this case, we can use XML Agent to prompt the LLM in a more structured format/syntax, with the goal of using the provided tools.
-
-It has the underlying prompt:
+基本的なプロンプトは次のようなものです：
 
 ```xml
-You are a helpful assistant. Help the user answer any questions.
+あなたは役立つアシスタントです。ユーザーの質問に答えてください。
 
-You have access to the following tools:
+あなたは以下のツールにアクセスできます：
 
 {tools}
 
-In order to use a tool, you can use <tool></tool> and <tool_input></tool_input> tags. You will then get back a response in the form <observation></observation>
-For example, if you have a tool called 'search' that could run a google search, in order to search for the weather in SF you would respond:
+ツールを使用するためには、<tool></tool>と<tool_input></tool_input>タグを使用します。ツールを使用したら、<observation></observation>という形式で応答を受け取ります。
+例えば、'search'というツールがあり、Google検索を行える場合、SFの天気を検索するには：
 
 <tool>search</tool><tool_input>weather in SF</tool_input>
 <observation>64 degrees</observation>
 
-When you are done, respond with a final answer between <final_answer></final_answer>. For example:
+完了したら、<final_answer></final_answer>の間に最終回答を返します。例えば：
 
 <final_answer>The weather in SF is 64 degrees</final_answer>
 
-Begin!
+始めましょう！
 
-Previous Conversation:
+前の会話：
 {chat_history}
 
-Question: {input}
+質問：{input}
 {agent_scratchpad}
 ```
 
 <figure><img src="../.gitbook/assets/image (20) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Conclusion
+## 結論
 
-We've covered using Conversational Retrieval QA Chain and its limitation when querying multiple documents. And we were able to overcome the issue by using OpenAI Function Agent/XML Agent + Tools. You can find the templates below:
+複数のドキュメントをクエリする際に起こるConversational Retrieval QA Chainの制約と、その問題をOpenAI関数エージェント/XMLエージェント＋ツールを使用して克服する方法を解説しました。以下にテンプレートがあります：
 
 {% file src="../.gitbook/assets/ToolAgent Chatflow.json" %}
 

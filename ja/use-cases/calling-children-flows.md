@@ -1,60 +1,60 @@
 ---
-description: Learn how to effectively use the Chatflow Tool and the Custom Tool
+description: チャットフローツールとカスタムツールの効果的な使用方法を学ぶ
 ---
 
-# Calling Children Flows
+# 子フローの呼び出し
 
 ***
 
-One of the powerful features of Flowise is that you can turn flows into tools. For example, having a main flow to orchestrate which/when to use the necessary tools. And each tool is designed to perform a niece/specific thing.
+Flowiseの強力な機能の1つは、フローをツールに変換できることです。例えば、必要なツールをいつ/どのように使用するかを制御するメインフローを持ち、各ツールは特定の目的を実行するように設計されています。
 
-This offers a few benefits:
+これには以下のような利点があります:
 
-* Each children flow as tool will execute on its own, with separate memory to allow cleaner output
-* Aggregating detailed outputs from each children flow to a final agent, often results in higher quality output
+* 各子フローはツールとして独自に実行され、クリーンな出力を可能にする個別のメモリを持ちます
+* 各子フローからの詳細な出力を最終的なエージェントに集約することで、より高品質な出力が得られることが多いです
 
-You can achieve this by using the following tools:
+これは以下のツールを使用して実現できます:
 
-* Chatflow Tool
-* Custom Tool
+* チャットフローツール
+* カスタムツール
 
-## Chatflow Tool
+## チャットフローツール
 
-1. Have a chatflow ready. In this case, we create a Chain of Thought chatflow that can go through multiple chainings.
+1. チャットフローを用意します。この例では、複数のチェーンを経由できるChain of Thoughtチャットフローを作成します。
 
 <figure><img src="../.gitbook/assets/image (169).png" alt=""><figcaption></figcaption></figure>
 
-2. Create another chatflow with Tool Agent + Chatflow Tool. Select the chatflow you want to call from the tool. In this case, it was Chain of Thought chatflow. Give it a name, and an appropriate description to let LLM knows when to use this tool:
+2. ツールエージェント + チャットフローツールで別のチャットフローを作成します。ツールから呼び出したいチャットフローを選択します。この場合はChain of Thoughtチャットフローです。名前を付け、LLMがこのツールをいつ使用するかを知らせるための適切な説明を加えます:
 
 <figure><img src="../.gitbook/assets/image (35).png" alt="" width="245"><figcaption></figcaption></figure>
 
-3. Test it out!
+3. テストしてみましょう!
 
 <figure><img src="../.gitbook/assets/image (168).png" alt=""><figcaption></figcaption></figure>
 
-4. From the response, you can see the input and output from the Chatflow Tool:
+4. レスポンスから、チャットフローツールの入力と出力を確認できます:
 
 <figure><img src="../.gitbook/assets/image (170).png" alt=""><figcaption></figcaption></figure>
 
-## Custom Tool
+## カスタムツール
 
-With the same example as above, we are going to create a custom tool that will calls the [Prediction API](../using-flowise/api.md#prediction-api) of the Chain of Thought chatflow.
+上記と同じ例で、Chain of Thoughtチャットフローの[Prediction API](../using-flowise/api.md#prediction-api)を呼び出すカスタムツールを作成します。
 
-1. Create a new tool:
+1. 新しいツールを作成します:
 
-<table><thead><tr><th width="180">Tool Name</th><th>Tool Description</th></tr></thead><tbody><tr><td>ideas_flow</td><td>Use this tool when you need to achieve certain objective</td></tr></tbody></table>
+<table><thead><tr><th width="180">ツール名</th><th>ツールの説明</th></tr></thead><tbody><tr><td>ideas_flow</td><td>特定の目的を達成する必要がある場合にこのツールを使用します</td></tr></tbody></table>
 
-Input Schema:
+入力スキーマ:
 
-<table><thead><tr><th>Property</th><th>Type</th><th>Description</th><th data-type="checkbox">Required</th></tr></thead><tbody><tr><td>input</td><td>string</td><td>input question</td><td>true</td></tr></tbody></table>
+<table><thead><tr><th>プロパティ</th><th>タイプ</th><th>説明</th><th data-type="checkbox">必須</th></tr></thead><tbody><tr><td>input</td><td>string</td><td>入力質問</td><td>true</td></tr></tbody></table>
 
 <figure><img src="../.gitbook/assets/image (95) (1).png" alt=""><figcaption></figcaption></figure>
 
-Javascript Function of the tool:
+ツールのJavaScript関数:
 
 ```javascript
 const fetch = require('node-fetch');
-const url = 'http://localhost:3000/api/v1/prediction/<chatflow-id>'; // replace with specific chatflow id
+const url = 'http://localhost:3000/api/v1/prediction/<chatflow-id>'; // 特定のチャットフローIDに置き換える
 
 const body = {
 	"question": $input
@@ -78,14 +78,14 @@ try {
 }
 ```
 
-2. Create a Tool Agent + Custom Tool. Specify the tool we've created in Step 1 in the Custom Tool.
+2. ツールエージェント + カスタムツールを作成します。カスタムツールにステップ1で作成したツールを指定します。
 
 <figure><img src="../.gitbook/assets/image (97).png" alt=""><figcaption></figcaption></figure>
 
-3. From the response, you can see the input and output from the Custom Tool:
+3. レスポンスから、カスタムツールの入力と出力を確認できます:
 
 <figure><img src="../.gitbook/assets/image (99).png" alt=""><figcaption></figcaption></figure>
 
-## Conclusion
+## まとめ
 
-In this example, we have successfully demonstrate 2 ways of turning other chatflows into tools, via Chatflow Tool and Custom Tool. Both are using the same code logic under the hood.
+この例では、チャットフローツールとカスタムツールを使用して他のチャットフローをツールに変換する2つの方法を実証しました。両者は内部で同じコードロジックを使用しています。

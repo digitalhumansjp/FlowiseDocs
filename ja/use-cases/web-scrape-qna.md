@@ -1,93 +1,93 @@
 ---
-description: Learn how to scrape, upsert, and query a website
+description: ウェブサイトのスクレイピング、アップサート、クエリの方法を学ぶ
 ---
 
-# Web Scrape QnA
+# Webスクレイプ Q&A
 
 ***
 
-Let's say you have a website (could be a store, an ecommerce site, a blog), and you want to scrap all the relative links of that website and have LLM answer any question on your website. In this tutorial, we are going to go through how to achieve that.
+ウェブサイト（ストア、Eコマースサイト、ブログなど）があり、そのウェブサイトの関連リンクをすべてスクレイプして、LLMにウェブサイトに関する質問に回答させたい場合があります。このチュートリアルでは、その方法について説明します。
 
-You can find the example flow called - **WebPage QnA** from the marketplace templates.
+マーケットプレイステンプレートから**WebPage QnA**という例のフローを見つけることができます。
 
-## Setup
+## セットアップ
 
-We are going to use **Cheerio Web Scraper** node to scrape links from a given URL and the **HtmlToMarkdown Text Splitter** to split the scraped content into smaller pieces.
+**Cheerio Webスクレイパー**ノードを使用して指定されたURLからリンクをスクレイプし、**HtmlToMarkdownテキストスプリッター**を使用してスクレイプしたコンテンツを小さな部分に分割します。
 
 <figure><img src="../.gitbook/assets/image (86).png" alt=""><figcaption></figcaption></figure>
 
-If you do not specify anything, by default only the given URL page will be scraped. If you want to crawl the rest of relative links, click **Additional Parameters** of Cheerio Web Scraper.
+何も指定しない場合、デフォルトでは指定されたURLのページのみがスクレイプされます。残りの関連リンクをクロールしたい場合は、Cheerio Webスクレイパーの**追加パラメータ**をクリックします。
 
-## 1. Crawl Multiple Pages
+## 1. 複数ページのクロール
 
-1. Select `Web Crawl` or `Scrape XML Sitemap` in **Get Relative Links Method**.
-2. Input `0` in **Get Relative Links Limit** to retrieve all links available from the provided URL.
+1. **Get Relative Links Method**で`Web Crawl`または`Scrape XML Sitemap`を選択します。
+2. **Get Relative Links Limit**に`0`を入力して、提供されたURLから利用可能なすべてのリンクを取得します。
 
 <figure><img src="../.gitbook/assets/image (87).png" alt="" width="563"><figcaption></figcaption></figure>
 
-### Manage Links (Optional)
+### リンクの管理（オプション）
 
-1. Input desired URL to be crawled.
-2. Click **Fetch Links** to retrieve links based on the inputs of the **Get Relative Links Method** and **Get Relative Links Limit** in **Additional Parameters**.
-3. In **Crawled Links** section, remove unwanted links by clicking **Red Trash Bin Icon**.
-4. Lastly, click **Save**.
+1. クロールしたいURLを入力します。
+2. **Fetch Links**をクリックして、**追加パラメータ**の**Get Relative Links Method**と**Get Relative Links Limit**の入力に基づいてリンクを取得します。
+3. **Crawled Links**セクションで、**赤いゴミ箱アイコン**をクリックして不要なリンクを削除します。
+4. 最後に、**Save**をクリックします。
 
 <figure><img src="../.gitbook/assets/image (88).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## 2. Upsert
+## 2. アップサート
 
-1. On the top right corner, you will notice a green button:
+1. 右上隅に緑色のボタンが表示されます：
 
 <figure><img src="../.gitbook/assets/Untitled (2).png" alt=""><figcaption></figcaption></figure>
 
-2. A dialog will be shown that allow users to upsert data to Pinecone:
+2. Pineconeにデータをアップサートできるダイアログが表示されます：
 
 <figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-**Note:** Under the hood, following actions will be executed:
+**注意：**バックグラウンドでは、以下のアクションが実行されます：
 
-* Scraped all HTML data using Cheerio Web Scraper
-* Convert all scraped data from HTML to Markdown, then split it
-* Splitted data will be looped over, and converted to vector embeddings using OpenAI Embeddings
-* Vector embeddings will be upserted to Pinecone
+* Cheerio Webスクレイパーを使用してすべてのHTMLデータをスクレイプ
+* スクレイプしたすべてのデータをHTMLからMarkdownに変換し、分割
+* 分割されたデータをループ処理し、OpenAI Embeddingsを使用してベクトルエンベッディングに変換
+* ベクトルエンベッディングをPineconeにアップサート
 
-3. On the [Pinecone console](https://app.pinecone.io) you will be able to see the new vectors that were added.
+3. [Pineconeコンソール](https://app.pinecone.io)で、追加された新しいベクトルを確認できます。
 
 <figure><img src="../.gitbook/assets/web-scrape-pinecone.png" alt=""><figcaption></figcaption></figure>
 
-## 3. Query
+## 3. クエリ
 
-Querying is relatively straight-forward. After you have verified that data is upserted to vector database, you can start asking question in the chat:
+クエリは比較的単純です。データがベクトルデータベースにアップサートされたことを確認したら、チャットで質問を開始できます：
 
 <figure><img src="../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-In the Additional Parameters of Conversational Retrieval QA Chain, you can specify 2 prompts:
+Conversational Retrieval QA Chainの追加パラメータで、2つのプロンプトを指定できます：
 
-* **Rephrase Prompt:** Used to rephrase the question given the past conversation history
-* **Response Prompt:** Using the rephrased question, retrieve the context from vector database, and return a final response
+* **Rephrase Prompt：**過去の会話履歴を考慮して質問を言い換えるために使用
+* **Response Prompt：**言い換えられた質問を使用して、ベクトルデータベースからコンテキストを取得し、最終的な応答を返す
 
 <figure><img src="../.gitbook/assets/image (91).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-It is recommended to specify a detailed response prompt message. For example, you can specify the name of AI, the language to answer, the response when answer its not found (to prevent hallucination).
+詳細なレスポンスプロンプトメッセージを指定することをお勧めします。例えば、AIの名前、回答する言語、回答が見つからない場合の応答（幻覚を防ぐため）を指定できます。
 {% endhint %}
 
-You can also turn on the Return Source Documents option to return a list of document chunks where the AI's response is coming from.
+Return Source Documentsオプションをオンにして、AIの応答の元となったドキュメントチャンクのリストを返すこともできます。
 
 <figure><img src="../.gitbook/assets/Untitled (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## Additional Web Scraping
+## 追加のWebスクレイピング
 
-Apart from Cheerio Web Scraper, there are other nodes that can perform web scraping as well:
+Cheerio Webスクレイパー以外にも、Webスクレイピングを実行できる他のノードがあります：
 
-* **Puppeteer:** Puppeteer is a Node.js library that provides a high-level API for controlling headless Chrome or Chromium. You can use Puppeteer to automate web page interactions, including extracting data from dynamic web pages that require JavaScript to render.
-* **Playwright:** Playwright is a Node.js library that provides a high-level API for controlling multiple browser engines, including Chromium, Firefox, and WebKit. You can use Playwright to automate web page interactions, including extracting data from dynamic web pages that require JavaScript to render.
-* **Apify:** [Apify](https://apify.com/) is a cloud platform for web scraping and data extraction, which provides an [ecosystem](https://apify.com/store) of more than a thousand ready-made apps called _Actors_ for various web scraping, crawling, and data extraction use cases.
+* **Puppeteer：**PuppeteerはヘッドレスChromeまたはChromiumを制御するための高レベルAPIを提供するNode.jsライブラリです。JavaScriptでのレンダリングが必要な動的Webページからのデータ抽出を含む、Webページの操作を自動化するためにPuppeteerを使用できます。
+* **Playwright：**PlaywrightはChromium、Firefox、WebKitを含む複数のブラウザエンジンを制御するための高レベルAPIを提供するNode.jsライブラリです。JavaScriptでのレンダリングが必要な動的Webページからのデータ抽出を含む、Webページの操作を自動化するためにPlaywrightを使用できます。
+* **Apify：**[Apify](https://apify.com/)は、様々なWebスクレイピング、クローリング、データ抽出のユースケース向けに1000以上の既製アプリケーション（_Actors_と呼ばれる）の[エコシステム](https://apify.com/store)を提供するWebスクレイピングとデータ抽出のためのクラウドプラットフォームです。
 
 <figure><img src="../.gitbook/assets/image (92).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-The same logic can be applied to any document use cases, not just limited to web scraping!
+同じロジックはWebスクレイピングに限らず、あらゆるドキュメントのユースケースに適用できます！
 {% endhint %}
 
-If you have any suggestion on how to improve the performance, we'd love your [contribution](../contributing/)!
+パフォーマンスを改善する方法についての提案がありましたら、[貢献](../contributing/)をお待ちしています！

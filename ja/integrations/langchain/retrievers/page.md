@@ -1,13 +1,12 @@
 ---
 description: >-
-  Voyage AI Rerank indexes the documents from most to least semantically
-  relevant to the query.
+  Voyage AI Rerankは、クエリに対して意味的な関連性が高い順から低い順にドキュメントをインデックス化します。
 ---
 
-# Voyage AI Rerank Retriever
+# Voyage AI リランクリトリーバー
 
-<figure><img src="../../../.gitbook/assets/image (149).png" alt="" width="302"><figcaption><p>Voyage AI Rerank Retriever Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (149).png" alt="" width="302"><figcaption><p>Voyage AI リランクリトリーバーノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

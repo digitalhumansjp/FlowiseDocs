@@ -1,31 +1,31 @@
 ---
-description: Learn how to deploy Flowise on Hugging Face
+description: Hugging FaceへのFlowiseのデプロイ方法を学ぶ
 ---
 
 # Hugging Face
 
 ***
 
-### Create a new space
+### 新しいスペースの作成
 
-1. Sign in to [Hugging Face](https://huggingface.co/login)
-2. Start creating a [new Space](https://huggingface.co/new-space) with your preferred name.
-3. Select **Docker** as **Space SDK** and choose **Blank** as the Docker template.
-4. Select **CPU basic ∙ 2 vCPU ∙ 16GB ∙ FREE** as **Space hardware**.
-5. Click **Create Space**.
+1. [Hugging Face](https://huggingface.co/login)にサインイン
+2. 任意の名前で[新しいSpace](https://huggingface.co/new-space)を作成開始
+3. **Space SDK**として**Docker**を選択し、Dockerテンプレートとして**Blank**を選択
+4. **Space hardware**として**CPU basic ∙ 2 vCPU ∙ 16GB ∙ FREE**を選択
+5. **Create Space**をクリック
 
-### Set the environment variables
+### 環境変数の設定
 
-1. Go to **Settings** of your new space and find the **Variables and Secrets** section
-2. Click on **New variable** and add the name as `PORT` with value `7860`
-3. Click on **Save**
-4. _(Optional)_ Click on **New secret**
-5. _(Optional)_ Fill in with your environment variables, such as database credentials, file paths, etc. You can check for valid fields in the `.env.example` [here](https://github.com/FlowiseAI/Flowise/blob/main/docker/.env.example)
+1. 新しいスペースの**Settings**に移動し、**Variables and Secrets**セクションを探す
+2. **New variable**をクリックし、名前を`PORT`、値を`7860`として追加
+3. **Save**をクリック
+4. _(オプション)_ **New secret**をクリック
+5. _(オプション)_ データベース認証情報やファイルパスなどの環境変数を入力。有効なフィールドは[こちら](https://github.com/FlowiseAI/Flowise/blob/main/docker/.env.example)の`.env.example`で確認できます
 
-### Create a Dockerfile
+### Dockerfileの作成
 
-1. At the files tab, click on button _**+ Add file**_ and click on **Create a new file** (or Upload files if you prefer to)
-2. Create a file called **Dockerfile** and paste the following:
+1. filesタブで、_**+ Add file**_ボタンをクリックし、**Create a new file**をクリック（またはUpload filesを選択）
+2. **Dockerfile**という名前のファイルを作成し、以下の内容を貼り付け：
 
 ```Dockerfile
 FROM node:18-alpine
@@ -57,8 +57,8 @@ WORKDIR /data
 CMD ["npx", "flowise", "start"]
 ```
 
-3. Click on **Commit file to `main`** and it will start to build your app.
+3. **Commit file to `main`**をクリックすると、アプリのビルドが開始されます。
 
-### Done 🎉
+### 完了 🎉
 
-When the build finishes you can click on the **App** tab to see your app running.
+ビルドが完了したら、**App**タブをクリックして実行中のアプリを確認できます。

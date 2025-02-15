@@ -1,15 +1,17 @@
-# API Reference
+# API リファレンス
 
-Using Flowise public API, you can programmatically execute many of the same tasks as you can in the GUI. This section introduces Flowise REST API.
+Flowise パブリック API を使用することで、GUI で実行できる多くの同じタスクをプログラムで実行することができます。このセクションでは Flowise REST API を紹介します。
 
-* [Assistants](assistants.md)
-* [Chat Message](chat-message.md)
-* [Chatflows](chatflows.md)
-* [Document Store](document-store.md)
-* [Feedback](feedback.md)
-* [Leads](leads.md)
+* [アシスタント](assistants.md)
+* [添付ファイル](attachments.md)
+* [チャットメッセージ](chat-message.md)
+* [チャットフロー](chatflows.md)
+* [ドキュメントストア](document-store.md)
+* [フィードバック](feedback.md)
+* [リード](leads.md)
 * [Ping](ping.md)
-* [Prediction](prediction.md)
-* [Tools](tools.md)
-* [Upsert History](upsert-history.md)
-* [Variables](variables.md)
+* [予測](prediction.md)
+* [ツール](tools.md)
+* [履歴の更新/挿入](upsert-history.md)
+* [変数](variables.md)
+* [ベクトルの更新/挿入](vector-upsert.md)

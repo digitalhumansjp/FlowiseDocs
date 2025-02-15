@@ -1,49 +1,49 @@
 ---
-description: Learn how to deploy Flowise on Railway
+description: RailwayへのFlowiseのデプロイ方法を学ぶ
 ---
 
 # Railway
 
 ***
 
-1. Click the following prebuilt [template](https://railway.app/template/pn4G8S?referralCode=WVNPD9)
-2. Click Deploy Now
+1. 以下の事前ビルドされた[テンプレート](https://railway.app/template/pn4G8S?referralCode=WVNPD9)をクリック
+2. Deploy Nowをクリック
 
 <figure><img src="../../.gitbook/assets/image (1) (1) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-3. Change to your preferred repository name and click Deploy
+3. 任意のリポジトリ名に変更し、Deployをクリック
 
 <figure><img src="../../.gitbook/assets/image (2) (1) (2) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
-4. If succeeds, you should be able to see a deployed URL
+4. 成功すると、デプロイされたURLが表示されます
 
 <figure><img src="../../.gitbook/assets/image (2) (2).png" alt=""><figcaption></figcaption></figure>
 
-5. To add authorization, navigate to Variables tab and add:
+5. 認証を追加するには、Variablesタブに移動して以下を追加：
 
-* FLOWISE\_USERNAME
-* FLOWISE\_PASSWORD
+* FLOWISE_USERNAME
+* FLOWISE_PASSWORD
 
 <figure><img src="../../.gitbook/assets/image (15) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-6. There are list of env variables you can configure. Refer to [environment-variables.md](../environment-variables.md "mention")
+6. 設定可能な環境変数の一覧は[environment-variables.md](../environment-variables.md "mention")を参照してください
 
-That's it! You now have a deployed Flowise on Railway [🎉](https://emojipedia.org/party-popper/)[🎉](https://emojipedia.org/party-popper/)
+これで完了です！RailwayにFlowiseがデプロイされました[🎉](https://emojipedia.org/party-popper/)[🎉](https://emojipedia.org/party-popper/)
 
-## Persistent Volume
+## 永続ボリューム
 
-The default filesystem for services running on Railway is ephemeral. Flowise data isn’t persisted across deploys and restarts. To solve this issue, we can use [Railway Volume](https://docs.railway.app/reference/volumes).
+Railwayで実行されるサービスのデフォルトのファイルシステムは一時的なものです。Flowiseのデータはデプロイや再起動時に保持されません。この問題を解決するために、[Railway Volume](https://docs.railway.app/reference/volumes)を使用できます。
 
-To ease the steps, we have a Railway template with volume mounted: [https://railway.app/template/nEGbjR](https://railway.app/template/nEGbjR)
+手順を簡単にするために、ボリュームがマウントされたRailwayテンプレートを用意しています：[https://railway.app/template/nEGbjR](https://railway.app/template/nEGbjR)
 
-Just click Deploy and fill in the Env Variables like below:
+Deployをクリックし、以下のように環境変数を入力するだけです：
 
-* DATABASE\_PATH - `/opt/railway/.flowise`
-* APIKEY\_PATH - `/opt/railway/.flowise`
-* LOG\_PATH - `/opt/railway/.flowise/logs`
-* SECRETKEY\_PATH - `/opt/railway/.flowise`
-* BLOB\_STORAGE\_PATH - `/opt/railway/.flowise/storage`
+* DATABASE_PATH - `/opt/railway/.flowise`
+* APIKEY_PATH - `/opt/railway/.flowise`
+* LOG_PATH - `/opt/railway/.flowise/logs`
+* SECRETKEY_PATH - `/opt/railway/.flowise`
+* BLOB_STORAGE_PATH - `/opt/railway/.flowise/storage`
 
 <figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="420"><figcaption></figcaption></figure>
 
-Now try creating a flow and save it in Flowise. Then try restarting service or redeploy, you should still be able to see the flow you have saved previously.
+Flowiseでフローを作成して保存してみてください。その後、サービスを再起動するか再デプロイしても、以前保存したフローを確認できるはずです。

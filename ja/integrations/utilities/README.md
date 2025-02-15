@@ -1,16 +1,16 @@
 ---
-description: Learn how to use Flowise utility nodes
+description: Flowiseユーティリティノードの使用方法を学ぶ
 ---
 
-# Utilities
+# ユーティリティ
 
 ***
 
-Utility nodes are development tools that help you implement custom JS, logic and notes in your flows.
+ユーティリティノードは、フローでカスタムJS、ロジック、メモを実装するのに役立つ開発ツールです。
 
-### Available Utilities:
+### 利用可能なユーティリティ:
 
-* [Custom JS Function](custom-js-function.md)
-* [Set/Get Variable](set-get-variable.md)
+* [カスタムJS関数](custom-js-function.md)
+* [変数の設定/取得](set-get-variable.md)
 * [If Else](if-else.md)
-* [Sticky Note](sticky-note.md)
+* [付箋](sticky-note.md)

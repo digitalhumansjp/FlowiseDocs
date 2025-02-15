@@ -1,25 +1,25 @@
 ---
-description: Scrape & Crawl the web with Spider - the fastest open source web scraper & crawler.
+description: Spider - 最速のオープンソースウェブスクレイパー＆クローラーでウェブをスクレイプ＆クロールする
 ---
 
-# Spider Web Scraper/Crawler
+# Spider ウェブスクレイパー/クローラー
 
-<figure><img src="../../../.gitbook/assets/spider.png" alt="Spider Node" width="365"><figcaption><p>Spider Web Scraper/Crawler Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/spider.png" alt="Spiderノード" width="365"><figcaption><p>Spider ウェブスクレイパー/クローラーノード</p></figcaption></figure>
 
-[Spider](https://spider.cloud/?ref=flowise) is the fastest open source web scraper & crawler that returns LLM-ready data. To get started using this node you need an API key from [Spider.cloud](https://spider.cloud/?ref=flowise).
+[Spider](https://spider.cloud/?ref=flowise)は、LLM対応のデータを返す最速のオープンソースウェブスクレイパー＆クローラーです。このノードを使用するには、[Spider.cloud](https://spider.cloud/?ref=flowise)からAPIキーを取得する必要があります。
 
-## Get Started
+## はじめに
 
-1. Go to the [Spider.cloud](https://spider.cloud/?ref=flowise) website and sign up for a free account.
-2. Then go to the [API Keys](https://spider.cloud/api-keys) and create a new API key.
-3. Copy the API key and paste it into the "Credential" field in the Spider node.
+1. [Spider.cloud](https://spider.cloud/?ref=flowise)のウェブサイトにアクセスし、無料アカウントにサインアップします。
+2. [APIキー](https://spider.cloud/api-keys)に移動して新しいAPIキーを作成します。
+3. APIキーをコピーし、SpiderノードのCredentialフィールドに貼り付けます。
 
-## Scrape & Crawl
+## スクレイプ＆クロール
 
-1. Choose either "Scrape" or "Crawl" in the mode dropdown.
-2. Enter the URL you want to scrape or crawl in the "Web Page URL" field.
-3. If you chose "Crawl", enter the maximum amount of pages you want to crawl in the "Limit" field. If no value or 0 is entered, the crawler will crawl all pages.
+1. モードドロップダウンで「Scrape」または「Crawl」を選択します。
+2. 「Web Page URL」フィールドにスクレイプまたはクロールしたいURLを入力します。
+3. 「Crawl」を選択した場合、「Limit」フィールドにクロールしたい最大ページ数を入力します。値が入力されていないか0の場合、クローラーはすべてのページをクロールします。
 
-## Example
+## 例
 
-<figure><img src="../../../.gitbook/assets/spider_example_usage.png" alt="Example on using spider node" width="365"><figcaption><p>Example on using Spider node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/spider_example_usage.png" alt="Spiderノードの使用例" width="365"><figcaption><p>Spiderノードの使用例</p></figcaption></figure>

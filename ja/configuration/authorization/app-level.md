@@ -1,42 +1,42 @@
 ---
-description: Learn how to set up app-level access control for your Flowise instances
+description: Flowise インスタンスのアプリレベルのアクセス制御の設定方法を学ぶ
 ---
 
-# App Level
+# アプリレベル
 
 ***
 
-App level authorization protects your Flowise instance by username and password. This protects your apps from being accessible by anyone when deployed online.
+アプリレベルの認証は、ユーザー名とパスワードによってFlowise インスタンスを保護します。これにより、オンラインにデプロイした際に誰でもアプリにアクセスできる状態を防ぎます。
 
 <figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-## How to Set Username & Password
+## ユーザー名とパスワードの設定方法
 
 ### Npm
 
-1. Install Flowise
+1. Flowiseをインストール
 
 ```bash
 npm install -g flowise
 ```
 
-2. Start Flowise with username & password
+2. ユーザー名とパスワードを指定してFlowiseを起動
 
 ```bash
 npx flowise start --FLOWISE_USERNAME=user --FLOWISE_PASSWORD=1234
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000)
+3. [http://localhost:3000](http://localhost:3000) を開く
 
 ### Docker
 
-1. Navigate to `docker` folder
+1. `docker` フォルダに移動
 
 ```
 cd docker
 ```
 
-2. Create `.env` file and specify the `PORT`, `FLOWISE_USERNAME`, and `FLOWISE_PASSWORD`
+2. `.env` ファイルを作成し、`PORT`、`FLOWISE_USERNAME`、`FLOWISE_PASSWORD` を指定
 
 ```sh
 PORT=3000
@@ -44,7 +44,7 @@ FLOWISE_USERNAME=user
 FLOWISE_PASSWORD=1234
 ```
 
-3. Pass `FLOWISE_USERNAME` and `FLOWISE_PASSWORD` to the `docker-compose.yml` file:
+3. `docker-compose.yml` ファイルに `FLOWISE_USERNAME` と `FLOWISE_PASSWORD` を渡す:
 
 ```
 environment:
@@ -53,13 +53,13 @@ environment:
     - FLOWISE_PASSWORD=${FLOWISE_PASSWORD}
 ```
 
-4. `docker compose up -d`
-5. Open [http://localhost:3000](http://localhost:3000)
-6. You can bring the containers down by `docker compose stop`
+4. `docker compose up -d` を実行
+5. [http://localhost:3000](http://localhost:3000) を開く
+6. `docker compose stop` でコンテナを停止できます
 
-### Git clone
+### Gitクローン
 
-To enable app level authentication, add `FLOWISE_USERNAME` and `FLOWISE_PASSWORD` to the `.env` file in `packages/server`:
+アプリレベルの認証を有効にするには、`packages/server` の `.env` ファイルに `FLOWISE_USERNAME` と `FLOWISE_PASSWORD` を追加します:
 
 ```
 FLOWISE_USERNAME=user

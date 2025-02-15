@@ -1,28 +1,28 @@
 ---
-description: LangChain Agent Nodes
+description: LangChain エージェントノード
 ---
 
-# Agents
+# エージェント
 
 ***
 
-By themselves, language models can't take actions - they just output text.
+言語モデル単体では行動を起こすことができません - テキストを出力するだけです。
 
-Agents are systems that use an LLM as a reasoning engine to determine which actions to take and what the inputs to those actions should be. The results of those actions can then be fed back into the agent and it determine whether more actions are needed, or whether it is okay to finish.
+エージェントは、LLMを推論エンジンとして使用し、どのアクションを実行するか、そのアクションへの入力は何であるべきかを判断するシステムです。それらのアクションの結果はエージェントにフィードバックされ、さらなるアクションが必要か、または終了してよいかを判断します。
 
-### Agent Nodes:
+### エージェントノード:
 
-* [Airtable Agent](airtable-agent.md)
+* [Airtableエージェント](airtable-agent.md)
 * [AutoGPT](autogpt.md)
 * [BabyAGI](babyagi.md)
-* [CSV Agent](csv-agent.md)
-* [Conversational Agent](conversational-agent.md)
-* [Conversational Retrieval Agent](conversational-retrieval-agent.md)
-* [MistralAI Tool Agent](mistralai-tool-agent.md)
-* [OpenAI Assistant](openai-assistant/)
-* [OpenAI Function Agent](openai-function-agent.md)
-* [OpenAI Tool Agent](../../llamaindex/agents/openai-tool-agent.md)
-* [ReAct Agent Chat](react-agent-chat.md)
-* [ReAct Agent LLM](react-agent-llm.md)
-* [Tool Agent](tool-agent.md)
-* [XML Agent](xml-agent.md)
+* [CSVエージェント](csv-agent.md)
+* [会話エージェント](conversational-agent.md)
+* [会話検索エージェント](conversational-retrieval-agent.md)
+* [MistralAIツールエージェント](mistralai-tool-agent.md)
+* [OpenAIアシスタント](openai-assistant/)
+* [OpenAIファンクションエージェント](openai-function-agent.md)
+* [OpenAIツールエージェント](../../llamaindex/agents/openai-tool-agent.md)
+* [ReActエージェントチャット](react-agent-chat.md)
+* [ReActエージェントLLM](react-agent-llm.md)
+* [ツールエージェント](tool-agent.md)
+* [XMLエージェント](xml-agent.md)

@@ -1,13 +1,13 @@
 ---
 description: >-
-  Chain automatically picks an appropriate prompt from multiple prompt
-  templates.
+  複数のプロンプトテンプレートから適切なプロンプトを自動的に選択する
+  チェーン
 ---
 
-# Multi Prompt Chain
+# マルチプロンプトチェーン
 
-<figure><img src="../../../.gitbook/assets/image (32).png" alt="" width="334"><figcaption><p>Multi Prompt Chain Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (32).png" alt="" width="334"><figcaption><p>マルチプロンプトチェーンノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を歓迎します。[コントリビューションガイド](../../../contributing/)をご確認の上、ご参加ください。
 {% endhint %}

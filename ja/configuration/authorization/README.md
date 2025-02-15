@@ -1,16 +1,16 @@
 ---
-description: Learn how to secure your Flowise Instances
+description: Flowise インスタンスのセキュリティ保護方法を学ぶ
 ---
 
-# Auth
+# 認証
 
 ***
 
-This section guides you through configuring security with Flowise, focusing on authentication mechanisms at the application and chatflow levels.&#x20;
+このセクションでは、アプリケーションレベルとチャットフローレベルでの認証メカニズムに焦点を当てて、Flowise のセキュリティ設定について説明します。
 
-By implementing robust authentication, you can protect your Flowise instances and ensure only authorized users can access and interact with your chatflows.
+堅牢な認証を実装することで、Flowise インスタンスを保護し、承認されたユーザーのみがチャットフローにアクセスして操作できるようになります。
 
-## Supported Methods
+## サポートされている方法
 
-* [App level](app-level.md)
-* [Chatflow level](chatflow-level.md)
+* [アプリレベル](app-level.md)
+* [チャットフローレベル](chatflow-level.md)

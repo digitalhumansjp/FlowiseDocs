@@ -1,11 +1,11 @@
 ---
-description: OpenAI API to generate embeddings for a given text.
+description: 指定されたテキストのエンベッディングを生成するOpenAI API
 ---
 
-# OpenAI Embeddings Custom
+# OpenAI エンベッディング カスタム
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="300"><figcaption><p>OpenAI Embeddings Custom Node</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="300"><figcaption><p>OpenAI エンベッディング カスタムノード</p></figcaption></figure>
 
 {% hint style="info" %}
-This section is a work in progress. We appreciate any help you can provide in completing this section. Please check our [Contribution Guide](../../../contributing/) to get started.
+このセクションは作業中です。このセクションの完成にご協力いただける方を募集しています。[コントリビューションガイド](../../../contributing/)をご確認の上、ご協力をお願いいたします。
 {% endhint %}

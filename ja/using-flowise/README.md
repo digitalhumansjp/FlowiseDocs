@@ -1,23 +1,26 @@
 ---
-description: Learn about some core functionalities built into Flowise
+description: Flowiseに組み込まれた主要な機能について学ぶ
 ---
 
-# Using Flowise
+# Flowiseの使用
 
 ***
 
-This section provides in-depth guides on core Flowise functionalities, including API usage, variables, and telemetry collection practices.
+このセクションでは、APIの使用法、変数、テレメトリ収集の実践など、Flowiseの主要機能に関する詳細なガイドを提供します。
 
-## Guides
+## ガイド
 
-* [Agentflows](agentflows/)
-  * [Multi-Agent](agentflows/multi-agents.md)
-  * [Sequential Agents](agentflows/sequential-agents.md)
-    * [Video Tutorials](agentflows/sequential-agents/video-tutorials.md)
+* [エージェントフロー](agentflows/)
+  * [マルチエージェント](agentflows/multi-agents.md)
+  * [シーケンシャルエージェント](agentflows/sequential-agents.md)
+    * [ビデオチュートリアル](agentflows/sequential-agents/video-tutorials.md)
 * [API](api.md)
-* [Analytic](analytic.md)
-* [Document Stores](document-stores.md)
-* [Embed](embed.md)
-* [Streaming](streaming.md)
-* [Telemetry](telemetry.md)
-* [Variables](variables.md)
+* [アナリティクス](analytic.md)
+* [ドキュメントストア](document-stores.md)
+* [埋め込み（エンベッド）](embed.md)
+* [ストリーミング](streaming.md)
+* [テレメトリ](telemetry.md)
+* [アップロード](uploads.md)
+* [変数](variables.md)
+* [ワークスペース](workspaces.md)
+* [評価](evaluations.md)
