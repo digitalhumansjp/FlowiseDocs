@@ -21,7 +21,7 @@
           "BaseMemory"
         ],
         "category": "Memory",
-        "description": "Remembers previous conversational back and forths directly",
+        "description": "以前の会話のやり取りを直接記憶する",
         "inputParams": [
           {
             "label": "Memory Key",
@@ -80,7 +80,7 @@
           "Runnable"
         ],
         "category": "Agents",
-        "description": "Agent that is designed for LLMs that are good for reasoning/writing XML (e.g: Anthropic Claude)",
+        "description": "推論/XML作成に優れたLLM（例：Anthropic Claude）向けに設計されたエージェント",
         "inputParams": [
           {
             "label": "System Message",
@@ -115,7 +115,7 @@
           },
           {
             "label": "Input Moderation",
-            "description": "Detect text that could generate harmful output and prevent it from being sent to the language model",
+            "description": "有害な出力を生成する可能性のあるテキストを検出し、言語モデルに送信されることを防ぐ",
             "name": "inputModeration",
             "type": "Moderation",
             "optional": true,
@@ -138,7 +138,7 @@
             "id": "xmlAgent_0-output-xmlAgent-XMLAgent|BaseChain|Runnable",
             "name": "xmlAgent",
             "label": "XMLAgent",
-            "description": "Agent that is designed for LLMs that are good for reasoning/writing XML (e.g: Anthropic Claude)",
+            "description": "推論/XML作成に優れたLLM（例：Anthropic Claude）向けに設計されたエージェント",
             "type": "XMLAgent | BaseChain | Runnable"
           }
         ],
@@ -175,7 +175,7 @@
           "Runnable"
         ],
         "category": "Chat Models",
-        "description": "Wrapper around ChatAnthropic large language models that use the Chat endpoint",
+        "description": "Chatエンドポイントを使用するChatAnthropic大規模言語モデルのラッパー",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -194,32 +194,32 @@
               {
                 "label": "claude-3-haiku",
                 "name": "claude-3-haiku-20240307",
-                "description": "Fastest and most compact model, designed for near-instant responsiveness"
+                "description": "最速かつ最もコンパクトなモデルで、ほぼ瞬時の応答性を実現するように設計",
               },
               {
                 "label": "claude-3-opus",
                 "name": "claude-3-opus-20240229",
-                "description": "Most powerful model for highly complex tasks"
+                "description": "非常に複雑なタスクに対応する最も強力なモデル",
               },
               {
                 "label": "claude-3-sonnet",
                 "name": "claude-3-sonnet-20240229",
-                "description": "Ideal balance of intelligence and speed for enterprise workloads"
+                "description": "エンタープライズワークロードに最適な知性とスピードのバランス",
               },
               {
                 "label": "claude-2.0 (legacy)",
                 "name": "claude-2.0",
-                "description": "Claude 2 latest major version, automatically get updates to the model as they are released"
+                "description": "Claude 2の最新メジャーバージョン、リリースされたモデルの更新を自動的に取得",
               },
               {
                 "label": "claude-2.1 (legacy)",
                 "name": "claude-2.1",
-                "description": "Claude 2 latest full version"
+                "description": "Claude 2の最新フルバージョン",
               },
               {
                 "label": "claude-instant-1.2 (legacy)",
                 "name": "claude-instant-1.2",
-                "description": "Claude Instant latest major version, automatically get updates to the model as they are released"
+                "description": "Claude Instantの最新メジャーバージョン、リリースされたモデルの更新を自動的に取得"
               }
             ],
             "default": "claude-3-haiku",
@@ -266,7 +266,7 @@
             "label": "Allow Image Uploads",
             "name": "allowImageUploads",
             "type": "boolean",
-            "description": "Automatically uses claude-3-* models when image is being uploaded from chat. Only works with LLMChain, Conversation Chain, ReAct Agent, and Conversational Agent",
+            "description": "チャットから画像がアップロードされた場合、自動的にclaude-3-*モデルを使用。LLMChain、Conversation Chain、ReAct Agent、Conversational Agentでのみ機能",
             "default": false,
             "optional": true,
             "id": "chatAnthropic_0-input-allowImageUploads-boolean"
@@ -295,7 +295,7 @@
             "id": "chatAnthropic_0-output-chatAnthropic-ChatAnthropic|ChatAnthropicMessages|BaseChatModel|BaseLanguageModel|Runnable",
             "name": "chatAnthropic",
             "label": "ChatAnthropic",
-            "description": "Wrapper around ChatAnthropic large language models that use the Chat endpoint",
+            "description": "Chatエンドポイントを使用するChatAnthropic大規模言語モデルのラッパー",
             "type": "ChatAnthropic | ChatAnthropicMessages | BaseChatModel | BaseLanguageModel | Runnable"
           }
         ],
@@ -332,7 +332,7 @@
           "Runnable"
         ],
         "category": "Tools",
-        "description": "Use a retriever as allowed tool for agent",
+        "description": "エージェントの許可されたツールとしてリトリーバーを使用",
         "inputParams": [
           {
             "label": "Retriever Name",
@@ -345,7 +345,7 @@
             "label": "Retriever Description",
             "name": "description",
             "type": "string",
-            "description": "When should agent uses to retrieve documents",
+            "description": "エージェントがドキュメントを取得する際の条件",
             "rows": 3,
             "placeholder": "Searches and returns documents regarding the state-of-the-union.",
             "id": "retrieverTool_0-input-description-string"
@@ -368,7 +368,7 @@
         ],
         "inputs": {
           "name": "search_apple",
-          "description": "Use this function to answer user questions about Apple Inc (APPL). It contains a SEC Form 10K filing describing the financials of Apple Inc (APPL) for the 2022 time period.",
+          "description": "Apple Inc (APPL)に関するユーザーの質問に回答するためにこの機能を使用。2022年期のApple Inc (APPL)の財務状況を説明するSEC Form 10K提出書類が含まれています。",
           "retriever": "{{pinecone_0.data.instance}}",
           "returnSourceDocuments": true
         },
@@ -377,7 +377,7 @@
             "id": "retrieverTool_0-output-retrieverTool-RetrieverTool|DynamicTool|Tool|StructuredTool|Runnable",
             "name": "retrieverTool",
             "label": "RetrieverTool",
-            "description": "Use a retriever as allowed tool for agent",
+            "description": "エージェントの許可されたツールとしてリトリーバーを使用",
             "type": "RetrieverTool | DynamicTool | Tool | StructuredTool | Runnable"
           }
         ],
@@ -412,7 +412,7 @@
           "BaseRetriever"
         ],
         "category": "Vector Stores",
-        "description": "Upsert embedded data and perform similarity or mmr search using Pinecone, a leading fully managed hosted vector database",
+        "description": "主要な完全管理型ホステッドベクターデータベースであるPineconeを使用して、エンベッドされたデータをアップサートし、類似性またはMMR検索を実行",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -449,7 +449,7 @@
           {
             "label": "Top K",
             "name": "topK",
-            "description": "Number of top results to fetch. Default to 4",
+            "description": "取得する上位結果の数。デフォルトは4",
             "placeholder": "4",
             "type": "number",
             "additionalParams": true,
@@ -478,7 +478,7 @@
           {
             "label": "Fetch K (for MMR Search)",
             "name": "fetchK",
-            "description": "Number of initial documents to fetch for MMR reranking. Default to 20. Used only when the search type is MMR",
+            "description": "MMRによる再ランク付けのために取得する初期ドキュメント数。デフォルトは20。検索タイプがMMRの場合のみ使用",
             "placeholder": "20",
             "type": "number",
             "additionalParams": true,
@@ -488,7 +488,7 @@
           {
             "label": "Lambda (for MMR Search)",
             "name": "lambda",
-            "description": "Number between 0 and 1 that determines the degree of diversity among the results, where 0 corresponds to maximum diversity and 1 to minimum diversity. Used only when the search type is MMR",
+            "description": "結果の多様性を決定する0から1の間の数値。0が最大の多様性、1が最小の多様性に対応。検索タイプがMMRの場合のみ使用",
             "placeholder": "0.5",
             "type": "number",
             "additionalParams": true,
@@ -580,7 +580,7 @@
           "Embeddings"
         ],
         "category": "Embeddings",
-        "description": "OpenAI API to generate embeddings for a given text",
+        "description": "与えられたテキストのエンベッディングを生成するOpenAI API",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -659,7 +659,7 @@
             "id": "openAIEmbeddings_0-output-openAIEmbeddings-OpenAIEmbeddings|Embeddings",
             "name": "openAIEmbeddings",
             "label": "OpenAIEmbeddings",
-            "description": "OpenAI API to generate embeddings for a given text",
+            "description": "与えられたテキストのエンベッディングを生成するOpenAI API",
             "type": "OpenAIEmbeddings | Embeddings"
           }
         ],
@@ -696,7 +696,7 @@
           "Runnable"
         ],
         "category": "Tools",
-        "description": "Use a retriever as allowed tool for agent",
+        "description": "エージェントの許可されたツールとしてリトリーバーを使用",
         "inputParams": [
           {
             "label": "Retriever Name",
@@ -709,7 +709,7 @@
             "label": "Retriever Description",
             "name": "description",
             "type": "string",
-            "description": "When should agent uses to retrieve documents",
+            "description": "エージェントがドキュメントを取得する際の条件",
             "rows": 3,
             "placeholder": "Searches and returns documents regarding the state-of-the-union.",
             "id": "retrieverTool_1-input-description-string"
@@ -732,7 +732,7 @@
         ],
         "inputs": {
           "name": "search_tsla",
-          "description": "Use this function to answer user questions about Tesla Inc (TSLA). It contains a SEC Form 10K filing describing the financials of Tesla Inc (TSLA) for the 2022 time period.",
+          "description": "Tesla Inc (TSLA)に関するユーザーの質問に回答するためにこの機能を使用。2022年期のTesla Inc (TSLA)の財務状況を説明するSEC Form 10K提出書類が含まれています。",
           "retriever": "{{pinecone_1.data.instance}}",
           "returnSourceDocuments": true
         },
@@ -741,7 +741,7 @@
             "id": "retrieverTool_1-output-retrieverTool-RetrieverTool|DynamicTool|Tool|StructuredTool|Runnable",
             "name": "retrieverTool",
             "label": "RetrieverTool",
-            "description": "Use a retriever as allowed tool for agent",
+            "description": "エージェントの許可されたツールとしてリトリーバーを使用",
             "type": "RetrieverTool | DynamicTool | Tool | StructuredTool | Runnable"
           }
         ],
@@ -776,7 +776,7 @@
           "BaseRetriever"
         ],
         "category": "Vector Stores",
-        "description": "Upsert embedded data and perform similarity or mmr search using Pinecone, a leading fully managed hosted vector database",
+        "description": "主要な完全管理型ホステッドベクターデータベースであるPineconeを使用して、エンベッドされたデータをアップサートし、類似性またはMMR検索を実行",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -813,7 +813,7 @@
           {
             "label": "Top K",
             "name": "topK",
-            "description": "Number of top results to fetch. Default to 4",
+            "description": "取得する上位結果の数。デフォルトは4",
             "placeholder": "4",
             "type": "number",
             "additionalParams": true,
@@ -842,7 +842,7 @@
           {
             "label": "Fetch K (for MMR Search)",
             "name": "fetchK",
-            "description": "Number of initial documents to fetch for MMR reranking. Default to 20. Used only when the search type is MMR",
+            "description": "MMRによる再ランク付けのために取得する初期ドキュメント数。デフォルトは20。検索タイプがMMRの場合のみ使用",
             "placeholder": "20",
             "type": "number",
             "additionalParams": true,
@@ -852,7 +852,7 @@
           {
             "label": "Lambda (for MMR Search)",
             "name": "lambda",
-            "description": "Number between 0 and 1 that determines the degree of diversity among the results, where 0 corresponds to maximum diversity and 1 to minimum diversity. Used only when the search type is MMR",
+            "description": "結果の多様性を決定する0から1の間の数値。0が最大の多様性、1が最小の多様性に対応。検索タイプがMMRの場合のみ使用",
             "placeholder": "0.5",
             "type": "number",
             "additionalParams": true,
@@ -944,7 +944,7 @@
           "Embeddings"
         ],
         "category": "Embeddings",
-        "description": "OpenAI API to generate embeddings for a given text",
+        "description": "与えられたテキストのエンベッディングを生成するOpenAI API",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -1023,7 +1023,7 @@
             "id": "openAIEmbeddings_1-output-openAIEmbeddings-OpenAIEmbeddings|Embeddings",
             "name": "openAIEmbeddings",
             "label": "OpenAIEmbeddings",
-            "description": "OpenAI API to generate embeddings for a given text",
+            "description": "与えられたテキストのエンベッディングを生成するOpenAI API",
             "type": "OpenAIEmbeddings | Embeddings"
           }
         ],

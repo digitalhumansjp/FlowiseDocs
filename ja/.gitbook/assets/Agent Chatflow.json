@@ -21,7 +21,7 @@
           "BaseRetriever"
         ],
         "category": "Vector Stores",
-        "description": "Upsert embedded data and perform similarity or mmr search using Pinecone, a leading fully managed hosted vector database",
+        "description": "Pineconeを使用して組み込まれたデータをアップサートし、類似性検索またはMMR検索を実行する。Pineconeは、完全に管理されたホスト型ベクターデータベースとして知られています。",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -58,7 +58,7 @@
           {
             "label": "Top K",
             "name": "topK",
-            "description": "Number of top results to fetch. Default to 4",
+            "description": "取得する上位結果の数。デフォルトは4",
             "placeholder": "4",
             "type": "number",
             "additionalParams": true,
@@ -87,7 +87,7 @@
           {
             "label": "Fetch K (for MMR Search)",
             "name": "fetchK",
-            "description": "Number of initial documents to fetch for MMR reranking. Default to 20. Used only when the search type is MMR",
+            "description": "MMRによる再ランク付けのために取得する初期ドキュメント数。デフォルトは20。検索タイプがMMRの場合のみ使用",
             "placeholder": "20",
             "type": "number",
             "additionalParams": true,
@@ -97,7 +97,7 @@
           {
             "label": "Lambda (for MMR Search)",
             "name": "lambda",
-            "description": "Number between 0 and 1 that determines the degree of diversity among the results, where 0 corresponds to maximum diversity and 1 to minimum diversity. Used only when the search type is MMR",
+            "description": "結果の多様性を決定する0から1の間の数値。0が最大の多様性、1が最小の多様性に対応。検索タイプがMMRの場合のみ使用",
             "placeholder": "0.5",
             "type": "number",
             "additionalParams": true,
@@ -186,7 +186,7 @@
           "Embeddings"
         ],
         "category": "Embeddings",
-        "description": "OpenAI API to generate embeddings for a given text",
+        "description": "与えられたテキストのエンベッディングを生成するOpenAI API",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -299,7 +299,7 @@
           "BaseRetriever"
         ],
         "category": "Vector Stores",
-        "description": "Upsert embedded data and perform similarity or mmr search using Pinecone, a leading fully managed hosted vector database",
+        "description": "エンベッドされたデータをアップサートし、主要な完全管理型ホステッドベクターデータベースであるPineconeを使用して類似性またはMMR検索を実行",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -336,7 +336,7 @@
           {
             "label": "Top K",
             "name": "topK",
-            "description": "Number of top results to fetch. Default to 4",
+            "description": "取得する上位結果の数。デフォルトは4",
             "placeholder": "4",
             "type": "number",
             "additionalParams": true,
@@ -365,7 +365,7 @@
           {
             "label": "Fetch K (for MMR Search)",
             "name": "fetchK",
-            "description": "Number of initial documents to fetch for MMR reranking. Default to 20. Used only when the search type is MMR",
+            "description": "MMRによる再ランク付けのために取得する初期ドキュメント数。デフォルトは20。検索タイプがMMRの場合のみ使用",
             "placeholder": "20",
             "type": "number",
             "additionalParams": true,
@@ -375,7 +375,7 @@
           {
             "label": "Lambda (for MMR Search)",
             "name": "lambda",
-            "description": "Number between 0 and 1 that determines the degree of diversity among the results, where 0 corresponds to maximum diversity and 1 to minimum diversity. Used only when the search type is MMR",
+            "description": "結果の多様性を決定する0から1の間の数値。0が最大の多様性、1が最小の多様性に対応。検索タイプがMMRの場合のみ使用",
             "placeholder": "0.5",
             "type": "number",
             "additionalParams": true,
@@ -464,7 +464,7 @@
           "Embeddings"
         ],
         "category": "Embeddings",
-        "description": "OpenAI API to generate embeddings for a given text",
+        "description": "与えられたテキストのエンベッディングを生成するOpenAI API",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -577,7 +577,7 @@
           "BaseMemory"
         ],
         "category": "Memory",
-        "description": "Remembers previous conversational back and forths directly",
+        "description": "以前の会話のやり取りを直接記憶する",
         "inputParams": [
           {
             "label": "Memory Key",
@@ -638,7 +638,7 @@
           "Runnable"
         ],
         "category": "Agents",
-        "description": "An agent that uses Function Calling to pick the tool and args to call",
+        "description": "Function Callingを使用してツールと引数を選択するエージェント",
         "inputParams": [
           {
             "label": "System Message",
@@ -721,7 +721,7 @@
           "Runnable"
         ],
         "category": "Tools",
-        "description": "Use a retriever as allowed tool for agent",
+        "description": "エージェントの許可されたツールとしてリトリーバーを使用",
         "inputParams": [
           {
             "label": "Retriever Name",
@@ -734,7 +734,7 @@
             "label": "Retriever Description",
             "name": "description",
             "type": "string",
-            "description": "When should agent uses to retrieve documents",
+            "description": "エージェントがドキュメントを取得する際の条件",
             "rows": 3,
             "placeholder": "Searches and returns documents regarding the state-of-the-union.",
             "id": "retrieverTool_2-input-description-string"
@@ -757,7 +757,7 @@
         ],
         "inputs": {
           "name": "search_apple",
-          "description": "Use this function to answer user questions about Apple Inc (APPL). It contains a SEC Form 10K filing describing the financials of Apple Inc (APPL) for the 2022 time period.",
+          "description": "Apple Inc (APPL)に関するユーザーの質問に回答するためにこの機能を使用。2022年期のApple Inc (APPL)の財務状況を説明するSEC Form 10K提出書類が含まれています。",
           "retriever": "{{pinecone_0.data.instance}}",
           "returnSourceDocuments": true
         },
@@ -802,7 +802,7 @@
           "Runnable"
         ],
         "category": "Tools",
-        "description": "Use a retriever as allowed tool for agent",
+        "description": "エージェントの許可されたツールとしてリトリーバーを使用",
         "inputParams": [
           {
             "label": "Retriever Name",
@@ -815,7 +815,7 @@
             "label": "Retriever Description",
             "name": "description",
             "type": "string",
-            "description": "When should agent uses to retrieve documents",
+            "description": "エージェントがドキュメントを取得する際の条件",
             "rows": 3,
             "placeholder": "Searches and returns documents regarding the state-of-the-union.",
             "id": "retrieverTool_1-input-description-string"
@@ -838,7 +838,7 @@
         ],
         "inputs": {
           "name": "search_tsla",
-          "description": "Use this function to answer user questions about Tesla Inc (TSLA). It contains a SEC Form 10K filing describing the financials of Tesla Inc (TSLA) for the 2022 time period.",
+          "description": "Tesla Inc (TSLA)に関するユーザーの質問に回答するためにこの機能を使用。2022年期のTesla Inc (TSLA)の財務状況を説明するSEC Form 10K提出書類が含まれています。",
           "retriever": "{{pinecone_1.data.instance}}",
           "returnSourceDocuments": true
         },
@@ -880,7 +880,7 @@
           "Runnable"
         ],
         "category": "Chat Models",
-        "description": "Wrapper around OpenAI large language models that use the Chat endpoint",
+        "description": "Chatエンドポイントを使用するOpenAI大規模言語モデルのラッパー",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -1035,14 +1035,14 @@
             "label": "Allow Image Uploads",
             "name": "allowImageUploads",
             "type": "boolean",
-            "description": "Automatically uses gpt-4-vision-preview when image is being uploaded from chat. Only works with LLMChain, Conversation Chain, ReAct Agent, and Conversational Agent",
+            "description": "チャットから画像がアップロードされた場合、自動的にgpt-4-vision-previewを使用。LLMChain、Conversation Chain、ReAct Agent、Conversational Agentでのみ機能",
             "default": false,
             "optional": true,
             "id": "chatOpenAI_0-input-allowImageUploads-boolean"
           },
           {
             "label": "Image Resolution",
-            "description": "This parameter controls the resolution in which the model views the image.",
+            "description": "このパラメータはモデルが画像を表示する解像度を制御",
             "name": "imageResolution",
             "type": "options",
             "options": [
@@ -1093,7 +1093,7 @@
             "id": "chatOpenAI_0-output-chatOpenAI-ChatOpenAI|BaseChatModel|BaseLanguageModel|Runnable",
             "name": "chatOpenAI",
             "label": "ChatOpenAI",
-            "description": "Wrapper around OpenAI large language models that use the Chat endpoint",
+            "description": "Chatエンドポイントを使用するOpenAI大規模言語モデルのラッパー",
             "type": "ChatOpenAI | BaseChatModel | BaseLanguageModel | Runnable"
           }
         ],

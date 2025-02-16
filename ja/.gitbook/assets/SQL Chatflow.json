@@ -22,7 +22,7 @@
           "Runnable"
         ],
         "category": "Prompts",
-        "description": "Schema to represent a basic prompt for an LLM",
+        "description": "LLMの基本的なプロンプトを表すスキーマ",
         "inputParams": [
           {
             "label": "Template",
@@ -86,7 +86,7 @@
           "Runnable"
         ],
         "category": "Chains",
-        "description": "Chain to run queries against LLMs",
+        "description": "LLMに対してクエリを実行するチェーン",
         "inputParams": [
           {
             "label": "Chain Name",
@@ -119,7 +119,7 @@
           },
           {
             "label": "Input Moderation",
-            "description": "Detect text that could generate harmful output and prevent it from being sent to the language model",
+            "description": "有害な出力を生成する可能性のあるテキストを検出し、言語モデルに送信されることを防ぐ",
             "name": "inputModeration",
             "type": "Moderation",
             "optional": true,
@@ -189,7 +189,7 @@
           "Runnable"
         ],
         "category": "Chains",
-        "description": "Chain to run queries against LLMs",
+        "description": "LLMに対してクエリを実行するチェーン",
         "inputParams": [
           {
             "label": "Chain Name",
@@ -222,7 +222,7 @@
           },
           {
             "label": "Input Moderation",
-            "description": "Detect text that could generate harmful output and prevent it from being sent to the language model",
+            "description": "有害な出力を生成する可能性のあるテキストを検出し、言語モデルに送信されることを防ぐ",
             "name": "inputModeration",
             "type": "Moderation",
             "optional": true,
@@ -291,12 +291,12 @@
           "Utilities"
         ],
         "category": "Utilities",
-        "description": "Execute custom javascript function",
+        "description": "カスタムJavaScript関数を実行",
         "inputParams": [
           {
             "label": "Input Variables",
             "name": "functionInputVariables",
-            "description": "Input variables can be used in the function with prefix $. For example: $var",
+            "description": "入力変数は接頭辞$を付けて関数内で使用できます。例：$var",
             "type": "json",
             "optional": true,
             "acceptVariable": true,
@@ -371,12 +371,12 @@
           "Utilities"
         ],
         "category": "Utilities",
-        "description": "Execute custom javascript function",
+        "description": "カスタムJavaScript関数を実行",
         "inputParams": [
           {
             "label": "Input Variables",
             "name": "functionInputVariables",
-            "description": "Input variables can be used in the function with prefix $. For example: $var",
+            "description": "入力変数は接頭辞$を付けて関数内で使用できます。例：$var",
             "type": "json",
             "optional": true,
             "acceptVariable": true,
@@ -453,7 +453,7 @@
           "Runnable"
         ],
         "category": "Prompts",
-        "description": "Schema to represent a basic prompt for an LLM",
+        "description": "LLMの基本的なプロンプトを表すスキーマ",
         "inputParams": [
           {
             "label": "Template",
@@ -516,12 +516,12 @@
           "Utilities"
         ],
         "category": "Utilities",
-        "description": "Split flows based on If Else javascript functions",
+        "description": "If Else JavaScript関数に基づいてフローを分割",
         "inputParams": [
           {
             "label": "Input Variables",
             "name": "functionInputVariables",
-            "description": "Input variables can be used in the function with prefix $. For example: $var",
+            "description": "入力変数は接頭辞$を付けて関数内で使用できます。例：$var",
             "type": "json",
             "optional": true,
             "acceptVariable": true,
@@ -539,7 +539,7 @@
           {
             "label": "If Function",
             "name": "ifFunction",
-            "description": "Function must return a value",
+            "description": "関数は値を返す必要があります",
             "type": "code",
             "rows": 2,
             "default": "if (\"hello\" == \"hello\") {\n    return true;\n}",
@@ -548,7 +548,7 @@
           {
             "label": "Else Function",
             "name": "elseFunction",
-            "description": "Function must return a value",
+            "description": "関数は値を返す必要があります",
             "type": "code",
             "rows": 2,
             "default": "return false;",
@@ -618,7 +618,7 @@
           "Runnable"
         ],
         "category": "Prompts",
-        "description": "Schema to represent a basic prompt for an LLM",
+        "description": "LLMの基本的なプロンプトを表すスキーマ",
         "inputParams": [
           {
             "label": "Template",
@@ -682,7 +682,7 @@
           "Runnable"
         ],
         "category": "Chains",
-        "description": "Chain to run queries against LLMs",
+        "description": "LLMに対してクエリを実行するチェーン",
         "inputParams": [
           {
             "label": "Chain Name",
@@ -715,7 +715,7 @@
           },
           {
             "label": "Input Moderation",
-            "description": "Detect text that could generate harmful output and prevent it from being sent to the language model",
+            "description": "有害な出力を生成する可能性のあるテキストを検出し、言語モデルに送信されることを防ぐ",
             "name": "inputModeration",
             "type": "Moderation",
             "optional": true,
@@ -784,7 +784,7 @@
           "Runnable"
         ],
         "category": "Chat Models",
-        "description": "Wrapper around OpenAI large language models that use the Chat endpoint",
+        "description": "Chatエンドポイントを使用するOpenAI大規模言語モデルのラッパー",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -939,14 +939,14 @@
             "label": "Allow Image Uploads",
             "name": "allowImageUploads",
             "type": "boolean",
-            "description": "Automatically uses gpt-4-vision-preview when image is being uploaded from chat. Only works with LLMChain, Conversation Chain, ReAct Agent, and Conversational Agent",
+            "description": "チャットから画像がアップロードされた場合、自動的にgpt-4-vision-previewを使用。LLMChain、Conversation Chain、ReAct Agent、Conversational Agentでのみ機能",
             "default": false,
             "optional": true,
             "id": "chatOpenAI_1-input-allowImageUploads-boolean"
           },
           {
             "label": "Image Resolution",
-            "description": "This parameter controls the resolution in which the model views the image.",
+            "description": "このパラメータはモデルが画像を表示する解像度を制御",
             "name": "imageResolution",
             "type": "options",
             "options": [
@@ -997,7 +997,7 @@
             "id": "chatOpenAI_1-output-chatOpenAI-ChatOpenAI|BaseChatModel|BaseLanguageModel|Runnable",
             "name": "chatOpenAI",
             "label": "ChatOpenAI",
-            "description": "Wrapper around OpenAI large language models that use the Chat endpoint",
+            "description": "Chatエンドポイントを使用するOpenAI大規模言語モデルのラッパー",
             "type": "ChatOpenAI | BaseChatModel | BaseLanguageModel | Runnable"
           }
         ],
@@ -1033,7 +1033,7 @@
           "Runnable"
         ],
         "category": "Chat Models",
-        "description": "Wrapper around OpenAI large language models that use the Chat endpoint",
+        "description": "Chatエンドポイントを使用するOpenAI大規模言語モデルのラッパー",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -1188,14 +1188,14 @@
             "label": "Allow Image Uploads",
             "name": "allowImageUploads",
             "type": "boolean",
-            "description": "Automatically uses gpt-4-vision-preview when image is being uploaded from chat. Only works with LLMChain, Conversation Chain, ReAct Agent, and Conversational Agent",
+            "description": "チャットから画像がアップロードされた場合、自動的にgpt-4-vision-previewを使用。LLMChain、Conversation Chain、ReAct Agent、Conversational Agentでのみ機能",
             "default": false,
             "optional": true,
             "id": "chatOpenAI_3-input-allowImageUploads-boolean"
           },
           {
             "label": "Image Resolution",
-            "description": "This parameter controls the resolution in which the model views the image.",
+            "description": "このパラメータはモデルが画像を表示する解像度を制御",
             "name": "imageResolution",
             "type": "options",
             "options": [
@@ -1246,7 +1246,7 @@
             "id": "chatOpenAI_3-output-chatOpenAI-ChatOpenAI|BaseChatModel|BaseLanguageModel|Runnable",
             "name": "chatOpenAI",
             "label": "ChatOpenAI",
-            "description": "Wrapper around OpenAI large language models that use the Chat endpoint",
+            "description": "Chatエンドポイントを使用するOpenAI大規模言語モデルのラッパー",
             "type": "ChatOpenAI | BaseChatModel | BaseLanguageModel | Runnable"
           }
         ],
@@ -1282,7 +1282,7 @@
           "Runnable"
         ],
         "category": "Chat Models",
-        "description": "Wrapper around OpenAI large language models that use the Chat endpoint",
+        "description": "Chatエンドポイントを使用するOpenAI大規模言語モデルのラッパー",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -1437,14 +1437,14 @@
             "label": "Allow Image Uploads",
             "name": "allowImageUploads",
             "type": "boolean",
-            "description": "Automatically uses gpt-4-vision-preview when image is being uploaded from chat. Only works with LLMChain, Conversation Chain, ReAct Agent, and Conversational Agent",
+            "description": "チャットから画像がアップロードされた場合、自動的にgpt-4-vision-previewを使用。LLMChain、Conversation Chain、ReAct Agent、Conversational Agentでのみ機能",
             "default": false,
             "optional": true,
             "id": "chatOpenAI_2-input-allowImageUploads-boolean"
           },
           {
             "label": "Image Resolution",
-            "description": "This parameter controls the resolution in which the model views the image.",
+            "description": "このパラメータはモデルが画像を表示する解像度を制御",
             "name": "imageResolution",
             "type": "options",
             "options": [
@@ -1495,7 +1495,7 @@
             "id": "chatOpenAI_2-output-chatOpenAI-ChatOpenAI|BaseChatModel|BaseLanguageModel|Runnable",
             "name": "chatOpenAI",
             "label": "ChatOpenAI",
-            "description": "Wrapper around OpenAI large language models that use the Chat endpoint",
+            "description": "Chatエンドポイントを使用するOpenAI大規模言語モデルのラッパー",
             "type": "ChatOpenAI | BaseChatModel | BaseLanguageModel | Runnable"
           }
         ],

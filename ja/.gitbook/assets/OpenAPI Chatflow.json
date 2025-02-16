@@ -19,7 +19,7 @@
           "Runnable"
         ],
         "category": "Agents",
-        "description": "Agent that uses OpenAI Function Calling to pick the tools and args to call",
+        "description": "ツールと引数を呼び出すためにOpenAI Function Callingを使用するエージェント",
         "inputParams": [
           {
             "label": "System Message",
@@ -53,7 +53,7 @@
           },
           {
             "label": "Input Moderation",
-            "description": "Detect text that could generate harmful output and prevent it from being sent to the language model",
+            "description": "有害な出力を生成する可能性のあるテキストを検出し、言語モデルに送信されることを防ぐ",
             "name": "inputModeration",
             "type": "Moderation",
             "optional": true,
@@ -75,7 +75,7 @@
             "id": "openAIToolAgent_0-output-openAIToolAgent-AgentExecutor|BaseChain|Runnable",
             "name": "openAIToolAgent",
             "label": "AgentExecutor",
-            "description": "Agent that uses OpenAI Function Calling to pick the tools and args to call",
+            "description": "ツールと引数を呼び出すためにOpenAI Function Callingを使用するエージェント",
             "type": "AgentExecutor | BaseChain | Runnable"
           }
         ],
@@ -111,7 +111,7 @@
           "Runnable"
         ],
         "category": "Chat Models",
-        "description": "Wrapper around OpenAI large language models that use the Chat endpoint",
+        "description": "Chatエンドポイントを使用するOpenAI大規模言語モデルのラッパー",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -266,14 +266,14 @@
             "label": "Allow Image Uploads",
             "name": "allowImageUploads",
             "type": "boolean",
-            "description": "Automatically uses gpt-4-vision-preview when image is being uploaded from chat. Only works with LLMChain, Conversation Chain, ReAct Agent, and Conversational Agent",
+            "description": "チャットから画像がアップロードされた場合、自動的にgpt-4-vision-previewを使用。LLMChain、Conversation Chain、ReAct Agent、Conversational Agentでのみ機能",
             "default": false,
             "optional": true,
             "id": "chatOpenAI_1-input-allowImageUploads-boolean"
           },
           {
             "label": "Image Resolution",
-            "description": "This parameter controls the resolution in which the model views the image.",
+            "description": "このパラメータはモデルが画像を表示する解像度を制御",
             "name": "imageResolution",
             "type": "options",
             "options": [
@@ -324,7 +324,7 @@
             "id": "chatOpenAI_1-output-chatOpenAI-ChatOpenAI|BaseChatModel|BaseLanguageModel|Runnable",
             "name": "chatOpenAI",
             "label": "ChatOpenAI",
-            "description": "Wrapper around OpenAI large language models that use the Chat endpoint",
+            "description": "Chatエンドポイントを使用するOpenAI大規模言語モデルのラッパー",
             "type": "ChatOpenAI | BaseChatModel | BaseLanguageModel | Runnable"
           }
         ],
@@ -359,7 +359,7 @@
           "BaseMemory"
         ],
         "category": "Memory",
-        "description": "Remembers previous conversational back and forths directly",
+        "description": "以前の会話のやり取りを直接記憶する",
         "inputParams": [
           {
             "label": "Memory Key",
@@ -386,7 +386,7 @@
             "id": "bufferMemory_0-output-bufferMemory-BufferMemory|BaseChatMemory|BaseMemory",
             "name": "bufferMemory",
             "label": "BufferMemory",
-            "description": "Remembers previous conversational back and forths directly",
+            "description": "以前の会話のやり取りを直接記憶する",
             "type": "BufferMemory | BaseChatMemory | BaseMemory"
           }
         ],
@@ -421,14 +421,14 @@
           "Runnable"
         ],
         "category": "Chains",
-        "description": "Chain that automatically select and call APIs based only on an OpenAPI spec",
+        "description": "OpenAPI仕様のみに基づいてAPIを自動的に選択して呼び出すチェーン",
         "inputParams": [
           {
             "label": "YAML Link",
             "name": "yamlLink",
             "type": "string",
             "placeholder": "https://api.speak.com/openapi.yaml",
-            "description": "If YAML link is provided, uploaded YAML File will be ignored and YAML link will be used instead",
+            "description": "YAMLリンクが提供された場合、アップロードされたYAMLファイルは無視され、代わりにYAMLリンクが使用される",
             "id": "openApiChain_0-input-yamlLink-string"
           },
           {
@@ -436,7 +436,7 @@
             "name": "yamlFile",
             "type": "file",
             "fileType": ".yaml",
-            "description": "If YAML link is provided, uploaded YAML File will be ignored and YAML link will be used instead",
+            "description": "YAMLリンクが提供された場合、アップロードされたYAMLファイルは無視され、代わりにYAMLリンクが使用される",
             "id": "openApiChain_0-input-yamlFile-file"
           },
           {
@@ -457,7 +457,7 @@
           },
           {
             "label": "Input Moderation",
-            "description": "Detect text that could generate harmful output and prevent it from being sent to the language model",
+            "description": "有害な出力を生成する可能性のあるテキストを検出し、言語モデルに送信されることを防ぐ",
             "name": "inputModeration",
             "type": "Moderation",
             "optional": true,
@@ -476,7 +476,7 @@
             "id": "openApiChain_0-output-openApiChain-OpenAPIChain|BaseChain|Runnable",
             "name": "openApiChain",
             "label": "OpenAPIChain",
-            "description": "Chain that automatically select and call APIs based only on an OpenAPI spec",
+            "description": "OpenAPI仕様のみに基づいてAPIを自動的に選択して呼び出すチェーン",
             "type": "OpenAPIChain | BaseChain | Runnable"
           }
         ],
@@ -512,7 +512,7 @@
           "Runnable"
         ],
         "category": "Chat Models",
-        "description": "Wrapper around OpenAI large language models that use the Chat endpoint",
+        "description": "Chatエンドポイントを使用するOpenAI大規模言語モデルのラッパー",
         "inputParams": [
           {
             "label": "Connect Credential",
@@ -667,14 +667,14 @@
             "label": "Allow Image Uploads",
             "name": "allowImageUploads",
             "type": "boolean",
-            "description": "Automatically uses gpt-4-vision-preview when image is being uploaded from chat. Only works with LLMChain, Conversation Chain, ReAct Agent, and Conversational Agent",
+            "description": "チャットから画像がアップロードされた場合、自動的にgpt-4-vision-previewを使用。LLMChain、Conversation Chain、ReAct Agent、Conversational Agentでのみ機能",
             "default": false,
             "optional": true,
             "id": "chatOpenAI_2-input-allowImageUploads-boolean"
           },
           {
             "label": "Image Resolution",
-            "description": "This parameter controls the resolution in which the model views the image.",
+            "description": "このパラメータはモデルが画像を表示する解像度を制御",
             "name": "imageResolution",
             "type": "options",
             "options": [
@@ -725,7 +725,7 @@
             "id": "chatOpenAI_2-output-chatOpenAI-ChatOpenAI|BaseChatModel|BaseLanguageModel|Runnable",
             "name": "chatOpenAI",
             "label": "ChatOpenAI",
-            "description": "Wrapper around OpenAI large language models that use the Chat endpoint",
+            "description": "Chatエンドポイントを使用するOpenAI大規模言語モデルのラッパー",
             "type": "ChatOpenAI | BaseChatModel | BaseLanguageModel | Runnable"
           }
         ],
@@ -762,7 +762,7 @@
           "Runnable"
         ],
         "category": "Tools",
-        "description": "Use a chain as allowed tool for agent",
+        "description": "エージェントの許可されたツールとしてチェーンを使用",
         "inputParams": [
           {
             "label": "Chain Name",
@@ -797,7 +797,7 @@
         ],
         "inputs": {
           "name": "search_shirt",
-          "description": "useful when you need to search and return answer about tshirts",
+          "description": "Tシャツについて検索して回答する必要がある場合に有用",
           "returnDirect": false,
           "baseChain": "{{openApiChain_0.data.instance}}"
         },
@@ -806,7 +806,7 @@
             "id": "chainTool_0-output-chainTool-ChainTool|DynamicTool|Tool|StructuredTool|Runnable",
             "name": "chainTool",
             "label": "ChainTool",
-            "description": "Use a chain as allowed tool for agent",
+            "description": "エージェントの許可されたツールとしてチェーンを使用",
             "type": "ChainTool | DynamicTool | Tool | StructuredTool | Runnable"
           }
         ],
